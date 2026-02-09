@@ -1,0 +1,290 @@
+#!/bin/bash
+
+source ~/.bashrc
+kubectl config use-context susevirt-through-rancher
+
+# Add the CSI configuration for harvester:
+# Create our Snapshot Class:
+cat << EOF | kubectl apply -f -
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: px-csi-snapclass
+  annotations:
+    snapshot.storage.kubernetes.io/is-default-class: "true"
+driver: pxd.portworx.com
+deletionPolicy: Delete
+EOF
+
+### README: I am commenting the following lines out in favor of having the user configure it. I think there might be a bug that causes a json parsing error
+
+# # This password is set in the HIAB image
+# HARVESTER_PASSWORD="Portworx123!"
+
+# # Get the API Token
+# HARVESTER_RESPONSE=`curl -s "https://${HARVESTER_NAT_IP}:8443/v3-public/localProviders/local?action=login" -H 'content-type: application/json' --data-binary "{\"username\":\"admin\",\"password\":\"$HARVESTER_PASSWORD\"}" --insecure`
+# HARVESTER_TOKEN=`echo $HARVESTER_RESPONSE | jq -r .token`
+
+
+# SETTING_PATH="https://${HARVESTER_NAT_IP}:8443/v1/harvesterhci.io.settings/csi-driver-config"
+
+# CURRENT_JSON=$(curl -s -k \
+#   -H "Authorization: Bearer $HARVESTER_TOKEN" \
+#   -H "Content-Type: application/json" \
+#   "$SETTING_PATH")
+
+# RESOURCE_VERSION=$(echo "$CURRENT_JSON" | jq -r '.metadata.resourceVersion')
+# NAME=$(echo "$CURRENT_JSON" | jq -r '.metadata.name')
+
+# # This is the CSI config we want to add
+# NEW_CONFIG='{"pxd.portworx.com":{"volumeSnapshotClassName":"px-csi-snapclass","backupVolumeSnapshotClassName":""}}'
+
+# # Merge the two objects and convert back to a JSON string
+# # We use fromjson to turn the string into an object, * to merge, and tojson to turn it back to an escaped string
+# VAL=$(echo "$CURRENT_JSON" | jq -rc ".default | fromjson * $NEW_CONFIG | tojson")
+# # I had the above error out because the .value node was missing, so I changed it to .default. .default disapears if a value is applied though!
+
+# # Altenatively, we may not need to update value
+# VAL="{\"driver.longhorn.io\":{\"volumeSnapshotClassName\":\"longhorn-snapshot\",\"backupVolumeSnapshotClassName\":\"longhorn\"},\"pxd.portworx.com\":{\"volumeSnapshotClassName\":\"px-csi-snapclass\",\"backupVolumeSnapshotClassName\":\"\"}}"
+
+
+
+# # Note that when we create the payload, we are just dumping the NEW_CONFIG value here due to the issue above. This means 
+# # that the longhorn snapshots will no longer work
+# PAYLOAD=$(jq -n \
+#   --arg name "$NAME" \
+#   --arg rv "$RESOURCE_VERSION" \
+#   --arg val "$VAL" \
+#   '{
+#     apiVersion: "harvesterhci.io/v1beta1",
+#     kind: "Setting",
+#     metadata: {
+#       name: $name,
+#       resourceVersion: $rv
+#     },
+#     value: $val
+#   }')
+
+# # 3. Send the payload file/variable
+# curl -s -k -X PUT \
+#   -H "Authorization: Bearer $HARVESTER_TOKEN" \
+#   -H "Content-Type: application/json" \
+#   "$SETTING_PATH" \
+#   -d "$PAYLOAD"
+
+# ## End Update CSI config ---
+
+
+
+# Ensure the network is created
+
+cat << EOF | kubectl apply -f -
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  annotations:
+    network.harvesterhci.io/route: '{"mode":"auto","serverIPAddr":"","cidr":"","gateway":""}'
+    network.harvesterhci.io/clusternetwork: mgmt
+    network.harvesterhci.io/type: UntaggedNetwork
+  name: vmnet
+  namespace: default
+spec:
+  config: >-
+    {"cniVersion":"0.3.1","name":"vmnet","type":"bridge","bridge":"mgmt-br","promiscMode":true,"ipam":{}}
+EOF
+
+# Create the vm2 that we will use for this assignment
+cat << EOF | kubectl apply -f -
+
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: vm2-boot
+  namespace: default
+spec:
+  source:
+    http:
+      url: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
+  storage:
+    volumeMode: Block
+    storageClassName: px-csi-vm
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 10Gi
+---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: vm2-data
+  namespace: default
+spec:
+  source:
+    blank: {}
+  storage:
+    volumeMode: Block
+    storageClassName: px-csi-vm
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 5Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vm2-cloudinit-userdata
+  namespace: default
+type: Opaque
+stringData:
+  userData: |
+    #cloud-config
+    hostname: vm2
+    manage_etc_hosts: true
+    ssh_pwauth: false
+    users:
+      - name: ubuntu
+        plain_text_passwd: 'ubuntu'
+        ssh_authorized_keys:
+          - $(cat ~/.ssh/id_rsa.pub)
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        shell: /bin/bash
+    runcmd:
+      - systemctl restart ssh
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vm2-cloudinit-network
+  namespace: default
+type: Opaque
+stringData:
+  networkData: |
+    version: 2
+    ethernets:
+      enp1s0:
+        addresses:
+          - 192.168.122.21/24
+        gateway4: 192.168.122.1
+        nameservers:
+          addresses:
+            - 192.168.122.1
+
+---
+
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm2
+  namespace: default
+  labels:
+    vm: vm2
+spec:
+  runStrategy: Always
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: vm2
+    spec:
+      domain:
+        cpu:
+          cores: 2
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: harddrive
+          - disk:
+              bus: virtio
+            name: datavolume
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          interfaces:
+            - name: default
+              model: virtio
+              bridge: {}
+        machine:
+          type: q35
+        resources:
+          requests:
+            memory: 2G
+      networks:
+        - name: default
+          multus:
+            networkName: default/vmnet
+      volumes:
+      - name: harddrive
+        persistentVolumeClaim:
+          claimName: vm2-boot
+      - name: datavolume
+        persistentVolumeClaim:
+          claimName: vm2-data
+      - name: cloudinitdisk
+        cloudInitNoCloud:
+          secretRef:
+            name: vm2-cloudinit-userdata
+          networkDataSecretRef:
+            name: vm2-cloudinit-network
+
+
+EOF
+
+
+# Add an entry to the .ssh/config file
+cat << EOF >> ~/.ssh/config
+Host vm2
+  Hostname $HARVESTER_NAT_IP
+  User ubuntu
+  IdentityFile ~/.ssh/id_rsa
+  StrictHostKeyChecking no
+  port 2222
+EOF
+
+# Cleanup Script
+
+cat << EOF > cleanup.sh
+#!/bin/bash
+
+source /root/.profile
+
+# Check if the VMs are running
+if [[ \$(gcloud compute ssh ${HARVESTER_INSTANCE_NAME} --zone=$ZONE1 --command "virsh list" | grep running | wc -l) == 4 ]]; then
+  echo "All VMs are running, proceeding with cleanup..."
+else
+  echo "One or more VMs are not running. Did you remember to recover your node?"
+  exit 1
+fi
+
+#Check to make sure the worker node is back online and Ready
+until [[ \`kubectl get nodes --no-headers=true | awk '{ print \$2 }' | grep NotReady | wc -l\` -eq 0 ]]; do
+  echo "Waiting for worker node to come back online...."
+  sleep 10
+done
+
+echo "--------------------------------"
+source /root/.profile
+#Check to make sure Portworx StorageCluster is optimal health
+until [[ \`pxctl cluster list -j | jq -r '.cluster.Nodes[].Status' | grep 2 | wc -l\` -eq 3 ]]; do
+  echo "Waiting for Portworx cluster to return to optimal health...."
+  source /root/.profile
+  sleep 10
+done
+
+echo "--------------------------------"
+
+echo "Kubernetes and Portworx cluster back to optimal health!"
+
+echo "--------------------------------"
+echo "harvester-day2ops" >> /root/cleanup_status.txt
+clear
+echo "Cleanup complete - let's move to the next scenario by clicking the Check button!"
+EOF
+
+chmod 777 /root/cleanup.sh
+
+
+# Ok, now wait for vm2 to be ready
+
+until ssh vm2 date; do sleep 10;done

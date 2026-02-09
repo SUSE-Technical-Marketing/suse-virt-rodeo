@@ -1,2 +1,2 @@
-# instruqt-virtualization
-SUSE Virtualization related components for instruqt labs
+# SUSE-Virtualization-rodeo
+Home for the SUSE Virtualization rodeo
