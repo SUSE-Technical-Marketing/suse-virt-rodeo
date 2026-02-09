@@ -155,7 +155,10 @@ Once our prompt comes back, we should see the output of `uname -a` which means o
 
 Now is time to test the `Live Migration`feature.
 
-- Go to the `Virtual Machines`page
+- Go to the `Virtual Machines` page
+
+![02-live-migration.gif](../assets/02-live-migration.gif)
+
 - Find the VM we just created click on the 3 point menu on the right and select the option `Migrate`
 - Then SUSE Virtualization will offer a drop down menu where whe can select to which node we want to migrate
 - Select a different node to migrate, and wait until the VM is on the new node.
