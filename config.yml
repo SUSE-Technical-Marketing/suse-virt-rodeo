@@ -1,0 +1,60 @@
+version: "3"
+irtualmachines:
+- name: fastredcar
+  image: suse/suse-virtualization-rodeo-dev
+  shell: /bin/bash
+  machine_type: n2-standard-32
+  allow_external_ingress:
+  - high-ports
+  - http
+  - https
+  environment:
+    RANCHER_CLUSTER_NAME: pole
+containers:
+- name: cloud-client
+  image: gcr.io/instruqt/cloud-client
+  shell: /bin/bash
+  ports:
+  - 80
+  memory: 2048
+gcp_projects:
+- name: gcpproject
+  services:
+  - compute.googleapis.com
+  - container.googleapis.com
+  - cloudresourcemanager.googleapis.com
+  - dns.googleapis.com
+  - iamcredentials.googleapis.com
+  - iam.googleapis.com
+  - serviceusage.googleapis.com
+  - storage-api.googleapis.com
+  - storage-component.googleapis.com
+  - storage.googleapis.com
+  - cloudapis.googleapis.com
+  - servicemanagement.googleapis.com
+  - cloudapis.googleapis.com
+  - osconfig.googleapis.com
+  roles:
+  - roles/container.admin
+  - roles/iam.serviceAccountUser
+  - roles/compute.admin
+  - roles/storage.admin
+  - roles/dns.admin
+  - roles/iam.roleAdmin
+  - roles/iam.securityAdmin
+  - roles/iam.serviceAccountAdmin
+  - roles/iam.serviceAccountKeyAdmin
+  - roles/osconfig.admin
+secrets:
+#- name: PURE_ROUTE53_ACCESSKEY
+#- name: PURE_ROUTE53_SECRETKEY
+#- name: CCROW_REDHAT_PULLSECRET
+#- name: CCROW_REDHAT_REGISTRYSECRET
+#- name: PXENT_LICENSE
+#- name: ZEROSSL_EAB_KID
+#- name: ZEROSSL_EAB_HMAC_KEY
+#- name: SLACK_WEBHOOK_URL
+#- name: ZEROSSL_API_KEY
+#- name: PX_INSTRUQT_SCRIPTS_SSHKEY
+#- name: PDS_OPENAI_KEY
+#- name: PURE_ANTHOS_SA_KEY
