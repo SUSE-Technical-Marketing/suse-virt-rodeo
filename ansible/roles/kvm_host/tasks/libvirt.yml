@@ -1,0 +1,22 @@
+---
+- name: Enable and start libvirtd
+  ansible.builtin.systemd:
+    name: "{{ libvirt_service }}"
+    enabled: true
+    state: started
+
+- name: Ensure libvirt default network exists and is active
+  community.libvirt.virt_net:
+    name: default
+    state: active
+    autostart: true
+
+- name: Validate KVM capabilities
+  ansible.builtin.command: virt-host-validate qemu
+  register: kvm_validate
+  changed_when: false
+  failed_when: false
+
+- name: Show KVM validation result
+  ansible.builtin.debug:
+    var: kvm_validate.stdout_lines

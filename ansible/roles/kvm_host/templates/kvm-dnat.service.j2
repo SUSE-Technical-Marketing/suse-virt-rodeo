@@ -1,0 +1,37 @@
+[Unit]
+Description=DNAT rules for Harvester and Rancher UI forwarding
+After={{ libvirt_service }}.service network.target
+Wants={{ libvirt_service }}.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# Harvester UI: host:{{ harvester_ui_port }} -> {{ harvester_vip }}:{{ harvester_ui_port }}
+ExecStart=/bin/bash -c \
+  "/usr/sbin/iptables -t nat -C PREROUTING -p tcp --dport {{ harvester_ui_port }} \
+   -j DNAT --to-destination {{ harvester_vip }}:{{ harvester_ui_port }} 2>/dev/null || \
+   /usr/sbin/iptables -t nat -A PREROUTING -p tcp --dport {{ harvester_ui_port }} \
+   -j DNAT --to-destination {{ harvester_vip }}:{{ harvester_ui_port }}"
+
+# Rancher UI NodePort: host:{{ rancher_nodeport }} -> {{ rancher_ip }}:{{ rancher_nodeport }}
+ExecStart=/bin/bash -c \
+  "/usr/sbin/iptables -t nat -C PREROUTING -p tcp --dport {{ rancher_nodeport }} \
+   -j DNAT --to-destination {{ rancher_ip }}:{{ rancher_nodeport }} 2>/dev/null || \
+   /usr/sbin/iptables -t nat -A PREROUTING -p tcp --dport {{ rancher_nodeport }} \
+   -j DNAT --to-destination {{ rancher_ip }}:{{ rancher_nodeport }}"
+
+# Rancher NodePort alt: host:{{ rancher_nodeport_alt }} -> {{ rancher_ip }}:{{ rancher_nodeport_alt }}
+ExecStart=/bin/bash -c \
+  "/usr/sbin/iptables -t nat -C PREROUTING -p tcp --dport {{ rancher_nodeport_alt }} \
+   -j DNAT --to-destination {{ rancher_ip }}:{{ rancher_nodeport_alt }} 2>/dev/null || \
+   /usr/sbin/iptables -t nat -A PREROUTING -p tcp --dport {{ rancher_nodeport_alt }} \
+   -j DNAT --to-destination {{ rancher_ip }}:{{ rancher_nodeport_alt }}"
+
+# Allow forwarding into the KVM guest network
+ExecStart=/bin/bash -c \
+  "/usr/sbin/iptables -C FORWARD -d {{ libvirt_network_cidr }} -j ACCEPT 2>/dev/null || \
+   /usr/sbin/iptables -A FORWARD -d {{ libvirt_network_cidr }} -j ACCEPT"
+
+[Install]
+WantedBy=multi-user.target

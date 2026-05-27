@@ -1,0 +1,18 @@
+---
+- name: Install KVM patterns
+  community.general.zypper:
+    name: "{{ item }}"
+    type: pattern
+    state: present
+  loop: "{{ kvm_host_patterns }}"
+
+- name: Install supporting packages
+  community.general.zypper:
+    name: "{{ kvm_host_packages }}"
+    state: present
+
+- name: Verify nested virtualisation is active
+  ansible.builtin.command: cat /sys/module/kvm_intel/parameters/nested
+  register: nested_virt
+  changed_when: false
+  failed_when: nested_virt.stdout | trim not in ['Y', '1']

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source ~/.bashrc
+
+# Check vms cluster network exists
+if ! kubectl get clusternetworks.network.harvesterhci.io vms &>/dev/null; then
+  fail-message "The 'vms' cluster network does not exist yet. Create it in Networks > Cluster Networks and assign eth1 on each node."
+  exit 1
+fi
+
+# Check vmnet NetworkAttachmentDefinition exists
+if ! kubectl get network-attachment-definitions vmnet -n default &>/dev/null; then
+  fail-message "The 'vmnet' VM network does not exist yet. Create it in Networks > VM Networks using the 'vms' cluster network."
+  exit 1
+fi
+
+# Check IP pool exists
+if ! kubectl get ippools.network.harvesterhci.io rodeo-ippool -n default &>/dev/null; then
+  fail-message "The 'rodeo-ippool' IP pool does not exist yet. Create it in Networks > IP Pools."
+  exit 1
+fi
+
+echo "VM traffic cluster network, VM network, and IP pool verified."
+exit 0

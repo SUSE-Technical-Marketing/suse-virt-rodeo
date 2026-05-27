@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euo pipefail
+source ~/.bashrc
+
+if [ ! -f /root/.kube/checkin-cluster.yaml ]; then
+  fail-message "The checkin-cluster kubeconfig is missing. Complete challenge 05 first."
+  exit 1
+fi
+
+export KUBECONFIG=/root/.kube/checkin-cluster.yaml
+
+POD_STATUS=$(kubectl get pods -n alien-geeko \
+  -l app=alien-geeko \
+  -o jsonpath='{.items[0].status.phase}' 2>/dev/null || echo "")
+
+if [ "$POD_STATUS" != "Running" ]; then
+  fail-message "The alien-geeko NOC dashboard is not running. Apply all manifests and wait for the rollout to complete."
+  exit 1
+fi
+
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 3 http://localhost:92/health 2>/dev/null || echo "000")
+if [ "$HTTP_STATUS" != "200" ]; then
+  fail-message "The NOC dashboard tab is not active (HTTP ${HTTP_STATUS}). Run: kubectl port-forward -n alien-geeko svc/alien-geeko 92:80 --address=0.0.0.0 &"
+  exit 1
+fi
+
+echo "AeroGrid NOC dashboard is live. All systems reporting."
+exit 0

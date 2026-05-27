@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  role_name: kvm_host
+  author: avalero
+  description: Configures SLES 15.6 / openSUSE Leap 15.6 as a KVM hypervisor for the SUSE Virtualization Rodeo lab
+  min_ansible_version: "2.14"
+  platforms:
+    - name: SLES
+      versions: ["15.6"]
+    - name: opensuse
+      versions: ["15.6"]
+
+dependencies: []

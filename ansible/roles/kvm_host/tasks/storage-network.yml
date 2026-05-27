@@ -1,0 +1,16 @@
+---
+# storage-network.yml — UNUSED
+#
+# A dedicated second libvirt network is no longer needed.
+#
+# Each Harvester KVM VM has two NICs, both attached to the default network (virbr0):
+#   eth0 (02:00:00:0D:62:Ex) — management; Harvester installer assigns a static IP
+#   eth1 (02:00:00:0D:64:Ex) — VM traffic; left unmanaged by the OS, used by
+#                              Harvester Kube-OVN as the OVN bridge uplink for
+#                              the "vms" cluster network
+#
+# Using virbr0 for both NICs means VM LoadBalancer IPs (192.168.122.200-220 from
+# rodeo-ippool) are directly reachable from geekohive and cloud-client without
+# any additional routing rules.
+#
+# This file is not imported by main.yml and has no tasks to run.

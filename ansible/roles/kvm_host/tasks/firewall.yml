@@ -1,0 +1,34 @@
+---
+- name: Ensure firewalld is running
+  ansible.builtin.systemd:
+    name: firewalld
+    enabled: true
+    state: started
+
+- name: Allow forwarding in the libvirt zone
+  ansible.posix.firewalld:
+    zone: libvirt
+    forward: true
+    permanent: true
+    state: enabled
+  notify: reload firewalld
+
+- name: Expose Harvester UI and Rancher NodePort on public zone
+  ansible.posix.firewalld:
+    zone: public
+    port: "{{ item }}/tcp"
+    permanent: true
+    state: enabled
+  loop:
+    - "{{ harvester_ui_port }}"
+    - "{{ rancher_nodeport }}"
+    - "{{ rancher_nodeport_alt }}"
+  notify: reload firewalld
+
+- name: Enable masquerade on public zone (required for DNAT to work)
+  ansible.posix.firewalld:
+    zone: public
+    masquerade: true
+    permanent: true
+    state: enabled
+  notify: reload firewalld

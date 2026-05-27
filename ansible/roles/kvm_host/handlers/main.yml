@@ -1,0 +1,14 @@
+---
+- name: daemon-reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: restart kvm-dnat
+  ansible.builtin.systemd:
+    name: kvm-dnat
+    state: restarted
+
+- name: reload firewalld
+  ansible.builtin.systemd:
+    name: firewalld
+    state: reloaded

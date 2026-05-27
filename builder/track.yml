@@ -1,0 +1,37 @@
+slug: suse-virt-rodeo-builder
+title: SUSE Virt Rodeo — Image Builder
+description: |
+  Builder track for the suse-virt-rodeo-180 custom Instruqt image.
+  Runs Ansible, deploys nested KVM VMs (3x Harvester + 1x Rancher), clusters them,
+  and prepares the environment for snapshot as a reusable Instruqt image.
+  Not intended for end users — internal use only.
+icon: https://www.suse.com/favicon.ico
+tags:
+- virtualization
+- harvester
+- suse
+- rancher
+- image-builder
+owner: suse
+developers:
+- andres.valero@suse.com
+- raul.mahiques@suse.com
+maintenance: false
+skipping_enabled: false
+idle_timeout: 14400
+timelimit: 21600
+lab_config:
+  sidebar_enabled: true
+  feedback_recap_enabled: false
+  feedback_tab_enabled: false
+  loadingMessages: false
+  default_layout: AssignmentLeft
+challenges:
+- slug: build-image
+  id: build-image
+  title: Build the suse-virt-rodeo-180 image
+  timelimit: 21600
+  tabs:
+  - type: terminal
+    title: geekohive
+    hostname: geekohive

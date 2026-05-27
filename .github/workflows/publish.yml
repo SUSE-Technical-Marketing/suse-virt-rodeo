@@ -1,0 +1,22 @@
+name: Publish Instruqt Track
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate track
+        uses: instruqt/cli@v1
+        with:
+          command: track validate --token ${{ secrets.INSTRUQT_TOKEN }}
+
+      - name: Push track to Instruqt
+        uses: instruqt/cli@v1
+        with:
+          command: track push --token ${{ secrets.INSTRUQT_TOKEN }} --force

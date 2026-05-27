@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source ~/.bashrc
+
+# Verify the virt1 VM exists and is running
+VM_STATUS=$(kubectl get vm virt1 -n default -o jsonpath='{.status.ready}' 2>/dev/null || echo "")
+
+if [ "$VM_STATUS" != "true" ]; then
+  fail-message "The VM 'virt1' is not ready yet. Make sure it was created and is in Running state."
+  exit 1
+fi
+
+# Verify it has been migrated by checking migration objects for virt1
+MIGRATIONS=$(kubectl get virtualmachineinstancemigrations -n default -o json 2>/dev/null \
+  | jq '[.items[] | select(.spec.vmiName=="virt1")] | length' 2>/dev/null || echo "0")
+
+if [ "${MIGRATIONS:-0}" -lt 1 ]; then
+  fail-message "No migration detected for 'virt1'. Use the ⋮ menu to migrate the VM to another node."
+  exit 1
+fi
+
+echo "VM virt1 is running and has been migrated."
+exit 0

@@ -1,0 +1,14 @@
+version: "3"
+virtualmachines:
+- name: geekohive
+  # Builder VM: SLES 15.6 base — used to build the suse-virt-rodeo-180 custom image.
+  # Note: Instruqt base image slug for SLES 15.6 is assumed to be suse/sles-15sp6.
+  # Verify this slug in the Instruqt image catalog before running the builder track.
+  image: suse/sles-15sp6
+  shell: /bin/bash
+  machine_type: n2-standard-32
+  enable_nested_virtualization: true
+  allow_external_ingress:
+  - high-ports
+  - http
+  - https

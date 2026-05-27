@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Wait for Instruqt host bootstrap to finish
+until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
+  sleep 2
+done
+
+echo ">>> Starting SUSE Virtualization KVM cluster..."
+
+# Start Harvester nodes sequentially to avoid thundering herd on the host
+virsh start harvester1
+sleep 10
+virsh start harvester2
+sleep 10
+virsh start harvester3
+sleep 10
+virsh start rancher
+
+echo ">>> Waiting for Harvester nodes to join the cluster..."
+export KUBECONFIG=/root/.kube/harvester.yaml
+until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready')" -ge 3 ]; do
+  sleep 20
+done
+echo ">>> All 3 Harvester nodes ready"
+
+echo ">>> Waiting for Rancher to become available..."
+until curl -sk https://192.168.122.9:30002/v3 2>/dev/null | grep -q '"type":"collection"'; do
+  sleep 10
+done
+echo ">>> Rancher is up"
+
+# Read the admin password baked into the image
+RANCHER_PASS=$(cat /root/rancher-password 2>/dev/null || echo "admin1234")
+
+# Generate a Rancher API token for the sandbox session
+RANCHER_TOKEN=$(curl -sk -X POST \
+  "https://192.168.122.9:30002/v3-public/localProviders/local?action=login" \
+  -H "Content-Type: application/json" \
+  -d "{\"username\":\"admin\",\"password\":\"${RANCHER_PASS}\"}" \
+  | jq -r .token)
+
+if [ -z "$RANCHER_TOKEN" ] || [ "$RANCHER_TOKEN" = "null" ]; then
+  echo "ERROR: Failed to get Rancher token"
+  exit 1
+fi
+
+# Expose agent variables to cloud-client and challenge scripts
+agent variable set RANCHER_PASSWORD  "$RANCHER_PASS"
+agent variable set RANCHER_TOKEN     "$RANCHER_TOKEN"
+agent variable set RANCHER_URL       "https://geekohive:30002"
+agent variable set HARVESTER_URL     "https://geekohive:8443"
+agent variable set HARVESTER_NAT_IP  "geekohive"
+
+echo ">>> Agent variables set. Setup complete."

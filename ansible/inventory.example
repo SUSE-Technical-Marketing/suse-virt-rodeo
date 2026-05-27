@@ -1,0 +1,6 @@
+[kvm_host]
+fastredcar ansible_host=<IP_OR_HOSTNAME> ansible_user=root
+
+# For a local run (e.g. during image build from inside the VM itself):
+# [kvm_host]
+# localhost ansible_connection=local

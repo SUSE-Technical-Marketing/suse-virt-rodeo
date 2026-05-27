@@ -1,0 +1,19 @@
+---
+kvm_host_patterns:
+  - kvm_server
+  - kvm_tools
+
+kvm_host_packages:
+  - jq
+  - curl
+  - libguestfs-tools
+
+harvester_vip: "192.168.122.11"
+rancher_ip: "192.168.122.9"
+libvirt_network_cidr: "192.168.122.0/24"
+
+harvester_ui_port: 8443
+rancher_nodeport: 30002
+rancher_nodeport_alt: 30001
+
+libvirt_service: libvirtd

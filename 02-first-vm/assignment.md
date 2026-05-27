@@ -1,175 +1,166 @@
 ---
-slug: harvester-portworx-overview
+slug: first-vm
 id: eu8fvp8sytmr
 type: challenge
-title: Your first VM with SUSE Virtualization
-teaser: Understand VM provisioning
+title: AeroGrid Ground Ops — Provision the First VM
+teaser: Deploy the ground operations VM with cloud-init, connect to it over SSH, and prove zero-downtime live migration before any flight dependency goes live
 tabs:
-- id: qb6uoe5rxt6s
+- id: tab-terminal
   title: Terminal
   type: terminal
   hostname: cloud-client
   cmd: su - root
-- id: ioqbebe5ywu6
+- id: tab-rancher
   title: Rancher UI
   type: service
   hostname: cloud-client
   path: /
   port: 91
-- id: lvy0y4n1jwmr
+- id: tab-harvester
   title: Harvester UI
   type: service
   hostname: cloud-client
   path: /
   port: 90
 difficulty: basic
-timelimit: 28800
+timelimit: 2400
 enhanced_loading: null
 ---
 
-Intro
-=====
+> **OPS BRIEF:** AeroGrid Network Operations Center | Priority: High | Assigned: Infrastructure Team
+> First workload migration target: `virt1`, the ground operations interface VM. Provision it, verify connectivity, and prove the platform can move it live between nodes without downtime.
 
-In this lab, we will working with VMs for the first time. In the first chapter we created the necessary infrastructure to do so and now it´s time to provision out first Vm and understand how this process works on SUSE Virtualization. Also we will b introducing concepts like templates, Cloud-Init configuration and node placement.
+AeroGrid's ground operations system handles baggage tracking, gate assignments, and ramp coordination. Under VMware this was a vMotion-capable workload on ESXi. On SUSE Virtualization, the equivalent runs on KubeVirt and KVM with no proprietary hypervisor license required. The cluster is healthy. Time to put a VM on it.
 
-### Logging in to the Rancher Prime UI
+VM Provisioning in SUSE Virtualization
+===
 
-Let's open the [button label="Rancher" variant="success"](tab-1) tab.
+SUSE Virtualization supports creating VMs from ISO files, QCOW2 disk images, and cloud images. For this challenge we use a pre-loaded **openSUSE Leap 16** cloud image called `leap16`. Cloud images are the standard production path — they boot fast and support full cloud-init customization.
 
-Log in to Rancher Prime, if necessary, with the following credentials:
+> [!NOTE]
+> Cloud-init is the industry standard for bootstrapping VMs at first boot. It handles users, SSH keys, networking, package installs, and custom scripts. SUSE Virtualization exposes cloud-init directly in its UI — no separate tooling required.
 
-- Username:
-
-```txt
-admin
-```
-
-- Password:
-
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="cloud-client" ]]
-```
-
-### Accessing the SUSE Virtualization Cluster
-
-From the Rancher Prime UI, select the `Virtualization Management` menu item from the left-hand menu. Then select the `harvester` cluster from the menu
-
-![01-connect_to_cluster.gif](../assets/01-connect_to_cluster.gif)
-
-### The SUSE Virtualization UI
-
-It is also possible to log in to SUSE Virtualization using the built in management interface. Although we will not be using this interface in this lab, it is available for your reference.
-
-Let's open the [button label="Harvester UI" variant="success"](tab-2) tab.
-
-Log in to Rancher Prime, if necessary, with the following credentials:
-
-- Username:
-
-```txt
-admin
-```
-
-- Password:
-
-```txt
-Portworx123!
-```
-
-### The Command Line Interface
-
-This lab has also been configured with a command line interface. Kubectl has been pre-configured to connect to the SUSE Virtualization cluster.
-
-Let's open the [button label="Terminal" variant="success"](tab-0) tab.
-
-Run the following command to test connectivity:
+Verify the image is ready:
 
 ```bash,run
-kubectl get nodes
+kubectl get virtualmachineimages -n default
 ```
 
+You should see `leap16` with status `Active`. The base image is loaded.
 
-Your first VM with SUSE Virtualization
+TASK: Provision virt1
 ===
-In SUSE Virtualization you can create VM´s from ISO, qcow2, and other type of images. However, this is not the standard way to provision in the industry in most of cases we use a VM template that will shorten the deployment, avoid repetitive tasks and mistakes. In this challenge we will start with an image that we will use to provision a new VM, and we will use a Cloud Init template for further customization. We can store as many templates as we may need.
 
-### Task: Create a Virtual Machine from a Template
+Open the [button label="Rancher UI" variant="success"](tab-1) tab and navigate to **Virtualization Management > [your cluster] > Virtual Machines**.
 
-Let's go back to the [button label="Rancher" variant="success"](tab-1) tab.
-
-- Click on the `Virtual Machines` menu item from the left-hand menu
-- Click the `Create` button.
-
-![02-create_vm.gif](../assets/02-create_vm.gif)
-
-- Set the name of our VM to `virt1`
-- Set the `CPU` to `4`
-- Set the `Memory` to `4`
-- Set the `SSHKey` to `default/cloud-client` (This key will allow our cloud client to SSH to our VM)
-- Select the `Volumes` menu item
-- Select the `Image` dropdown and select the `default/leap16` image
+1. Click **Create**
+2. Set the **Name** to `virt1`
+3. Set **CPU** to `2` and **Memory** to `2 GiB`
+4. Under **SSH Keys**, select `default/cloud-client` — this injects the terminal's public key so we can connect directly
 
 ![12-create_vm.gif](../assets/12-create_vm.gif)
 
-Now we are going to work on the node scheduling for the VM. 
+5. Go to **Volumes**, click **Add Volume**, select **Image**, and choose `default/leap16`
+6. Set the root disk size to `20 GiB`
 
-- Go to `Node Scheduling`on the left menu. 
+TASK: Assign Network and Cloud-Init Configuration
+===
 
-We will find three options for the node placement, first `Run virtual machine on any available node` in this modality the Kubernetes Scheduler will decide where to place the VM, also it allows live migration for the VM. Then there´s the second choice `Run virtual machine on specific node` in this option we select a concrete node and the VM can´t use live migration. The third option is `Run virtual machine on node matching scheduling rules` then you can define affinity rules based on tags, these tags may indicate a certain network or the availability for certain hardware.
+7. Go to the **Networks** tab, click **Add Network**, and select `default/vmnet`
+8. Expand **Advanced Options** and paste the following into the **Network Data** field:
 
-- Select `Run virtual machine on any available node`
-
-We are now going to customize this VM using cloud-init. Cloud-init is a tool that allows you to customize a VM after it has been created. We will be using cloud-init set an ip address of this VM to `192.168.122.22`.
-
-- Click on the `Networks` menu item
-- Click the `Network` dropdown
-- Select the `default/vmnet` network
-- Click on the `Advanced Options` menu item
-- Scroll down to the `Network Data:` section
-- Paste the following in to the text field
-
-```txt
+```yaml
 version: 2
 ethernets:
   enp1s0:
     addresses:
-      - 192.168.122.22/24
+      - 192.168.122.50/24
     gateway4: 192.168.122.1
     nameservers:
       addresses:
-        - 192.168.122.1
+        - 8.8.8.8
 ```
 
-![02-click-create.gif](../assets/02-click-create.gif)
+This assigns `virt1` a fixed IP of `192.168.122.50`. Cloud-init applies this on first boot — no post-deployment manual setup required.
 
-Switch back to the [button label="Terminal" variant="success"](tab-0) tab.
+TASK: Configure Node Scheduling
+===
 
-Let's wait for the VM to become available:
+9. Go to **Node Scheduling**
 
-```bash,run
-until ssh virt1 "uname -a" 2> /dev/null ; do sleep 5; done
-```
+SUSE Virtualization offers three placement policies for VMs:
 
-Once our prompt comes back, we should see the output of `uname -a` which means our VM is up and running!
+- **Any available node** — the Kubernetes scheduler places the VM and live migration is enabled
+- **Specific node** — pin the VM to one node (no migration allowed)
+- **Scheduling rules** — affinity rules based on node labels (GPU capability, NUMA topology, network zone, etc.)
 
+10. Select **Run virtual machine on any available node** — this is required for live migration in the next task
 
-Now is time to test the `Live Migration`feature.
-
-- Go to the `Virtual Machines` page
-
-![02-live-migration.gif](../assets/02-live-migration.gif)
-
-- Find the VM we just created click on the 3 point menu on the right and select the option `Migrate`
-- Then SUSE Virtualization will offer a drop down menu where whe can select to which node we want to migrate
-- Select a different node to migrate, and wait until the VM is on the new node.
-
+11. Click **Create** and wait for the VM status to reach `Running`
 
 > [!NOTE]
-> Cloud init is a powerful way of customizing Linux virtual machines. It can set networking configurations, install packages, and more. For more information, see the [cloud-init documentation](https://cloudinit.readthedocs.io/en/latest/).
-> SUSE Virtualization integrates cloud-init in to the GUI, allowing you to configure virtual machines easily.
+> Scheduling rules let you separate critical airport systems from background workloads — for example, pinning gate assignment VMs to low-latency nodes while keeping dev workloads on shared nodes.
 
+TASK: Confirm virt1 is Operational
+===
 
+Once `virt1` is `Running`, switch to the [button label="Terminal" variant="success"](tab-0) tab and wait for SSH to come up:
 
+```bash,run
+until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa opensuse@192.168.122.50 "uname -a" 2>/dev/null; do
+  echo "Waiting for ground ops VM..."
+  sleep 10
+done
+```
 
+When the kernel info prints, the VM is alive. Cloud-init configured the network and injected the SSH key automatically.
 
+Connect and verify:
 
+```bash,run
+ssh -i ~/.ssh/id_rsa opensuse@192.168.122.50
+```
+
+```bash,run
+cat /etc/os-release
+```
+
+```bash,run
+exit
+```
+
+TASK: Live Migration — Zero Downtime Node Mobility
+===
+
+A maintenance window is coming on one of the cluster nodes. The ground ops VM must move to another node without going offline. Airport operations run 24/7 — any downtime halts gate assignments and baggage processing.
+
+Check which node `virt1` is currently running on:
+
+```bash,run
+kubectl get vmi virt1 -n default -o jsonpath='{.status.nodeName}'
+```
+
+Trigger live migration from the [button label="Rancher UI" variant="success"](tab-1) tab:
+
+1. Find `virt1` in the **Virtual Machines** list
+2. Click the **⋮** menu > **Migrate**
+3. Select a different node from the dropdown
+4. Click **Apply** and watch the status change from `Migrating` back to `Running`
+
+![10-migrate_vm.gif](../assets/10-migrate_vm.gif)
+
+Confirm `virt1` landed on a new node:
+
+```bash,run
+kubectl get vmi virt1 -n default -o jsonpath='{.status.nodeName}'
+```
+
+Confirm the VM never went offline during the migration:
+
+```bash,run
+ssh -i ~/.ssh/id_rsa opensuse@192.168.122.50 "hostname && uptime"
+```
+
+`virt1` moved between nodes with zero downtime. This is the vMotion equivalent, running on open-source KubeVirt — no VMware license required.
+
+Click **Check** to continue.

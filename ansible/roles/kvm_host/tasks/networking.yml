@@ -1,0 +1,24 @@
+---
+- name: Enable IP forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_file: /etc/sysctl.d/99-kvm-forward.conf
+    reload: true
+
+- name: Deploy kvm-dnat systemd unit
+  ansible.builtin.template:
+    src: kvm-dnat.service.j2
+    dest: /etc/systemd/system/kvm-dnat.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - daemon-reload
+    - restart kvm-dnat
+
+- name: Enable and start kvm-dnat service
+  ansible.builtin.systemd:
+    name: kvm-dnat
+    enabled: true
+    state: started
