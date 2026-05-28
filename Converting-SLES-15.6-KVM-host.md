@@ -1,6 +1,6 @@
-## Guide: Converting SLES 16 into a KVM Hypervisor
+## Guide: Converting SLES 15.6 into a KVM Hypervisor
 
-This guide adapts the principles of setting up a virtualization environment for **SUSE Linux Enterprise Server (SLES) 16**. It incorporates the platform's shift to **NetworkManager** and its specific package management system.
+This guide adapts the principles of setting up a virtualization environment for **SUSE Linux Enterprise Server (SLES) 15.6**. It incorporates the platform's shift to **NetworkManager** and its specific package management system.
 
 ---
 
@@ -38,7 +38,7 @@ sudo systemctl enable --now libvirtd
 
 ### Step 3: Network Bridge Configuration
 
-SLES 16 utilizes **NetworkManager** for networking. A bridge allows your Virtual Machines (VMs) to appear as physical nodes on your network.
+SLES 15.6 utilizes **NetworkManager** for networking. A bridge allows your Virtual Machines (VMs) to appear as physical nodes on your network.
 
 1. **Create the Bridge (`br0`)**:
 ```bash
@@ -67,13 +67,13 @@ sudo nmcli con up br0
 
 ### Step 4: Web-Based Management (Cockpit)
 
-SLES 16 supports the **Cockpit** web console for an intuitive graphical interface to manage your VMs.
+SLES 15.6 supports the **Cockpit** web console for an intuitive graphical interface to manage your VMs.
 
 * 
 **Install Cockpit**: Run `sudo zypper install cockpit cockpit-machines`.
 
 
-* **Configure Firewall**: Since SLES 16 uses `firewalld`, you must allow the service:
+* **Configure Firewall**: Since SLES 15.6 uses `firewalld`, you must allow the service:
 ```bash
 sudo firewall-cmd --permanent --add-service=cockpit
 sudo firewall-cmd --reload
@@ -88,15 +88,15 @@ sudo firewall-cmd --reload
 
 ---
 
-## Ansible Playbooks for SLES 16 KVM
+## Ansible Playbooks for SLES 15.6 KVM
 
-Below is the consolidated Ansible playbook to automate this deployment on SLES 16. Be aware that the playbook is meant ro run on your Virtualization host running SLES16. You can run it with: ```ansible-playbook kvm_setup.yml --ask-become-pass```, it will install and configure all the elements needed.
+Below is the consolidated Ansible playbook to automate this deployment on SLES 15.6. Be aware that the playbook is meant to run on your Virtualization host running SLES 15.6. You can run it with: ```ansible-playbook kvm_setup.yml --ask-become-pass```, it will install and configure all the elements needed.
 
 ### `kvm_setup.yml`
 
 ```yaml
  ---
-- name: Deploy KVM Hypervisor on SLES 16
+- name: Deploy KVM Hypervisor on SLES 15.6
   hosts: localhost
   connection: local
   become: true
