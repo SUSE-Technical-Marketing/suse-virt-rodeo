@@ -111,7 +111,7 @@ cpu_mode:   host-passthrough   ← mandatory; enables KubeVirt to run VMs inside
 nic_model:  e1000              ← avoids driver fingerprinting during install
 boot:       UEFI (OVMF)
 disks:
-  vda:  250 GB qcow2  ← OS + Harvester system volumes + Longhorn (/var/lib/longhorn)
+  vda:  270 GB qcow2 (preallocation=metadata)  ← OS partitions (~173 GB) + Longhorn (~97 GB)
 nics:
   eth0: virbr0 (management, 02:00:00:0D:62:Ex — static IP set by Harvester installer)
   eth1: virbr0 (VM traffic, 02:00:00:0D:64:Ex — no OS IP; Kube-OVN OVN bridge uplink)
@@ -219,20 +219,22 @@ Port 92 is not configured here. The student opens it in challenge 06.
 ```
 geekohive: n2-standard-32 (32 vCPU, 128 GiB RAM)
 
-  harvester1:  8 vCPU  24 GiB  vda=250 GB
-  harvester2:  8 vCPU  24 GiB  vda=250 GB
-  harvester3:  8 vCPU  24 GiB  vda=250 GB
+  harvester1:  8 vCPU  24 GiB  vda=270 GB
+  harvester2:  8 vCPU  24 GiB  vda=270 GB
+  harvester3:  8 vCPU  24 GiB  vda=270 GB
   rancher:     4 vCPU  16 GiB  60 GB
   ─────────────────────────────────────────────────────
   Total KVM:  28 vCPU  88 GiB
   Host overhead: 4 vCPU, ~8 GiB
   Remaining:  0 vCPU slack, ~32 GiB RAM headroom
 
-Disk (thin-provisioned qcow2):
-  3 × 250 GB + 60 GB Rancher = ~810 GB allocated
-  Actual consumed after fresh install: ~250-350 GB
-  Minimum per node: 250 GB (Harvester 1.8.0 requirement)
-  Longhorn uses /var/lib/longhorn on the OS disk — no dedicated data disk needed for lab use
+Disk (qcow2, preallocation=metadata, 950 GB GCP pd-ssd):
+  host root:  40 GB
+  3 × 270 GB Harvester + 60 GB Rancher = 870 GB provisioned
+  Headroom: ~40 GB
+  Actual consumed after fresh install: ~300-350 GB (thin-provisioned)
+  Harvester partition layout per node: ~173 GB OS + ~97 GB Longhorn (HARV_LH_DEFAULT)
+  Longhorn usable per node (after 30% reserve): ~68 GB
 ```
 
 Note: 24 GiB per Harvester node is below the official 32 GiB production minimum but is proven to work for dev/lab clusters. The Harvester reference HCIAB uses 16 GiB per node.

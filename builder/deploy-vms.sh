@@ -3,7 +3,7 @@
 #
 # What this script does:
 #   1. Adds static DHCP MAC reservations to the default (virbr0) libvirt network
-#   2. Creates qcow2 disk images for all VMs
+#   2. Creates qcow2 disk images (preallocation=metadata) for all VMs
 #   3. Downloads the Harvester 1.8.0 ISO
 #   4. Generates Harvester unattended config ISOs (one per node)
 #   5. Defines each KVM VM with correct CPU/RAM/NIC/disk settings
@@ -118,14 +118,14 @@ create_disk() {
   if [[ -f "${path}" ]]; then
     log "  Disk ${path} already exists, skipping."
   else
-    qemu-img create -f qcow2 "${path}" "${size}"
+    qemu-img create -f qcow2 -o preallocation=metadata "${path}" "${size}"
     log "  Created ${path} (${size})"
   fi
 }
 
-# Harvester nodes: single OS disk — Longhorn uses /var/lib/longhorn on the OS disk
+# Harvester nodes: single 270 GB disk — OS partitions (~173 GB) + Longhorn (~97 GB)
 for node in harvester1 harvester2 harvester3; do
-  create_disk "${IMAGE_DIR}/${node}-vda.qcow2" "250G"
+  create_disk "${IMAGE_DIR}/${node}-vda.qcow2" "270G"
 done
 
 log "Disk images ready."
@@ -153,7 +153,7 @@ if [[ -f "${RANCHER_DISK}" ]]; then
   log "Rancher disk already exists, skipping."
 else
   log "Creating Rancher VM disk from Leap 16 cloud image..."
-  qemu-img convert -f qcow2 -O qcow2 "${LEAP16_IMG}" "${RANCHER_DISK}"
+  qemu-img convert -f qcow2 -O qcow2 -o preallocation=metadata "${LEAP16_IMG}" "${RANCHER_DISK}"
   qemu-img resize "${RANCHER_DISK}" 60G
   log "Rancher disk ready (60 GB)."
 fi

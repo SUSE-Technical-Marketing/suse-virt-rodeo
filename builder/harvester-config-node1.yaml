@@ -34,6 +34,6 @@ install:
       miimon: 100
   vip: 192.168.122.11    # kube-vip address — same as node1 IP in this design
   vip_mode: static
-  device: /dev/vda       # 250 GB OS disk
+  device: /dev/vda       # 270 GB OS disk
   tty: ttyS0
   poweroff: false
