@@ -64,7 +64,7 @@ eject_cdrom() {
   err=$(virsh change-media "$domain" "$dev" --eject --live --config 2>&1) || {
     # "No media" / "not a cdrom" are expected if already ejected — log anything else
     echo "$err" | grep -qiE "no media|not a cdrom|No such file" \
-      || echo "WARNING: eject ${domain}:${dev} -- ${err}"
+      || echo ">>> WARNING: eject ${domain}:${dev} -- ${err}"
   }
 }
 
