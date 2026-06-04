@@ -106,7 +106,7 @@ Full step-by-step instructions are in `01-build/assignment.md`. The high-level f
    ```
 6. Run `builder/setup-rancher.sh` to install K3s + Rancher and import Harvester.
 7. Upload the openSUSE Leap 16 cloud image into Harvester.
-8. Shut off all VMs: `virsh shutdown harvester1 harvester2 harvester3 rancher`
+8. Shut off all VMs: `for vm in harvester1 harvester2 harvester3 rancher; do virsh shutdown $vm; done`
 9. Save geekohive as `suse/suse-virt-rodeo-180` via the Instruqt console.
 10. Update `config.yml` in the main rodeo track to use the new image.
 
