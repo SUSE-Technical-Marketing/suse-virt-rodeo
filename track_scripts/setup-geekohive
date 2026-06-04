@@ -66,7 +66,11 @@ until curl -sk --max-time 5 https://192.168.122.9:30002/v3 2>/dev/null | grep -q
 done
 echo ">>> Rancher is up"
 
-RANCHER_PASS=$(cat /root/rancher-password 2>/dev/null || echo "admin1234")
+if [ ! -f /root/rancher-password ]; then
+  echo "ERROR: /root/rancher-password not found — was setup-rancher.sh run during image build?"
+  exit 1
+fi
+RANCHER_PASS=$(cat /root/rancher-password)
 
 RANCHER_TOKEN=$(curl -sk -X POST \
   "https://192.168.122.9:30002/v3-public/localProviders/local?action=login" \
