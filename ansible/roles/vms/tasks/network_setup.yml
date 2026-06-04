@@ -1,0 +1,21 @@
+---
+# Redefine the default libvirt network from our template so it includes
+# static DHCP host entries for all VMs. VMs have not been started yet at
+# this point in the builder flow so destroying the network is safe.
+
+- name: Destroy default network to allow redefinition
+  community.libvirt.virt_net:
+    name: "{{ libvirt_network_name }}"
+    state: absent
+  failed_when: false
+
+- name: Define default network with static DHCP entries
+  community.libvirt.virt_net:
+    command: define
+    xml: "{{ lookup('template', 'network.xml.j2') }}"
+
+- name: Start and autostart default network
+  community.libvirt.virt_net:
+    name: "{{ libvirt_network_name }}"
+    state: active
+    autostart: true

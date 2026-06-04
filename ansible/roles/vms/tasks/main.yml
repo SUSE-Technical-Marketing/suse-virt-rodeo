@@ -1,0 +1,5 @@
+---
+- import_tasks: storage_setup.yml
+- import_tasks: network_setup.yml
+- import_tasks: images.yml
+- import_tasks: vm_setup.yml

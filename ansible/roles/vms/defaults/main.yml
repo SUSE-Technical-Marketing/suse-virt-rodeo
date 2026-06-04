@@ -1,0 +1,57 @@
+---
+image_dir: /var/lib/libvirt/images
+config_dir: /root/harvester-configs
+serial_log_dir: /var/log/libvirt/qemu
+
+harvester_version: "1.8.0"
+harvester_vip: "192.168.122.11"
+harvester_token: "HarvesterRodeoBootstrapToken2024"
+harvester_os_password: "HarvesterRodeo2024!"
+
+rancher_vm_password: "RancherRodeo2024!"
+
+ovmf_code: /usr/share/qemu/ovmf-x86_64-code.bin
+ovmf_vars_template: /usr/share/qemu/ovmf-x86_64-vars.bin
+
+libvirt_pool_name: default
+libvirt_pool_path: /var/lib/libvirt/images
+libvirt_network_name: default
+libvirt_network_gateway: "192.168.122.1"
+
+leap16_url: "https://download.opensuse.org/distribution/leap/16.0/appliances/openSUSE-Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
+
+libvirt_flavors:
+  harvester:
+    memory_mib: 24576
+    vcpu: 8
+    disk_gb: 270
+  rancher:
+    memory_mib: 16384
+    vcpu: 4
+    disk_gb: 60
+
+vm_nodes:
+  - name: harvester1
+    flavor: harvester
+    mgmt_mac: "02:00:00:0D:62:E1"
+    vtraffic_mac: "02:00:00:0D:64:E1"
+    ip: "192.168.122.11"
+    config_iso_name: "harvester-config-node1"
+  - name: harvester2
+    flavor: harvester
+    mgmt_mac: "02:00:00:0D:62:E2"
+    vtraffic_mac: "02:00:00:0D:64:E2"
+    ip: "192.168.122.12"
+    config_iso_name: "harvester-config-node2"
+  - name: harvester3
+    flavor: harvester
+    mgmt_mac: "02:00:00:0D:62:E3"
+    vtraffic_mac: "02:00:00:0D:64:E3"
+    ip: "192.168.122.13"
+    config_iso_name: "harvester-config-node3"
+  - name: rancher
+    flavor: rancher
+    mgmt_mac: "02:00:00:0D:62:E9"
+    vtraffic_mac: ""
+    ip: "192.168.122.9"
+    config_iso_name: ""

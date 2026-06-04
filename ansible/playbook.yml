@@ -3,4 +3,7 @@
   hosts: kvm_host
   become: true
   roles:
-    - kvm_host
+    - role: kvm_host
+      tags: [kvm_host]
+    - role: vms
+      tags: [vms]

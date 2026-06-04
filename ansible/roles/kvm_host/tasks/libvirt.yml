@@ -1,9 +1,25 @@
 ---
+- name: Set security_driver to none in qemu.conf
+  ansible.builtin.lineinfile:
+    path: /etc/libvirt/qemu.conf
+    regexp: '^#?security_driver'
+    line: 'security_driver = "none"'
+    state: present
+  notify: restart libvirtd
+
 - name: Enable and start libvirtd
   ansible.builtin.systemd:
     name: "{{ libvirt_service }}"
     enabled: true
     state: started
+
+- name: Add {{ libvirt_user }} to libvirt and kvm groups
+  ansible.builtin.user:
+    name: "{{ libvirt_user }}"
+    groups:
+      - libvirt
+      - kvm
+    append: true
 
 - name: Ensure libvirt default network exists and is active
   community.libvirt.virt_net:

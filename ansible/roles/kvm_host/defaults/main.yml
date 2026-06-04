@@ -17,3 +17,4 @@ rancher_nodeport: 30002
 rancher_nodeport_alt: 30001
 
 libvirt_service: libvirtd
+libvirt_user: root

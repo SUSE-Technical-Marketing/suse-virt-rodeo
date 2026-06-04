@@ -1,0 +1,42 @@
+{% set first_harvester = vm_nodes | selectattr('flavor', 'equalto', 'harvester') | first %}
+scheme_version: 1
+
+{% if item.name == first_harvester.name %}
+server_url: ""
+{% else %}
+server_url: "https://{{ first_harvester.ip }}:6443"
+{% endif %}
+
+token: "{{ harvester_token }}"
+
+os:
+  hostname: {{ item.name }}
+  password: "{{ harvester_os_password }}"
+  ntp_servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+  dns_nameservers:
+    - 8.8.8.8
+    - 1.1.1.1
+
+install:
+{% if item.name == first_harvester.name %}
+  mode: create
+{% else %}
+  mode: join
+{% endif %}
+  management_interface:
+    interfaces:
+      - name: eth0
+    method: static
+    ip: {{ item.ip }}
+    subnet_mask: 255.255.255.0
+    gateway: {{ libvirt_network_gateway }}
+    bond_options:
+      mode: active-backup
+      miimon: 100
+  vip: {{ harvester_vip }}
+  vip_mode: static
+  device: /dev/vda
+  tty: ttyS0
+  poweroff: false
