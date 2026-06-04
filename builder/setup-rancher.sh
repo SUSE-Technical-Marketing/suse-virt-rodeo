@@ -288,11 +288,21 @@ HARVESTER_TOKEN=$(curl -sk -X POST \
 
 # ---------------------------------------------------------------------------
 # Step 7 — Eject installer ISOs so the saved image boots from disk only
+# Keep this block in sync with the equivalent block in track_scripts/setup-geekohive
 # ---------------------------------------------------------------------------
+eject_cdrom() {
+  local domain="$1" dev="$2"
+  local err
+  err=$(virsh change-media "$domain" "$dev" --eject --live --config 2>&1) || {
+    echo "$err" | grep -qiE "no media|not a cdrom|No such file" \
+      || log "WARNING: eject ${domain}:${dev} -- ${err}"
+  }
+}
+
 log "Ejecting installer ISOs from Harvester VMs..."
 for node in harvester1 harvester2 harvester3; do
   for cdrom in sda sdb; do
-    virsh change-media "$node" "$cdrom" --eject --live --config 2>/dev/null || true
+    eject_cdrom "$node" "$cdrom"
   done
   log "  ${node}: CDROMs ejected"
 done

@@ -53,10 +53,25 @@ until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo
 done
 echo ">>> All 3 Harvester nodes Ready"
 
+# Brief settle period — nodes report Ready as soon as kubelet starts,
+# but EFI boot entry writes complete just before that. 30s ensures the
+# first boot is fully done before we eject the CDROMs.
+sleep 30
+
+eject_cdrom() {
+  local domain="$1" dev="$2"
+  local err
+  err=$(virsh change-media "$domain" "$dev" --eject --live --config 2>&1) || {
+    # "No media" / "not a cdrom" are expected if already ejected — log anything else
+    echo "$err" | grep -qiE "no media|not a cdrom|No such file" \
+      || echo "WARNING: eject ${domain}:${dev} -- ${err}"
+  }
+}
+
 echo ">>> Ejecting installer ISOs from Harvester VMs..."
 for node in harvester1 harvester2 harvester3; do
   for cdrom in sda sdb; do
-    virsh change-media "$node" "$cdrom" --eject --live --config 2>/dev/null || true
+    eject_cdrom "$node" "$cdrom"
   done
   echo ">>> $node: CDROMs ejected"
 done
