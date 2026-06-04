@@ -16,7 +16,15 @@ cd /root/instruqt-virtualization
 
 ---
 
-## Step 2 — Install Ansible collections
+## Step 2 — Verify prerequisites and install Ansible collections
+
+Confirm `sshpass` and `jq` are installed — `setup-rancher.sh` requires both:
+
+```bash
+rpm -q sshpass jq || zypper install -y sshpass jq
+```
+
+Install Ansible collections:
 
 ```bash
 ansible-galaxy collection install -r ansible/requirements.yml
@@ -74,20 +82,22 @@ tail -f /var/log/libvirt/qemu/harvester1_serial.log
 > `virsh console` is not available — serial output is file-based. Use `tail -f` in a
 > separate terminal window to watch the install. Press `Ctrl+C` to stop tailing.
 
-`deploy-vms.sh` polls `https://192.168.122.11` until Harvester responds, then
-starts harvester2 (with a 90-second stagger before harvester3 to avoid etcd join
-race conditions). The script exits once all VMs are started.
+`deploy-vms.sh` starts harvester1, polls `https://192.168.122.11` until Harvester
+responds, then starts harvester2 (with a 90-second stagger before harvester3 to
+avoid etcd join race conditions), and finally starts the rancher VM. All four VMs
+are running by the time the script exits. Wait for the Harvester cluster to be
+fully formed before running `setup-rancher.sh`.
 
-Confirm all three nodes are Ready (run this from geekohive after install completes):
+Confirm all three nodes are Ready by SSHing into harvester1:
 
 ```bash
-export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
-kubectl get nodes -o wide
+ssh root@192.168.122.11 "kubectl get nodes -o wide"
 ```
 
 > [!NOTE]
-> The kubeconfig path above is inside harvester1 after install. You can also SSH
-> into harvester1 once it is up: `ssh root@192.168.122.11`
+> `setup-rancher.sh` fetches the kubeconfig from harvester1 automatically via SSH
+> and writes it to `/tmp/harvester-kubeconfig` on geekohive. You do not need to
+> copy it manually.
 
 ---
 

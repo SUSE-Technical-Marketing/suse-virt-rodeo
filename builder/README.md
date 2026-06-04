@@ -46,10 +46,12 @@ ansible/
         │   ├── images.yml          # ISO download, qcow2 creation, config ISOs
         │   └── vm_setup.yml        # define VMs from template (idempotent)
         └── templates/
-            ├── network.xml.j2          # NAT network, DHCP .100-.254, static host entries
-            ├── vm.xml.j2               # VM XML with serial file logging, EFI for Harvester
-            ├── harvester-config.yaml.j2 # per-node unattended install config
-            └── cloud-init-*.j2         # Rancher VM cloud-init files
+            ├── network.xml.j2              # NAT network, DHCP .100-.254, static host entries
+            ├── vm.xml.j2                   # VM XML with serial file logging, EFI for Harvester
+            ├── harvester-config.yaml.j2    # per-node unattended install config
+            ├── cloud-init-meta-data.j2     # Rancher VM cloud-init meta-data
+            ├── cloud-init-user-data.j2     # Rancher VM cloud-init user-data (SSH key, password)
+            └── cloud-init-network-config.j2 # Rancher VM static IP config
 ```
 
 ## Network layout
@@ -72,6 +74,17 @@ virbr0 — 192.168.122.0/24
 
 VM LoadBalancer IPs (rodeo-ippool: 192.168.122.200-220) are announced via ARP on eth1
 and are directly reachable from geekohive without additional routing rules.
+
+## Prerequisites
+
+Before running the builder track, confirm:
+
+- The SLES 15.6 base image slug is `suse/sles-15sp6` (verify in the Instruqt image catalog).
+  If the slug differs, update `config.yml` before pushing the builder track.
+- The builder sandbox must have nested virtualization enabled (already set in `config.yml`).
+- Machine type `n2-standard-32` gives 32 vCPU and 128 GB RAM — required for all 4 VMs.
+- `sshpass` and `jq` must be available on geekohive — `setup-rancher.sh` requires both.
+  Install if missing: `zypper install -y sshpass jq`
 
 ## How to build the image
 
