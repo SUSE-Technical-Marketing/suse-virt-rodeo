@@ -53,6 +53,14 @@ until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo
 done
 echo ">>> All 3 Harvester nodes Ready"
 
+echo ">>> Ejecting installer ISOs from Harvester VMs..."
+for node in harvester1 harvester2 harvester3; do
+  for cdrom in sda sdb; do
+    virsh change-media "$node" "$cdrom" --eject --live --config 2>/dev/null || true
+  done
+  echo ">>> $node: CDROMs ejected"
+done
+
 echo ">>> Waiting for Rancher to become available (up to 30 minutes)..."
 ELAPSED=0
 MAX_WAIT=1800

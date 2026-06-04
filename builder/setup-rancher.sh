@@ -286,6 +286,17 @@ HARVESTER_TOKEN=$(curl -sk -X POST \
 [[ -n "${HARVESTER_TOKEN}" ]] && echo "${HARVESTER_TOKEN}" > /root/harvester-token && \
   chmod 600 /root/harvester-token && log "Harvester API token saved to /root/harvester-token"
 
+# ---------------------------------------------------------------------------
+# Step 7 — Eject installer ISOs so the saved image boots from disk only
+# ---------------------------------------------------------------------------
+log "Ejecting installer ISOs from Harvester VMs..."
+for node in harvester1 harvester2 harvester3; do
+  for cdrom in sda sdb; do
+    virsh change-media "$node" "$cdrom" --eject --live --config 2>/dev/null || true
+  done
+  log "  ${node}: CDROMs ejected"
+done
+
 log ""
 log "Setup complete. Summary:"
 log "  Rancher URL   : https://${RANCHER_HOSTNAME}"
