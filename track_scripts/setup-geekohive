@@ -29,13 +29,16 @@ sleep 15
 start_vm rancher
 
 echo ">>> Waiting for Harvester nodes to join the cluster (up to 90 minutes)..."
-echo ">>> Serial logs: ${SERIAL_LOG_DIR}/harvester{1,2,3}_serial.log"
+echo ">>> Serial logs available at:"
+echo ">>>   ${SERIAL_LOG_DIR}/harvester1_serial.log"
+echo ">>>   ${SERIAL_LOG_DIR}/harvester2_serial.log"
+echo ">>>   ${SERIAL_LOG_DIR}/harvester3_serial.log"
 
 export KUBECONFIG=/root/.kube/harvester.yaml
 
 ELAPSED=0
 MAX_WAIT=5400
-until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready')" -ge 3 ]; do
+until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo 0)" -ge 3 ]; do
   sleep 20
   ELAPSED=$((ELAPSED + 20))
   if [[ $ELAPSED -ge $MAX_WAIT ]]; then
@@ -76,10 +79,11 @@ if [ -z "$RANCHER_TOKEN" ] || [ "$RANCHER_TOKEN" = "null" ]; then
   exit 1
 fi
 
-agent variable set RANCHER_PASSWORD  "$RANCHER_PASS"
-agent variable set RANCHER_TOKEN     "$RANCHER_TOKEN"
-agent variable set RANCHER_URL       "https://geekohive:30002"
-agent variable set HARVESTER_URL     "https://geekohive:8443"
-agent variable set HARVESTER_NAT_IP  "geekohive"
+agent variable set RANCHER_PASSWORD    "$RANCHER_PASS"
+agent variable set RANCHER_TOKEN       "$RANCHER_TOKEN"
+agent variable set RANCHER_URL         "https://geekohive:30002"
+agent variable set HARVESTER_URL       "https://geekohive:8443"
+agent variable set HARVESTER_NAT_IP    "geekohive"
+agent variable set HARVESTER_PASSWORD  "HarvesterRodeo2024!"
 
 echo ">>> Agent variables set. Setup complete."

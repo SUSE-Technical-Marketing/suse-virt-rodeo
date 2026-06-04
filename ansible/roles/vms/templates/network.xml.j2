@@ -8,7 +8,7 @@
   <bridge name='virbr0' stp='on' delay='0'/>
   <ip address='{{ libvirt_network_gateway }}' netmask='255.255.255.0'>
     <dhcp>
-      <range start='192.168.122.2' end='192.168.122.254'/>
+      <range start='192.168.122.50' end='192.168.122.254'/>
 {% for node in vm_nodes %}
       <host mac='{{ node.mgmt_mac }}' name='{{ node.name }}' ip='{{ node.ip }}'/>
 {% endfor %}

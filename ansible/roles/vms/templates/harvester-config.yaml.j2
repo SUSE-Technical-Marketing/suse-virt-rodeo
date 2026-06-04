@@ -4,7 +4,7 @@ scheme_version: 1
 {% if item.name == first_harvester.name %}
 server_url: ""
 {% else %}
-server_url: "https://{{ first_harvester.ip }}:6443"
+server_url: "https://{{ harvester_vip }}:443"
 {% endif %}
 
 token: "{{ harvester_token }}"
@@ -32,9 +32,6 @@ install:
     ip: {{ item.ip }}
     subnet_mask: 255.255.255.0
     gateway: {{ libvirt_network_gateway }}
-    bond_options:
-      mode: active-backup
-      miimon: 100
   vip: {{ harvester_vip }}
   vip_mode: static
   device: /dev/vda

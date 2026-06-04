@@ -1,5 +1,6 @@
 <domain type='kvm'>
   <name>{{ item.name }}</name>
+  <uuid>{{ item.uuid }}</uuid>
   <memory unit='MiB'>{{ libvirt_flavors[item.flavor].memory_mib }}</memory>
   <vcpu placement='static'>{{ libvirt_flavors[item.flavor].vcpu }}</vcpu>
   <cpu mode='host-passthrough' check='none' migratable='on'/>
@@ -66,24 +67,20 @@
     <interface type='network'>
       <mac address='{{ item.mgmt_mac }}'/>
       <source network='{{ libvirt_network_name }}'/>
-      <model type='e1000'/>
+      <model type='{% if item.flavor == "harvester" %}e1000{% else %}virtio{% endif %}'/>
     </interface>
-{% if item.vtraffic_mac != '' %}
+{% if item.vtraffic_mac %}
     <interface type='network'>
       <mac address='{{ item.vtraffic_mac }}'/>
       <source network='{{ libvirt_network_name }}'/>
       <model type='e1000'/>
     </interface>
 {% endif %}
-    <!-- Serial output to file — monitor install with: tail -f {{ serial_log_dir }}/{{ item.name }}_serial.log -->
+    <!-- Install progress: tail -f {{ serial_log_dir }}/{{ item.name }}_serial.log -->
     <serial type='file'>
       <source path='{{ serial_log_dir }}/{{ item.name }}_serial.log' append='on'/>
       <target type='isa-serial' port='0'/>
     </serial>
-    <console type='file'>
-      <source path='{{ serial_log_dir }}/{{ item.name }}_serial.log' append='on'/>
-      <target type='serial' port='0'/>
-    </console>
     <graphics type='vnc' port='-1' autoport='yes' listen='127.0.0.1'>
       <listen type='address' address='127.0.0.1'/>
     </graphics>

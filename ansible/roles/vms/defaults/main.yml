@@ -4,6 +4,7 @@ config_dir: /root/harvester-configs
 serial_log_dir: /var/log/libvirt/qemu
 
 harvester_version: "1.8.0"
+harvester_iso_checksum: ""  # set to "sha256:<hash>" from Harvester release page to verify downloads
 harvester_vip: "192.168.122.11"
 harvester_token: "HarvesterRodeoBootstrapToken2024"
 harvester_os_password: "HarvesterRodeo2024!"
@@ -33,24 +34,28 @@ libvirt_flavors:
 vm_nodes:
   - name: harvester1
     flavor: harvester
+    uuid: "1c5e1f38-1fb8-4f03-9eaa-12838f70faa1"
     mgmt_mac: "02:00:00:0D:62:E1"
     vtraffic_mac: "02:00:00:0D:64:E1"
     ip: "192.168.122.11"
     config_iso_name: "harvester-config-node1"
   - name: harvester2
     flavor: harvester
+    uuid: "4e156918-3e00-44c2-bf47-0b532b3807c1"
     mgmt_mac: "02:00:00:0D:62:E2"
     vtraffic_mac: "02:00:00:0D:64:E2"
     ip: "192.168.122.12"
     config_iso_name: "harvester-config-node2"
   - name: harvester3
     flavor: harvester
+    uuid: "4541177c-c6b7-4ab3-b418-e2a0b17beb9d"
     mgmt_mac: "02:00:00:0D:62:E3"
     vtraffic_mac: "02:00:00:0D:64:E3"
     ip: "192.168.122.13"
     config_iso_name: "harvester-config-node3"
   - name: rancher
     flavor: rancher
+    uuid: "77994fd6-7ebb-4ad3-baf4-55575b0ce265"
     mgmt_mac: "02:00:00:0D:62:E9"
     vtraffic_mac: ""
     ip: "192.168.122.9"

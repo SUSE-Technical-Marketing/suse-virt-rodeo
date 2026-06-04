@@ -3,3 +3,4 @@
 - import_tasks: libvirt.yml
 - import_tasks: networking.yml
 - import_tasks: firewall.yml
+- meta: flush_handlers
