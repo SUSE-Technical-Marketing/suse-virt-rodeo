@@ -82,11 +82,12 @@ One libvirt NAT network (virbr0) carries all traffic. Static MAC-to-IP DHCP rese
 geekohive (host)
 │
 ├── virbr0  (libvirt NAT — 192.168.122.0/24)
-│   DHCP reservations (eth0 management MACs only):
+│   DHCP reservations (eth0 management MACs — static, below dynamic pool):
 │   ├── harvester1   02:00:00:0D:62:E1   192.168.122.11
 │   ├── harvester2   02:00:00:0D:62:E2   192.168.122.12
 │   ├── harvester3   02:00:00:0D:62:E3   192.168.122.13
 │   └── rancher      02:00:00:0D:62:E9   192.168.122.9
+│   Dynamic DHCP pool: 192.168.122.100-254 (kept clear of static IPs below .100)
 │
 │   eth1 VM-traffic MACs (02:00:00:0D:64:E1/E2/E3) also on virbr0 — no DHCP
 │   reservation needed; Harvester leaves eth1 unmanaged at OS level and uses
@@ -168,21 +169,28 @@ containers:
 
 ```
 1. Wait for /opt/instruqt/bootstrap/host-bootstrap-completed
-2. virsh start harvester1 → sleep 10 → harvester2 → harvester3 → rancher
+2. virsh start harvester1 → sleep 15 → harvester2 → sleep 15 → harvester3 → sleep 15 → rancher
 3. Wait: kubectl get nodes (KUBECONFIG=/root/.kube/harvester.yaml) → 3 Ready
-4. Wait: Rancher API /v3 responds
-5. Read /root/rancher-password → login → get RANCHER_TOKEN
-6. agent variable set RANCHER_TOKEN, RANCHER_URL, RANCHER_PASSWORD, HARVESTER_URL
+   Timeout: 90 minutes. Progress logged every 120s.
+4. sleep 30  (EFI first-boot settle before touching CDROMs)
+5. virsh change-media --eject --live --config sda + sdb on all 3 Harvester nodes
+   (prevents re-install loop if EFI variables are ever lost)
+6. Wait: Rancher API /v3 responds (30-minute timeout)
+7. Read /root/rancher-password — fail with clear error if missing
+8. agent variable set RANCHER_TOKEN, RANCHER_URL, RANCHER_PASSWORD,
+                       HARVESTER_URL, HARVESTER_NAT_IP, HARVESTER_PASSWORD
 ```
 
 **Image requirements:**
 - `/root/.kube/harvester.yaml` — kubeconfig pointing at Harvester API (192.168.122.11:6443)
-- `/root/rancher-password` — admin password for Rancher
+- `/root/rancher-password` — admin password for Rancher (must exist; no fallback)
 - KVM VMs pre-defined in libvirt XML (shut off, not suspended)
+- KVM VMs have stable UUIDs (set in `ansible/roles/vms/defaults/main.yml`)
 - iptables DNAT rules in `kvm-dnat.service`
 - Harvester already imported into Rancher (not provisioned — import model)
 - Harvester UI plugin v1.8.0 installed in Rancher
 - openSUSE Leap 16 qcow2 image pre-loaded into Harvester
+- Serial console logs at `/var/log/libvirt/qemu/<vm>_serial.log` (file-based, not pty)
 
 ### setup-cloud-client (track-level, runs once)
 
@@ -270,16 +278,29 @@ See `builder/` directory for the builder track config and Ansible playbook.
 
 ```
 1. Spin up builder track (SLES 15.6, n2-standard-32, nested virt enabled)
-2. Run: ansible-playbook -i "localhost," -c local ansible/playbook.yml
-3. Deploy Harvester VMs via virsh (see builder/deploy-vms.sh)
-4. Install Harvester 1.8.0 on all 3 nodes (iPXE or ISO, unattended)
-5. Wait for 3-node cluster to form
-6. Install K3s + Rancher 2.13.1 on rancher VM
-7. Import Harvester into Rancher
-8. Install Harvester UI plugin v1.8.0
-9. Pre-load openSUSE Leap 16 image into Harvester
-10. Shut off all KVM VMs (virsh shutdown --all)
-11. Save image via Instruqt CLI: instruqt track image create
+2. Clone repo, install Ansible collections:
+     ansible-galaxy collection install -r ansible/requirements.yml
+3. Run the full Ansible playbook (kvm_host + vms roles):
+     ansible-playbook -i ansible/inventory.example ansible/playbook.yml
+   This configures the KVM host AND prepares all VM assets:
+   - libvirt network (virbr0) redefined with static DHCP entries
+   - 3x 270 GB Harvester qcow2 disks + 60 GB Rancher disk
+   - Harvester 1.8.0 ISO downloaded
+   - Per-node Harvester config ISOs rendered from template
+   - Rancher cloud-init ISO generated
+   - All 4 VMs defined in libvirt XML (not yet started)
+4. Start VMs and wait for Harvester install:
+     cd builder && ./deploy-vms.sh
+   Monitor install progress (serial is file-based — no virsh console):
+     tail -f /var/log/libvirt/qemu/harvester1_serial.log
+5. Wait for 3-node cluster to form (40-90 min total)
+6. Run: ./setup-rancher.sh
+   Installs K3s + Rancher Prime 2.13.1, imports Harvester cluster,
+   ejects installer ISOs from all Harvester VMs
+7. Install Harvester UI plugin v1.8.0 in Rancher
+8. Pre-load openSUSE Leap 16 image into Harvester
+9. Shut off all KVM VMs: virsh shutdown harvester1 harvester2 harvester3 rancher
+10. Save image via Instruqt CLI: instruqt track image create
 ```
 
 ---
@@ -307,8 +328,8 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 
 ## Image Build Checklist
 
-**Host layer (Ansible role):**
-- [ ] `ansible-playbook -i "localhost," -c local ansible/playbook.yml`
+**Host layer (Ansible roles):**
+- [ ] `ansible-playbook -i ansible/inventory.example ansible/playbook.yml` (kvm_host + vms roles)
 - [ ] `cat /sys/module/kvm_intel/parameters/nested` → `Y`
 - [ ] `virsh net-list --all` → virbr0 (default) active; each Harvester node has eth0 + eth1 on virbr0
 - [ ] `systemctl status kvm-dnat` → active (exited)

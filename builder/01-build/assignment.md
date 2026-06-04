@@ -3,7 +3,7 @@
 This challenge walks you through building the custom Instruqt image from scratch.
 When done, you snapshot geekohive as `suse/suse-virt-rodeo-180`.
 
-Expected total time: 3-4 hours (most of it is unattended Harvester installation).
+Expected total time: 2-3 hours (most of it is unattended Harvester installation).
 
 ---
 
@@ -16,30 +16,42 @@ cd /root/instruqt-virtualization
 
 ---
 
-## Step 2 — Run the Ansible role (KVM host setup)
-
-This installs KVM packages, starts libvirtd, enables IP forwarding, configures firewall rules,
-and sets up the DNAT service for Harvester and Rancher UI forwarding.
+## Step 2 — Install Ansible collections
 
 ```bash
-ansible-playbook ansible/site.yml -i ansible/inventory/builder
+ansible-galaxy collection install -r ansible/requirements.yml
 ```
-
-Verify it completes with no failures before moving on.
 
 ---
 
-## Step 3 — Run deploy-vms.sh
+## Step 3 — Run the Ansible playbook (KVM host + VM assets)
 
-This script:
-- Adds static DHCP reservations to the default libvirt network (virbr0)
-- Creates all qcow2 disk images for Harvester nodes (250 GB each)
-- Downloads the openSUSE Leap 16 cloud image and creates the Rancher VM disk from it (60 GB)
-- Creates a cloud-init seed ISO for the Rancher VM (network config + SSH key)
-- Downloads the Harvester 1.8.0 ISO (~1.5 GB)
-- Generates per-node Harvester unattended config ISOs
-- Defines all KVM VMs and starts the three Harvester nodes
-  (each Harvester node gets two NICs on virbr0: eth0=management, eth1=VM traffic)
+This runs two roles in sequence:
+
+**`kvm_host`** — installs KVM packages, starts and configures libvirtd
+(`security_driver = none`, adds root to libvirt/kvm groups), enables IP
+forwarding, sets up firewall rules, and deploys the DNAT service for
+Harvester and Rancher UI forwarding.
+
+**`vms`** — redefines the libvirt network (virbr0) with static DHCP entries for
+all four VMs, ensures the storage pool exists, creates qcow2 disk images
+(3x 270 GB for Harvester, 1x 60 GB for Rancher), downloads the Harvester 1.8.0
+ISO, renders per-node Harvester config ISOs from the Ansible template, creates
+the Rancher cloud-init ISO, and defines all four KVM VMs.
+
+```bash
+ansible-playbook -i ansible/inventory.example ansible/playbook.yml
+```
+
+Verify it completes with zero failures before moving on.
+
+---
+
+## Step 4 — Start the VMs
+
+`deploy-vms.sh` starts the VMs in the correct order and waits for the Harvester
+API to come up on harvester1 before starting harvester2 and harvester3.
+VM definitions and disk images were already prepared by the Ansible playbook.
 
 ```bash
 cd /root/instruqt-virtualization/builder
@@ -47,95 +59,82 @@ chmod +x deploy-vms.sh
 ./deploy-vms.sh
 ```
 
-Watch for errors in the ISO download and VM definitions. The script starts harvester1 first
-and waits before starting harvester2 and harvester3.
-
 ---
 
-## Step 4 — Monitor Harvester installation
+## Step 5 — Monitor Harvester installation
 
-Harvester installs unattended via the config YAMLs. Each node takes 20-40 minutes.
+Serial console output is written to log files. Open a second terminal and tail
+the logs to watch install progress:
 
-Check node progress on the console:
 ```bash
-virsh console harvester1
-# Ctrl+] to detach
+tail -f /var/log/libvirt/qemu/harvester1_serial.log
 ```
 
-Poll for the cluster VIP to become reachable (the API server on harvester1):
-```bash
-until curl -sk https://192.168.122.11:6443 | grep -q "Unauthorized\|apiVersion"; do
-  echo "Waiting for Harvester API..."; sleep 30
-done
-echo "Harvester API is up"
-```
+> [!NOTE]
+> `virsh console` is not available — serial output is file-based. Use `tail -f` in a
+> separate terminal window to watch the install. Press `Ctrl+C` to stop tailing.
 
-Once harvester1 is ready, harvester2 and harvester3 join the cluster automatically.
-Confirm all three nodes are Ready:
+`deploy-vms.sh` polls `https://192.168.122.11` until Harvester responds, then
+starts harvester2 (with a 90-second stagger before harvester3 to avoid etcd join
+race conditions). The script exits once all VMs are started.
+
+Confirm all three nodes are Ready (run this from geekohive after install completes):
+
 ```bash
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
 kubectl get nodes -o wide
 ```
 
-Run this from inside harvester1 via virsh console, or copy the kubeconfig out after install.
+> [!NOTE]
+> The kubeconfig path above is inside harvester1 after install. You can also SSH
+> into harvester1 once it is up: `ssh root@192.168.122.11`
 
 ---
 
-## Step 5 — Set up Rancher
+## Step 6 — Set up Rancher
 
-Start the rancher VM and wait for cloud-init to finish (about 60-90 seconds):
-```bash
-virsh start rancher
-sleep 90
-```
+Once all three Harvester nodes are Ready, run the Rancher setup script.
+`setup-rancher.sh` installs K3s, Helm, and Rancher Prime 2.13.1 on the
+rancher VM, waits for Rancher to become healthy, imports the Harvester cluster
+via the Rancher API, and ejects the installer ISOs from all Harvester VMs.
 
-Verify SSH access (cloud-init injects geekohive's public key):
-```bash
-ssh -o StrictHostKeyChecking=no root@192.168.122.9 "hostname"
-# Should print: rancher
-```
-
-Then run the setup script:
 ```bash
 cd /root/instruqt-virtualization/builder
 chmod +x setup-rancher.sh
 ./setup-rancher.sh
 ```
 
-The script installs K3s, Helm, and Rancher Prime 2.13.1, then waits for Rancher to become
-healthy. It writes the admin password to `/root/rancher-password`.
+Check the Rancher admin password:
 
-Check the password:
 ```bash
 cat /root/rancher-password
 ```
 
 Verify Rancher is reachable:
+
 ```bash
 curl -sk https://rancher.192.168.122.9.sslip.io/ping | grep -q "pong" && echo "Rancher OK"
 ```
 
 ---
 
-## Step 6 — Import Harvester into Rancher
+## Step 7 — Verify the Harvester import
 
-The `setup-rancher.sh` script handles this via the Rancher API. Verify the import:
-1. Open https://rancher.192.168.122.9.sslip.io in a browser (forward port 443 from geekohive).
-2. Log in with `admin` and the password in `/root/rancher-password`.
-3. Navigate to Virtualization Management — you should see the Harvester cluster listed as Active.
+1. Open `https://rancher.192.168.122.9.sslip.io` in a browser (forward port 443 from geekohive).
+2. Log in with `admin` and the password from `/root/rancher-password`.
+3. Go to **Virtualization Management** — the Harvester cluster should show as **Active**.
 
-If the cluster shows as Pending, give it 5-10 minutes for the Harvester-Rancher integration
-to fully sync.
+If the cluster shows as Pending, give it 5-10 minutes for the Harvester-Rancher
+integration to fully sync.
 
 ---
 
-## Step 7 — Load the openSUSE Leap 16 cloud image
+## Step 8 — Load the openSUSE Leap 16 cloud image
 
 Upload the Leap 16 cloud image so it is pre-loaded in Harvester for lab use:
+
 ```bash
 LEAP16_URL="https://download.opensuse.org/distribution/leap/16.0/appliances/openSUSE-Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
-# Download on geekohive, then push into Harvester via its API or the UI.
-# Use the Harvester image upload API:
 curl -sk -X POST \
   -H "Authorization: Bearer $(cat /root/harvester-token)" \
   -H "Content-Type: application/json" \
@@ -149,20 +148,18 @@ Wait for the image to reach state `active` before continuing.
 
 ---
 
-## Step 8 — Shut off all VMs
+## Step 9 — Shut off all VMs
 
 With everything installed and verified, shut off all VMs cleanly:
+
 ```bash
 for vm in harvester1 harvester2 harvester3 rancher; do
   virsh shutdown $vm
+  echo "Shutdown sent to $vm"
 done
 
-# Wait for clean shutdown (up to 3 minutes each)
-for vm in harvester1 harvester2 harvester3 rancher; do
-  echo "Waiting for $vm to stop..."
-  virsh dominfo $vm | grep -q "shut off" || sleep 30
-done
-
+# Wait for clean shutdown (each VM can take up to 3 minutes)
+sleep 120
 virsh list --all
 ```
 
@@ -170,15 +167,16 @@ All four VMs should show `shut off` before you save the image.
 
 ---
 
-## Step 9 — Save the Instruqt image
+## Step 10 — Save the Instruqt image
 
 From the Instruqt web console:
+
 1. Go to the builder track sandbox.
 2. Select the `geekohive` VM.
 3. Click **Save as image**.
 4. Set the image name to `suse-virt-rodeo-180`.
 5. Set the owner to `suse`.
-6. Wait for the snapshot to complete (can take 20-30 minutes for a large disk).
+6. Wait for the snapshot to complete (20-30 minutes for a large disk).
 
 Once the image is saved, update `config.yml` in the main rodeo track to point to
 `suse/suse-virt-rodeo-180`.
