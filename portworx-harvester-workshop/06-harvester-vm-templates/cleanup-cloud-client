@@ -1,6 +1,0 @@
-#!/bin/bash
-
-source ~/.bashrc
-
-kubectl config use-context susevirt-through-rancher
-kubectl delete vm vm1
