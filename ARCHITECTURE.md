@@ -89,11 +89,10 @@ geekohive (host)
 │   └── rancher      02:00:00:0D:62:E9   192.168.122.9
 │   Dynamic DHCP pool: 192.168.122.100-254 (kept clear of static IPs below .100)
 │
-│   eth1 VM-traffic MACs (02:00:00:0D:64:E1/E2/E3) also on virbr0 — no DHCP
-│   reservation needed; Harvester leaves eth1 unmanaged at OS level and uses
-│   it as the Kube-OVN OVN bridge uplink for the "vms" cluster network.
-│   VM LoadBalancer IPs (192.168.122.200-220) are ARP-announced on eth1 and
-│   are directly reachable from geekohive without additional routing.
+│   eth1–eth4 MACs (storage/migration/service1/service2) also on virbr0 —
+│   no DHCP reservations needed; Harvester manages these NICs post-install.
+│   VM LoadBalancer IPs (192.168.122.200-220) are ARP-announced on eth3/eth4
+│   (service network NICs) and are directly reachable from geekohive.
 │
 └── iptables DNAT rules (kvm-dnat.service, runs at boot)
     PREROUTING: :8443  → 192.168.122.11:8443   (Harvester VIP)
@@ -114,11 +113,14 @@ boot:       UEFI (OVMF)
 disks:
   vda:  270 GB qcow2 (preallocation=metadata)  ← OS partitions (~173 GB) + Longhorn (~97 GB)
 nics:
-  eth0: virbr0 (management, 02:00:00:0D:62:Ex — static IP set by Harvester installer)
-  eth1: virbr0 (VM traffic, 02:00:00:0D:64:Ex — no OS IP; Kube-OVN OVN bridge uplink)
+  eth0: virbr0  management   02:00:00:0D:62:Ex  static IP from installer, cluster API
+  eth1: virbr0  storage      02:00:00:0D:63:Ex  Longhorn storage traffic
+  eth2: virbr0  migration    02:00:00:0D:64:Ex  KubeVirt live migration
+  eth3: virbr0  service1     02:00:00:0D:65:Ex  Kube-OVN OVN uplink, primary VM networks
+  eth4: virbr0  service2     02:00:00:0D:66:Ex  Kube-OVN second uplink / additional VM network
 ```
 
-Both NICs share virbr0 so VM LoadBalancer IPs (192.168.122.200-220) are directly reachable from geekohive. eth1 carries no IP at the OS level — Harvester's Kube-OVN uses it as a raw bridge uplink for the "vms" cluster network.
+All five NICs share virbr0 (lab constraint — single bridge). In production each NIC would be on a dedicated physical switch or VLAN. eth0 has a libvirt DHCP static reservation; eth1–eth4 are managed post-install by Harvester. VM LoadBalancer IPs (192.168.122.200-220) are ARP-announced on eth3/eth4.
 
 Longhorn V2 data engine must remain **disabled** — SPDK requires NVMe and does not work on virtio-blk in nested KVM. V1 data engine works correctly.
 
@@ -331,7 +333,7 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 **Host layer (Ansible roles):**
 - [ ] `ansible-playbook -i ansible/inventory.example ansible/playbook.yml` (kvm_host + vms roles)
 - [ ] `cat /sys/module/kvm_intel/parameters/nested` → `Y`
-- [ ] `virsh net-list --all` → virbr0 (default) active; each Harvester node has eth0 + eth1 on virbr0
+- [ ] `virsh net-list --all` → virbr0 (default) active; each Harvester node has 5 NICs (eth0–eth4) on virbr0
 - [ ] `systemctl status kvm-dnat` → active (exited)
 - [ ] `firewall-cmd --zone=public --list-ports` → 8443/tcp 30001/tcp 30002/tcp
 

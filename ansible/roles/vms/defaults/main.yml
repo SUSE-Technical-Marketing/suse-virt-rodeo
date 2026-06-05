@@ -31,32 +31,51 @@ libvirt_flavors:
     vcpu: 4
     disk_gb: 60
 
+# NIC assignment per Harvester node (all on virbr0 — lab single-bridge constraint)
+#
+#   eth0  management  02:00:00:0D:62:Ex  static IP from installer, cluster API
+#   eth1  storage     02:00:00:0D:63:Ex  Longhorn storage traffic
+#   eth2  migration   02:00:00:0D:64:Ex  KubeVirt live migration
+#   eth3  service1    02:00:00:0D:65:Ex  Kube-OVN OVN uplink (primary VM networks)
+#   eth4  service2    02:00:00:0D:66:Ex  Kube-OVN second uplink / additional VM network
+#
+# Only eth0 has a libvirt DHCP static reservation — Harvester manages the others.
+# Rancher VM has management NIC only (no cluster roles, no storage/migration).
+
 vm_nodes:
   - name: harvester1
     flavor: harvester
     uuid: "1c5e1f38-1fb8-4f03-9eaa-12838f70faa1"
     mgmt_mac: "02:00:00:0D:62:E1"
-    vtraffic_mac: "02:00:00:0D:64:E1"
+    storage_mac: "02:00:00:0D:63:E1"
+    migration_mac: "02:00:00:0D:64:E1"
+    service1_mac: "02:00:00:0D:65:E1"
+    service2_mac: "02:00:00:0D:66:E1"
     ip: "192.168.122.11"
     config_iso_name: "harvester-config-node1"
   - name: harvester2
     flavor: harvester
     uuid: "4e156918-3e00-44c2-bf47-0b532b3807c1"
     mgmt_mac: "02:00:00:0D:62:E2"
-    vtraffic_mac: "02:00:00:0D:64:E2"
+    storage_mac: "02:00:00:0D:63:E2"
+    migration_mac: "02:00:00:0D:64:E2"
+    service1_mac: "02:00:00:0D:65:E2"
+    service2_mac: "02:00:00:0D:66:E2"
     ip: "192.168.122.12"
     config_iso_name: "harvester-config-node2"
   - name: harvester3
     flavor: harvester
     uuid: "4541177c-c6b7-4ab3-b418-e2a0b17beb9d"
     mgmt_mac: "02:00:00:0D:62:E3"
-    vtraffic_mac: "02:00:00:0D:64:E3"
+    storage_mac: "02:00:00:0D:63:E3"
+    migration_mac: "02:00:00:0D:64:E3"
+    service1_mac: "02:00:00:0D:65:E3"
+    service2_mac: "02:00:00:0D:66:E3"
     ip: "192.168.122.13"
     config_iso_name: "harvester-config-node3"
   - name: rancher
     flavor: rancher
     uuid: "77994fd6-7ebb-4ad3-baf4-55575b0ce265"
     mgmt_mac: "02:00:00:0D:62:E9"
-    vtraffic_mac: ""
     ip: "192.168.122.9"
     config_iso_name: ""

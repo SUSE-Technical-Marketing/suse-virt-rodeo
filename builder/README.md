@@ -57,23 +57,31 @@ ansible/
 ## Network layout
 
 All KVM traffic uses a single libvirt NAT network (virbr0, 192.168.122.0/24).
+Each Harvester node has five NICs — all on virbr0 (lab single-bridge constraint).
+Only eth0 (management) has a libvirt DHCP static reservation. eth1–eth4 are
+managed post-install by Harvester.
 
 ```
 virbr0 — 192.168.122.0/24
-  Static DHCP reservations (below dynamic pool):
-  harvester1  eth0  02:00:00:0D:62:E1  192.168.122.11  (management, kube-vip VIP)
-              eth1  02:00:00:0D:64:E1  (no IP — Kube-OVN OVN bridge uplink)
+  Static DHCP reservations (eth0 only, below dynamic pool):
+  harvester1  eth0  02:00:00:0D:62:E1  192.168.122.11  management (kube-vip VIP)
+              eth1  02:00:00:0D:63:E1  (no OS IP — storage / Longhorn)
+              eth2  02:00:00:0D:64:E1  (no OS IP — migration / KubeVirt)
+              eth3  02:00:00:0D:65:E1  (no OS IP — service net 1 / Kube-OVN uplink)
+              eth4  02:00:00:0D:66:E1  (no OS IP — service net 2 / Kube-OVN uplink)
   harvester2  eth0  02:00:00:0D:62:E2  192.168.122.12
-              eth1  02:00:00:0D:64:E2  (no IP — Kube-OVN OVN bridge uplink)
+              eth1  02:00:00:0D:63:E2  ...  eth2  02:00:00:0D:64:E2  ...
+              eth3  02:00:00:0D:65:E2  ...  eth4  02:00:00:0D:66:E2  ...
   harvester3  eth0  02:00:00:0D:62:E3  192.168.122.13
-              eth1  02:00:00:0D:64:E3  (no IP — Kube-OVN OVN bridge uplink)
-  rancher     eth0  02:00:00:0D:62:E9  192.168.122.9   (management only)
+              eth1  02:00:00:0D:63:E3  ...  eth2  02:00:00:0D:64:E3  ...
+              eth3  02:00:00:0D:65:E3  ...  eth4  02:00:00:0D:66:E3  ...
+  rancher     eth0  02:00:00:0D:62:E9  192.168.122.9   management only
 
   Dynamic DHCP pool: 192.168.122.100-254
 ```
 
-VM LoadBalancer IPs (rodeo-ippool: 192.168.122.200-220) are announced via ARP on eth1
-and are directly reachable from geekohive without additional routing rules.
+VM LoadBalancer IPs (rodeo-ippool: 192.168.122.200-220) are announced via ARP on
+eth3/eth4 and are directly reachable from geekohive without additional routing rules.
 
 ## Prerequisites
 

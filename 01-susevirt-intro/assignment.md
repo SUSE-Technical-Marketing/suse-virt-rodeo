@@ -103,9 +103,19 @@ All pods should be `Running`. The cluster is healthy.
 TASK: Create the VM Traffic Cluster Network
 ===
 
-Each Harvester node has two NICs. `eth0` carries cluster management traffic. `eth1` is reserved exclusively for VM workloads — it keeps VM traffic off the management path and gives AeroGrid the isolation needed to run multiple airline tenants safely.
+Each Harvester node has five NICs, each dedicated to a specific traffic type:
 
-You need to tell Harvester to use `eth1` as the uplink for a new cluster network named `vms`.
+| NIC | Role | Used by |
+|-----|------|---------|
+| eth0 | Management | Cluster API, node communications |
+| eth1 | Storage | Longhorn distributed storage traffic |
+| eth2 | Migration | KubeVirt live migration |
+| eth3 | Service network 1 | VM workloads — primary |
+| eth4 | Service network 2 | VM workloads — secondary |
+
+This separation keeps VM traffic, storage I/O, and live migration completely off the management path. It is the same traffic isolation that NSX provided on VMware, now built directly into the platform.
+
+You need to tell Harvester to use `eth3` as the uplink for the primary VM workload cluster network named `vms`.
 
 In the [button label="Harvester UI" variant="success"](tab-2) tab:
 
@@ -114,7 +124,7 @@ In the [button label="Harvester UI" variant="success"](tab-2) tab:
 3. Under **Node Network Config**, add an entry for each node:
    - Click **Add**
    - Select a node (e.g., `harvester1`)
-   - Set **NIC** to `eth1`
+   - Set **NIC** to `eth3`
    - Repeat for `harvester2` and `harvester3`
 4. Click **Create**
 

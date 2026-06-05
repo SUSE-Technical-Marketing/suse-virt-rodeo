@@ -78,9 +78,15 @@ Port 92 is not pre-configured. The student runs `kubectl port-forward` in challe
 
 All VMs share a single libvirt NAT network (`virbr0`, `192.168.122.0/24`).
 
-Each Harvester node has two NICs on virbr0:
-- `eth0` (`02:00:00:0D:62:Ex`) — management NIC, static IP set by the Harvester installer
-- `eth1` (`02:00:00:0D:64:Ex`) — VM traffic NIC, no OS IP, used by Kube-OVN as the OVN bridge uplink
+Each Harvester node has five NICs on virbr0, each dedicated to a traffic role:
+
+| NIC | Role | MAC | Notes |
+|-----|------|-----|-------|
+| eth0 | Management | `02:00:00:0D:62:Ex` | Static IP from installer, cluster API — DHCP reserved |
+| eth1 | Storage | `02:00:00:0D:63:Ex` | Longhorn storage traffic — managed post-install |
+| eth2 | Migration | `02:00:00:0D:64:Ex` | KubeVirt live migration — managed post-install |
+| eth3 | Service net 1 | `02:00:00:0D:65:Ex` | Kube-OVN OVN uplink, primary VM workloads |
+| eth4 | Service net 2 | `02:00:00:0D:66:Ex` | Kube-OVN second uplink / additional VM network |
 
 Static DHCP reservations ensure VMs always get the same IPs regardless of boot order.
 The dynamic DHCP pool starts at `.100` to keep static assignments well clear.
@@ -94,7 +100,7 @@ virbr0 -- 192.168.122.0/24
   .13   harvester3  (02:00:00:0D:62:E3 -- static reservation)
   .50   virt1       (challenge 02 VM, static via cloud-init inside Kube-OVN)
   .100-.254         dynamic DHCP pool
-  .200-.220         rodeo-ippool (Harvester LoadBalancer IPs, ARP on eth1)
+  .200-.220         rodeo-ippool (Harvester LoadBalancer IPs, ARP on eth3/eth4)
 ```
 
 ### Host resource budget
@@ -145,13 +151,15 @@ service name and socket paths differ between the two, which matters for Ansible
 automation. SLES 16 is viable but the `kvm_host` role would need updating to target
 `virtqemud` instead of `libvirtd`.
 
-### Single virbr0 bridge for both NICs on Harvester nodes
+### Single virbr0 bridge for all five NICs on Harvester nodes
 
-Both `eth0` (management) and `eth1` (VM traffic) share virbr0. This means Harvester's
-VM LoadBalancer IPs (`192.168.122.200-220`) are ARP-announced directly onto the bridge
-and are reachable from both `geekohive` and `cloud-client` without any extra routing
-rules. A second bridge would require forwarding rules between bridges and more DNAT
-entries for no lab benefit.
+All five NICs (management, storage, migration, service1, service2) share virbr0.
+In production each would be on a dedicated physical switch or VLAN, but in the
+nested KVM lab a single bridge is the practical constraint. This means Harvester's
+VM LoadBalancer IPs (`192.168.122.200-220`) are ARP-announced directly onto the
+bridge via eth3/eth4 and are reachable from both `geekohive` and `cloud-client`
+without extra routing rules. Adding more bridges would require forwarding rules and
+more DNAT entries for no lab benefit.
 
 ### Harvester VIP equals harvester1's management IP
 
@@ -470,7 +478,7 @@ networking.
 Students log in to Rancher and verify the 3-node cluster from the terminal. They
 then build three resources that all subsequent challenges depend on:
 
-- **`vms` cluster network** — binds `eth1` on all three nodes as the Kube-OVN uplink
+- **`vms` cluster network** — binds `eth3` on all three nodes as the primary Kube-OVN uplink for VM workloads
 - **`vmnet` VM network** — L2VlanNetwork on the `vms` cluster network, VLAN ID 1 (untagged)
 - **`rodeo-ippool` IP pool** — range `192.168.122.200-220`, scoped to `default/vmnet`
 

@@ -1,18 +1,28 @@
-graph LR
-    subgraph HOST["geekohive host — 192.168.122.0/24"]
-        GW["virbr0 gateway\n192.168.122.1"]
+graph TB
+    subgraph HOST["geekohive host — virbr0  192.168.122.0/24"]
 
-        subgraph STATIC["Static DHCP reservations"]
-            R_VM["rancher\n192.168.122.9\nMAC 02:00:00:0D:62:E9\nK3s + Rancher 2.13.1"]
-            H1_VM["harvester1\n192.168.122.11  ← VIP\nMAC 02:00:00:0D:62:E1\neth0: mgmt\neth1: OVN uplink"]
-            H2_VM["harvester2\n192.168.122.12\nMAC 02:00:00:0D:62:E2\neth0: mgmt\neth1: OVN uplink"]
-            H3_VM["harvester3\n192.168.122.13\nMAC 02:00:00:0D:62:E3\neth0: mgmt\neth1: OVN uplink"]
+        GW["virbr0 gateway — 192.168.122.1"]
+
+        subgraph STATIC["Static DHCP reservations  (eth0 management only)"]
+            direction LR
+            R_VM["rancher\n192.168.122.9\n02:00:00:0D:62:E9\nK3s + Rancher 2.13.1\nmanagement only"]
+            H1_VM["harvester1\n192.168.122.11  ← VIP\n02:00:00:0D:62:E1"]
+            H2_VM["harvester2\n192.168.122.12\n02:00:00:0D:62:E2"]
+            H3_VM["harvester3\n192.168.122.13\n02:00:00:0D:62:E3"]
+        end
+
+        subgraph NICS["Harvester NICs  (eth1–eth4, no DHCP — managed post-install)"]
+            direction LR
+            STOR["eth1  storage\n02:00:00:0D:63:Ex\nLonghorn storage traffic"]
+            MIGR["eth2  migration\n02:00:00:0D:64:Ex\nKubeVirt live migration"]
+            SVC1["eth3  service net 1\n02:00:00:0D:65:Ex\nKube-OVN OVN uplink\nprimary VM workloads"]
+            SVC2["eth4  service net 2\n02:00:00:0D:66:Ex\nKube-OVN second uplink\nadditional VM network"]
         end
 
         subgraph RANGES["Address ranges"]
-            POOL["Dynamic DHCP pool\n192.168.122.100 – 254\n(nothing normally lands here)"]
-            GUEST["virt1 (challenge 02)\n192.168.122.50\nstatic via cloud-init\ninside Kube-OVN"]
-            LB["rodeo-ippool\n192.168.122.200 – 220\nLoadBalancer IPs\nARP on eth1"]
+            POOL["Dynamic DHCP pool\n192.168.122.100 – 254"]
+            GUEST["virt1  (challenge 02)\n192.168.122.50\nstatic via cloud-init\ninside Kube-OVN"]
+            LB["rodeo-ippool\n192.168.122.200 – 220\nLoadBalancer IPs\nARP on eth3 / eth4"]
         end
 
         subgraph DNAT["iptables DNAT  (kvm-dnat.service)"]
@@ -21,19 +31,25 @@ graph LR
         end
     end
 
-    GW --- R_VM & H1_VM & H2_VM & H3_VM
-    H1_VM -. "kube-vip VIP floats here" .-> H1_VM
+    GW --- H1_VM & H2_VM & H3_VM & R_VM
+    H1_VM --- STOR & MIGR & SVC1 & SVC2
     H1_VM --- D1
     R_VM --- D2
 
     classDef harvester fill:#1B3D6F,stroke:#30BA78,color:#fff
     classDef rancher fill:#2E5D9D,stroke:#30BA78,color:#fff
-    classDef dnat fill:#3D1F00,stroke:#FFA500,color:#fff
+    classDef dnat fill:#3D1F00,stroke:#FFA500,color:#FFD080
     classDef range fill:#1A3320,stroke:#30BA78,color:#cfc
+    classDef storage fill:#2A1F3D,stroke:#9B6BD4,color:#ddf
+    classDef migration fill:#1F2A3D,stroke:#6B9BD4,color:#ddf
+    classDef service fill:#1F3D2A,stroke:#6BD49B,color:#ddf
     classDef gw fill:#0C2340,stroke:#30BA78,color:#fff
 
     class H1_VM,H2_VM,H3_VM harvester
     class R_VM rancher
     class D1,D2 dnat
     class POOL,GUEST,LB range
+    class STOR storage
+    class MIGR migration
+    class SVC1,SVC2 service
     class GW gw

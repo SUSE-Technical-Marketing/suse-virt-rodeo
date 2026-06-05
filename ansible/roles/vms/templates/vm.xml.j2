@@ -64,14 +64,34 @@
       <readonly/>
     </disk>
 {% endif %}
+    <!-- eth0 — management (static IP set by Harvester installer) -->
     <interface type='network'>
       <mac address='{{ item.mgmt_mac }}'/>
       <source network='{{ libvirt_network_name }}'/>
       <model type='{% if item.flavor == "harvester" %}e1000{% else %}virtio{% endif %}'/>
     </interface>
-{% if item.vtraffic_mac %}
+{% if item.flavor == 'harvester' %}
+    <!-- eth1 — storage (Longhorn storage traffic) -->
     <interface type='network'>
-      <mac address='{{ item.vtraffic_mac }}'/>
+      <mac address='{{ item.storage_mac }}'/>
+      <source network='{{ libvirt_network_name }}'/>
+      <model type='e1000'/>
+    </interface>
+    <!-- eth2 — migration (KubeVirt live migration) -->
+    <interface type='network'>
+      <mac address='{{ item.migration_mac }}'/>
+      <source network='{{ libvirt_network_name }}'/>
+      <model type='e1000'/>
+    </interface>
+    <!-- eth3 — service network 1 (Kube-OVN OVN uplink, primary VM workloads) -->
+    <interface type='network'>
+      <mac address='{{ item.service1_mac }}'/>
+      <source network='{{ libvirt_network_name }}'/>
+      <model type='e1000'/>
+    </interface>
+    <!-- eth4 — service network 2 (Kube-OVN second uplink / additional VM network) -->
+    <interface type='network'>
+      <mac address='{{ item.service2_mac }}'/>
       <source network='{{ libvirt_network_name }}'/>
       <model type='e1000'/>
     </interface>
