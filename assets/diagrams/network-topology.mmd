@@ -11,7 +11,7 @@ graph TB
             H3_VM["harvester3\n192.168.122.13\n02:00:00:0D:62:E3"]
         end
 
-        subgraph NICS["Harvester NICs  (eth1–eth4, no DHCP — managed post-install)"]
+        subgraph NICS["Harvester NICs per node  (eth1–eth4, no DHCP — managed post-install by Harvester)"]
             direction LR
             STOR["eth1  storage\n02:00:00:0D:63:Ex\nLonghorn storage traffic"]
             MIGR["eth2  migration\n02:00:00:0D:64:Ex\nKubeVirt live migration"]
@@ -32,7 +32,10 @@ graph TB
     end
 
     GW --- H1_VM & H2_VM & H3_VM & R_VM
-    H1_VM --- STOR & MIGR & SVC1 & SVC2
+    H1_VM & H2_VM & H3_VM --- STOR
+    H1_VM & H2_VM & H3_VM --- MIGR
+    H1_VM & H2_VM & H3_VM --- SVC1
+    H1_VM & H2_VM & H3_VM --- SVC2
     H1_VM --- D1
     R_VM --- D2
 
