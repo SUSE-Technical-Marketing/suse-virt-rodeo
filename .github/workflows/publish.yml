@@ -1,9 +1,23 @@
 name: Publish Instruqt Track
 
+# AUTO-PUBLISH DISABLED
+# The Instruqt track infrastructure (org, sandbox image, secrets) must be
+# created before this workflow can run. Enable it by restoring the push trigger
+# once the image suse/suse-virt-rodeo-180 is published and INSTRUQT_TOKEN is
+# set in the repo secrets.
+#
+# To re-enable: replace the trigger below with:
+#   on:
+#     push:
+#       branches:
+#         - main
+
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual publish"
+        required: true
 
 jobs:
   publish:
