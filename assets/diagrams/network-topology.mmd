@@ -1,0 +1,39 @@
+graph LR
+    subgraph HOST["geekohive host — 192.168.122.0/24"]
+        GW["virbr0 gateway\n192.168.122.1"]
+
+        subgraph STATIC["Static DHCP reservations"]
+            R_VM["rancher\n192.168.122.9\nMAC 02:00:00:0D:62:E9\nK3s + Rancher 2.13.1"]
+            H1_VM["harvester1\n192.168.122.11  ← VIP\nMAC 02:00:00:0D:62:E1\neth0: mgmt\neth1: OVN uplink"]
+            H2_VM["harvester2\n192.168.122.12\nMAC 02:00:00:0D:62:E2\neth0: mgmt\neth1: OVN uplink"]
+            H3_VM["harvester3\n192.168.122.13\nMAC 02:00:00:0D:62:E3\neth0: mgmt\neth1: OVN uplink"]
+        end
+
+        subgraph RANGES["Address ranges"]
+            POOL["Dynamic DHCP pool\n192.168.122.100 – 254\n(nothing normally lands here)"]
+            GUEST["virt1 (challenge 02)\n192.168.122.50\nstatic via cloud-init\ninside Kube-OVN"]
+            LB["rodeo-ippool\n192.168.122.200 – 220\nLoadBalancer IPs\nARP on eth1"]
+        end
+
+        subgraph DNAT["iptables DNAT  (kvm-dnat.service)"]
+            D1["host:8443  →  .11:8443\nHarvester UI / API"]
+            D2["host:30002  →  .9:30002\nRancher NodePort"]
+        end
+    end
+
+    GW --- R_VM & H1_VM & H2_VM & H3_VM
+    H1_VM -. "kube-vip VIP floats here" .-> H1_VM
+    H1_VM --- D1
+    R_VM --- D2
+
+    classDef harvester fill:#1B3D6F,stroke:#30BA78,color:#fff
+    classDef rancher fill:#2E5D9D,stroke:#30BA78,color:#fff
+    classDef dnat fill:#3D1F00,stroke:#FFA500,color:#fff
+    classDef range fill:#1A3320,stroke:#30BA78,color:#cfc
+    classDef gw fill:#0C2340,stroke:#30BA78,color:#fff
+
+    class H1_VM,H2_VM,H3_VM harvester
+    class R_VM rancher
+    class D1,D2 dnat
+    class POOL,GUEST,LB range
+    class GW gw

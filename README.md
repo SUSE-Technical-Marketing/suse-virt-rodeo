@@ -29,6 +29,8 @@ task maps directly to something that would happen in a real VMware-to-SUSE migra
 
 ### Infrastructure overview
 
+![Architecture Overview](assets/diagrams/architecture-overview.png)
+
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │  INSTRUQT SANDBOX                                                       │
@@ -60,6 +62,8 @@ task maps directly to something that would happen in a real VMware-to-SUSE migra
 
 ### How UI tabs reach the student
 
+![UI Traffic Flow](assets/diagrams/ui-traffic-flow.png)
+
 All UI traffic goes through the `cloud-client` container, which runs nginx as a
 reverse proxy. Instruqt exposes container ports as browser tabs.
 
@@ -81,6 +85,10 @@ geekohive:30002 --DNAT--> 192.168.122.9:30002   (Rancher K3s NodePort)
 
 Port 92 is not pre-configured. The student runs `kubectl port-forward` in challenge
 06, which brings the NOC dashboard live in that tab.
+
+### Network topology
+
+![Network Topology](assets/diagrams/network-topology.png)
 
 ### KVM guest configuration
 
@@ -299,6 +307,8 @@ handler chains, and `--tags` support to run only what needs running.
 
 ## Building the Image
 
+![Build Process](assets/diagrams/build-process.png)
+
 The lab runs from a custom Instruqt image that contains the pre-installed Harvester
 cluster. Building takes 2-3 hours, mostly unattended. Full step-by-step instructions
 are in `builder/01-build/assignment.md`. The summary below covers each major step.
@@ -469,6 +479,8 @@ and exports agent variables. This takes 5-10 minutes from a pre-built image.
 ---
 
 ## The Challenges
+
+![Challenge Map](assets/diagrams/challenge-map.png)
 
 ### Challenge 01 — Bring the Airport Cluster Online
 

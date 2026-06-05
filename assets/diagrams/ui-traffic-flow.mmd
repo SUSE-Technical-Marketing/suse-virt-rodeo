@@ -1,0 +1,30 @@
+sequenceDiagram
+    actor Student as 🖥️ Student Browser
+    participant IP as Instruqt Proxy
+    participant CC as cloud-client<br/>nginx
+    participant GH as geekohive<br/>iptables DNAT
+    participant HV as Harvester VIP<br/>192.168.122.11
+    participant RN as Rancher NodePort<br/>192.168.122.9:30002
+    participant PF as kubectl port-forward<br/>(challenge 06)
+    participant NOC as alien-geeko<br/>LoadBalancer IP
+
+    Note over Student,NOC: Harvester UI Tab (port 90)
+    Student->>IP: HTTPS request
+    IP->>CC: proxy to cloud-client:90
+    CC->>GH: https://geekohive:8443
+    GH->>HV: DNAT → .11:8443
+    HV-->>Student: Harvester UI response
+
+    Note over Student,NOC: Rancher UI Tab (port 91)
+    Student->>IP: HTTPS request
+    IP->>CC: proxy to cloud-client:91
+    CC->>GH: https://geekohive:30002
+    GH->>RN: DNAT → .9:30002
+    RN-->>Student: Rancher UI response
+
+    Note over Student,NOC: AeroGrid NOC Tab (port 92 — challenge 06)
+    Student->>IP: HTTP request
+    IP->>CC: proxy to cloud-client:92
+    CC->>PF: kubectl port-forward 92:80
+    PF->>NOC: checkin-cluster svc:80
+    NOC-->>Student: Live cluster vitals

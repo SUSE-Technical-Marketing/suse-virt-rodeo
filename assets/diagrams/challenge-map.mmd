@@ -1,0 +1,39 @@
+flowchart LR
+    START(["🏁 Lab Start\nPre-built cluster\nalready running"]):::start
+
+    subgraph C1["Challenge 01 · 40 min · Basic"]
+        C1T["Bring the Airport\nCluster Online"]
+        C1A["✓ vms cluster network\n✓ vmnet VM network\n✓ rodeo-ippool :200–220"]
+    end
+
+    subgraph C2["Challenge 02 · 40 min · Basic"]
+        C2T["First Workload:\nGround Ops VM"]
+        C2A["✓ virt1 from Leap 16 image\n✓ cloud-init static IP .50\n✓ Live migration across nodes"]
+    end
+
+    subgraph C3["Challenge 03 · 40 min · Basic"]
+        C3T["VLANs and\nAirline Isolation"]
+        C3A["✓ vlan100 ramp backbone\n✓ containment-alpha subnet\n✓ containment-beta subnet\n   (overlapping CIDR, isolated)"]
+    end
+
+    subgraph C4["Challenge 04 · 40 min · Basic"]
+        C4T["Snapshots\nand DR"]
+        C4A["✓ harvester-longhorn-2rep SC\n✓ virt1-snap1 snapshot\n✓ virt1-restored VM\n✓ Backup target config"]
+    end
+
+    subgraph C5["Challenge 05 · 60 min · Intermediate"]
+        C5T["Provision the\nK3s Cluster"]
+        C5A["✓ terminal-ops project + RBAC\n✓ harvester-local cloud credential\n✓ checkin-cluster K3s Active"]
+    end
+
+    subgraph C6["Challenge 06 · 40 min · Basic"]
+        C6T["AeroGrid NOC\nDashboard"]
+        C6A["✓ alien-geeko deployed\n✓ LoadBalancer IP from rodeo-ippool\n✓ NOC tab live\n✓ AEROGRID-NOC-TERMINAL-1"]
+    end
+
+    FINISH(["🏆 Complete!\nFull open-source\nHCI stack running"]):::done
+
+    START --> C1 --> C2 --> C3 --> C4 --> C5 --> C6 --> FINISH
+
+    classDef start fill:#30BA78,stroke:#1A7A40,color:#000,rx:20
+    classDef done fill:#30BA78,stroke:#1A7A40,color:#000,rx:20
