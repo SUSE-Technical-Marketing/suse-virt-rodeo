@@ -1,0 +1,44 @@
+graph TB
+    subgraph SANDBOX["☁️  Instruqt Sandbox"]
+        direction LR
+
+        subgraph GH["🖥️  geekohive  ·  Virtual Machine\nn2-standard-32  ·  SLES 15.6  ·  950 GB pd-ssd  ·  nested_virtualization: true"]
+            direction TB
+
+            DNAT["kvm-dnat.service\n:8443  →  192.168.122.11:8443\n:30002  →  192.168.122.9:30002"]
+
+            subgraph VIRBR["virbr0  ·  libvirt NAT  ·  192.168.122.0/24"]
+                direction TB
+
+                subgraph HVC["Harvester 1.8.0  —  3-node HA cluster"]
+                    direction LR
+                    H1["harvester1\n.11  ←  kube-vip VIP\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt + eth1 OVN"]
+                    H2["harvester2\n.12\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt + eth1 OVN"]
+                    H3["harvester3\n.13\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt + eth1 OVN"]
+                end
+
+                RN["rancher  ·  .9\n4 vCPU  ·  16 GiB  ·  60 GB\nK3s  +  Rancher Prime 2.13.1"]
+            end
+        end
+
+        subgraph CC["📦  cloud-client  ·  Container\ngcr.io/instruqt/cloud-client  ·  2 GiB"]
+            direction TB
+            NGX["nginx reverse proxy\nport 90  →  Harvester UI\nport 91  →  Rancher UI\nport 92  →  NOC dashboard"]
+            KCT["kubectl\nHarvester API via Rancher proxy"]
+            SSH_KEY["SSH keypair\nfor guest VM access"]
+        end
+    end
+
+    GH <-->|"Instruqt internal DNS\ncloud-client resolves 'geekohive' directly"| CC
+
+    classDef harvester fill:#1B3D6F,stroke:#30BA78,color:#fff
+    classDef rancher   fill:#2058A8,stroke:#30BA78,color:#fff
+    classDef nginx     fill:#163355,stroke:#6EC6A0,color:#fff
+    classDef dnat      fill:#3D1F00,stroke:#FFA500,color:#FFD080
+    classDef util      fill:#0C2340,stroke:#6EC6A0,color:#adf
+
+    class H1,H2,H3 harvester
+    class RN rancher
+    class NGX nginx
+    class DNAT dnat
+    class KCT,SSH_KEY util

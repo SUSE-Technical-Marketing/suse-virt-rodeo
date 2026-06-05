@@ -29,36 +29,13 @@ task maps directly to something that would happen in a real VMware-to-SUSE migra
 
 ### Infrastructure overview
 
-![Architecture Overview](assets/diagrams/architecture-overview.png)
+**Sandbox layout** — what runs inside the Instruqt play:
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│  INSTRUQT SANDBOX                                                       │
-│                                                                         │
-│  ┌──────────────────────────────────────┐   ┌──────────────────────┐   │
-│  │  VM: geekohive (n2-standard-32)     │   │  Container:          │   │
-│  │  SLES 15.6 + KVM + nested virt      │   │  cloud-client        │   │
-│  │                                      │   │                      │   │
-│  │  ┌────────────────────────────────┐  │   │  nginx reverse proxy │   │
-│  │  │  KVM guests -- virbr0 NAT     │  │   │  :90  -> Harvester   │   │
-│  │  │  192.168.122.0/24             │  │   │  :91  -> Rancher     │   │
-│  │  │                               │  │   │  :92  -> NOC dash    │   │
-│  │  │  harvester1  .11  (VIP)       │  │   │                      │   │
-│  │  │  harvester2  .12              │  │   │  kubectl context:    │   │
-│  │  │  harvester3  .13              │  │   │  Harvester via       │   │
-│  │  │                               │  │   │  Rancher proxy       │   │
-│  │  │  rancher     .9               │  │   │                      │   │
-│  │  │  K3s + Rancher Prime 2.13.1   │  │   │  SSH keypair for     │   │
-│  │  │                               │  │   │  guest VM access     │   │
-│  │  │  Harvester UI:  :8443         │  │   └──────────────────────┘   │
-│  │  │  Rancher UI: :30002 (NodePort)│  │                               │
-│  │  └────────────────────────────────┘  │                               │
-│  └──────────────────────────────────────┘                               │
-│                                                                         │
-│  geekohive and cloud-client share Instruqt's internal DNS              │
-│  cloud-client resolves "geekohive" directly                            │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+![Sandbox Layout](assets/diagrams/sandbox-layout.png)
+
+**Traffic and data flow** — how each component connects:
+
+![Architecture Overview](assets/diagrams/architecture-overview.png)
 
 ### How UI tabs reach the student
 
