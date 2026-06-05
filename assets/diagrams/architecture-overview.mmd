@@ -1,57 +1,61 @@
-graph TB
-    subgraph STUDENT["🖥️  Student Browser"]
-        B1["Harvester UI tab"]
-        B2["Rancher UI tab"]
-        B3["AeroGrid NOC tab"]
+graph LR
+    subgraph BROWSER["🖥️  Student Browser"]
+        direction TB
+        T1["Harvester UI\ntab :90"]
+        T2["Rancher UI\ntab :91"]
+        T3["AeroGrid NOC\ntab :92"]
     end
 
-    subgraph INSTRUQT["☁️  Instruqt Sandbox"]
+    subgraph SANDBOX["☁️  Instruqt Sandbox"]
         direction TB
 
         subgraph CC["cloud-client container"]
-            NGINX["nginx reverse proxy\n:90 → Harvester\n:91 → Rancher\n:92 → NOC (port-forward)"]
-            KUBECTL["kubectl\n(Harvester via Rancher proxy)"]
-            SSH["SSH keypair\nfor guest VMs"]
+            direction TB
+            NGX["nginx reverse proxy\n:90 → Harvester UI\n:91 → Rancher UI\n:92 → NOC (port-forward)"]
+            KCT["kubectl\nHarvester via Rancher proxy"]
         end
 
-        subgraph GH["geekohive  —  n2-standard-32  |  SLES 15.6  |  950 GB pd-ssd"]
+        subgraph GH["geekohive   n2-standard-32  ·  SLES 15.6  ·  950 GB pd-ssd"]
             direction TB
-            DNAT["kvm-dnat.service\n:8443 → .11:8443\n:30002 → .9:30002"]
+            DNAT["kvm-dnat.service\n:8443 → 192.168.122.11:8443\n:30002 → 192.168.122.9:30002"]
 
             subgraph VIRBR["virbr0  —  192.168.122.0/24  (libvirt NAT)"]
-                direction LR
-                subgraph HV["Harvester 1.8.0 — 3-node HA cluster"]
-                    H1["harvester1\n.11 — VIP\n8 vCPU · 24 GiB\n270 GB qcow2\neth0 + eth1"]
-                    H2["harvester2\n.12\n8 vCPU · 24 GiB\n270 GB qcow2\neth0 + eth1"]
-                    H3["harvester3\n.13\n8 vCPU · 24 GiB\n270 GB qcow2\neth0 + eth1"]
+                direction TB
+                RN["rancher  ·  192.168.122.9\n4 vCPU  ·  16 GiB  ·  60 GB qcow2\nK3s  +  Rancher Prime 2.13.1"]
+
+                subgraph HVC["Harvester 1.8.0  —  3-node HA cluster"]
+                    direction LR
+                    H1["harvester1\n192.168.122.11  ←  VIP\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  +  eth1 OVN"]
+                    H2["harvester2\n192.168.122.12\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  +  eth1 OVN"]
+                    H3["harvester3\n192.168.122.13\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  +  eth1 OVN"]
                 end
-                R["rancher\n.9\n4 vCPU · 16 GiB\n60 GB qcow2\nK3s + Rancher Prime 2.13.1"]
             end
         end
     end
 
-    B1 -->|"port 90"| NGINX
-    B2 -->|"port 91"| NGINX
-    B3 -->|"port 92"| NGINX
-    NGINX -->|"https :8443"| DNAT
-    NGINX -->|"https :30002"| DNAT
+    T1 -->|"port 90"| NGX
+    T2 -->|"port 91"| NGX
+    T3 -->|"port 92"| NGX
+    NGX -->|"https :8443"| DNAT
+    NGX -->|"https :30002"| DNAT
     DNAT -->|"DNAT"| H1
-    DNAT -->|"DNAT"| R
-    KUBECTL -.->|"API via Rancher proxy"| R
+    DNAT -->|"DNAT"| RN
+    KCT -.->|"API"| RN
+    RN -->|"Virtualization\nManagement"| H1
     H1 <-->|"etcd / Kube-OVN"| H2
-    H1 <-->|"etcd / Kube-OVN"| H3
     H2 <-->|"etcd / Kube-OVN"| H3
-    R -->|"Virtualization Management"| H1
+    H1 <-->|"etcd / Kube-OVN"| H3
 
-    classDef vm fill:#1B3D6F,stroke:#30BA78,color:#fff,rx:6
-    classDef rancher fill:#2E5D9D,stroke:#30BA78,color:#fff,rx:6
-    classDef host fill:#0C2340,stroke:#30BA78,color:#fff
-    classDef container fill:#163355,stroke:#6EC6A0,color:#fff
-    classDef browser fill:#1A4A2E,stroke:#30BA78,color:#fff
-    classDef network fill:#0A1F33,stroke:#30BA78,color:#adf,rx:4
+    classDef harvester fill:#1B3D6F,stroke:#30BA78,color:#fff
+    classDef rancher fill:#2058A8,stroke:#30BA78,color:#fff
+    classDef nginx fill:#163355,stroke:#6EC6A0,color:#fff
+    classDef dnat fill:#3D1F00,stroke:#FFA500,color:#FFD080
+    classDef kubectl fill:#0C2340,stroke:#6EC6A0,color:#adf
+    classDef tab fill:#1A4A2E,stroke:#30BA78,color:#fff
 
-    class H1,H2,H3 vm
-    class R rancher
-    class DNAT,KUBECTL,SSH host
-    class NGINX container
-    class B1,B2,B3 browser
+    class H1,H2,H3 harvester
+    class RN rancher
+    class NGX nginx
+    class DNAT dnat
+    class KCT kubectl
+    class T1,T2,T3 tab
