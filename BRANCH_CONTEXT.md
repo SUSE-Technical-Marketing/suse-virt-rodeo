@@ -94,9 +94,13 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
   and Harvester dashboards/APIs, plus the node/VM console passwords. `setup-rancher.sh`
   sets Rancher's admin to it (was random) and sets Harvester's admin via the embedded
   Rancher v3 API (bootstrap `admin/admin` -> changepassword). Overridable via
-  `LAB_ADMIN_PASSWORD`. Lab-grade only. **Verify on a live host:** that Harvester's
-  bootstrap really is `admin/admin` and the v3 `changepassword` endpoint works on its
-  embedded Rancher; documented fallback is the kubectl bcrypt user-patch.
+  `LAB_ADMIN_PASSWORD`. Lab-grade only.
+  - Note: the Harvester install config has **no** field for the dashboard admin
+    password (`os.password` is the OS `rancher` user only), so the post-install API
+    call is the supported path. The embedded Rancher bootstrap `admin/admin` is the
+    confirmed default (harvester-installer `rancherd` `50-defaults.yaml`). Live check
+    is just that the v3 `changepassword` endpoint responds (standard Rancher); the
+    kubectl bcrypt user-patch remains a fallback if a version ever differs.
 - Legacy `Converting-SLES-15.6-KVM-host.md` rewritten as `Converting-SLES-16-KVM-host.md`.
 
 ## Where things live
