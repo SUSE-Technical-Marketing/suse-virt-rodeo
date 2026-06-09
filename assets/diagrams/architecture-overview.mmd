@@ -15,17 +15,18 @@ graph LR
             KCT["kubectl  ·  Harvester via Rancher proxy"]
         end
 
-        subgraph GH["geekohive   n2-standard-32  ·  SLES 15.6  ·  950 GB pd-ssd"]
+        subgraph GH["geekohive   n2-standard-32  ·  SLES 16  ·  950 GB pd-ssd"]
             direction TB
-            DNAT["kvm-dnat.service\n:8443 → 192.168.122.11:8443  ·  :30002 → 192.168.122.9:30002"]
+            DNAT["firewalld port-forward\n:8443 → VIP 192.168.122.10:8443  ·  :30002 → 192.168.122.9:30002"]
 
             subgraph VIRBR["virbr0  —  192.168.122.0/24  (libvirt NAT)"]
                 direction TB
+                VIP["kube-vip floating VIP\n192.168.122.10  (moves to a live node)"]
                 RN["rancher  ·  192.168.122.9\n4 vCPU  ·  16 GiB  ·  60 GB\nK3s  +  Rancher Prime 2.13.1\neth0: management"]
 
                 subgraph HVC["Harvester 1.8.0  —  3-node HA cluster"]
                     direction LR
-                    H1["harvester1\n192.168.122.11  ← VIP\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  eth1 storage\neth2 migration\neth3 svc1  eth4 svc2"]
+                    H1["harvester1\n192.168.122.11\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  eth1 storage\neth2 migration\neth3 svc1  eth4 svc2"]
                     H2["harvester2\n192.168.122.12\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  eth1 storage\neth2 migration\neth3 svc1  eth4 svc2"]
                     H3["harvester3\n192.168.122.13\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  eth1 storage\neth2 migration\neth3 svc1  eth4 svc2"]
                 end

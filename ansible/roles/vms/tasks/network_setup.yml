@@ -1,33 +1,40 @@
 ---
-- name: Check for running domains before network redefinition
-  ansible.builtin.command: virsh list --name --state-running
-  register: running_domains
-  changed_when: false
-  failed_when: false
+# The libvirt default network (virbr0) with static DHCP reservations is only
+# used in NAT mode. In bridge mode the guests attach directly to the host
+# bridge and get their addresses from the physical LAN, so there is nothing to
+# define here.
+- name: Configure libvirt default network with static DHCP entries (NAT mode)
+  when: network_mode == 'nat'
+  block:
+    - name: Check for running domains before network redefinition
+      ansible.builtin.command: virsh list --name --state-running
+      register: running_domains
+      changed_when: false
+      failed_when: false
 
-- name: Fail if domains are running (network redefinition would drop guest connectivity)
-  ansible.builtin.fail:
-    msg: >
-      Cannot redefine the default network — the following domains are running:
-      {{ running_domains.stdout_lines }}.
-      Stop all VMs first: virsh destroy harvester1 harvester2 harvester3 rancher
-  when:
-    - running_domains.rc == 0
-    - running_domains.stdout | trim != ''
+    - name: Fail if domains are running (network redefinition would drop guest connectivity)
+      ansible.builtin.fail:
+        msg: >
+          Cannot redefine the default network — the following domains are running:
+          {{ running_domains.stdout_lines }}.
+          Stop all VMs first: virsh destroy harvester1 harvester2 harvester3 rancher
+      when:
+        - running_domains.rc == 0
+        - running_domains.stdout | trim != ''
 
-- name: Destroy default network to allow redefinition with static DHCP entries
-  community.libvirt.virt_net:
-    name: "{{ libvirt_network_name }}"
-    state: absent
-  failed_when: false
+    - name: Destroy default network to allow redefinition with static DHCP entries
+      community.libvirt.virt_net:
+        name: "{{ libvirt_network_name }}"
+        state: absent
+      failed_when: false
 
-- name: Define default network with static DHCP entries
-  community.libvirt.virt_net:
-    command: define
-    xml: "{{ lookup('template', 'network.xml.j2') }}"
+    - name: Define default network with static DHCP entries
+      community.libvirt.virt_net:
+        command: define
+        xml: "{{ lookup('template', 'network.xml.j2') }}"
 
-- name: Start and autostart default network
-  community.libvirt.virt_net:
-    name: "{{ libvirt_network_name }}"
-    state: active
-    autostart: true
+    - name: Start and autostart default network
+      community.libvirt.virt_net:
+        name: "{{ libvirt_network_name }}"
+        state: active
+        autostart: true

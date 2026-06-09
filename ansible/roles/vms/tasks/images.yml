@@ -62,9 +62,9 @@
 
 - name: Build Harvester config seed ISOs
   ansible.builtin.command: >
-    genisoimage
-    -output '{{ image_dir }}/{{ item.config_iso_name }}.iso'
-    -volid HarvesterConfig -joliet -rock
+    xorriso -as mkisofs
+    -V HarvesterConfig -J -r
+    -o '{{ image_dir }}/{{ item.config_iso_name }}.iso'
     '{{ config_dir }}/{{ item.config_iso_name }}'
   args:
     creates: "{{ image_dir }}/{{ item.config_iso_name }}.iso"
@@ -137,9 +137,9 @@
 # No creates: guard — cloud-init ISO is always rebuilt to match current templates
 - name: Build Rancher cloud-init seed ISO
   ansible.builtin.command: >
-    genisoimage
-    -output '{{ image_dir }}/rancher-cloud-init.iso'
-    -volid cidata -joliet -rock
+    xorriso -as mkisofs
+    -V cidata -J -r
+    -o '{{ image_dir }}/rancher-cloud-init.iso'
     /tmp/rancher-cloud-init/meta-data
     /tmp/rancher-cloud-init/user-data
     /tmp/rancher-cloud-init/network-config

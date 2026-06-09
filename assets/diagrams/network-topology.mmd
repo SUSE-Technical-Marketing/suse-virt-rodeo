@@ -2,11 +2,12 @@ graph TB
     subgraph HOST["geekohive host — virbr0  192.168.122.0/24"]
 
         GW["virbr0 gateway — 192.168.122.1"]
+        VIP["kube-vip floating VIP — 192.168.122.10\nnot a node IP · moves to a live node"]
 
         subgraph STATIC["Static DHCP reservations  (eth0 management only)"]
             direction LR
             R_VM["rancher\n192.168.122.9\n02:00:00:0D:62:E9\nK3s + Rancher 2.13.1\nmanagement only"]
-            H1_VM["harvester1\n192.168.122.11  ← VIP\n02:00:00:0D:62:E1"]
+            H1_VM["harvester1\n192.168.122.11\n02:00:00:0D:62:E1"]
             H2_VM["harvester2\n192.168.122.12\n02:00:00:0D:62:E2"]
             H3_VM["harvester3\n192.168.122.13\n02:00:00:0D:62:E3"]
         end
@@ -25,8 +26,8 @@ graph TB
             LB["rodeo-ippool\n192.168.122.200 – 220\nLoadBalancer IPs\nARP on eth3 / eth4"]
         end
 
-        subgraph DNAT["iptables DNAT  (kvm-dnat.service)"]
-            D1["host:8443  →  .11:8443\nHarvester UI / API"]
+        subgraph DNAT["firewalld port-forward  (nftables backend)"]
+            D1["host:8443  →  VIP .10:8443\nHarvester UI / API"]
             D2["host:30002  →  .9:30002\nRancher NodePort"]
         end
     end
@@ -36,7 +37,8 @@ graph TB
     H1_VM & H2_VM & H3_VM --- MIGR
     H1_VM & H2_VM & H3_VM --- SVC1
     H1_VM & H2_VM & H3_VM --- SVC2
-    H1_VM --- D1
+    VIP -.->|floats among nodes| H1_VM & H2_VM & H3_VM
+    VIP --- D1
     R_VM --- D2
 
     classDef harvester fill:#1B3D6F,stroke:#30BA78,color:#fff
@@ -50,6 +52,7 @@ graph TB
 
     class H1_VM,H2_VM,H3_VM harvester
     class R_VM rancher
+    class VIP gw
     class D1,D2 dnat
     class POOL,GUEST,LB range
     class STOR storage

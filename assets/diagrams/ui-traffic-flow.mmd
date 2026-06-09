@@ -2,8 +2,8 @@ sequenceDiagram
     actor Student as 🖥️ Student Browser
     participant IP as Instruqt Proxy
     participant CC as cloud-client<br/>nginx
-    participant GH as geekohive<br/>iptables DNAT
-    participant HV as Harvester VIP<br/>192.168.122.11
+    participant GH as geekohive<br/>firewalld DNAT
+    participant HV as Harvester VIP<br/>192.168.122.10 (floating)
     participant RN as Rancher NodePort<br/>192.168.122.9:30002
     participant PF as kubectl port-forward<br/>(challenge 06)
     participant NOC as alien-geeko<br/>LoadBalancer IP

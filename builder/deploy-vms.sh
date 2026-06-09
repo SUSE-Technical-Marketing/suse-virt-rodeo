@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-HARVESTER_VIP="192.168.122.11"
+HARVESTER_VIP="192.168.122.10"   # floating kube-vip VIP (not a node IP)
 SERIAL_LOG_DIR="/var/log/libvirt/qemu"
 
 log() { echo "[deploy] $*"; }

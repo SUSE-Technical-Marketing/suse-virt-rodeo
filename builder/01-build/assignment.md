@@ -36,10 +36,10 @@ ansible-galaxy collection install -r ansible/requirements.yml
 
 This runs two roles in sequence:
 
-**`kvm_host`** — installs KVM packages, starts and configures libvirtd
-(`security_driver = none`, adds root to libvirt/kvm groups), enables IP
-forwarding, sets up firewall rules, and deploys the DNAT service for
-Harvester and Rancher UI forwarding.
+**`kvm_host`** — installs KVM packages, enables the modular libvirt daemons
+(`virtqemud` et al; `security_driver = none`, adds root to libvirt/kvm groups),
+enables IP forwarding, and sets up firewalld with native port-forwarding (DNAT)
+for the Harvester and Rancher UIs.
 
 **`vms`** — redefines the libvirt network (virbr0) with static DHCP entries for
 all four VMs, ensures the storage pool exists, creates qcow2 disk images
@@ -82,7 +82,7 @@ tail -f /var/log/libvirt/qemu/harvester1_serial.log
 > `virsh console` is not available — serial output is file-based. Use `tail -f` in a
 > separate terminal window to watch the install. Press `Ctrl+C` to stop tailing.
 
-`deploy-vms.sh` starts harvester1, polls `https://192.168.122.11` until Harvester
+`deploy-vms.sh` starts harvester1, polls the VIP `https://192.168.122.10` until Harvester
 responds, then starts harvester2 (with a 90-second stagger before harvester3 to
 avoid etcd join race conditions), and finally starts the rancher VM. All four VMs
 are running by the time the script exits. Wait for the Harvester cluster to be
@@ -151,7 +151,7 @@ curl -sk -X POST \
   -d "{\"metadata\":{\"name\":\"opensuse-leap-16\",\"namespace\":\"default\"},
        \"spec\":{\"displayName\":\"openSUSE Leap 16\",\"url\":\"${LEAP16_URL}\",
                  \"sourceType\":\"download\"}}" \
-  https://192.168.122.11/v1/harvesterhci.io.virtualmachineimages
+  https://192.168.122.10/v1/harvesterhci.io.virtualmachineimages
 ```
 
 Wait for the image to reach state `active` before continuing.

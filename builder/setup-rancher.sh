@@ -19,7 +19,7 @@ RANCHER_VM_PASS="RancherRodeo2024!"  # set this to match your rancher VM image p
 RANCHER_VERSION="2.13.1"
 RANCHER_HOSTNAME="rancher.${RANCHER_VM_IP}.sslip.io"
 RANCHER_ADMIN_PASS_FILE="/root/rancher-password"
-HARVESTER_VIP="192.168.122.11"
+HARVESTER_VIP="192.168.122.10"   # floating kube-vip VIP (not a node IP)
 K3S_VERSION="v1.31.4+k3s1"  # latest stable at time of writing; update as needed
 
 SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=10 -o BatchMode=yes"

@@ -2,7 +2,7 @@
 
 Nested KVM on Instruqt. Students get three browser tabs pointing at live UIs. This document explains the full stack: what runs where, how traffic reaches the student, and what needs to be right in the image for it to work.
 
-**Versions:** Harvester 1.8.0 · Rancher Prime 2.13.1 (K3s) · SLES 15.6
+**Versions:** Harvester 1.8.0 · Rancher Prime 2.13.1 (K3s) · SLES 16 host (modular libvirt daemons)
 
 ---
 
@@ -14,12 +14,13 @@ Nested KVM on Instruqt. Students get three browser tabs pointing at live UIs. Th
 │                                                                         │
 │  ┌──────────────────────────────────────┐   ┌──────────────────────┐   │
 │  │  VM: geekohive (n2-standard-32)     │   │  Container:          │   │
-│  │  SLES 15.6 + KVM + nested virt      │   │  cloud-client        │   │
+│  │  SLES 16 + KVM + nested virt        │   │  cloud-client        │   │
 │  │                                      │   │  (gcr.io/instruqt/   │   │
 │  │  ┌────────────────────────────────┐  │   │   cloud-client)      │   │
 │  │  │  KVM guests — virbr0 NAT      │  │   │                      │   │
 │  │  │  192.168.122.0/24             │  │   │  nginx proxy         │   │
-│  │  │  eth0=mgmt  eth1=vm-traffic   │  │   │  :90  → Harvester    │   │
+│  │  │  eth0=mgmt  eth1-4=storage/   │  │   │  :90  → Harvester    │   │
+│  │  │  migration/service1/service2 │  │   │                      │   │
 │  │  │                               │  │   │  :91  → Rancher      │   │
 │  │  │  harvester1  192.168.122.11   │  │   │  :92  → alien-geeko  │   │
 │  │  │  harvester2  192.168.122.12   │  │   │                      │   │
@@ -62,12 +63,12 @@ Student browser
                      │                       │
                      ▼                       ▼
               geekohive:8443         geekohive:30002
-              (iptables DNAT          (iptables DNAT
-               → 192.168.122.11:8443)  → 192.168.122.9:30002)
+              (firewalld DNAT         (firewalld DNAT
+               → 192.168.122.10:8443)  → 192.168.122.9:30002)
                      │                       │
                      ▼                       ▼
              Harvester VIP              Rancher NodePort
-             (harvester1 leader)        (K3s single-node)
+             (floating, kube-vip)       (K3s single-node)
 ```
 
 **Port 92 is different.** It is not proxied by nginx at track startup. The student runs `kubectl port-forward` in challenge 06, which forwards `cloud-client:92` → `checkin-cluster` svc `alien-geeko:80` → container port 3000. The Instruqt tab just points at `cloud-client:92` and waits.
@@ -82,6 +83,7 @@ One libvirt NAT network (virbr0) carries all traffic. Static MAC-to-IP DHCP rese
 geekohive (host)
 │
 ├── virbr0  (libvirt NAT — 192.168.122.0/24)
+│   Harvester floating VIP (kube-vip):  192.168.122.10  ← not a node, not in DHCP
 │   DHCP reservations (eth0 management MACs — static, below dynamic pool):
 │   ├── harvester1   02:00:00:0D:62:E1   192.168.122.11
 │   ├── harvester2   02:00:00:0D:62:E2   192.168.122.12
@@ -94,13 +96,53 @@ geekohive (host)
 │   VM LoadBalancer IPs (192.168.122.200-220) are ARP-announced on eth3/eth4
 │   (service network NICs) and are directly reachable from geekohive.
 │
-└── iptables DNAT rules (kvm-dnat.service, runs at boot)
-    PREROUTING: :8443  → 192.168.122.11:8443   (Harvester VIP)
-    PREROUTING: :30002 → 192.168.122.9:30002   (Rancher K3s NodePort)
-    PREROUTING: :30001 → 192.168.122.9:30001   (Rancher NodePort alt)
+└── firewalld port-forwarding (nftables backend, permanent rules)
+    :8443  → 192.168.122.10:8443   (Harvester VIP)
+    :30002 → 192.168.122.9:30002   (Rancher K3s NodePort)
+    :30001 → 192.168.122.9:30001   (Rancher NodePort alt)
 ```
 
-Harvester forms a 3-node cluster. `harvester1` holds the VIP at `192.168.122.11` (kube-vip). The iptables DNAT on `geekohive` forwards port 8443 to that VIP. If the VIP migrates, traffic follows automatically.
+Harvester forms a 3-node cluster. The management VIP `192.168.122.10` is a **floating address held by kube-vip** — it is not any node's IP. kube-vip keeps it on a healthy node and moves it to a survivor if the holder goes down, so the API and UI stay reachable as long as any node is up. firewalld on `geekohive` forwards port 8443 to that VIP (NAT mode); if the VIP migrates, traffic follows automatically. SLES 16 firewalld uses the nftables backend, so the DNAT is native firewalld port-forwarding — no raw iptables and no custom systemd unit.
+
+### RKE2 cluster networking (Harvester internals)
+
+Harvester runs **RKE2** under the hood. The three nodes form the entire control
+plane and data plane across the bridge they share (virbr0 in NAT mode). The
+node-to-node ports that must work between them include:
+
+```
+9345/tcp        RKE2 supervisor / node registration
+6443/tcp        kube-apiserver
+2379-2381/tcp   etcd client / peer / metrics
+10250/tcp       kubelet
+8472/udp        Canal VXLAN (pod overlay)
+6081/udp        Kube-OVN Geneve (VM networks)
+```
+
+These are **between the guests**, not exposed on the host. Three host-level
+measures keep them safe (all in `/etc/sysctl.d/99-harvester-rke2.conf` and the
+firewalld config):
+
+- **Bridge-netfilter off** (`net.bridge.bridge-nf-call-iptables=0`, etc.).
+  Node-to-node traffic is L2-bridged; this keeps the host firewall from ever
+  diverting and dropping it.
+- **Reverse-path filtering loose** (`net.ipv4.conf.all.rp_filter=2`). Each node
+  has five NICs on one subnet, and the kube-vip VIP plus the ARP-announced
+  LoadBalancer IPs (`192.168.122.200-220`) create asymmetric return paths that
+  strict rp_filter would drop.
+- **firewalld libvirt-zone accept** for the node subnet (`192.168.122.0/24`), as
+  a belt-and-braces accept even if bridge-netfilter is turned on elsewhere.
+
+The guest OS firewall is the Harvester installer's responsibility, not the host
+role. In bridge mode the same sysctl measures apply; make sure the host bridge
+itself is not firewall-filtered on your LAN.
+
+Two related notes: the guest NICs in `vm.xml.j2` carry **no `<filterref>`**, so
+libvirt's `clean-traffic` anti-spoof is not bound — required for the Kube-OVN VM
+traffic and the LB IPs whose MACs are not in libvirt's DHCP table. And the
+overlay (Canal VXLAN +50B, Kube-OVN Geneve +58B) runs inside the guests over a
+1500-MTU bridge; RKE2 auto-shrinks the pod/overlay MTU, so no host MTU change is
+needed — but suspect MTU first if large-payload inter-node transfers ever hang.
 
 ---
 
@@ -184,11 +226,11 @@ containers:
 ```
 
 **Image requirements:**
-- `/root/.kube/harvester.yaml` — kubeconfig pointing at Harvester API (192.168.122.11:6443)
+- `/root/.kube/harvester.yaml` — kubeconfig pointing at the Harvester API via the VIP (192.168.122.10:6443)
 - `/root/rancher-password` — admin password for Rancher (must exist; no fallback)
 - KVM VMs pre-defined in libvirt XML (shut off, not suspended)
 - KVM VMs have stable UUIDs (set in `ansible/roles/vms/defaults/main.yml`)
-- iptables DNAT rules in `kvm-dnat.service`
+- firewalld permanent port-forwards (NAT mode) DNATing the UI ports to the guests
 - Harvester already imported into Rancher (not provisioned — import model)
 - Harvester UI plugin v1.8.0 installed in Rancher
 - openSUSE Leap 16 qcow2 image pre-loaded into Harvester
@@ -263,7 +305,7 @@ These cannot be done at sandbox startup — too slow or require pre-provisioning
 | `/root/rancher-password` | Set during image prep |
 | Harvester UI plugin v1.8.0 in Rancher | Must match Harvester version exactly |
 | openSUSE Leap 16 qcow2 image in Harvester | Download during startup would stall students |
-| `kvm-dnat.service` systemd unit + firewalld rules | Must survive reboots |
+| firewalld permanent port-forwards (8443/30002/30001 → guests) | Must survive reboots |
 | KVM VMs defined in libvirt XML | shut off, not suspended |
 | virbr0 (default libvirt network) with DHCP MAC reservations for eth0 NICs | Fixed IPs required for etcd stability |
 | Longhorn V2 data engine disabled | SPDK incompatible with nested KVM |
@@ -272,14 +314,16 @@ These cannot be done at sandbox startup — too slow or require pre-provisioning
 
 ## Image Build Process
 
-This image is built inside Instruqt itself using a dedicated builder track. The build track uses a plain SLES 15.6 base image, runs the Ansible playbook, then installs Harvester and Rancher manually via the procedures below. The resulting VM is saved as a custom image in the `suse` Instruqt org.
+This image is built inside Instruqt itself using a dedicated builder track. The build track uses a plain SLES 16 base image, runs the Ansible playbook, then installs Harvester and Rancher manually via the procedures below. The resulting VM is saved as a custom image in the `suse` Instruqt org.
+
+The same Ansible roles drive the cloud/bare-metal `deployer/` (no Instruqt). See `deployer/README.md`.
 
 See `builder/` directory for the builder track config and Ansible playbook.
 
 ### Build sequence
 
 ```
-1. Spin up builder track (SLES 15.6, n2-standard-32, nested virt enabled)
+1. Spin up builder track (SLES 16, n2-standard-32, nested virt enabled)
 2. Clone repo, install Ansible collections:
      ansible-galaxy collection install -r ansible/requirements.yml
 3. Run the full Ansible playbook (kvm_host + vms roles):
@@ -334,13 +378,15 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 - [ ] `ansible-playbook -i ansible/inventory.example ansible/playbook.yml` (kvm_host + vms roles)
 - [ ] `cat /sys/module/kvm_intel/parameters/nested` → `Y`
 - [ ] `virsh net-list --all` → virbr0 (default) active; each Harvester node has 5 NICs (eth0–eth4) on virbr0
-- [ ] `systemctl status kvm-dnat` → active (exited)
 - [ ] `firewall-cmd --zone=public --list-ports` → 8443/tcp 30001/tcp 30002/tcp
+- [ ] `firewall-cmd --zone=public --list-forward-ports` → 8443→VIP, 30002/30001→Rancher
+- [ ] modular libvirt daemons active: `systemctl is-active virtqemud.socket virtnetworkd.socket`
 
 **Harvester cluster:**
 - [ ] 3 Harvester 1.8.0 nodes installed and clustered
 - [ ] `kubectl get nodes --kubeconfig /root/.kube/harvester.yaml` → 3 Ready
-- [ ] Harvester VIP responds: `curl -sk https://192.168.122.11:8443/ping`
+- [ ] Harvester VIP responds: `curl -sk https://192.168.122.10:8443/ping`
+- [ ] VIP is floating, not a node IP: `ssh root@192.168.122.10 ip a` lands on the current leader
 
 **Rancher:**
 - [ ] K3s running on rancher VM (192.168.122.9)

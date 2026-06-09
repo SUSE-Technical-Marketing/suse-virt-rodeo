@@ -1,16 +1,7 @@
 ---
-- name: daemon-reload
+- name: restart libvirt
   ansible.builtin.systemd:
-    daemon_reload: true
-
-- name: restart libvirtd
-  ansible.builtin.systemd:
-    name: "{{ libvirt_service }}"
-    state: restarted
-
-- name: restart kvm-dnat
-  ansible.builtin.systemd:
-    name: kvm-dnat
+    name: "{{ libvirt_primary_service }}"
     state: restarted
 
 - name: reload firewalld

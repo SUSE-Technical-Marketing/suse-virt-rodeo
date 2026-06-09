@@ -4,7 +4,7 @@
   <memory unit='MiB'>{{ libvirt_flavors[item.flavor].memory_mib }}</memory>
   <vcpu placement='static'>{{ libvirt_flavors[item.flavor].vcpu }}</vcpu>
   <cpu mode='host-passthrough' check='none' migratable='on'/>
-  <os{% if item.flavor == 'harvester' %} firmware='efi'{% endif %}>
+  <os>
     <type arch='x86_64' machine='q35'>hvm</type>
 {% if item.flavor == 'harvester' %}
     <loader readonly='yes' type='pflash'>{{ ovmf_code }}</loader>
@@ -64,38 +64,28 @@
       <readonly/>
     </disk>
 {% endif %}
-    <!-- eth0 — management (static IP set by Harvester installer) -->
-    <interface type='network'>
-      <mac address='{{ item.mgmt_mac }}'/>
+    <!--
+      NICs. NAT mode attaches each NIC to the libvirt network (virbr0); bridge
+      mode attaches to the host bridge ({{ host_bridge }}). Harvester nodes get
+      five NICs, the Rancher VM gets management only:
+        eth0 management  eth1 storage  eth2 migration  eth3 service1  eth4 service2
+    -->
+{% if item.flavor == 'harvester' %}
+{% set nic_macs = [item.mgmt_mac, item.storage_mac, item.migration_mac, item.service1_mac, item.service2_mac] %}
+{% else %}
+{% set nic_macs = [item.mgmt_mac] %}
+{% endif %}
+{% for mac in nic_macs %}
+    <interface type='{{ "bridge" if network_mode == "bridge" else "network" }}'>
+      <mac address='{{ mac }}'/>
+{% if network_mode == 'bridge' %}
+      <source bridge='{{ host_bridge }}'/>
+{% else %}
       <source network='{{ libvirt_network_name }}'/>
+{% endif %}
       <model type='{% if item.flavor == "harvester" %}e1000{% else %}virtio{% endif %}'/>
     </interface>
-{% if item.flavor == 'harvester' %}
-    <!-- eth1 — storage (Longhorn storage traffic) -->
-    <interface type='network'>
-      <mac address='{{ item.storage_mac }}'/>
-      <source network='{{ libvirt_network_name }}'/>
-      <model type='e1000'/>
-    </interface>
-    <!-- eth2 — migration (KubeVirt live migration) -->
-    <interface type='network'>
-      <mac address='{{ item.migration_mac }}'/>
-      <source network='{{ libvirt_network_name }}'/>
-      <model type='e1000'/>
-    </interface>
-    <!-- eth3 — service network 1 (Kube-OVN OVN uplink, primary VM workloads) -->
-    <interface type='network'>
-      <mac address='{{ item.service1_mac }}'/>
-      <source network='{{ libvirt_network_name }}'/>
-      <model type='e1000'/>
-    </interface>
-    <!-- eth4 — service network 2 (Kube-OVN second uplink / additional VM network) -->
-    <interface type='network'>
-      <mac address='{{ item.service2_mac }}'/>
-      <source network='{{ libvirt_network_name }}'/>
-      <model type='e1000'/>
-    </interface>
-{% endif %}
+{% endfor %}
     <!-- Install progress: tail -f {{ serial_log_dir }}/{{ item.name }}_serial.log -->
     <serial type='file'>
       <source path='{{ serial_log_dir }}/{{ item.name }}_serial.log' append='on'/>

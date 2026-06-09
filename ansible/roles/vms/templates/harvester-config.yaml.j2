@@ -33,7 +33,7 @@ install:
       - name: eth0
     method: static
     ip: {{ item.ip }}
-    subnet_mask: 255.255.255.0
+    subnet_mask: {{ node_subnet_mask }}
     gateway: {{ libvirt_network_gateway }}
   vip: {{ harvester_vip }}
   vip_mode: static

@@ -5,7 +5,7 @@ platform from VMware to **SUSE Virtualization** (Harvester HCI). The lab runs on
 pre-built custom image containing a fully operational 3-node Harvester 1.8.0 cluster
 managed by Rancher Prime 2.13.1 — no waiting for installation during the session.
 
-**Versions:** Harvester 1.8.0 · Rancher Prime 2.13.1 · K3s v1.31 · SLES 15.6  
+**Versions:** Harvester 1.8.0 · Rancher Prime 2.13.1 · K3s v1.31 · SLES 16 host  
 **Duration:** ~3 hours (6 challenges)  
 **Audience:** DevOps engineers, SREs, platform teams evaluating or adopting SUSE Virtualization
 
@@ -52,11 +52,11 @@ Student browser
   +-- Tab: AeroGrid NOC (port 92)  --> cloud-client:92 --> kubectl port-forward
 ```
 
-`geekohive` forwards incoming traffic to the KVM guests via iptables DNAT rules
-managed by `kvm-dnat.service`:
+`geekohive` forwards incoming traffic to the KVM guests via firewalld port-forwarding
+(NAT mode; SLES 16 firewalld uses the nftables backend, so no raw iptables):
 
 ```
-geekohive:8443  --DNAT--> 192.168.122.11:8443   (Harvester VIP)
+geekohive:8443  --DNAT--> 192.168.122.10:8443   (Harvester floating VIP)
 geekohive:30002 --DNAT--> 192.168.122.9:30002   (Rancher K3s NodePort)
 ```
 
@@ -71,12 +71,14 @@ Port 92 is not pre-configured. The student runs `kubectl port-forward` in challe
 
 | VM | vCPU | RAM | Disk | IP | Purpose |
 |---|---|---|---|---|---|
-| harvester1 | 8 | 24 GiB | 270 GB qcow2 | 192.168.122.11 | Bootstrap node, kube-vip VIP |
+| harvester1 | 8 | 24 GiB | 270 GB qcow2 | 192.168.122.11 | Bootstrap (cluster-init) node |
 | harvester2 | 8 | 24 GiB | 270 GB qcow2 | 192.168.122.12 | Join node |
 | harvester3 | 8 | 24 GiB | 270 GB qcow2 | 192.168.122.13 | Join node |
 | rancher | 4 | 16 GiB | 60 GB qcow2 | 192.168.122.9 | K3s + Rancher Prime 2.13.1 |
 
-All VMs share a single libvirt NAT network (`virbr0`, `192.168.122.0/24`).
+The cluster API/UI live on a **floating kube-vip VIP at `192.168.122.10`** — a free
+address, not any node's IP, so it survives a node going down. All VMs share a single
+libvirt NAT network (`virbr0`, `192.168.122.0/24`).
 
 Each Harvester node has five NICs on virbr0, each dedicated to a traffic role:
 
@@ -143,13 +145,15 @@ a dedicated lab environment. The `n2-standard-32` gives enough CPU, RAM, and dis
 to run a real 3-node Harvester cluster without resource pressure. The 950 GB pd-ssd
 gives ~40 GB of headroom after all images are provisioned.
 
-### SLES 15.6 as the KVM host
+### SLES 16 as the KVM host
 
-SLES 15.6 aligns with the SUSE product stack and uses `libvirtd` (the monolithic
-daemon) rather than the modular `virtqemud` stack that arrives with SLES 16. The
-service name and socket paths differ between the two, which matters for Ansible
-automation. SLES 16 is viable but the `kvm_host` role would need updating to target
-`virtqemud` instead of `libvirtd`.
+The host runs SLES 16, which ships the modular libvirt daemons (`virtqemud`,
+`virtnetworkd`, `virtstoraged`, …) by default instead of the monolithic `libvirtd`.
+It also moves to SELinux (enforcing) in place of AppArmor, and firewalld's nftables
+backend. The `kvm_host` role targets the modular daemons, sets `security_driver = "none"`
+in qemu.conf, builds seed ISOs with `xorriso` (genisoimage is gone), and does the UI
+DNAT with native firewalld port-forwarding. A `libvirt_daemon_mode: monolithic` switch
+remains for older hosts.
 
 ### Single virbr0 bridge for all five NICs on Harvester nodes
 
@@ -273,12 +277,20 @@ handler chains, and `--tags` support to run only what needs running.
 
 ---
 
+## Deploying outside Instruqt
+
+The same stack can be deployed on any SLES 16 / Leap 16 host — bare metal, a cloud
+VM, or IaaS — with no Instruqt involved. The `deployer/` directory wraps the shared
+Ansible roles in a single entrypoint that configures the host, brings up the
+Harvester cluster, and installs Rancher. NAT (self-contained) and bridge (real LAN
+IPs) networking are both supported. See [`deployer/README.md`](deployer/README.md).
+
 ## Prerequisites
 
 ### Building the image
 
-- Access to the `SUSE-Technical-Marketing` Instruqt org (or an org with a SLES 15.6 base image)
-- SLES 15.6 base image slug in Instruqt: verify `suse/sles-15sp6` exists in the catalog
+- Access to the `SUSE-Technical-Marketing` Instruqt org (or an org with a SLES 16 base image)
+- SLES 16 base image slug in Instruqt: verify `suse/sles-16-0` exists in the catalog
 - Instruqt CLI installed and authenticated
 - `git` on your workstation
 
@@ -329,8 +341,9 @@ ansible-playbook -i ansible/inventory.example ansible/playbook.yml
 
 What this does:
 
-- **kvm_host:** installs KVM packages, configures libvirtd, sets up iptables DNAT
-  service (`kvm-dnat.service`), configures firewalld, enables IP forwarding
+- **kvm_host:** installs KVM packages, enables the modular libvirt daemons
+  (`virtqemud` et al), configures firewalld with native port-forwarding for the UI
+  DNAT (NAT mode), enables IP forwarding
 - **vms:** redefines virbr0 with static DHCP host entries, creates qcow2 disks
   (3x 270 GB Harvester, 1x 60 GB Rancher), downloads Harvester 1.8.0 ISO, renders
   per-node config ISOs from template, creates Rancher cloud-init ISO, defines all
@@ -344,7 +357,7 @@ chmod +x deploy-vms.sh
 ./deploy-vms.sh
 ```
 
-The script starts harvester1, polls `https://192.168.122.11` until Harvester
+The script starts harvester1, polls the VIP `https://192.168.122.10` until Harvester
 responds (20-40 minutes), staggers harvester2 and harvester3 by 90 seconds to avoid
 etcd join race conditions, then starts the rancher VM. All 4 VMs are running when
 the script exits.
@@ -398,7 +411,7 @@ curl -sk -X POST \
        "spec":{"displayName":"openSUSE Leap 16",
                "url":"https://download.opensuse.org/distribution/leap/16.0/appliances/openSUSE-Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2",
                "sourceType":"download"}}' \
-  https://192.168.122.11/v1/harvesterhci.io.virtualmachineimages
+  https://192.168.122.10/v1/harvesterhci.io.virtualmachineimages
 ```
 
 Wait for the image to reach `status.state: active` before proceeding.
@@ -428,12 +441,13 @@ All four VMs must show `shut off` before saving.
 - [ ] Ansible playbook completed with zero failures
 - [ ] `cat /sys/module/kvm_intel/parameters/nested` returns `Y`
 - [ ] `virsh net-list --all` shows `default` (virbr0) active
-- [ ] `systemctl status kvm-dnat` shows active (exited)
+- [ ] `systemctl is-active virtqemud.socket virtnetworkd.socket` → active
 - [ ] `firewall-cmd --zone=public --list-ports` includes `8443/tcp 30001/tcp 30002/tcp`
+- [ ] `firewall-cmd --zone=public --list-forward-ports` shows the DNAT to the guests
 
 **Harvester cluster:**
 - [ ] `ssh root@192.168.122.11 "kubectl get nodes"` shows 3 nodes Ready
-- [ ] `curl -sk https://192.168.122.11/ping` responds
+- [ ] `curl -sk https://192.168.122.10/ping` responds (via the floating VIP)
 
 **Rancher:**
 - [ ] Rancher pods Ready in `cattle-system`
@@ -669,12 +683,13 @@ Rebuild the image.
 ### Harvester UI not reachable on port 90
 
 ```bash
-systemctl status kvm-dnat
+firewall-cmd --zone=public --list-forward-ports
 virsh domstate harvester1
-curl -sk https://192.168.122.11:8443 -o /dev/null -w "%{http_code}"
+curl -sk https://192.168.122.10:8443 -o /dev/null -w "%{http_code}"   # the floating VIP
 ```
 
-If `kvm-dnat` is not running: `systemctl start kvm-dnat`.
+If the forward-ports are missing, re-run the `kvm_host` role (or
+`firewall-cmd --reload`). The DNAT is permanent firewalld config, not a service.
 
 ### Rancher shows harvester cluster as Unavailable after track start
 

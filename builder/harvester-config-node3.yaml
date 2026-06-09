@@ -5,7 +5,7 @@
 
 scheme_version: 1
 
-server_url: "https://192.168.122.11:6443"
+server_url: "https://192.168.122.10:443"
 
 token: "HarvesterRodeoBootstrapToken2024"
 
@@ -31,7 +31,7 @@ install:
     bond_options:
       mode: active-backup
       miimon: 100
-  vip: 192.168.122.11
+  vip: 192.168.122.10
   vip_mode: static
   device: /dev/vda
   tty: ttyS0

@@ -7,12 +7,13 @@ environment with no waiting.
 
 ## What the image contains
 
-- SLES 15.6 host OS (geekohive VM)
+- SLES 16 host OS (geekohive VM) — modular libvirt daemons, SELinux, firewalld/nftables
 - KVM + libvirt + supporting tools
 - 3x Harvester 1.8.0 nodes (harvester1, harvester2, harvester3) — clustered, shut off
 - 1x Rancher Prime 2.13.1 on K3s (rancher VM) — Harvester already imported, shut off
 - All disk images in `/var/lib/libvirt/images/`
-- Each Harvester node has two NICs on virbr0: eth0 (management) + eth1 (VM traffic)
+- Each Harvester node has five NICs on virbr0: eth0 (management) + eth1-4
+  (storage / migration / service1 / service2)
 - Serial console logs at `/var/log/libvirt/qemu/<vm>_serial.log` (file-based)
 
 ## Files
@@ -63,8 +64,9 @@ managed post-install by Harvester.
 
 ```
 virbr0 — 192.168.122.0/24
+  Floating kube-vip VIP: 192.168.122.10  (not a node IP, not in DHCP)
   Static DHCP reservations (eth0 only, below dynamic pool):
-  harvester1  eth0  02:00:00:0D:62:E1  192.168.122.11  management (kube-vip VIP)
+  harvester1  eth0  02:00:00:0D:62:E1  192.168.122.11  management
               eth1  02:00:00:0D:63:E1  (no OS IP — storage / Longhorn)
               eth2  02:00:00:0D:64:E1  (no OS IP — migration / KubeVirt)
               eth3  02:00:00:0D:65:E1  (no OS IP — service net 1 / Kube-OVN uplink)
@@ -87,7 +89,7 @@ eth3/eth4 and are directly reachable from geekohive without additional routing r
 
 Before running the builder track, confirm:
 
-- The SLES 15.6 base image slug is `suse/sles-15sp6` (verify in the Instruqt image catalog).
+- The SLES 16 base image slug is `suse/sles-16-0` (verify in the Instruqt image catalog).
   If the slug differs, update `config.yml` before pushing the builder track.
 - The builder sandbox must have nested virtualization enabled (already set in `config.yml`).
 - Machine type `n2-standard-32` gives 32 vCPU and 128 GB RAM — required for all 4 VMs.

@@ -1,11 +1,11 @@
 flowchart TD
-    S0(["🚀 Start: SLES 15.6\nInstruqt builder sandbox"]):::start
+    S0(["🚀 Start: SLES 16\nInstruqt builder sandbox"]):::start
 
     S1["Step 1\nClone repo\nInstall prerequisites\nsshpass · jq · ansible collections"]:::step
 
     subgraph ANSIBLE["🔧 ansible-playbook — runs both roles"]
-        A1["kvm_host role\n• KVM packages via zypper\n• libvirtd: security_driver=none\n• IP forwarding\n• kvm-dnat.service\n• firewalld rules"]:::role
-        FLUSH["meta: flush_handlers\n(restart libvirtd before vms role)"]:::flush
+        A1["kvm_host role\n• KVM packages via zypper\n• virtqemud: security_driver=none\n• IP forwarding\n• firewalld port-forward (DNAT)\n• firewalld rules"]:::role
+        FLUSH["meta: flush_handlers\n(restart virtqemud before vms role)"]:::flush
         A2["vms role\n• Redefine virbr0 with static DHCP\n• Storage pool check\n• Download Harvester 1.8.0 ISO\n• Create 3×270GB + 60GB qcow2\n• Render Harvester config ISOs\n• Create Rancher cloud-init ISO\n• Define 4 KVM VMs (idempotent)"]:::role
         A1 --> FLUSH --> A2
     end

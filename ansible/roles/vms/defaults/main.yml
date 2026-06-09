@@ -5,12 +5,16 @@ serial_log_dir: /var/log/libvirt/qemu
 
 harvester_version: "1.8.0"
 harvester_iso_checksum: ""  # set to "sha256:<hash>" from Harvester release page to verify downloads
-harvester_vip: "192.168.122.11"
+# Floating kube-vip VIP — a free address, NOT any node IP (nodes are .11/.12/.13,
+# rancher .9). It migrates to a surviving node on failure. Outside the DHCP pool.
+harvester_vip: "192.168.122.10"
 harvester_token: "HarvesterRodeoBootstrapToken2024"
 harvester_os_password: "HarvesterRodeo2024!"
 
 rancher_vm_password: "RancherRodeo2024!"
 
+# OVMF/UEFI firmware from the qemu-ovmf-x86_64 package (SLES 16). Override if a
+# host ships the firmware under different names.
 ovmf_code: /usr/share/qemu/ovmf-x86_64-code.bin
 ovmf_vars_template: /usr/share/qemu/ovmf-x86_64-vars.bin
 
@@ -18,6 +22,18 @@ libvirt_pool_name: default
 libvirt_pool_path: /var/lib/libvirt/images
 libvirt_network_name: default
 libvirt_network_gateway: "192.168.122.1"
+
+# Network model — must match the kvm_host role.
+#   nat    — guests on libvirt virbr0 (default network), gateway 192.168.122.1
+#   bridge — guests attach to the host bridge; set node IPs + libvirt_network_gateway
+#            to your real LAN values, and harvester_vip to a free LAN address.
+network_mode: nat
+host_bridge: br0
+
+# Subnet of the node network. /24 for the default NAT network; override both for
+# a non-/24 LAN in bridge mode.
+node_subnet_mask: "255.255.255.0"
+node_prefix: 24
 
 leap16_url: "https://download.opensuse.org/distribution/leap/16.0/appliances/openSUSE-Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
 

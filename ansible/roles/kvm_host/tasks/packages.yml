@@ -11,8 +11,13 @@
     name: "{{ kvm_host_packages }}"
     state: present
 
-- name: Verify nested virtualisation is active
-  ansible.builtin.command: cat /sys/module/kvm_intel/parameters/nested
+- name: Verify nested virtualisation is active (Intel or AMD)
+  ansible.builtin.shell: >
+    set -o pipefail;
+    cat /sys/module/kvm_intel/parameters/nested 2>/dev/null
+    || cat /sys/module/kvm_amd/parameters/nested 2>/dev/null
+  args:
+    executable: /bin/bash
   register: nested_virt
   changed_when: false
   failed_when: nested_virt.stdout | trim not in ['Y', '1']
