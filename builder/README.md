@@ -95,10 +95,11 @@ Before running the builder track, confirm:
 - The sandbox needs ~32 vCPU and ~90 GB RAM (guests use 28 vCPU / 72 GiB). An
   `n2-standard-32` (32 vCPU, 128 GiB) has extra headroom; raise the node memory in
   `ansible/roles/vms/defaults/main.yml` if you have it.
-- `ansible`, `kubectl`, `jq`, `xorriso`, and `ssh` must be available on geekohive.
-  Install if missing: `zypper install -y ansible kubernetes-client jq xorriso openssh-clients`.
-  SSH to the guests is key-based (no `sshpass`) — the playbook bakes the host public
-  key into the Rancher VM and the Harvester nodes.
+- Only `ansible` is needed up front (`zypper install -y ansible`). The `kvm_host`
+  role installs the rest on geekohive — the KVM stack, `xorriso`, `jq`/`curl`,
+  `firewalld`, and `kubectl` (via the upstream Kubernetes repo `pkgs.k8s.io`, channel
+  `stable:/v1.36`). SSH to the guests is key-based (no `sshpass`) — the playbook bakes
+  the host public key into the Rancher VM and the Harvester nodes.
 
 ## How to build the image
 

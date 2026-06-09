@@ -14,6 +14,12 @@ kvm_host_packages:
   - python3-firewall         # required by the ansible.posix.firewalld module (imports `firewall`)
   - python3-libvirt-python   # required by the community.libvirt modules (virt/virt_net/virt_pool)
 
+# kubectl is not in the SUSE base repos, so the role adds the upstream Kubernetes
+# repo and installs it (used by setup-rancher.sh for the cluster import). Channel
+# is the latest stable minor; kubectl is forward/backward compatible enough for the
+# import-apply against the older K3s/Harvester clusters. Bump as new minors ship.
+kubectl_repo_channel: "stable:/v1.36"
+
 # --- Lab addressing ---
 # Floating cluster VIP held by kube-vip. MUST NOT be a node IP — it migrates to a
 # surviving node when one goes down, which is the whole point of the VIP.

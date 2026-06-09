@@ -328,8 +328,9 @@ Open the `geekohive` terminal.
 git clone -b dev https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
 cd /root/rodeo
 
-# Host tools needed by the playbook and setup scripts
-zypper install -y ansible kubernetes-client jq xorriso openssh-clients
+# Only ansible is needed up front; the playbook installs the KVM stack, xorriso,
+# jq/curl, firewalld, and kubectl (via the upstream Kubernetes repo).
+zypper install -y ansible
 
 ansible-galaxy collection install -r ansible/requirements.yml
 ```

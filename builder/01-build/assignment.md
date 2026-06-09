@@ -57,14 +57,14 @@ cd /root/rodeo
 
 ## Step 2 — Verify prerequisites and install Ansible collections
 
-The build needs `ansible` (with `ansible-galaxy`), `kubectl`, `jq`, `xorriso`, and
-`ssh` on the host. `xorriso` also comes in via the `kvm_host` role, but the others
-must be present before you run the playbook and the setup scripts. SSH to the
-guests is key-based — the playbook bakes the host public key into the Rancher VM
-and the Harvester nodes, so no `sshpass` or passwords are needed:
+Only `ansible` is needed up front. The `kvm_host` role installs the rest on the
+host — the KVM stack, `xorriso`, `jq`/`curl`, `firewalld`, and `kubectl` (it adds
+the upstream Kubernetes repo, `pkgs.k8s.io` channel `stable:/v1.36`, since kubectl
+is not in the SUSE base repos). SSH to the guests is key-based (the playbook bakes
+the host public key into the Rancher VM and Harvester nodes), so no `sshpass`:
 
 ```bash
-zypper install -y ansible kubernetes-client jq xorriso openssh-clients
+zypper install -y ansible
 ```
 
 Install Ansible collections:

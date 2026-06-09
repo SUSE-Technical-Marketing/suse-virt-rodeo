@@ -52,13 +52,16 @@ ANSIBLE_INVENTORY="${ANSIBLE_INVENTORY:-${HERE}/inventory.local}"
 # Preflight
 # ---------------------------------------------------------------------------
 log "Network mode: ${NETWORK_MODE}"
+# Ansible is the only thing needed up front — the playbook installs the rest
+# (KVM stack, xorriso, jq, curl, firewalld, kubectl via the upstream k8s repo).
+# ssh is part of the base system; the lib scripts check their own tools later.
 MISSING=()
-for cmd in ansible-playbook ansible-galaxy virsh xorriso curl jq ssh kubectl; do
+for cmd in ansible-playbook ansible-galaxy; do
   command -v "${cmd}" >/dev/null 2>&1 || MISSING+=("${cmd}")
 done
 if (( ${#MISSING[@]} )); then
   die "Missing required commands: ${MISSING[*]}.
-       Install with: zypper in ansible kubernetes-client xorriso jq openssh-clients"
+       Install with: zypper in ansible"
 fi
 
 # ---------------------------------------------------------------------------

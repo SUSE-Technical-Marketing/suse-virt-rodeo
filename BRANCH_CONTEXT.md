@@ -82,9 +82,13 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
 - `setup-cloud-client` queries the Rancher cluster by `name=harvester`, not `name=local`
   (which is Rancher's own K3s cluster).
 - Harvester image name standardized to **`leap16`** (challenges use `default/leap16`).
-- Builder docs: clone `-b sles16-mig` from the correct org, run with
-  `deployer/inventory.local`, install ansible/kubectl/xorriso, Step 0 disk >=1 TB note,
+- Builder docs: clone `-b dev` from test-harv-rodeo, run with
+  `deployer/inventory.local`, Step 0 resource check (32 vCPU / 90 GB / 950 GB),
   manual Longhorn-V2-disable + Harvester-UI-plugin steps.
+- **kubectl** is installed by the `kvm_host` role (not in SUSE base repos): it adds
+  the upstream Kubernetes repo `pkgs.k8s.io` (channel `kubectl_repo_channel`, default
+  `stable:/v1.36` — the latest stable) and `zypper install kubectl`. The only manual
+  host prereq is now `ansible`; the deployer preflight checks just ansible(-galaxy).
 - Builder Instruqt structure aligned to the main track: frontmatter in
   `01-build/assignment.md` (slug `build`), inline `challenges:` removed from
   `builder/track.yml`.

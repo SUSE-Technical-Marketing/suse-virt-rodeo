@@ -46,18 +46,20 @@ run VMs without it.
 
 ### Step 2 — Install the host tools
 
+Only two things are needed up front — **ansible** (to run the playbook) and **git**
+(to clone):
+
 ```bash
-sudo zypper install -y ansible kubernetes-client jq xorriso openssh-clients git
+sudo zypper install -y ansible git
 ```
 
-- **ansible** runs the playbook (host config + VM assets).
-- **kubernetes-client** gives `kubectl` (imports Harvester into Rancher).
-- **jq** parses Rancher/Harvester API JSON.
-- **xorriso** builds the seed ISOs (SLES 16 dropped `genisoimage`).
-- **openssh-clients** provides `ssh` — auth to the guests is key-based (the
-  playbook bakes the host public key into the Rancher VM and Harvester nodes), so
-  no `sshpass` or passwords are needed.
-- **git** clones the repo.
+The playbook installs everything else on the host: the KVM stack (`qemu`, `libvirt`,
+`virsh`), `xorriso` (seed ISOs; SLES 16 dropped `genisoimage`), `jq`/`curl`,
+`firewalld` + its Python bindings, and **`kubectl`** — for which it adds the upstream
+Kubernetes repo (`pkgs.k8s.io`, channel `stable:/v1.36`), since kubectl is not in the
+SUSE base repos. `ssh` is already in the base system; guest auth is key-based (the
+playbook bakes the host public key into the Rancher VM and Harvester nodes), so no
+`sshpass` or passwords are needed.
 
 ### Step 3 — Clone the repo
 
@@ -172,8 +174,9 @@ Same flow as Part 1, plus image prep:
 
 - Step 0 — confirm ≥ 1 TB disk and nested virt.
 - Step 1 — clone `-b dev` from `test-harv-rodeo`.
-- Step 2 — `zypper install -y ansible kubernetes-client jq xorriso openssh-clients`,
-  then `ansible-galaxy collection install -r ansible/requirements.yml`.
+- Step 2 — `zypper install -y ansible git`, then
+  `ansible-galaxy collection install -r ansible/requirements.yml` (the playbook
+  installs the KVM stack, xorriso, kubectl, etc.).
 - Step 3 — `ansible-playbook -i deployer/inventory.local ansible/playbook.yml`.
 - Step 4 — `cd builder && ./deploy-vms.sh`.
 - Step 5 — watch the serial logs.

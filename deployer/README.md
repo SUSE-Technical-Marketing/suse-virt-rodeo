@@ -17,11 +17,14 @@ A SLES 16 (or Leap 16 / openSUSE) host with:
   (3 × Harvester at 8 vCPU / 20 GiB / 270 GB + Rancher at 4 vCPU / 12 GiB / 60 GB =
   28 vCPU / 72 GiB; disks are thin, ~300-350 GB actually used). On a 128 GiB host
   you can raise the node memory in `ansible/roles/vms/defaults/main.yml`.
-- Outbound internet (pulls the Harvester ISO, Leap image, K3s, Rancher charts)
-- `ansible`, `xorriso`, `jq`, `curl`, `kubectl`, `ssh` installed
-  (`sudo zypper in ansible kubernetes-client xorriso jq curl openssh-clients`).
-  SSH to the guests is key-based — the playbook generates a host key and bakes the
-  public key into the Rancher VM and the Harvester nodes, so no `sshpass`/password.
+- Outbound internet (pulls the Harvester ISO, Leap image, K3s, Rancher charts, and
+  the Kubernetes RPM repo for kubectl)
+- Just `ansible` installed up front (`sudo zypper in ansible`). The playbook installs
+  the rest: KVM stack, `xorriso`, `jq`/`curl`, `firewalld`, and `kubectl` — for which
+  it adds the upstream Kubernetes repo (`pkgs.k8s.io`, channel `stable:/v1.36`), since
+  kubectl is not in the SUSE base repos. SSH to the guests is key-based — the playbook
+  generates a host key and bakes the public key into the Rancher VM and the Harvester
+  nodes, so no `sshpass`/password.
 
 ## Run it
 
