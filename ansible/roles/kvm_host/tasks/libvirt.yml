@@ -35,12 +35,11 @@
       - kvm
     append: true
 
-- name: Ensure libvirt default network exists and is active (NAT mode)
-  community.libvirt.virt_net:
-    name: default
-    state: active
-    autostart: true
-  when: network_mode == 'nat'
+# The default (virbr0) network is owned by the vms role's network_setup.yml in NAT
+# mode: it destroys, re-defines with static DHCP, and activates it. Activating it
+# here too is redundant and breaks re-runs — after a mid-play failure the vms role
+# has already undefined `default`, and trying to activate a non-existent network
+# would fail this task before the vms role can recreate it.
 
 - name: Validate KVM capabilities
   ansible.builtin.command: virt-host-validate qemu
