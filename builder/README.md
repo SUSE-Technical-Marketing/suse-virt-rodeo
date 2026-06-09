@@ -136,9 +136,10 @@ tail -f /var/log/libvirt/qemu/harvester3_serial.log
 
 | File on geekohive | Contents |
 |---|---|
-| `/root/rancher-password` | Rancher admin password (random, generated at build time) |
+| `/root/rancher-password` | Rancher admin password (the fixed lab password `Foobar12345$`) |
 | `/root/harvester-token` | Harvester API bearer token |
-| `/root/.ssh/id_rsa` | SSH key for geekohive → rancher VM access |
+| `/root/.kube/harvester.yaml` | Harvester kubeconfig (VIP `192.168.122.10:6443`) |
+| `/root/.ssh/id_ed25519` | SSH key for geekohive → Rancher VM + Harvester node access |
 
 ## Estimated build time
 

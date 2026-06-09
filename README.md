@@ -388,9 +388,10 @@ chmod +x /root/rodeo/builder/setup-rancher.sh
 ```
 
 The script installs K3s and Helm on the rancher VM, deploys cert-manager and Rancher
-Prime 2.13.1 via Helm, sets a random admin password (written to
-`/root/rancher-password`), creates the Harvester cluster import record in Rancher,
-applies the import manifest to the Harvester cluster, and ejects the installer ISOs
+Prime 2.13.1 via Helm, sets the fixed lab admin password `Foobar12345$` (also written
+to `/root/rancher-password`), exposes Rancher on NodePort 30002, sets the Harvester
+dashboard admin to the same password, creates the Harvester cluster import record in
+Rancher, applies the import manifest to the Harvester cluster, and ejects the installer ISOs
 from all three Harvester VMs.
 
 ```bash
@@ -649,20 +650,23 @@ Bare metal (3 nodes)
 
 ## Credentials Reference
 
+All dashboards use one fixed lab admin password: **`Foobar12345$`** (user `admin`).
+Lab-grade only — do not reuse it anywhere real. Override it with `LAB_ADMIN_PASSWORD`
+(deployer) or the constant in `builder/setup-rancher.sh`.
+
 | Resource | Username | Password / Token |
 |---|---|---|
-| Rancher UI | `admin` | `/root/rancher-password` on geekohive |
-| Harvester UI | `admin` | `HarvesterRodeo2024!` |
-| Harvester nodes SSH | `root` | `HarvesterRodeo2024!` |
-| Rancher VM SSH | `root` | `RancherRodeo2024!` |
+| Rancher UI / API | `admin` | `Foobar12345$` (also in `/root/rancher-password`) |
+| Harvester UI / API | `admin` | `Foobar12345$` |
+| Harvester node console | `rancher` | `Foobar12345$` (SSH is key-based, no password) |
+| Rancher VM console | `root` | `Foobar12345$` (SSH is key-based, no password) |
+| Guest SSH (geekohive → VMs) | — | key `/root/.ssh/id_ed25519` (baked into the guests) |
 | Rancher API token | — | `RANCHER_TOKEN` agent variable |
 | Harvester API token | — | `/root/harvester-token` on geekohive |
 
-The Rancher admin password is randomly generated during the image build. It is
-exported as the `RANCHER_PASSWORD` agent variable so challenge assignments can
-reference it as `[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="cloud-client" ]]`.
-The `HARVESTER_PASSWORD` agent variable is also set (`HarvesterRodeo2024!`) for
-any challenge that needs direct Harvester API access.
+The password is exported as the `RANCHER_PASSWORD` and `HARVESTER_PASSWORD` agent
+variables so challenge assignments can reference them as
+`[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="cloud-client" ]]`.
 
 ---
 

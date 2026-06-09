@@ -12,7 +12,9 @@ token: "HarvesterRodeoBootstrapToken2024"
 
 os:
   hostname: harvester1
-  password: "HarvesterRodeo2024!"   # root password inside the Harvester OS
+  password: "Foobar12345$"          # console password for the OS 'rancher' user
+  ssh_authorized_keys:              # Ansible injects geekohive's public key here
+    - "<geekohive-ssh-public-key>"
   ntp_servers:
     - 0.pool.ntp.org
     - 1.pool.ntp.org
