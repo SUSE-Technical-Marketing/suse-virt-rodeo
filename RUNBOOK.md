@@ -5,8 +5,11 @@ Two paths, in order. **Part 1** stands up the lab host with the agnostic deploye
 then ship the student track). The Instruqt builder runs the same Part 1 steps
 inside a sandbox and snapshots the result, so read Part 1 first.
 
-Branch: `sles16-mig`. Addressing (NAT mode, `virbr0` `192.168.122.0/24`): floating
-kube-vip VIP `.10` (not a node), harvester1/2/3 `.11/.12/.13`, rancher `.9`.
+Source: `SUSE-Technical-Marketing/test-harv-rodeo` branch `dev` (the working repo;
+mirror of `SUSE-Technical-Marketing/instruqt-virtualization` branch `sles16-mig`).
+
+Addressing (NAT mode, `virbr0` `192.168.122.0/24`): floating kube-vip VIP `.10`
+(not a node), harvester1/2/3 `.11/.12/.13`, rancher `.9`.
 
 ---
 
@@ -55,8 +58,8 @@ sudo zypper install -y ansible kubernetes-client jq xorriso openssh-clients git
 ### Step 3 — Clone the repo
 
 ```bash
-git clone -b sles16-mig https://github.com/SUSE-Technical-Marketing/instruqt-virtualization.git
-cd instruqt-virtualization/deployer
+git clone -b dev https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git
+cd test-harv-rodeo/deployer
 ```
 
 `deployer/` is the entrypoint; it reuses the shared roles in `../ansible/`.
@@ -164,7 +167,7 @@ sandbox needs a ≥ 1 TB disk (set at image/sandbox creation, not in `config.yml
 Same flow as Part 1, plus image prep:
 
 - Step 0 — confirm ≥ 1 TB disk and nested virt.
-- Step 1 — clone `-b sles16-mig`.
+- Step 1 — clone `-b dev` from `test-harv-rodeo`.
 - Step 2 — `zypper install -y ansible kubernetes-client jq xorriso openssh-clients`,
   then `ansible-galaxy collection install -r ansible/requirements.yml`.
 - Step 3 — `ansible-playbook -i deployer/inventory.local ansible/playbook.yml`.

@@ -45,8 +45,8 @@ image) before continuing — Instruqt sets VM disk size at image creation, not i
 ## Step 1 — Clone the repo
 
 ```bash
-git clone -b sles16-mig https://github.com/SUSE-Technical-Marketing/instruqt-virtualization.git /root/instruqt-virtualization
-cd /root/instruqt-virtualization
+git clone -b dev https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
+cd /root/rodeo
 ```
 
 ---
@@ -104,7 +104,7 @@ API to come up on harvester1 before starting harvester2 and harvester3.
 VM definitions and disk images were already prepared by the Ansible playbook.
 
 ```bash
-cd /root/instruqt-virtualization/builder
+cd /root/rodeo/builder
 chmod +x deploy-vms.sh
 ./deploy-vms.sh
 ```
@@ -152,7 +152,7 @@ rancher VM, waits for Rancher to become healthy, imports the Harvester cluster
 via the Rancher API, and ejects the installer ISOs from all Harvester VMs.
 
 ```bash
-cd /root/instruqt-virtualization/builder
+cd /root/rodeo/builder
 chmod +x setup-rancher.sh
 ./setup-rancher.sh
 ```

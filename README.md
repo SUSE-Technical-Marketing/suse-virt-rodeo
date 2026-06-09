@@ -324,7 +324,7 @@ Open the `geekohive` terminal.
 ### Step 2 — Clone the repo and verify prerequisites
 
 ```bash
-git clone -b sles16-mig https://github.com/SUSE-Technical-Marketing/instruqt-virtualization.git /root/rodeo
+git clone -b dev https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
 cd /root/rodeo
 
 # Host tools needed by the playbook and setup scripts
