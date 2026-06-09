@@ -4,7 +4,7 @@
 # Prerequisites (run once before this script):
 #   cd /path/to/repo/ansible
 #   ansible-galaxy collection install -r requirements.yml
-#   ansible-playbook -i inventory.example playbook.yml
+#   ansible-playbook -i deployer/inventory.local ansible/playbook.yml
 #
 # The Ansible playbook now handles everything static:
 #   - libvirt network (with static DHCP entries)

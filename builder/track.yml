@@ -26,12 +26,6 @@ lab_config:
   feedback_tab_enabled: false
   loadingMessages: false
   default_layout: AssignmentLeft
-challenges:
-- slug: build-image
-  id: build-image
-  title: Build the suse-virt-rodeo-180 image
-  timelimit: 21600
-  tabs:
-  - type: terminal
-    title: geekohive
-    hostname: geekohive
+
+# Challenges are defined by their folder's assignment.md frontmatter (same as the
+# main track), not inline here. The single challenge lives in 01-build/.

@@ -35,7 +35,7 @@ VM assets (disks, ISOs, config ISOs, OVMF vars, cloud-init) are now created by t
 ```
 ansible/
 ├── playbook.yml              # runs kvm_host + vms roles in sequence
-├── inventory.example         # localhost connection for builder
+├── inventory.example         # remote-host example (builder uses deployer/inventory.local)
 ├── requirements.yml          # community.libvirt, community.general, ansible.posix
 └── roles/
     ├── kvm_host/             # packages, libvirt config, DNAT, firewall
@@ -108,7 +108,7 @@ Full step-by-step instructions are in `01-build/assignment.md`. The high-level f
    ```
 4. Run the Ansible playbook (configures host AND prepares all VM assets):
    ```bash
-   ansible-playbook -i ansible/inventory.example ansible/playbook.yml
+   ansible-playbook -i deployer/inventory.local ansible/playbook.yml
    ```
 5. Start VMs and wait for Harvester install:
    ```bash

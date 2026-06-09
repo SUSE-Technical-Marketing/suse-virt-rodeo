@@ -97,7 +97,8 @@ The dynamic DHCP pool starts at `.100` to keep static assignments well clear.
 virbr0 -- 192.168.122.0/24
   .1    gateway
   .9    rancher     (02:00:00:0D:62:E9 -- static reservation)
-  .11   harvester1  (02:00:00:0D:62:E1 -- static reservation, kube-vip VIP)
+  .10   Harvester VIP (kube-vip, floating -- not a node, not in DHCP)
+  .11   harvester1  (02:00:00:0D:62:E1 -- static reservation)
   .12   harvester2  (02:00:00:0D:62:E2 -- static reservation)
   .13   harvester3  (02:00:00:0D:62:E3 -- static reservation)
   .50   virt1       (challenge 02 VM, static via cloud-init inside Kube-OVN)
@@ -165,12 +166,13 @@ bridge via eth3/eth4 and are reachable from both `geekohive` and `cloud-client`
 without extra routing rules. Adding more bridges would require forwarding rules and
 more DNAT entries for no lab benefit.
 
-### Harvester VIP equals harvester1's management IP
+### Harvester VIP is a separate floating address
 
-In production the kube-vip VIP is a separate address that floats between nodes on
-failover. Here it is pinned to harvester1's IP (`.11`) to simplify the lab setup.
-If harvester1 fails the VIP will not migrate in this design. For a lab that does not
-test node failover, this is an acceptable trade-off.
+The kube-vip management VIP is `192.168.122.10` — a free address that is not any
+node's IP and not in the DHCP pool. kube-vip keeps it on a healthy node and moves
+it to a survivor on failover, so the API and UI stay reachable as long as any node
+is up. That is the whole point of the VIP; pinning it to a node IP would break
+failover. The host DNATs `:8443` to this VIP.
 
 ### Static MAC addresses with DHCP reservations
 
@@ -229,7 +231,7 @@ handler chains, and `--tags` support to run only what needs running.
 .
 ├── ansible/
 │   ├── playbook.yml              # runs kvm_host + vms roles
-│   ├── inventory.example         # localhost for builder track
+│   ├── inventory.example         # remote-host example (placeholder)
 │   ├── requirements.yml          # community.libvirt, community.general, ansible.posix
 │   └── roles/
 │       ├── kvm_host/             # host packages, libvirt config, DNAT, firewall
@@ -270,7 +272,7 @@ handler chains, and `--tags` support to run only what needs running.
 │
 ├── assets/                       # GIF demos embedded in challenge assignments
 ├── ARCHITECTURE.md               # detailed architecture and ops reference
-├── Converting-SLES-15.6-KVM-host.md  # guide to set up a SLES 15.6 KVM host
+├── Converting-SLES-16-KVM-host.md  # guide to set up a SLES 16 KVM host
 ├── config.yml                    # Instruqt main track sandbox config
 └── track.yml                     # Instruqt main track definition
 ```
@@ -322,11 +324,11 @@ Open the `geekohive` terminal.
 ### Step 2 — Clone the repo and verify prerequisites
 
 ```bash
-git clone https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
+git clone -b sles16-mig https://github.com/SUSE-Technical-Marketing/instruqt-virtualization.git /root/rodeo
 cd /root/rodeo
 
-# sshpass and jq are required by setup-rancher.sh
-rpm -q sshpass jq || zypper install -y sshpass jq
+# Host tools needed by the playbook and setup scripts
+zypper install -y ansible kubernetes-client sshpass jq xorriso
 
 ansible-galaxy collection install -r ansible/requirements.yml
 ```
@@ -336,7 +338,7 @@ ansible-galaxy collection install -r ansible/requirements.yml
 Runs `kvm_host` then `vms` roles. Configures the host and prepares all VM assets.
 
 ```bash
-ansible-playbook -i ansible/inventory.example ansible/playbook.yml
+ansible-playbook -i deployer/inventory.local ansible/playbook.yml
 ```
 
 What this does:
@@ -407,7 +409,7 @@ version 1.8.0. The plugin version must match the Harvester cluster version exact
 curl -sk -X POST \
   -H "Authorization: Bearer $(cat /root/harvester-token)" \
   -H "Content-Type: application/json" \
-  -d '{"metadata":{"name":"opensuse-leap-16","namespace":"default"},
+  -d '{"metadata":{"name":"leap16","namespace":"default"},
        "spec":{"displayName":"openSUSE Leap 16",
                "url":"https://download.opensuse.org/distribution/leap/16.0/appliances/openSUSE-Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2",
                "sourceType":"download"}}' \
@@ -456,7 +458,7 @@ All four VMs must show `shut off` before saving.
 - [ ] `/root/rancher-password` exists on geekohive
 
 **Harvester content:**
-- [ ] `opensuse-leap-16` image active in Harvester
+- [ ] `leap16` image active in Harvester
 - [ ] Longhorn V2 data engine disabled (incompatible with nested KVM)
 - [ ] All 4 VMs show `shut off`: `virsh list --all`
 

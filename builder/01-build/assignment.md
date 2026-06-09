@@ -1,3 +1,18 @@
+---
+slug: build
+type: challenge
+title: Build the suse-virt-rodeo-180 image
+teaser: Build the custom image from scratch — run Ansible, bring up the nested Harvester cluster and Rancher, then snapshot geekohive.
+tabs:
+- id: terminal-geekohive
+  title: geekohive
+  type: terminal
+  hostname: geekohive
+  cmd: su - root
+timelimit: 21600
+difficulty: advanced
+---
+
 # Build the suse-virt-rodeo-180 image
 
 This challenge walks you through building the custom Instruqt image from scratch.
@@ -7,10 +22,30 @@ Expected total time: 2-3 hours (most of it is unattended Harvester installation)
 
 ---
 
+## Step 0 — Confirm the builder host has enough disk and nested virt
+
+The Ansible playbook creates 3× 270 GB Harvester disks + a 60 GB Rancher disk
+(~870 GB provisioned). A default SLES 16 base image is far smaller and will fail
+during disk creation or the Harvester install.
+
+Before going further, confirm `geekohive` has a **≥ 1 TB** root disk and nested
+virtualization enabled:
+
+```bash
+df -h /var/lib/libvirt/images          # expect ~1 TB available
+cat /sys/module/kvm_intel/parameters/nested  # expect Y (or kvm_amd on AMD)
+```
+
+If the disk is smaller, resize the sandbox disk (or build from a larger base
+image) before continuing — Instruqt sets VM disk size at image creation, not in
+`config.yml`.
+
+---
+
 ## Step 1 — Clone the repo
 
 ```bash
-git clone https://github.com/suse/instruqt-virtualization.git /root/instruqt-virtualization
+git clone -b sles16-mig https://github.com/SUSE-Technical-Marketing/instruqt-virtualization.git /root/instruqt-virtualization
 cd /root/instruqt-virtualization
 ```
 
@@ -18,10 +53,14 @@ cd /root/instruqt-virtualization
 
 ## Step 2 — Verify prerequisites and install Ansible collections
 
-Confirm `sshpass` and `jq` are installed — `setup-rancher.sh` requires both:
+The build needs `ansible` (with `ansible-galaxy`), `kubectl`, `sshpass`, `jq`, and
+`xorriso` on the host. `xorriso` also comes in via the `kvm_host` role, but the
+others must be present before you run the playbook and the setup scripts:
 
 ```bash
-rpm -q sshpass jq || zypper install -y sshpass jq
+zypper install -y ansible kubernetes-client sshpass jq xorriso
+# sshpass may require the PackageHub module:
+#   SUSEConnect -p PackageHub/16.0/x86_64
 ```
 
 Install Ansible collections:
@@ -48,10 +87,13 @@ ISO, renders per-node Harvester config ISOs from the Ansible template, creates
 the Rancher cloud-init ISO, and defines all four KVM VMs.
 
 ```bash
-ansible-playbook -i ansible/inventory.example ansible/playbook.yml
+ansible-playbook -i deployer/inventory.local ansible/playbook.yml
 ```
 
-Verify it completes with zero failures before moving on.
+`deployer/inventory.local` runs against this host (`localhost`,
+`ansible_connection=local`). Do not use `ansible/inventory.example` — that targets
+a placeholder remote host. Verify the run completes with zero failures before
+moving on.
 
 ---
 
@@ -95,9 +137,10 @@ ssh root@192.168.122.11 "kubectl get nodes -o wide"
 ```
 
 > [!NOTE]
-> `setup-rancher.sh` fetches the kubeconfig from harvester1 automatically via SSH
-> and writes it to `/tmp/harvester-kubeconfig` on geekohive. You do not need to
-> copy it manually.
+> `setup-rancher.sh` fetches the kubeconfig from the Harvester VIP automatically via
+> SSH and persists it to `/root/.kube/harvester.yaml` (and `/tmp/harvester-kubeconfig`).
+> The track's `setup-geekohive` relies on `/root/.kube/harvester.yaml` being in the
+> baked image, so do not delete it. You do not need to copy it manually.
 
 ---
 
@@ -120,17 +163,18 @@ Check the Rancher admin password:
 cat /root/rancher-password
 ```
 
-Verify Rancher is reachable:
+Verify Rancher is reachable on its NodePort (K3s has traefik disabled, so Rancher
+is exposed on `30002`, not `443`):
 
 ```bash
-curl -sk https://rancher.192.168.122.9.sslip.io/ping | grep -q "pong" && echo "Rancher OK"
+curl -sk https://192.168.122.9:30002/ping | grep -q "pong" && echo "Rancher OK"
 ```
 
 ---
 
 ## Step 7 — Verify the Harvester import
 
-1. Open `https://rancher.192.168.122.9.sslip.io` in a browser (forward port 443 from geekohive).
+1. Open `https://192.168.122.9:30002` in a browser (forward port 30002 from geekohive).
 2. Log in with `admin` and the password from `/root/rancher-password`.
 3. Go to **Virtualization Management** — the Harvester cluster should show as **Active**.
 
@@ -139,16 +183,34 @@ integration to fully sync.
 
 ---
 
-## Step 8 — Load the openSUSE Leap 16 cloud image
+## Step 8 — Disable Longhorn V2 and install the Harvester UI plugin
 
-Upload the Leap 16 cloud image so it is pre-loaded in Harvester for lab use:
+Two manual bake steps the image needs (see the checklist in `ARCHITECTURE.md`):
+
+1. **Disable the Longhorn V2 data engine.** SPDK/V2 does not work on virtio-blk in
+   nested KVM. In the Harvester UI go to **Advanced → Settings → longhorn-v2-data-engine**
+   and set it to `false` (it should already be disabled by default — confirm it).
+2. **Install the Harvester UI plugin v1.8.0 in Rancher.** In Rancher go to
+   **Extensions**, enable the Harvester extension repo if needed, and install the
+   Harvester plugin matching the cluster version (1.8.0) so **Virtualization
+   Management** renders correctly. Versions must match exactly.
+
+Confirm both before moving on — without them the Rancher Virtualization Management
+UI and Longhorn storage will misbehave in nested KVM.
+
+---
+
+## Step 9 — Load the openSUSE Leap 16 cloud image
+
+Upload the Leap 16 cloud image so it is pre-loaded in Harvester for lab use. The
+image **name must be `leap16`** — every challenge references `default/leap16`:
 
 ```bash
 LEAP16_URL="https://download.opensuse.org/distribution/leap/16.0/appliances/openSUSE-Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
 curl -sk -X POST \
   -H "Authorization: Bearer $(cat /root/harvester-token)" \
   -H "Content-Type: application/json" \
-  -d "{\"metadata\":{\"name\":\"opensuse-leap-16\",\"namespace\":\"default\"},
+  -d "{\"metadata\":{\"name\":\"leap16\",\"namespace\":\"default\"},
        \"spec\":{\"displayName\":\"openSUSE Leap 16\",\"url\":\"${LEAP16_URL}\",
                  \"sourceType\":\"download\"}}" \
   https://192.168.122.10/v1/harvesterhci.io.virtualmachineimages
@@ -158,7 +220,7 @@ Wait for the image to reach state `active` before continuing.
 
 ---
 
-## Step 9 — Shut off all VMs
+## Step 10 — Shut off all VMs
 
 With everything installed and verified, shut off all VMs cleanly:
 
@@ -177,7 +239,7 @@ All four VMs should show `shut off` before you save the image.
 
 ---
 
-## Step 10 — Save the Instruqt image
+## Step 11 — Save the Instruqt image
 
 From the Instruqt web console:
 

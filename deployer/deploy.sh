@@ -115,4 +115,4 @@ HARVESTER_OS_PASSWORD="${HARVESTER_OS_PASSWORD}" \
 log ""
 log "Deployment complete."
 log "  Harvester VIP : ${HARVESTER_VIP}  (UI on :${HARVESTER_UI_PORT:-8443})"
-log "  Rancher       : https://rancher.${RANCHER_IP}.sslip.io  (admin password in /root/rancher-password)"
+log "  Rancher       : https://${RANCHER_IP}:30002  (NodePort; admin password in /root/rancher-password)"

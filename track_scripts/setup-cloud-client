@@ -124,11 +124,14 @@ else
   echo ">>> _SANDBOX_DNS not set — skipping Rancher server-url update (nginx proxy_redirect active)"
 fi
 
-# Get the Rancher cluster ID for the imported Harvester cluster
+# Get the Rancher cluster ID for the imported Harvester cluster.
+# Query by name "harvester" (the name setup-rancher.sh imports it under) — NOT
+# "local", which is Rancher's own K3s management cluster. Falls back to the first
+# non-local cluster if the name ever changes.
 echo ">>> Configuring kubectl to access Harvester through Rancher..."
 CLUSTER_ID=$(curl -sk \
   -H "Authorization: Bearer $RANCHER_TOKEN" \
-  "${RANCHER_URL}/v3/clusters?name=local" \
+  "${RANCHER_URL}/v3/clusters?name=harvester" \
   | jq -r '.data[0].id')
 
 if [ -z "$CLUSTER_ID" ] || [ "$CLUSTER_ID" = "null" ]; then

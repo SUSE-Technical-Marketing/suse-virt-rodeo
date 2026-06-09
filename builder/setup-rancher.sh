@@ -20,6 +20,10 @@ RANCHER_VERSION="2.13.1"
 RANCHER_HOSTNAME="rancher.${RANCHER_VM_IP}.sslip.io"
 RANCHER_ADMIN_PASS_FILE="/root/rancher-password"
 HARVESTER_VIP="192.168.122.10"   # floating kube-vip VIP (not a node IP)
+RANCHER_NODEPORT=30002
+# K3s has traefik disabled, so Rancher is reached on a NodePort, not :443.
+# All setup-time API calls and the agent server-url use this endpoint.
+RANCHER_API="https://${RANCHER_VM_IP}:${RANCHER_NODEPORT}"
 K3S_VERSION="v1.31.4+k3s1"  # latest stable at time of writing; update as needed
 
 SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=10 -o BatchMode=yes"
@@ -144,9 +148,38 @@ helm install rancher rancher-prime/rancher \\
 echo "Rancher deployment complete."
 RANCHEREOF
 
-log "Waiting for Rancher to respond on https://${RANCHER_HOSTNAME}/ping..."
+# Expose Rancher on a fixed NodePort (K3s has traefik disabled, so there is no
+# ingress on :443). The cloud-client proxy and setup-geekohive both target
+# geekohive:30002 -> 192.168.122.9:30002. Reuse the rancher service's own https
+# targetPort so we do not hardcode it.
+log "Exposing Rancher on NodePort ${RANCHER_NODEPORT}..."
+ssh_vm bash -s <<EOF
+set -euo pipefail
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+HTTPS_TARGET=\$(kubectl -n cattle-system get svc rancher -o jsonpath='{.spec.ports[?(@.port==443)].targetPort}')
+[ -n "\${HTTPS_TARGET}" ] || HTTPS_TARGET=443
+kubectl apply -f - <<YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: rancher-nodeport
+  namespace: cattle-system
+spec:
+  type: NodePort
+  selector:
+    app: rancher
+  ports:
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: \${HTTPS_TARGET}
+    nodePort: ${RANCHER_NODEPORT}
+YAML
+EOF
+
+log "Waiting for Rancher to respond on ${RANCHER_API}/ping..."
 for i in $(seq 1 60); do
-  if curl -sk --max-time 5 "https://${RANCHER_HOSTNAME}/ping" | grep -q "pong"; then
+  if curl -sk --max-time 5 "${RANCHER_API}/ping" | grep -q "pong"; then
     log "Rancher is up."
     break
   fi
@@ -163,7 +196,7 @@ log "Setting Rancher admin password..."
 # Rancher requires changing the bootstrap password on first login.
 # We use the API to do this programmatically.
 FIRST_LOGIN_RESP=$(curl -sk -X POST \
-  "https://${RANCHER_HOSTNAME}/v3-public/localProviders/local?action=login" \
+  "${RANCHER_API}/v3-public/localProviders/local?action=login" \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin"}')
 
@@ -174,7 +207,7 @@ TEMP_TOKEN=$(echo "${FIRST_LOGIN_RESP}" | jq -r '.token')
 ADMIN_PASS=$(tr -dc 'A-Za-z0-9!@#%^&*' < /dev/urandom | head -c 24)
 
 curl -sk -X POST \
-  "https://${RANCHER_HOSTNAME}/v3/users?action=changepassword" \
+  "${RANCHER_API}/v3/users?action=changepassword" \
   -H "Authorization: Bearer ${TEMP_TOKEN}" \
   -H "Content-Type: application/json" \
   -d "{\"currentPassword\":\"admin\",\"newPassword\":\"${ADMIN_PASS}\"}"
@@ -186,7 +219,7 @@ log "Admin password written to ${RANCHER_ADMIN_PASS_FILE}"
 
 # Get a permanent API token
 TOKEN_RESP=$(curl -sk -X POST \
-  "https://${RANCHER_HOSTNAME}/v3-public/localProviders/local?action=login" \
+  "${RANCHER_API}/v3-public/localProviders/local?action=login" \
   -H "Content-Type: application/json" \
   -d "{\"username\":\"admin\",\"password\":\"${ADMIN_PASS}\"}")
 
@@ -194,11 +227,13 @@ API_TOKEN=$(echo "${TOKEN_RESP}" | jq -r '.token')
 [[ -z "${API_TOKEN}" || "${API_TOKEN}" == "null" ]] && die "Failed to authenticate with new password"
 
 # Set the Rancher server URL
+# server-url must be reachable by the Harvester cattle-cluster-agent, which sits
+# on the same 192.168.122.0/24 network — point it at the NodePort, not :443.
 curl -sk -X PUT \
-  "https://${RANCHER_HOSTNAME}/v3/settings/server-url" \
+  "${RANCHER_API}/v3/settings/server-url" \
   -H "Authorization: Bearer ${API_TOKEN}" \
   -H "Content-Type: application/json" \
-  -d "{\"value\":\"https://${RANCHER_HOSTNAME}\"}"
+  -d "{\"value\":\"${RANCHER_API}\"}"
 
 log "Rancher admin password set and server URL configured."
 
@@ -209,7 +244,7 @@ log "Importing Harvester cluster into Rancher..."
 
 # Create a provisioned cluster record for Harvester import
 CLUSTER_RESP=$(curl -sk -X POST \
-  "https://${RANCHER_HOSTNAME}/v3/clusters" \
+  "${RANCHER_API}/v3/clusters" \
   -H "Authorization: Bearer ${API_TOKEN}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -226,7 +261,7 @@ log "  Cluster record created: ${CLUSTER_ID}"
 
 # Get the registration URL (Harvester kubeconfig import URL)
 IMPORT_RESP=$(curl -sk -X POST \
-  "https://${RANCHER_HOSTNAME}/v3/clusters/${CLUSTER_ID}?action=generateKubeconfig" \
+  "${RANCHER_API}/v3/clusters/${CLUSTER_ID}?action=generateKubeconfig" \
   -H "Authorization: Bearer ${API_TOKEN}" \
   -H "Content-Type: application/json" \
   -d '{}')
@@ -236,7 +271,7 @@ IMPORT_URL=$(echo "${IMPORT_RESP}" | jq -r '.config // empty')
 # The correct import method for Harvester uses the cattle-cluster-agent manifest.
 # Retrieve it and apply on the Harvester cluster.
 MANIFEST_URL=$(curl -sk \
-  "https://${RANCHER_HOSTNAME}/v3/clusterregistrationtokens?clusterId=${CLUSTER_ID}" \
+  "${RANCHER_API}/v3/clusterregistrationtokens?clusterId=${CLUSTER_ID}" \
   -H "Authorization: Bearer ${API_TOKEN}" | jq -r '.data[0].manifestUrl')
 
 log "  Applying import manifest to Harvester cluster (${HARVESTER_VIP})..."
@@ -259,6 +294,14 @@ if [[ ! -f "${HARVESTER_KUBECONFIG}" ]]; then
   sed -i "s|127.0.0.1|${HARVESTER_VIP}|g" "${HARVESTER_KUBECONFIG}"
 fi
 
+# Persist the Harvester kubeconfig to the path the track expects.
+# track_scripts/setup-geekohive does `export KUBECONFIG=/root/.kube/harvester.yaml`
+# and waits on `kubectl get nodes`, so this file MUST exist in the baked image.
+mkdir -p /root/.kube
+cp "${HARVESTER_KUBECONFIG}" /root/.kube/harvester.yaml
+chmod 600 /root/.kube/harvester.yaml
+log "Harvester kubeconfig saved to /root/.kube/harvester.yaml (API at ${HARVESTER_VIP}:6443)"
+
 # Apply the Rancher import manifest on the Harvester cluster
 curl -sk "${MANIFEST_URL}" | \
   KUBECONFIG="${HARVESTER_KUBECONFIG}" kubectl apply -f -
@@ -268,7 +311,7 @@ log "  Import manifest applied. Waiting for cattle-cluster-agent to connect..."
 # Poll Rancher until the cluster shows as Active
 for i in $(seq 1 60); do
   STATE=$(curl -sk \
-    "https://${RANCHER_HOSTNAME}/v3/clusters/${CLUSTER_ID}" \
+    "${RANCHER_API}/v3/clusters/${CLUSTER_ID}" \
     -H "Authorization: Bearer ${API_TOKEN}" | jq -r '.state // "unknown"')
 
   log "  Cluster state: ${STATE} (attempt $i/60)"
@@ -309,7 +352,7 @@ done
 
 log ""
 log "Setup complete. Summary:"
-log "  Rancher URL   : https://${RANCHER_HOSTNAME}"
+log "  Rancher URL   : ${RANCHER_API}  (NodePort; UI also via cloud-client tab)"
 log "  Admin password: $(cat ${RANCHER_ADMIN_PASS_FILE})"
 log "  Cluster ID    : ${CLUSTER_ID}"
 log ""

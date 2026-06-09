@@ -71,6 +71,23 @@ Join nodes use `server_url: https://192.168.122.10:443`.
 Ansible roles, then starts the VMs and installs Rancher. Runs on any SLES 16 / Leap 16
 host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
 
+**External-audit fixes (2026-06-09 round):**
+- Rancher is exposed on **NodePort 30002** (`rancher-nodeport` svc in `cattle-system`),
+  because K3s runs with traefik disabled. All setup-time Rancher API calls + the agent
+  `server-url` go through `https://192.168.122.9:30002`, not `:443`.
+- `setup-rancher.sh` (builder + deployer) now persists `/root/.kube/harvester.yaml`
+  (the path `setup-geekohive` waits on). Previously only `/tmp/harvester-kubeconfig`.
+- `setup-cloud-client` queries the Rancher cluster by `name=harvester`, not `name=local`
+  (which is Rancher's own K3s cluster).
+- Harvester image name standardized to **`leap16`** (challenges use `default/leap16`).
+- Builder docs: clone `-b sles16-mig` from the correct org, run with
+  `deployer/inventory.local`, install ansible/kubectl/xorriso, Step 0 disk >=1 TB note,
+  manual Longhorn-V2-disable + Harvester-UI-plugin steps.
+- Builder Instruqt structure aligned to the main track: frontmatter in
+  `01-build/assignment.md` (slug `build`), inline `challenges:` removed from
+  `builder/track.yml`.
+- Legacy `Converting-SLES-15.6-KVM-host.md` rewritten as `Converting-SLES-16-KVM-host.md`.
+
 ## Where things live
 
 ```
@@ -118,8 +135,10 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
 
 ## Open items / things only verifiable on a real SLES 16 host
 
-- firewalld masquerade/DNAT return path and bridge mode have not been run end-to-end.
-  The custom Instruqt image has never been built.
+- Nothing has been run end-to-end; the custom Instruqt image has never been built.
+  Verify on a live host: firewalld masquerade/DNAT return path; bridge mode; the
+  Rancher NodePort `30002` (confirm the rancher svc https targetPort the NodePort
+  reuses); the Harvester import going Active via `server-url` on `:30002`.
 - Confirm the Instruqt SLES 16 base image slug (`suse/sles-16-0` is assumed in
   `builder/config.yml` and `config.yml`).
 - `sshpass` may need the PackageHub module on SLES 16.

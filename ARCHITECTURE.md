@@ -181,6 +181,12 @@ Runtime:
   Harvester cluster pre-imported (not provisioned — imported existing)
 ```
 
+K3s is installed with traefik disabled, so Rancher is **not** reachable on `:443`.
+`setup-rancher.sh` creates a NodePort service (`rancher-nodeport` in `cattle-system`,
+nodePort `30002` → the rancher service's https targetPort) to expose it. All
+setup-time Rancher API calls, the agent `server-url`, the host DNAT, and the
+cloud-client proxy therefore use `192.168.122.9:30002`.
+
 ---
 
 ## Instruqt config.yml Roles
@@ -327,7 +333,7 @@ See `builder/` directory for the builder track config and Ansible playbook.
 2. Clone repo, install Ansible collections:
      ansible-galaxy collection install -r ansible/requirements.yml
 3. Run the full Ansible playbook (kvm_host + vms roles):
-     ansible-playbook -i ansible/inventory.example ansible/playbook.yml
+     ansible-playbook -i deployer/inventory.local ansible/playbook.yml
    This configures the KVM host AND prepares all VM assets:
    - libvirt network (virbr0) redefined with static DHCP entries
    - 3x 270 GB Harvester qcow2 disks + 60 GB Rancher disk
@@ -375,7 +381,7 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 ## Image Build Checklist
 
 **Host layer (Ansible roles):**
-- [ ] `ansible-playbook -i ansible/inventory.example ansible/playbook.yml` (kvm_host + vms roles)
+- [ ] `ansible-playbook -i deployer/inventory.local ansible/playbook.yml` (kvm_host + vms roles)
 - [ ] `cat /sys/module/kvm_intel/parameters/nested` → `Y`
 - [ ] `virsh net-list --all` → virbr0 (default) active; each Harvester node has 5 NICs (eth0–eth4) on virbr0
 - [ ] `firewall-cmd --zone=public --list-ports` → 8443/tcp 30001/tcp 30002/tcp
