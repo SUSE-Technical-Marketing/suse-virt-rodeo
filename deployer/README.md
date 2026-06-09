@@ -13,8 +13,10 @@ left untouched; this deployer reuses the same shared Ansible roles in
 A SLES 16 (or Leap 16 / openSUSE) host with:
 
 - Nested virtualization enabled (`kvm_intel.nested=1` / `kvm_amd.nested=1`)
-- Enough capacity: ~28 vCPU, ~88 GiB RAM, ~870 GB disk for the full stack
-  (3 × Harvester at 8 vCPU / 24 GiB / 270 GB + Rancher at 4 vCPU / 16 GiB / 60 GB)
+- Enough capacity: 32 vCPU, ~90 GB RAM, ~950 GB disk for the full stack
+  (3 × Harvester at 8 vCPU / 20 GiB / 270 GB + Rancher at 4 vCPU / 12 GiB / 60 GB =
+  28 vCPU / 72 GiB; disks are thin, ~300-350 GB actually used). On a 128 GiB host
+  you can raise the node memory in `ansible/roles/vms/defaults/main.yml`.
 - Outbound internet (pulls the Harvester ISO, Leap image, K3s, Rancher charts)
 - `ansible`, `xorriso`, `jq`, `curl`, `kubectl`, `ssh` installed
   (`sudo zypper in ansible kubernetes-client xorriso jq curl openssh-clients`).

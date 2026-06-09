@@ -17,8 +17,10 @@ An Instruqt interactive lab. Learners migrate a fictional airport IT platform
 ("AeroGrid Operations") from VMware to SUSE Virtualization (Harvester HCI). A single
 GCP VM (`geekohive`, n2-standard-32, nested virt on) runs four nested KVM guests:
 
-- `harvester1/2/3` — 8 vCPU, 24 GiB, 270 GB qcow2, Harvester 1.8.0, 5 NICs each
-- `rancher` — 4 vCPU, 16 GiB, 60 GB, K3s + Rancher Prime 2.13.1
+- `harvester1/2/3` — 8 vCPU, 20 GiB, 270 GB qcow2, Harvester 1.8.0, 5 NICs each
+- `rancher` — 4 vCPU, 12 GiB, 60 GB, K3s + Rancher Prime 2.13.1
+- Sized for a 32 vCPU / 90 GB / 950 GB host (guests 28 vCPU / 72 GiB; thin disks).
+  Raise node memory in `libvirt_flavors` on a 128 GiB host.
 
 Harvester is built on **RKE2**. Rancher imports the Harvester cluster. Component
 versions are unchanged on this branch (Harvester 1.8.0, Rancher Prime 2.13.1, K3s

@@ -2,7 +2,7 @@ graph TB
     subgraph SANDBOX["☁️  Instruqt Sandbox"]
         direction LR
 
-        subgraph GH["🖥️  geekohive  ·  Virtual Machine\nn2-standard-32  ·  SLES 16  ·  950 GB pd-ssd  ·  nested_virtualization: true"]
+        subgraph GH["🖥️  geekohive  ·  Virtual Machine\n32 vCPU · 90 GB · SLES 16 · 950 GB SSD · nested_virtualization: true"]
             direction TB
             DNAT["firewalld port-forward\n:8443 → VIP 192.168.122.10:443\n:30002 → 192.168.122.9:30002"]
 
@@ -10,11 +10,11 @@ graph TB
                 direction TB
                 subgraph HVC["Harvester 1.8.0  —  3-node HA cluster"]
                     direction LR
-                    H1["harvester1  ·  .11\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]
-                    H2["harvester2  ·  .12\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]
-                    H3["harvester3  ·  .13\n8 vCPU · 24 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]
+                    H1["harvester1  ·  .11\n8 vCPU · 20 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]
+                    H2["harvester2  ·  .12\n8 vCPU · 20 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]
+                    H3["harvester3  ·  .13\n8 vCPU · 20 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]
                 end
-                RN["rancher  ·  .9\n4 vCPU  ·  16 GiB  ·  60 GB\nK3s  +  Rancher Prime 2.13.1\neth0 management only"]
+                RN["rancher  ·  .9\n4 vCPU  ·  12 GiB  ·  60 GB\nK3s  +  Rancher Prime 2.13.1\neth0 management only"]
             end
         end
 

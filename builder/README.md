@@ -92,7 +92,9 @@ Before running the builder track, confirm:
 - The SLES 16 base image slug is `suse/sles-16-0` (verify in the Instruqt image catalog).
   If the slug differs, update `config.yml` before pushing the builder track.
 - The builder sandbox must have nested virtualization enabled (already set in `config.yml`).
-- Machine type `n2-standard-32` gives 32 vCPU and 128 GB RAM — required for all 4 VMs.
+- The sandbox needs ~32 vCPU and ~90 GB RAM (guests use 28 vCPU / 72 GiB). An
+  `n2-standard-32` (32 vCPU, 128 GiB) has extra headroom; raise the node memory in
+  `ansible/roles/vms/defaults/main.yml` if you have it.
 - `ansible`, `kubectl`, `jq`, `xorriso`, and `ssh` must be available on geekohive.
   Install if missing: `zypper install -y ansible kubernetes-client jq xorriso openssh-clients`.
   SSH to the guests is key-based (no `sshpass`) — the playbook bakes the host public

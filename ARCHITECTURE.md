@@ -172,7 +172,7 @@ Longhorn V2 data engine must remain **disabled** — SPDK requires NVMe and does
 
 ```
 CPU:  4 vCPU
-RAM:  16 GiB
+RAM:  12 GiB
 Disk: 60 GB qcow2
 NIC:  virbr0 only (management, 192.168.122.9)
 Runtime:
@@ -275,27 +275,26 @@ Port 92 is not configured here. The student opens it in challenge 06.
 ## Resource Budget
 
 ```
-geekohive: n2-standard-32 (32 vCPU, 128 GiB RAM)
+Host: 32 vCPU, 90 GB RAM, 950 GB SSD  (e.g. n2-standard-32 has more RAM headroom)
 
-  harvester1:  8 vCPU  24 GiB  vda=270 GB
-  harvester2:  8 vCPU  24 GiB  vda=270 GB
-  harvester3:  8 vCPU  24 GiB  vda=270 GB
-  rancher:     4 vCPU  16 GiB  60 GB
+  harvester1:  8 vCPU  20 GiB  vda=270 GB
+  harvester2:  8 vCPU  20 GiB  vda=270 GB
+  harvester3:  8 vCPU  20 GiB  vda=270 GB
+  rancher:     4 vCPU  12 GiB  60 GB
   ─────────────────────────────────────────────────────
-  Total KVM:  28 vCPU  88 GiB
-  Host overhead: 4 vCPU, ~8 GiB
-  Remaining:  0 vCPU slack, ~32 GiB RAM headroom
+  Total KVM:  28 vCPU  72 GiB
+  Host overhead: 4 vCPU, ~4-8 GiB
+  Remaining:  4 vCPU slack, ~13 GiB RAM headroom on a 90 GB host
 
-Disk (qcow2, preallocation=metadata, 950 GB GCP pd-ssd):
-  host root:  40 GB
-  3 × 270 GB Harvester + 60 GB Rancher = 870 GB provisioned
-  Headroom: ~40 GB
+Disk (qcow2, preallocation=metadata, 950 GB SSD):
+  host root:  ~40 GB
+  3 × 270 GB Harvester + 60 GB Rancher = 870 GB provisioned (thin)
   Actual consumed after fresh install: ~300-350 GB (thin-provisioned)
   Harvester partition layout per node: ~173 GB OS + ~97 GB Longhorn (HARV_LH_DEFAULT)
   Longhorn usable per node (after 30% reserve): ~68 GB
 ```
 
-Note: 24 GiB per Harvester node is below the official 32 GiB production minimum but is proven to work for dev/lab clusters. The Harvester reference HCIAB uses 16 GiB per node.
+The disks are thin (`preallocation=metadata`), so 870 GB of virtual disk fits comfortably on a 950 GB SSD — actual use is ~300-350 GB. RAM is the binding constraint, not disk: the 72 GiB guest allocation leaves ~13 GiB on a 90 GB host. 20 GiB per Harvester node is below the official 32 GiB production minimum but proven for dev/lab clusters (the Harvester reference HCIAB uses 16 GiB). On a larger host (e.g. 128 GiB) you can raise the nodes back to 24 GiB / 16 GiB in `libvirt_flavors`.
 
 ---
 

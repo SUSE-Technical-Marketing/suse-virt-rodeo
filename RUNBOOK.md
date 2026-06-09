@@ -24,8 +24,11 @@ A SLES 16 / openSUSE Leap 16 machine (bare metal, cloud VM, or IaaS). It needs:
 - **Nested virtualization on.** Harvester runs VMs inside itself (KubeVirt), so the
   host CPU must pass virtualization through. On a cloud VM enable this at creation
   (e.g. GCP `--enable-nested-virtualization`, or a bare-metal/`*.metal` instance).
-- **Capacity:** ~28 vCPU, ~96 GiB RAM, **≥ 1 TB** disk. The playbook creates
-  3×270 GB + 60 GB qcow2 disks (~870 GB).
+- **Capacity:** 32 vCPU, ~90 GB RAM, ~950 GB disk. The guests take 28 vCPU and
+  72 GiB (3×20 GiB Harvester + 12 GiB Rancher), leaving ~13 GiB for the host. The
+  disks are thin (`preallocation=metadata`): 870 GB virtual, ~300-350 GB actually
+  used, so 950 GB is plenty. On a larger host you can raise the node memory in
+  `ansible/roles/vms/defaults/main.yml` (`libvirt_flavors`).
 - **Root access** and **outbound internet** (pulls the Harvester ISO, the Leap
   image, K3s, and the Rancher charts).
 
@@ -34,7 +37,8 @@ Confirm the hardware:
 ```bash
 lscpu | grep -i virtualization                 # expect VT-x or AMD-V
 cat /sys/module/kvm_intel/parameters/nested    # expect Y (kvm_amd on AMD)
-df -h /var/lib                                  # expect ~1 TB free
+free -g                                         # expect ~90 GB total
+df -h /var/lib                                  # expect ~950 GB free
 ```
 
 If `nested` prints `N`, fix nested virt on the platform first — the cluster cannot

@@ -71,10 +71,10 @@ Port 92 is not pre-configured. The student runs `kubectl port-forward` in challe
 
 | VM | vCPU | RAM | Disk | IP | Purpose |
 |---|---|---|---|---|---|
-| harvester1 | 8 | 24 GiB | 270 GB qcow2 | 192.168.122.11 | Bootstrap (cluster-init) node |
-| harvester2 | 8 | 24 GiB | 270 GB qcow2 | 192.168.122.12 | Join node |
-| harvester3 | 8 | 24 GiB | 270 GB qcow2 | 192.168.122.13 | Join node |
-| rancher | 4 | 16 GiB | 60 GB qcow2 | 192.168.122.9 | K3s + Rancher Prime 2.13.1 |
+| harvester1 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.11 | Bootstrap (cluster-init) node |
+| harvester2 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.12 | Join node |
+| harvester3 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.13 | Join node |
+| rancher | 4 | 12 GiB | 60 GB qcow2 | 192.168.122.9 | K3s + Rancher Prime 2.13.1 |
 
 The cluster API/UI live on a **floating kube-vip VIP at `192.168.122.10`** — a free
 address, not any node's IP, so it survives a node going down. All VMs share a single
@@ -109,16 +109,16 @@ virbr0 -- 192.168.122.0/24
 ### Host resource budget
 
 ```
-geekohive: n2-standard-32 (32 vCPU, 128 GiB RAM, 950 GB pd-ssd)
+geekohive: 32 vCPU, 90 GB RAM, 950 GB SSD
 
-  harvester1:  8 vCPU  24 GiB  vda = 270 GB qcow2 (preallocation=metadata)
-  harvester2:  8 vCPU  24 GiB  vda = 270 GB qcow2
-  harvester3:  8 vCPU  24 GiB  vda = 270 GB qcow2
-  rancher:     4 vCPU  16 GiB  60 GB qcow2
+  harvester1:  8 vCPU  20 GiB  vda = 270 GB qcow2 (preallocation=metadata)
+  harvester2:  8 vCPU  20 GiB  vda = 270 GB qcow2
+  harvester3:  8 vCPU  20 GiB  vda = 270 GB qcow2
+  rancher:     4 vCPU  12 GiB  60 GB qcow2
   -------------------------------------------------------
-  KVM total:  28 vCPU  88 GiB
-  Host overhead:  4 vCPU, ~8 GiB
-  RAM headroom:  ~32 GiB
+  KVM total:  28 vCPU  72 GiB
+  Host overhead:  4 vCPU, ~4-8 GiB
+  RAM headroom:  ~13 GiB on a 90 GB host
 
 Disk layout per Harvester node (270 GB vda):
   COS_PERSISTENT:    ~173 GB  (OS + container images)
@@ -135,16 +135,17 @@ Disk layout per Harvester node (270 GB vda):
 Single-node Harvester is technically possible but teaches nothing about the HA
 properties that make the platform valuable. The 3-node setup gives a real etcd
 quorum, demonstrates live migration across nodes, and lets students see Longhorn
-replica distribution across the cluster. 24 GiB per node is below the production
-minimum of 32 GiB but proven to work for dev and lab workloads.
+replica distribution across the cluster. 20 GiB per node is below the production
+minimum of 32 GiB but proven to work for dev and lab workloads (the Harvester
+reference HCIAB uses 16 GiB).
 
-### Nested KVM on GCP n2-standard-32
+### Nested KVM on a 32 vCPU / 90 GB host
 
-This is the Instruqt-native approach. A single GCP instance with nested
-virtualization enabled runs all four KVM guests without needing physical hardware or
-a dedicated lab environment. The `n2-standard-32` gives enough CPU, RAM, and disk
-to run a real 3-node Harvester cluster without resource pressure. The 950 GB pd-ssd
-gives ~40 GB of headroom after all images are provisioned.
+A single instance with nested virtualization runs all four KVM guests without
+physical hardware or a dedicated lab environment. 32 vCPU and 90 GB RAM are enough:
+guests take 28 vCPU and 72 GiB, leaving ~13 GiB for the host. The 950 GB SSD holds
+the thin-provisioned disks (870 GB virtual, ~300-350 GB actually used). On a larger
+host (e.g. a 128 GiB n2-standard-32) raise the node memory in `libvirt_flavors`.
 
 ### SLES 16 as the KVM host
 
