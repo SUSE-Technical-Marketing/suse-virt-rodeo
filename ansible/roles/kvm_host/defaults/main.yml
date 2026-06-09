@@ -7,8 +7,12 @@ kvm_host_patterns:
 kvm_host_packages:
   - jq
   - curl
-  - xorriso             # builds the Harvester/cloud-init seed ISOs (genisoimage is gone on SLES 16)
-  - qemu-ovmf-x86_64    # UEFI/OVMF firmware for the Harvester nodes
+  - xorriso                  # builds the Harvester/cloud-init seed ISOs (genisoimage is gone on SLES 16)
+  - qemu-tools               # qemu-img — used heavily by the vms role (create/convert/resize)
+  - qemu-ovmf-x86_64         # UEFI/OVMF firmware for the Harvester nodes
+  - firewalld                # the firewall.yml tasks configure it; not guaranteed on a minimal image
+  - python3-firewall         # required by the ansible.posix.firewalld module (imports `firewall`)
+  - python3-libvirt-python   # required by the community.libvirt modules (virt/virt_net/virt_pool)
 
 # --- Lab addressing ---
 # Floating cluster VIP held by kube-vip. MUST NOT be a node IP — it migrates to a
