@@ -1,7 +1,7 @@
-# Target: a SLES 16 / openSUSE Leap 16 host with KVM + nested virtualization.
+# Target: the local host (default — image build or deployer running on the KVM host itself).
 [kvm_host]
-fastredcar ansible_host=<IP_OR_HOSTNAME> ansible_user=root
+localhost ansible_connection=local
 
-# For a local run (e.g. during image build, or the deployer running on the host itself):
+# For a remote SLES 16 / openSUSE Leap 16 host, comment out localhost above and use:
 # [kvm_host]
-# localhost ansible_connection=local
+# myhost ansible_host=<IP_OR_HOSTNAME> ansible_user=root

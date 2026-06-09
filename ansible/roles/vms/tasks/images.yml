@@ -30,7 +30,7 @@
 
 - name: Download Harvester {{ harvester_version }} ISO
   ansible.builtin.get_url:
-    url: "https://github.com/harvester/harvester/releases/download/v{{ harvester_version }}/harvester-v{{ harvester_version }}-amd64.iso"
+    url: "https://releases.rancher.com/harvester/v{{ harvester_version }}/harvester-v{{ harvester_version }}-amd64.iso"
     dest: "{{ image_dir }}/harvester-v{{ harvester_version }}-amd64.iso"
     checksum: "{{ harvester_iso_checksum | default(omit) }}"
     mode: '0644'

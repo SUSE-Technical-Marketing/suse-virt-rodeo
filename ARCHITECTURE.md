@@ -99,7 +99,6 @@ geekohive (host)
 └── firewalld port-forwarding (nftables backend, permanent rules)
     :8443  → 192.168.122.10:443    (Harvester VIP — Harvester serves on 443)
     :30002 → 192.168.122.9:30002   (Rancher K3s NodePort)
-    :30001 → 192.168.122.9:30001   (Rancher NodePort alt)
 ```
 
 Harvester forms a 3-node cluster. The management VIP `192.168.122.10` is a **floating address held by kube-vip** — it is not any node's IP. kube-vip keeps it on a healthy node and moves it to a survivor if the holder goes down, so the API and UI stay reachable as long as any node is up. firewalld on `geekohive` forwards host port 8443 to the VIP on 443 (Harvester's management port; NAT mode); if the VIP migrates, traffic follows automatically. SLES 16 firewalld uses the nftables backend, so the DNAT is native firewalld port-forwarding — no raw iptables and no custom systemd unit.
@@ -310,7 +309,7 @@ These cannot be done at sandbox startup — too slow or require pre-provisioning
 | `/root/rancher-password` | Set during image prep |
 | Harvester UI plugin v1.8.0 in Rancher | Must match Harvester version exactly |
 | openSUSE Leap 16 qcow2 image in Harvester | Download during startup would stall students |
-| firewalld permanent port-forwards (8443/30002/30001 → guests) | Must survive reboots |
+| firewalld permanent port-forwards (8443/30002 → guests) | Must survive reboots |
 | KVM VMs defined in libvirt XML | shut off, not suspended |
 | virbr0 (default libvirt network) with DHCP MAC reservations for eth0 NICs | Fixed IPs required for etcd stability |
 | Longhorn V2 data engine disabled | SPDK incompatible with nested KVM |
@@ -383,15 +382,15 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 - [ ] `ansible-playbook -i deployer/inventory.local ansible/playbook.yml` (kvm_host + vms roles)
 - [ ] `cat /sys/module/kvm_intel/parameters/nested` → `Y`
 - [ ] `virsh net-list --all` → virbr0 (default) active; each Harvester node has 5 NICs (eth0–eth4) on virbr0
-- [ ] `firewall-cmd --zone=public --list-ports` → 8443/tcp 30001/tcp 30002/tcp
-- [ ] `firewall-cmd --zone=public --list-forward-ports` → 8443→VIP, 30002/30001→Rancher
+- [ ] `firewall-cmd --zone=public --list-ports` → 8443/tcp 30002/tcp
+- [ ] `firewall-cmd --zone=public --list-forward-ports` → 8443→VIP:443, 30002→Rancher:30002
 - [ ] modular libvirt daemons active: `systemctl is-active virtqemud.socket virtnetworkd.socket`
 
 **Harvester cluster:**
 - [ ] 3 Harvester 1.8.0 nodes installed and clustered
 - [ ] `kubectl get nodes --kubeconfig /root/.kube/harvester.yaml` → 3 Ready
 - [ ] Harvester VIP responds: `curl -sk https://192.168.122.10/ping` (VIP serves on 443)
-- [ ] VIP is floating, not a node IP: `ssh root@192.168.122.10 ip a` lands on the current leader
+- [ ] VIP is floating, not a node IP: `ssh -i /root/.ssh/id_ed25519 rancher@192.168.122.10 "ip a"` lands on the current leader
 
 **Rancher:**
 - [ ] K3s running on rancher VM (192.168.122.9)

@@ -377,7 +377,7 @@ tail -f /var/log/libvirt/qemu/harvester3_serial.log
 ### Step 5 — Confirm the cluster
 
 ```bash
-ssh root@192.168.122.11 "kubectl get nodes -o wide"
+ssh -i /root/.ssh/id_ed25519 rancher@192.168.122.10 "sudo kubectl get nodes -o wide"
 ```
 
 All 3 nodes should show `Ready`. Total time from VM start: 40-90 minutes.
@@ -447,11 +447,11 @@ All four VMs must show `shut off` before saving.
 - [ ] `cat /sys/module/kvm_intel/parameters/nested` returns `Y`
 - [ ] `virsh net-list --all` shows `default` (virbr0) active
 - [ ] `systemctl is-active virtqemud.socket virtnetworkd.socket` → active
-- [ ] `firewall-cmd --zone=public --list-ports` includes `8443/tcp 30001/tcp 30002/tcp`
+- [ ] `firewall-cmd --zone=public --list-ports` includes `8443/tcp 30002/tcp`
 - [ ] `firewall-cmd --zone=public --list-forward-ports` shows the DNAT to the guests
 
 **Harvester cluster:**
-- [ ] `ssh root@192.168.122.11 "kubectl get nodes"` shows 3 nodes Ready
+- [ ] `ssh -i /root/.ssh/id_ed25519 rancher@192.168.122.10 "sudo kubectl get nodes"` shows 3 nodes Ready
 - [ ] `curl -sk https://192.168.122.10/ping` responds (via the floating VIP)
 
 **Rancher:**

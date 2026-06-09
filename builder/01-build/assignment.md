@@ -137,7 +137,7 @@ fully formed before running `setup-rancher.sh`.
 Confirm all three nodes are Ready by SSHing into harvester1:
 
 ```bash
-ssh root@192.168.122.11 "kubectl get nodes -o wide"
+ssh -i /root/.ssh/id_ed25519 rancher@192.168.122.10 "sudo kubectl get nodes -o wide"
 ```
 
 > [!NOTE]

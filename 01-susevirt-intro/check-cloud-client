@@ -6,7 +6,7 @@ source ~/.bashrc
 
 # Check vms cluster network exists
 if ! kubectl get clusternetworks.network.harvesterhci.io vms &>/dev/null; then
-  fail-message "The 'vms' cluster network does not exist yet. Create it in Networks > Cluster Networks and assign eth1 on each node."
+  fail-message "The 'vms' cluster network does not exist yet. Create it in Networks > Cluster Networks and assign eth3 on each node."
   exit 1
 fi
 

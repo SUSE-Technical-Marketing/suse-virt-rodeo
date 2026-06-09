@@ -33,7 +33,6 @@ libvirt_network_cidr: "192.168.122.0/24"
 harvester_ui_port: 8443
 harvester_https_port: 443
 rancher_nodeport: 30002
-rancher_nodeport_alt: 30001
 
 # --- libvirt daemon model ---
 # SLES 16 ships the modular libvirt daemons (virtqemud, virtnetworkd, ...) by
