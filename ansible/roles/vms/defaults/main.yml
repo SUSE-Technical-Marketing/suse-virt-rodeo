@@ -9,9 +9,12 @@ harvester_iso_checksum: ""  # set to "sha256:<hash>" from Harvester release page
 # rancher .9). It migrates to a surviving node on failure. Outside the DHCP pool.
 harvester_vip: "192.168.122.10"
 harvester_token: "HarvesterRodeoBootstrapToken2024"
-harvester_os_password: "HarvesterRodeo2024!"
+# Single lab password. Used for the Harvester node OS console, the Rancher VM root
+# console, and (via setup-rancher.sh) the Harvester and Rancher dashboard admins.
+# Lab-grade only — do not reuse anywhere real.
+harvester_os_password: "Foobar12345$"
 
-rancher_vm_password: "RancherRodeo2024!"
+rancher_vm_password: "Foobar12345$"
 
 # OVMF/UEFI firmware from the qemu-ovmf-x86_64 package (SLES 16). Override if a
 # host ships the firmware under different names.

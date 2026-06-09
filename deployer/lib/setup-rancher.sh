@@ -21,6 +21,8 @@ K3S_VERSION="${K3S_VERSION:-v1.31.4+k3s1}"
 HARVESTER_VIP="${HARVESTER_VIP:-192.168.122.10}"
 HARVESTER_OS_PASSWORD="${HARVESTER_OS_PASSWORD:?HARVESTER_OS_PASSWORD is required}"
 CERT_MANAGER_VERSION="${CERT_MANAGER_VERSION:-v1.16.2}"
+# Single known admin password for the Rancher AND Harvester dashboards/APIs.
+LAB_ADMIN_PASSWORD="${LAB_ADMIN_PASSWORD:-Foobar12345\$}"
 
 RANCHER_VM_USER="root"
 HARVESTER_VM_USER="rancher"      # Harvester's default OS user; root login is disabled
@@ -135,14 +137,13 @@ TEMP_TOKEN=$(curl -sk -X POST "${RANCHER_API}/v3-public/localProviders/local?act
   -H "Content-Type: application/json" -d '{"username":"admin","password":"admin"}' | jq -r '.token')
 [[ -n "${TEMP_TOKEN}" && "${TEMP_TOKEN}" != "null" ]] || die "Failed to get initial login token"
 
-# Subshell with pipefail off: tr gets SIGPIPE when head closes the pipe, which
-# would otherwise abort the script under `set -o pipefail`.
-ADMIN_PASS=$(set +o pipefail; LC_ALL=C tr -dc 'A-Za-z0-9!@#%^&*' < /dev/urandom | head -c 24)
+# Set the fixed lab admin password (predictable for API/UI use).
+ADMIN_PASS="${LAB_ADMIN_PASSWORD}"
 curl -sk -X POST "${RANCHER_API}/v3/users?action=changepassword" \
   -H "Authorization: Bearer ${TEMP_TOKEN}" -H "Content-Type: application/json" \
   -d "{\"currentPassword\":\"admin\",\"newPassword\":\"${ADMIN_PASS}\"}"
 echo "${ADMIN_PASS}" > "${RANCHER_ADMIN_PASS_FILE}"; chmod 600 "${RANCHER_ADMIN_PASS_FILE}"
-log "Admin password written to ${RANCHER_ADMIN_PASS_FILE}"
+log "Admin password set to the lab password; written to ${RANCHER_ADMIN_PASS_FILE}"
 
 API_TOKEN=$(curl -sk -X POST "${RANCHER_API}/v3-public/localProviders/local?action=login" \
   -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"${ADMIN_PASS}\"}" | jq -r '.token')
@@ -195,8 +196,24 @@ for i in $(seq 1 60); do
   sleep 30
 done
 
+# Set the Harvester dashboard admin password to the lab password. Harvester's
+# embedded Rancher ships a bootstrap admin/admin and forces a password set on
+# first login; this does that non-interactively (best-effort — if it is already
+# set to the lab password, the bootstrap login simply returns no token).
+log "Setting the Harvester dashboard admin password..."
+HV_BOOTSTRAP_TOKEN=$(curl -sk -X POST "https://${HARVESTER_VIP}/v3-public/localProviders/local?action=login" \
+  -H "Content-Type: application/json" -d '{"username":"admin","password":"admin"}' | jq -r '.token // empty')
+if [[ -n "${HV_BOOTSTRAP_TOKEN}" ]]; then
+  curl -sk -X POST "https://${HARVESTER_VIP}/v3/users?action=changepassword" \
+    -H "Authorization: Bearer ${HV_BOOTSTRAP_TOKEN}" -H "Content-Type: application/json" \
+    -d "{\"currentPassword\":\"admin\",\"newPassword\":\"${LAB_ADMIN_PASSWORD}\"}" >/dev/null \
+    && log "  Harvester admin password set to the lab password."
+else
+  log "  Bootstrap admin/admin login returned no token — Harvester admin password may already be set."
+fi
+
 HARVESTER_TOKEN=$(curl -sk -X POST "https://${HARVESTER_VIP}/v3-public/localProviders/local?action=login" \
-  -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"${HARVESTER_OS_PASSWORD}\"}" | jq -r '.token // empty')
+  -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"${LAB_ADMIN_PASSWORD}\"}" | jq -r '.token // empty')
 [[ -n "${HARVESTER_TOKEN}" ]] && { echo "${HARVESTER_TOKEN}" > /root/harvester-token; chmod 600 /root/harvester-token; log "Harvester API token saved to /root/harvester-token"; }
 
 # ---------------------------------------------------------------------------

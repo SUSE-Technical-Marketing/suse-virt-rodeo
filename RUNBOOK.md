@@ -118,6 +118,10 @@ curl -sk https://192.168.122.9:30002/ping                        # Rancher NodeP
 cat /root/rancher-password                                       # Rancher admin password
 ```
 
+Both the Harvester and Rancher dashboards/APIs use the fixed lab admin password
+**`Foobar12345$`** (user `admin`), set by `setup-rancher.sh` and overridable via
+`LAB_ADMIN_PASSWORD` in `deploy.env`. It is lab-grade — do not reuse it anywhere real.
+
 From the host, hit the internal addresses above. From outside, use the host IP on
 `:8443` (Harvester) and `:30002` (Rancher) — the firewalld port-forwards
 (`host:8443 → VIP:443`, `host:30002 → Rancher`).

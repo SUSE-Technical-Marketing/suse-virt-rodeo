@@ -111,6 +111,6 @@ agent variable set RANCHER_TOKEN       "$RANCHER_TOKEN"
 agent variable set RANCHER_URL         "https://geekohive:30002"
 agent variable set HARVESTER_URL       "https://geekohive:8443"
 agent variable set HARVESTER_NAT_IP    "geekohive"
-agent variable set HARVESTER_PASSWORD  "HarvesterRodeo2024!"
+agent variable set HARVESTER_PASSWORD  "Foobar12345\$"
 
 echo ">>> Agent variables set. Setup complete."

@@ -90,6 +90,13 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
   ed25519 key first and bakes the public key into the Rancher VM (cloud-init, root)
   and the Harvester nodes (`os.ssh_authorized_keys`). `setup-rancher.sh` connects
   key-based: `root@rancher-vm`, and `rancher@VIP` + `sudo` for the kubeconfig.
+- **Single lab admin password `Foobar12345$`** (user `admin`) for both the Rancher
+  and Harvester dashboards/APIs, plus the node/VM console passwords. `setup-rancher.sh`
+  sets Rancher's admin to it (was random) and sets Harvester's admin via the embedded
+  Rancher v3 API (bootstrap `admin/admin` -> changepassword). Overridable via
+  `LAB_ADMIN_PASSWORD`. Lab-grade only. **Verify on a live host:** that Harvester's
+  bootstrap really is `admin/admin` and the v3 `changepassword` endpoint works on its
+  embedded Rancher; documented fallback is the kubectl bcrypt user-patch.
 - Legacy `Converting-SLES-15.6-KVM-host.md` rewritten as `Converting-SLES-16-KVM-host.md`.
 
 ## Where things live

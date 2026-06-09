@@ -25,6 +25,7 @@ RANCHER_NODEPORT=30002
 # All setup-time API calls and the agent server-url use this endpoint.
 RANCHER_API="https://${RANCHER_VM_IP}:${RANCHER_NODEPORT}"
 K3S_VERSION="v1.31.4+k3s1"  # latest stable at time of writing; update as needed
+LAB_ADMIN_PASSWORD="Foobar12345\$"   # fixed admin password for the Rancher + Harvester dashboards/APIs
 
 # Key-based SSH. The host public key is baked into the Rancher VM (cloud-init)
 # and the Harvester nodes (os.ssh_authorized_keys) by the Ansible playbook.
@@ -189,8 +190,8 @@ FIRST_LOGIN_RESP=$(curl -sk -X POST \
 TEMP_TOKEN=$(echo "${FIRST_LOGIN_RESP}" | jq -r '.token')
 [[ -z "${TEMP_TOKEN}" || "${TEMP_TOKEN}" == "null" ]] && die "Failed to get initial login token"
 
-# Generate a secure random password
-ADMIN_PASS=$(tr -dc 'A-Za-z0-9!@#%^&*' < /dev/urandom | head -c 24)
+# Use the fixed lab admin password (predictable for API/UI use).
+ADMIN_PASS="${LAB_ADMIN_PASSWORD}"
 
 curl -sk -X POST \
   "${RANCHER_API}/v3/users?action=changepassword" \
@@ -198,10 +199,10 @@ curl -sk -X POST \
   -H "Content-Type: application/json" \
   -d "{\"currentPassword\":\"admin\",\"newPassword\":\"${ADMIN_PASS}\"}"
 
-# Write password to file on geekohive
+# Write password to file on geekohive (setup-geekohive reads this at track start)
 echo "${ADMIN_PASS}" > "${RANCHER_ADMIN_PASS_FILE}"
 chmod 600 "${RANCHER_ADMIN_PASS_FILE}"
-log "Admin password written to ${RANCHER_ADMIN_PASS_FILE}"
+log "Admin password set to the lab password; written to ${RANCHER_ADMIN_PASS_FILE}"
 
 # Get a permanent API token
 TOKEN_RESP=$(curl -sk -X POST \
@@ -303,11 +304,30 @@ for i in $(seq 1 60); do
   sleep 30
 done
 
+# Set the Harvester dashboard admin password to the lab password. Harvester's
+# embedded Rancher ships a bootstrap admin/admin and forces a password set on
+# first login; do that non-interactively (best-effort).
+log "Setting the Harvester dashboard admin password..."
+HV_BOOTSTRAP_TOKEN=$(curl -sk -X POST \
+  "https://${HARVESTER_VIP}/v3-public/localProviders/local?action=login" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin"}' | jq -r '.token // empty')
+if [[ -n "${HV_BOOTSTRAP_TOKEN}" ]]; then
+  curl -sk -X POST \
+    "https://${HARVESTER_VIP}/v3/users?action=changepassword" \
+    -H "Authorization: Bearer ${HV_BOOTSTRAP_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -d "{\"currentPassword\":\"admin\",\"newPassword\":\"${LAB_ADMIN_PASSWORD}\"}" >/dev/null \
+    && log "  Harvester admin password set to the lab password."
+else
+  log "  Bootstrap admin/admin login returned no token — Harvester admin password may already be set."
+fi
+
 # Save the Harvester token for later use (e.g. image upload in assignment.md)
 HARVESTER_TOKEN=$(curl -sk -X POST \
   "https://${HARVESTER_VIP}/v3-public/localProviders/local?action=login" \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"HarvesterRodeo2024!"}' | jq -r '.token // empty')
+  -d "{\"username\":\"admin\",\"password\":\"${LAB_ADMIN_PASSWORD}\"}" | jq -r '.token // empty')
 
 [[ -n "${HARVESTER_TOKEN}" ]] && echo "${HARVESTER_TOKEN}" > /root/harvester-token && \
   chmod 600 /root/harvester-token && log "Harvester API token saved to /root/harvester-token"

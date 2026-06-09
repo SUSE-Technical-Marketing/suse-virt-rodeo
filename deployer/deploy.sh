@@ -108,9 +108,10 @@ RANCHER_VERSION="${RANCHER_VERSION}" \
 K3S_VERSION="${K3S_VERSION}" \
 HARVESTER_VIP="${HARVESTER_VIP}" \
 HARVESTER_OS_PASSWORD="${HARVESTER_OS_PASSWORD}" \
+LAB_ADMIN_PASSWORD="${LAB_ADMIN_PASSWORD:-Foobar12345\$}" \
   "${HERE}/lib/setup-rancher.sh"
 
 log ""
 log "Deployment complete."
-log "  Harvester VIP : ${HARVESTER_VIP}  (UI on :${HARVESTER_UI_PORT:-8443})"
-log "  Rancher       : https://${RANCHER_IP}:30002  (NodePort; admin password in /root/rancher-password)"
+log "  Harvester VIP : https://${HARVESTER_VIP}  (admin / ${LAB_ADMIN_PASSWORD:-Foobar12345\$})"
+log "  Rancher       : https://${RANCHER_IP}:30002  (admin / ${LAB_ADMIN_PASSWORD:-Foobar12345\$})"
