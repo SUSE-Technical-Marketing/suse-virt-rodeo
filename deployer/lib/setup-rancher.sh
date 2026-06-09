@@ -108,30 +108,13 @@ helm install rancher rancher-prime/rancher \\
 RANCHEREOF
 
 # Expose Rancher on a fixed NodePort (K3s has traefik disabled, so there is no
-# ingress on :443). Reuse the rancher service's own https targetPort.
+# ingress on :443). Strategic-merge patch the rancher service on its :443 port
+# (merge key "port") so the real https targetPort + the :80 port are preserved.
 log "Exposing Rancher on NodePort ${RANCHER_NODEPORT}..."
 ssh_vm bash -s <<EOF
 set -euo pipefail
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-HTTPS_TARGET=\$(kubectl -n cattle-system get svc rancher -o jsonpath='{.spec.ports[?(@.port==443)].targetPort}')
-[ -n "\${HTTPS_TARGET}" ] || HTTPS_TARGET=443
-kubectl apply -f - <<YAML
-apiVersion: v1
-kind: Service
-metadata:
-  name: rancher-nodeport
-  namespace: cattle-system
-spec:
-  type: NodePort
-  selector:
-    app: rancher
-  ports:
-  - name: https
-    protocol: TCP
-    port: 443
-    targetPort: \${HTTPS_TARGET}
-    nodePort: ${RANCHER_NODEPORT}
-YAML
+kubectl -n cattle-system patch svc rancher -p '{"spec":{"type":"NodePort","ports":[{"port":443,"nodePort":${RANCHER_NODEPORT}}]}}'
 EOF
 
 log "Waiting for Rancher /ping on ${RANCHER_API}..."

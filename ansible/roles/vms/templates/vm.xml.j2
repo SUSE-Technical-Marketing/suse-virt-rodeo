@@ -9,11 +9,9 @@
 {% if item.flavor == 'harvester' %}
     <loader readonly='yes' type='pflash'>{{ ovmf_code }}</loader>
     <nvram template='{{ ovmf_vars_template }}'>{{ image_dir }}/{{ item.name }}-ovmf-vars.fd</nvram>
-    <boot dev='cdrom'/>
-    <boot dev='hd'/>
-{% else %}
-    <boot dev='hd'/>
 {% endif %}
+    <!-- Boot order is set per-device via the disk boot-order elements below.
+         Do not add os-level boot-dev entries here; libvirt rejects mixing them. -->
   </os>
   <features>
     <acpi/>

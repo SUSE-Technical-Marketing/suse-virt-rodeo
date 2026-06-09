@@ -150,31 +150,14 @@ RANCHEREOF
 
 # Expose Rancher on a fixed NodePort (K3s has traefik disabled, so there is no
 # ingress on :443). The cloud-client proxy and setup-geekohive both target
-# geekohive:30002 -> 192.168.122.9:30002. Reuse the rancher service's own https
-# targetPort so we do not hardcode it.
+# geekohive:30002 -> 192.168.122.9:30002. Strategic-merge patch the existing
+# rancher service on its :443 port (merge key is "port"), so Rancher's real
+# https targetPort and the :80 port are preserved while :443 gets nodePort 30002.
 log "Exposing Rancher on NodePort ${RANCHER_NODEPORT}..."
 ssh_vm bash -s <<EOF
 set -euo pipefail
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-HTTPS_TARGET=\$(kubectl -n cattle-system get svc rancher -o jsonpath='{.spec.ports[?(@.port==443)].targetPort}')
-[ -n "\${HTTPS_TARGET}" ] || HTTPS_TARGET=443
-kubectl apply -f - <<YAML
-apiVersion: v1
-kind: Service
-metadata:
-  name: rancher-nodeport
-  namespace: cattle-system
-spec:
-  type: NodePort
-  selector:
-    app: rancher
-  ports:
-  - name: https
-    protocol: TCP
-    port: 443
-    targetPort: \${HTTPS_TARGET}
-    nodePort: ${RANCHER_NODEPORT}
-YAML
+kubectl -n cattle-system patch svc rancher -p '{"spec":{"type":"NodePort","ports":[{"port":443,"nodePort":${RANCHER_NODEPORT}}]}}'
 EOF
 
 log "Waiting for Rancher to respond on ${RANCHER_API}/ping..."

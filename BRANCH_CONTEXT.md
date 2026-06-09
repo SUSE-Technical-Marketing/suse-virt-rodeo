@@ -137,8 +137,16 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
 
 - Nothing has been run end-to-end; the custom Instruqt image has never been built.
   Verify on a live host: firewalld masquerade/DNAT return path; bridge mode; the
-  Rancher NodePort `30002` (confirm the rancher svc https targetPort the NodePort
-  reuses); the Harvester import going Active via `server-url` on `:30002`.
+  Rancher NodePort `30002` patch on the rancher svc; the Harvester import going
+  Active via `server-url` on `:30002`.
+- **Harvester UI port 8443**: the whole stack assumes Harvester serves on `8443`
+  at the VIP (DNAT host:8443 -> VIP:8443, nginx :90 -> geekohive:8443). Confirm
+  `curl -k https://192.168.122.10:8443/ping` responds. If Harvester serves on
+  `443`, change `harvester_ui_port` + the nginx/DNAT targets to 443.
+- **Harvester node SSH**: `setup-rancher.sh` fetches the kubeconfig via `sshpass`
+  to `root@VIP`. Depends on password SSH being enabled on the Harvester nodes
+  (SLE Micro may disable root password login). If it fails, enable it via the
+  Harvester config or copy the kubeconfig another way.
 - Confirm the Instruqt SLES 16 base image slug (`suse/sles-16-0` is assumed in
   `builder/config.yml` and `config.yml`).
 - `sshpass` may need the PackageHub module on SLES 16.

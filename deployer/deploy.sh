@@ -53,12 +53,12 @@ ANSIBLE_INVENTORY="${ANSIBLE_INVENTORY:-${HERE}/inventory.local}"
 # ---------------------------------------------------------------------------
 log "Network mode: ${NETWORK_MODE}"
 MISSING=()
-for cmd in ansible-playbook ansible-galaxy virsh xorriso curl jq sshpass; do
+for cmd in ansible-playbook ansible-galaxy virsh xorriso curl jq sshpass kubectl; do
   command -v "${cmd}" >/dev/null 2>&1 || MISSING+=("${cmd}")
 done
 if (( ${#MISSING[@]} )); then
   die "Missing required commands: ${MISSING[*]}.
-       ansible/xorriso/sshpass come from: zypper in ansible xorriso sshpass jq
+       Install with: zypper in ansible kubernetes-client xorriso sshpass jq
        (sshpass may need the PackageHub module enabled)."
 fi
 
