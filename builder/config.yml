@@ -1,10 +1,8 @@
 version: "3"
 virtualmachines:
 - name: geekohive
-  # Builder VM: SLES 16 base — used to build the suse-virt-rodeo-180 custom image.
-  # Note: confirm the Instruqt base image slug for SLES 16 (assumed suse/sles-16-0)
-  # in the Instruqt image catalog before running the builder track.
-  image: suse/sles-16-0
+  # Builder VM: SLES 16 base with nested virt — used to bake the custom rodeo image.
+  image: suse/harv-rodeo-sles16
   shell: /bin/bash
   machine_type: n2-standard-32
   enable_nested_virtualization: true

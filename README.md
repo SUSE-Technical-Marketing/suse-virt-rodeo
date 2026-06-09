@@ -293,7 +293,7 @@ IPs) networking are both supported. See [`deployer/README.md`](deployer/README.m
 ### Building the image
 
 - Access to the `SUSE-Technical-Marketing` Instruqt org (or an org with a SLES 16 base image)
-- SLES 16 base image slug in Instruqt: verify `suse/sles-16-0` exists in the catalog
+- SLES 16 base image slug: `suse/harv-rodeo-sles16` (confirmed in Instruqt catalog)
 - Instruqt CLI installed and authenticated
 - `git` on your workstation
 

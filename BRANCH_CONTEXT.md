@@ -168,8 +168,7 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
   key-based as the `rancher` user (`sudo cat /etc/rancher/rke2/rke2.yaml`). The
   host public key is baked into the nodes via `os.ssh_authorized_keys`. Confirm on
   a live host that the key is accepted and the `rancher` user has passwordless sudo.
-- Confirm the Instruqt SLES 16 base image slug (`suse/sles-16-0` is assumed in
-  `builder/config.yml` and `config.yml`).
+- Builder base image slug confirmed: `suse/harv-rodeo-sles16` (set in `builder/config.yml`).
 - MTU: RKE2 auto-shrinks the overlay MTU on a 1500 bridge, so no host change; suspect
   MTU only if large inter-node transfers ever hang.
 
