@@ -12,6 +12,8 @@ token: "{{ harvester_token }}"
 os:
   hostname: {{ item.name }}
   password: "{{ harvester_os_password }}"
+  ssh_authorized_keys:
+    - "{{ ssh_public_key }}"
   ntp_servers:
     - 0.pool.ntp.org
     - 1.pool.ntp.org

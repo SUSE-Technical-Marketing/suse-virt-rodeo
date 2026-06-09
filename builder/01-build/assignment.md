@@ -53,14 +53,14 @@ cd /root/instruqt-virtualization
 
 ## Step 2 — Verify prerequisites and install Ansible collections
 
-The build needs `ansible` (with `ansible-galaxy`), `kubectl`, `sshpass`, `jq`, and
-`xorriso` on the host. `xorriso` also comes in via the `kvm_host` role, but the
-others must be present before you run the playbook and the setup scripts:
+The build needs `ansible` (with `ansible-galaxy`), `kubectl`, `jq`, `xorriso`, and
+`ssh` on the host. `xorriso` also comes in via the `kvm_host` role, but the others
+must be present before you run the playbook and the setup scripts. SSH to the
+guests is key-based — the playbook bakes the host public key into the Rancher VM
+and the Harvester nodes, so no `sshpass` or passwords are needed:
 
 ```bash
-zypper install -y ansible kubernetes-client sshpass jq xorriso
-# sshpass may require the PackageHub module:
-#   SUSEConnect -p PackageHub/16.0/x86_64
+zypper install -y ansible kubernetes-client jq xorriso openssh-clients
 ```
 
 Install Ansible collections:

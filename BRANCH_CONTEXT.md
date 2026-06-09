@@ -86,6 +86,10 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
 - Builder Instruqt structure aligned to the main track: frontmatter in
   `01-build/assignment.md` (slug `build`), inline `challenges:` removed from
   `builder/track.yml`.
+- **Keys-only SSH** — `sshpass` dropped entirely. `images.yml` generates a host
+  ed25519 key first and bakes the public key into the Rancher VM (cloud-init, root)
+  and the Harvester nodes (`os.ssh_authorized_keys`). `setup-rancher.sh` connects
+  key-based: `root@rancher-vm`, and `rancher@VIP` + `sudo` for the kubeconfig.
 - Legacy `Converting-SLES-15.6-KVM-host.md` rewritten as `Converting-SLES-16-KVM-host.md`.
 
 ## Where things live
@@ -143,13 +147,12 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
   VIP (per the v1.8 docs), not `8443`. The DNAT now forwards host `:8443` -> VIP
   `:443` (`harvester_https_port`). The host-side `8443` (nginx :90 -> geekohive:8443)
   is unchanged. Still worth a live `curl -k https://192.168.122.10/ping` to confirm.
-- **Harvester node SSH**: `setup-rancher.sh` fetches the kubeconfig via `sshpass`
-  to `root@VIP`. Depends on password SSH being enabled on the Harvester nodes
-  (SLE Micro may disable root password login). If it fails, enable it via the
-  Harvester config or copy the kubeconfig another way.
+- **Harvester node SSH (keys-only)**: `setup-rancher.sh` fetches the kubeconfig
+  key-based as the `rancher` user (`sudo cat /etc/rancher/rke2/rke2.yaml`). The
+  host public key is baked into the nodes via `os.ssh_authorized_keys`. Confirm on
+  a live host that the key is accepted and the `rancher` user has passwordless sudo.
 - Confirm the Instruqt SLES 16 base image slug (`suse/sles-16-0` is assumed in
   `builder/config.yml` and `config.yml`).
-- `sshpass` may need the PackageHub module on SLES 16.
 - MTU: RKE2 auto-shrinks the overlay MTU on a 1500 bridge, so no host change; suspect
   MTU only if large inter-node transfers ever hang.
 

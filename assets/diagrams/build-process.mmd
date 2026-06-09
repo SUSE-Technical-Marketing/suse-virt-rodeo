@@ -1,7 +1,7 @@
 flowchart TD
     S0(["🚀 Start: SLES 16\nInstruqt builder sandbox"]):::start
 
-    S1["Step 1\nClone repo\nInstall prerequisites\nsshpass · jq · ansible collections"]:::step
+    S1["Step 1\nClone repo\nInstall prerequisites\nansible · kubectl · jq · xorriso\nansible collections"]:::step
 
     subgraph ANSIBLE["🔧 ansible-playbook — runs both roles"]
         A1["kvm_host role\n• KVM packages via zypper\n• virtqemud: security_driver=none\n• IP forwarding\n• firewalld port-forward (DNAT)\n• firewalld rules"]:::role

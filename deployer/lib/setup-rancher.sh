@@ -5,16 +5,17 @@
 #
 # Env (all have deploy.sh-provided values):
 #   RANCHER_VM_IP          rancher VM management IP        (default 192.168.122.9)
-#   RANCHER_VM_PASS        root password of the rancher VM (required)
 #   RANCHER_VERSION        Rancher Prime chart version     (default 2.13.1)
 #   K3S_VERSION            K3s install version             (default v1.31.4+k3s1)
 #   HARVESTER_VIP          Harvester floating VIP          (default 192.168.122.10)
-#   HARVESTER_OS_PASSWORD  Harvester node root password    (required)
+#   HARVESTER_OS_PASSWORD  Harvester admin password (Rancher import API login)
 #   CERT_MANAGER_VERSION   cert-manager version            (default v1.16.2)
+#
+# SSH is key-based: the playbook bakes the host public key into the Rancher VM
+# (cloud-init, root) and the Harvester nodes (os.ssh_authorized_keys, user rancher).
 set -euo pipefail
 
 RANCHER_VM_IP="${RANCHER_VM_IP:-192.168.122.9}"
-RANCHER_VM_PASS="${RANCHER_VM_PASS:?RANCHER_VM_PASS is required}"
 RANCHER_VERSION="${RANCHER_VERSION:-2.13.1}"
 K3S_VERSION="${K3S_VERSION:-v1.31.4+k3s1}"
 HARVESTER_VIP="${HARVESTER_VIP:-192.168.122.10}"
@@ -22,20 +23,22 @@ HARVESTER_OS_PASSWORD="${HARVESTER_OS_PASSWORD:?HARVESTER_OS_PASSWORD is require
 CERT_MANAGER_VERSION="${CERT_MANAGER_VERSION:-v1.16.2}"
 
 RANCHER_VM_USER="root"
+HARVESTER_VM_USER="rancher"      # Harvester's default OS user; root login is disabled
 RANCHER_HOSTNAME="rancher.${RANCHER_VM_IP}.sslip.io"
 RANCHER_ADMIN_PASS_FILE="/root/rancher-password"
 RANCHER_NODEPORT="${RANCHER_NODEPORT:-30002}"
 # K3s has traefik disabled, so Rancher is reached on a NodePort, not :443.
 # All setup-time API calls and the agent server-url use this endpoint.
 RANCHER_API="https://${RANCHER_VM_IP}:${RANCHER_NODEPORT}"
-SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=10 -o BatchMode=yes"
+SSH_KEY="${SSH_KEY:-/root/.ssh/id_ed25519}"
+SSH_OPTS="-i ${SSH_KEY} -o StrictHostKeyChecking=no -o ConnectTimeout=10 -o BatchMode=yes"
 
 log() { echo "[setup-rancher] $*"; }
 die() { echo "[setup-rancher] ERROR: $*" >&2; exit 1; }
 
-ssh_vm() { sshpass -p "${RANCHER_VM_PASS}" ssh ${SSH_OPTS} "${RANCHER_VM_USER}@${RANCHER_VM_IP}" "$@"; }
+ssh_vm() { ssh ${SSH_OPTS} "${RANCHER_VM_USER}@${RANCHER_VM_IP}" "$@"; }
 
-for cmd in sshpass curl jq kubectl; do
+for cmd in ssh curl jq kubectl; do
   command -v "$cmd" >/dev/null 2>&1 || die "Required command not found: $cmd"
 done
 
@@ -166,10 +169,10 @@ MANIFEST_URL=$(curl -sk "${RANCHER_API}/v3/clusterregistrationtokens?clusterId=$
 
 HARVESTER_KUBECONFIG="/tmp/harvester-kubeconfig"
 if [[ ! -f "${HARVESTER_KUBECONFIG}" ]]; then
-  log "  Fetching Harvester kubeconfig from ${HARVESTER_VIP}..."
-  sshpass -p "${HARVESTER_OS_PASSWORD}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 \
-    "root@${HARVESTER_VIP}" "cat /etc/rancher/rke2/rke2.yaml" > "${HARVESTER_KUBECONFIG}" 2>/dev/null \
-    || die "Could not fetch Harvester kubeconfig. Is harvester1 up with SSH enabled?"
+  log "  Fetching Harvester kubeconfig from the VIP (rke2.yaml is root-only, so sudo)..."
+  ssh ${SSH_OPTS} "${HARVESTER_VM_USER}@${HARVESTER_VIP}" \
+    "sudo cat /etc/rancher/rke2/rke2.yaml" > "${HARVESTER_KUBECONFIG}" 2>/dev/null \
+    || die "Could not fetch Harvester kubeconfig. Is the cluster up and the host key accepted on the nodes?"
   sed -i "s|127.0.0.1|${HARVESTER_VIP}|g" "${HARVESTER_KUBECONFIG}"
 fi
 

@@ -53,13 +53,12 @@ ANSIBLE_INVENTORY="${ANSIBLE_INVENTORY:-${HERE}/inventory.local}"
 # ---------------------------------------------------------------------------
 log "Network mode: ${NETWORK_MODE}"
 MISSING=()
-for cmd in ansible-playbook ansible-galaxy virsh xorriso curl jq sshpass kubectl; do
+for cmd in ansible-playbook ansible-galaxy virsh xorriso curl jq ssh kubectl; do
   command -v "${cmd}" >/dev/null 2>&1 || MISSING+=("${cmd}")
 done
 if (( ${#MISSING[@]} )); then
   die "Missing required commands: ${MISSING[*]}.
-       Install with: zypper in ansible kubernetes-client xorriso sshpass jq
-       (sshpass may need the PackageHub module enabled)."
+       Install with: zypper in ansible kubernetes-client xorriso jq openssh-clients"
 fi
 
 # ---------------------------------------------------------------------------
@@ -105,7 +104,6 @@ fi
 
 log "Installing K3s + Rancher Prime and importing Harvester..."
 RANCHER_VM_IP="${RANCHER_IP}" \
-RANCHER_VM_PASS="${RANCHER_VM_PASSWORD}" \
 RANCHER_VERSION="${RANCHER_VERSION}" \
 K3S_VERSION="${K3S_VERSION}" \
 HARVESTER_VIP="${HARVESTER_VIP}" \

@@ -328,7 +328,7 @@ git clone -b sles16-mig https://github.com/SUSE-Technical-Marketing/instruqt-vir
 cd /root/rodeo
 
 # Host tools needed by the playbook and setup scripts
-zypper install -y ansible kubernetes-client sshpass jq xorriso
+zypper install -y ansible kubernetes-client jq xorriso openssh-clients
 
 ansible-galaxy collection install -r ansible/requirements.yml
 ```

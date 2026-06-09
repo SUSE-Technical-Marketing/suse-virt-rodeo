@@ -40,22 +40,17 @@ run VMs without it.
 ### Step 2 — Install the host tools
 
 ```bash
-sudo zypper install -y ansible kubernetes-client sshpass jq xorriso git
+sudo zypper install -y ansible kubernetes-client jq xorriso openssh-clients git
 ```
 
 - **ansible** runs the playbook (host config + VM assets).
 - **kubernetes-client** gives `kubectl` (imports Harvester into Rancher).
-- **sshpass** logs into the Rancher VM and pulls the Harvester kubeconfig.
 - **jq** parses Rancher/Harvester API JSON.
 - **xorriso** builds the seed ISOs (SLES 16 dropped `genisoimage`).
+- **openssh-clients** provides `ssh` — auth to the guests is key-based (the
+  playbook bakes the host public key into the Rancher VM and Harvester nodes), so
+  no `sshpass` or passwords are needed.
 - **git** clones the repo.
-
-If `sshpass` is missing, enable PackageHub first:
-
-```bash
-sudo SUSEConnect -p PackageHub/16.0/x86_64
-sudo zypper install -y sshpass
-```
 
 ### Step 3 — Clone the repo
 
@@ -166,7 +161,7 @@ Same flow as Part 1, plus image prep:
 
 - Step 0 — confirm ≥ 1 TB disk and nested virt.
 - Step 1 — clone `-b sles16-mig`.
-- Step 2 — `zypper install -y ansible kubernetes-client sshpass jq xorriso`,
+- Step 2 — `zypper install -y ansible kubernetes-client jq xorriso openssh-clients`,
   then `ansible-galaxy collection install -r ansible/requirements.yml`.
 - Step 3 — `ansible-playbook -i deployer/inventory.local ansible/playbook.yml`.
 - Step 4 — `cd builder && ./deploy-vms.sh`.
@@ -233,6 +228,8 @@ Nothing here has been executed end-to-end; the image has never been built. Two
 things can only be confirmed on a live SLES 16 host (see `BRANCH_CONTEXT.md`):
 
 - the firewalld masquerade/DNAT return path under load;
-- whether the Harvester nodes allow root password SSH — the kubeconfig fetch in
-  `setup-rancher.sh` depends on it (SLE Micro may disable it). If the build hangs
-  at the kubeconfig fetch, check this first.
+- the Harvester kubeconfig fetch: `setup-rancher.sh` connects key-based as the
+  `rancher` user and runs `sudo cat /etc/rancher/rke2/rke2.yaml`. Confirm the baked
+  host key is accepted on the nodes (`os.ssh_authorized_keys`) and that the
+  `rancher` user has passwordless sudo. If the build stalls at the kubeconfig
+  fetch, check these first.

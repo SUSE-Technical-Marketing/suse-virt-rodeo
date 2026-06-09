@@ -93,8 +93,10 @@ Before running the builder track, confirm:
   If the slug differs, update `config.yml` before pushing the builder track.
 - The builder sandbox must have nested virtualization enabled (already set in `config.yml`).
 - Machine type `n2-standard-32` gives 32 vCPU and 128 GB RAM — required for all 4 VMs.
-- `sshpass` and `jq` must be available on geekohive — `setup-rancher.sh` requires both.
-  Install if missing: `zypper install -y sshpass jq`
+- `ansible`, `kubectl`, `jq`, `xorriso`, and `ssh` must be available on geekohive.
+  Install if missing: `zypper install -y ansible kubernetes-client jq xorriso openssh-clients`.
+  SSH to the guests is key-based (no `sshpass`) — the playbook bakes the host public
+  key into the Rancher VM and the Harvester nodes.
 
 ## How to build the image
 

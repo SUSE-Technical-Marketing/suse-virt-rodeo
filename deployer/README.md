@@ -16,9 +16,10 @@ A SLES 16 (or Leap 16 / openSUSE) host with:
 - Enough capacity: ~28 vCPU, ~88 GiB RAM, ~870 GB disk for the full stack
   (3 × Harvester at 8 vCPU / 24 GiB / 270 GB + Rancher at 4 vCPU / 16 GiB / 60 GB)
 - Outbound internet (pulls the Harvester ISO, Leap image, K3s, Rancher charts)
-- `ansible`, `xorriso`, `sshpass`, `jq`, `curl`, `kubectl` installed
-  (`sudo zypper in ansible xorriso sshpass jq curl`; `sshpass` may need the
-  PackageHub module: `SUSEConnect -p PackageHub/16.0/x86_64`)
+- `ansible`, `xorriso`, `jq`, `curl`, `kubectl`, `ssh` installed
+  (`sudo zypper in ansible kubernetes-client xorriso jq curl openssh-clients`).
+  SSH to the guests is key-based — the playbook generates a host key and bakes the
+  public key into the Rancher VM and the Harvester nodes, so no `sshpass`/password.
 
 ## Run it
 
