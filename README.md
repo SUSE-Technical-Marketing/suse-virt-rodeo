@@ -56,7 +56,7 @@ Student browser
 (NAT mode; SLES 16 firewalld uses the nftables backend, so no raw iptables):
 
 ```
-geekohive:8443  --DNAT--> 192.168.122.10:8443   (Harvester floating VIP)
+geekohive:8443  --DNAT--> 192.168.122.10:443    (Harvester floating VIP, serves on 443)
 geekohive:30002 --DNAT--> 192.168.122.9:30002   (Rancher K3s NodePort)
 ```
 
@@ -172,7 +172,7 @@ The kube-vip management VIP is `192.168.122.10` — a free address that is not a
 node's IP and not in the DHCP pool. kube-vip keeps it on a healthy node and moves
 it to a survivor on failover, so the API and UI stay reachable as long as any node
 is up. That is the whole point of the VIP; pinning it to a node IP would break
-failover. The host DNATs `:8443` to this VIP.
+failover. The host DNATs `:8443` to the VIP on `:443` (Harvester's management port).
 
 ### Static MAC addresses with DHCP reservations
 
@@ -687,7 +687,7 @@ Rebuild the image.
 ```bash
 firewall-cmd --zone=public --list-forward-ports
 virsh domstate harvester1
-curl -sk https://192.168.122.10:8443 -o /dev/null -w "%{http_code}"   # the floating VIP
+curl -sk https://192.168.122.10 -o /dev/null -w "%{http_code}"   # the floating VIP (serves on 443)
 ```
 
 If the forward-ports are missing, re-run the `kvm_host` role (or

@@ -76,16 +76,17 @@
     port_forward:
       - port: "{{ item.port }}"
         proto: tcp
-        toport: "{{ item.port }}"
+        toport: "{{ item.toport }}"
         toaddr: "{{ item.toaddr }}"
     permanent: true
     immediate: true
     state: enabled
   loop:
-    - { port: "{{ harvester_ui_port }}", toaddr: "{{ harvester_vip }}" }
-    - { port: "{{ rancher_nodeport }}", toaddr: "{{ rancher_ip }}" }
-    - { port: "{{ rancher_nodeport_alt }}", toaddr: "{{ rancher_ip }}" }
+    # Harvester serves on 443 at the VIP, so host:8443 must DNAT to VIP:443.
+    - { port: "{{ harvester_ui_port }}", toport: "{{ harvester_https_port }}", toaddr: "{{ harvester_vip }}" }
+    - { port: "{{ rancher_nodeport }}", toport: "{{ rancher_nodeport }}", toaddr: "{{ rancher_ip }}" }
+    - { port: "{{ rancher_nodeport_alt }}", toport: "{{ rancher_nodeport_alt }}", toaddr: "{{ rancher_ip }}" }
   loop_control:
-    label: "{{ item.port }} -> {{ item.toaddr }}"
+    label: "{{ item.port }} -> {{ item.toaddr }}:{{ item.toport }}"
   when: network_mode == 'nat'
   notify: reload firewalld

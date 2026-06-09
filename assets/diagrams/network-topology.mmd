@@ -27,7 +27,7 @@ graph TB
         end
 
         subgraph DNAT["firewalld port-forward  (nftables backend)"]
-            D1["host:8443  →  VIP .10:8443\nHarvester UI / API"]
+            D1["host:8443  →  VIP .10:443\nHarvester UI / API"]
             D2["host:30002  →  .9:30002\nRancher NodePort"]
         end
     end

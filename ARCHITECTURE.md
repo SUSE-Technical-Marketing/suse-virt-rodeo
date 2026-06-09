@@ -64,7 +64,7 @@ Student browser
                      ▼                       ▼
               geekohive:8443         geekohive:30002
               (firewalld DNAT         (firewalld DNAT
-               → 192.168.122.10:8443)  → 192.168.122.9:30002)
+               → 192.168.122.10:443)   → 192.168.122.9:30002)
                      │                       │
                      ▼                       ▼
              Harvester VIP              Rancher NodePort
@@ -97,12 +97,12 @@ geekohive (host)
 │   (service network NICs) and are directly reachable from geekohive.
 │
 └── firewalld port-forwarding (nftables backend, permanent rules)
-    :8443  → 192.168.122.10:8443   (Harvester VIP)
+    :8443  → 192.168.122.10:443    (Harvester VIP — Harvester serves on 443)
     :30002 → 192.168.122.9:30002   (Rancher K3s NodePort)
     :30001 → 192.168.122.9:30001   (Rancher NodePort alt)
 ```
 
-Harvester forms a 3-node cluster. The management VIP `192.168.122.10` is a **floating address held by kube-vip** — it is not any node's IP. kube-vip keeps it on a healthy node and moves it to a survivor if the holder goes down, so the API and UI stay reachable as long as any node is up. firewalld on `geekohive` forwards port 8443 to that VIP (NAT mode); if the VIP migrates, traffic follows automatically. SLES 16 firewalld uses the nftables backend, so the DNAT is native firewalld port-forwarding — no raw iptables and no custom systemd unit.
+Harvester forms a 3-node cluster. The management VIP `192.168.122.10` is a **floating address held by kube-vip** — it is not any node's IP. kube-vip keeps it on a healthy node and moves it to a survivor if the holder goes down, so the API and UI stay reachable as long as any node is up. firewalld on `geekohive` forwards host port 8443 to the VIP on 443 (Harvester's management port; NAT mode); if the VIP migrates, traffic follows automatically. SLES 16 firewalld uses the nftables backend, so the DNAT is native firewalld port-forwarding — no raw iptables and no custom systemd unit.
 
 ### RKE2 cluster networking (Harvester internals)
 
@@ -391,7 +391,7 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 **Harvester cluster:**
 - [ ] 3 Harvester 1.8.0 nodes installed and clustered
 - [ ] `kubectl get nodes --kubeconfig /root/.kube/harvester.yaml` → 3 Ready
-- [ ] Harvester VIP responds: `curl -sk https://192.168.122.10:8443/ping`
+- [ ] Harvester VIP responds: `curl -sk https://192.168.122.10/ping` (VIP serves on 443)
 - [ ] VIP is floating, not a node IP: `ssh root@192.168.122.10 ip a` lands on the current leader
 
 **Rancher:**

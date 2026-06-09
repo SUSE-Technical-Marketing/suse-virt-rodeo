@@ -139,10 +139,10 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
   Verify on a live host: firewalld masquerade/DNAT return path; bridge mode; the
   Rancher NodePort `30002` patch on the rancher svc; the Harvester import going
   Active via `server-url` on `:30002`.
-- **Harvester UI port 8443**: the whole stack assumes Harvester serves on `8443`
-  at the VIP (DNAT host:8443 -> VIP:8443, nginx :90 -> geekohive:8443). Confirm
-  `curl -k https://192.168.122.10:8443/ping` responds. If Harvester serves on
-  `443`, change `harvester_ui_port` + the nginx/DNAT targets to 443.
+- **Harvester UI port (resolved):** Harvester serves the UI/API on `443` at the
+  VIP (per the v1.8 docs), not `8443`. The DNAT now forwards host `:8443` -> VIP
+  `:443` (`harvester_https_port`). The host-side `8443` (nginx :90 -> geekohive:8443)
+  is unchanged. Still worth a live `curl -k https://192.168.122.10/ping` to confirm.
 - **Harvester node SSH**: `setup-rancher.sh` fetches the kubeconfig via `sshpass`
   to `root@VIP`. Depends on password SSH being enabled on the Harvester nodes
   (SLE Micro may disable root password login). If it fails, enable it via the

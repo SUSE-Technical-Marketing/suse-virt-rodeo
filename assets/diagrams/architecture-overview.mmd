@@ -17,7 +17,7 @@ graph LR
 
         subgraph GH["geekohive   n2-standard-32  ·  SLES 16  ·  950 GB pd-ssd"]
             direction TB
-            DNAT["firewalld port-forward\n:8443 → VIP 192.168.122.10:8443  ·  :30002 → 192.168.122.9:30002"]
+            DNAT["firewalld port-forward\n:8443 → VIP 192.168.122.10:443  ·  :30002 → 192.168.122.9:30002"]
 
             subgraph VIRBR["virbr0  —  192.168.122.0/24  (libvirt NAT)"]
                 direction TB

@@ -4,7 +4,7 @@ graph TB
 
         subgraph GH["🖥️  geekohive  ·  Virtual Machine\nn2-standard-32  ·  SLES 16  ·  950 GB pd-ssd  ·  nested_virtualization: true"]
             direction TB
-            DNAT["firewalld port-forward\n:8443 → VIP 192.168.122.10:8443\n:30002 → 192.168.122.9:30002"]
+            DNAT["firewalld port-forward\n:8443 → VIP 192.168.122.10:443\n:30002 → 192.168.122.9:30002"]
 
             subgraph VIRBR["virbr0  ·  libvirt NAT  ·  192.168.122.0/24  ·  VIP .10 (kube-vip, floating)"]
                 direction TB

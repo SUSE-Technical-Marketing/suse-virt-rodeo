@@ -17,7 +17,11 @@ harvester_vip: "192.168.122.10"
 rancher_ip: "192.168.122.9"
 libvirt_network_cidr: "192.168.122.0/24"
 
+# Host-side port the Harvester UI is exposed on (nginx on cloud-client targets
+# geekohive:8443). The DNAT forwards it to the port Harvester actually serves on
+# at the VIP, which is 443 (not 8443 — Harvester's management UI/API is on 443).
 harvester_ui_port: 8443
+harvester_https_port: 443
 rancher_nodeport: 30002
 rancher_nodeport_alt: 30001
 
