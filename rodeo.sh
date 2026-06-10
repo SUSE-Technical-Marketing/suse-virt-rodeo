@@ -655,12 +655,13 @@ phase_5_checklist() {
   #     where ifcfg-eth0 is empty — the Instruqt SLES 16 base image configures eth0
   #     via cloud-init, not wicked ifcfg, so the wicked-firewalld handshake is
   #     undefined and can break the management connection).
-  log "Starting firewalld (deferred from Ansible phase)..."
+  log "Enabling and starting firewalld (deferred from Ansible phase)..."
   if systemctl is-active firewalld &>/dev/null; then
     log "  firewalld already running — reloading permanent rules."
+    systemctl enable firewalld
     firewall-cmd --reload
   else
-    systemctl start firewalld
+    systemctl enable --now firewalld
     firewall-cmd --reload
   fi
   ok "firewalld running. DNAT rules active for Harvester UI (:8443) and Rancher (:30002)."

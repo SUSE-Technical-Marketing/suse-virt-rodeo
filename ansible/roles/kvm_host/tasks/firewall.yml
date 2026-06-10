@@ -7,13 +7,17 @@
 # it right before the final image save, at which point the VMs are fully running
 # and the host is not going to be saved/restarted mid-session.
 # On bare-metal deployer runs, the `Start firewalld` task in deploy.sh does this.
-- name: Install and enable firewalld (do not start — started by rodeo.sh phase 5 or deployer)
+- name: Install firewalld — disabled and stopped during build (phase 5 / deployer enables it)
   ansible.builtin.systemd:
     name: firewalld
-    enabled: true
+    enabled: false
     state: stopped
-  # state: stopped keeps it down now; 'enabled' ensures it starts on next boot
-  # once the image is baked.
+  # enabled: false prevents firewalld from auto-starting on boot during the build
+  # phase. On Instruqt, eth0 is configured via cloud-init (ifcfg-eth0 is empty);
+  # when firewalld starts and tries to integrate with wicked for zone assignment,
+  # the empty ifcfg leaves eth0 in an undefined state and breaks the management
+  # connection. rodeo.sh phase 5 runs: systemctl enable --now firewalld
+  # right before the image is saved, so it is active in the final baked image.
 
 # All remaining tasks use permanent: true + immediate: false so they stage
 # the rules into /etc/firewalld without touching the live (non-running) daemon.
