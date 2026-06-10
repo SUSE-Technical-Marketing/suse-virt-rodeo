@@ -317,8 +317,8 @@ phase_3_vms() {
   _start_vm harvester1
 
   log "Polling https://${HARVESTER_VIP} — waiting for Harvester to respond..."
-  log "  (Harvester serial output streams above — 40–70 min on nested KVM)"
-  local vip_elapsed=0 vip_max="${MAX_WAIT:-7200}"
+  log "  (Harvester serial output streams above — 20–40 min expected)"
+  local vip_elapsed=0 vip_max="${MAX_WAIT:-3600}"
   while true; do
     if curl -sk --max-time 5 "https://${HARVESTER_VIP}" 2>&1 \
         | grep -qiE "harvester|DOCTYPE|Found|301|Unauthorized"; then
