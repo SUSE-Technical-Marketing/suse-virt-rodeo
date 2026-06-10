@@ -197,6 +197,23 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
 # bridge per mode) and harvester-config.yaml.j2 (node1 create / node2 join, VIP .10).
 ```
 
+## Host network safety on Instruqt
+
+Two kvm_host role changes can disrupt the Instruqt management connection if applied
+carelessly. Both are mitigated in the current code but worth knowing:
+
+- **firewalld cold start**: if firewalld is not running on the base image, starting it
+  applies default zone rules. We explicitly allow SSH in the public zone as the very
+  first firewall task to guarantee the management connection is never cut off.
+- **rp_filter**: `net.ipv4.conf.all.rp_filter=2` affects every NIC including the
+  management NIC. If the base image has it set to 0 (disabled — typical on some GCP
+  images with asymmetric policy routing) adding any filtering can drop management
+  packets. The role reads the current value first and skips the rp_filter lines if
+  the base image already has it at 0.
+
+**virbr0 redefinition** (network_setup.yml) is safe — it only affects the guest
+bridge, not the physical management NIC.
+
 ## Open items / things only verifiable on a real SLES 16 host
 
 - Nothing has been run end-to-end; the custom Instruqt image has never been built.

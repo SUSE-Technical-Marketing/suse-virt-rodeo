@@ -24,6 +24,17 @@
 #     asymmetric/multi-homed return paths. Strict reverse-path filtering drops
 #     those return packets; loose mode (2) keeps basic spoof protection without
 #     the false drops. all=2 wins over any per-interface value (kernel uses max).
+# WARNING — rp_filter risk: setting conf.all.rp_filter=2 affects every NIC on the
+# host, including the Instruqt/cloud management interface. On GCP the primary NIC
+# uses policy routing so this is safe, but if the base image has rp_filter=0
+# (disabled) adding any filtering can drop packets on asymmetrically-routed links.
+# We read the current all value first and skip the rp_filter keys if it is already 0.
+- name: Read current rp_filter setting
+  ansible.builtin.command: sysctl -n net.ipv4.conf.all.rp_filter
+  register: current_rp_filter
+  changed_when: false
+  failed_when: false
+
 - name: Drop in RKE2-friendly host sysctls (bridge-netfilter off, rp_filter loose)
   ansible.builtin.copy:
     dest: /etc/sysctl.d/99-harvester-rke2.conf
@@ -36,9 +47,15 @@
       net.bridge.bridge-nf-call-iptables = 0
       net.bridge.bridge-nf-call-ip6tables = 0
       net.bridge.bridge-nf-call-arptables = 0
-      # Loose reverse-path filtering for the multi-NIC + VIP + LB-ARP topology.
+      # Loose rp_filter for the multi-NIC + VIP + LB-ARP topology.
+      # Only applied if the base image has strict (1) — if it is 0 (disabled) on a
+      # cloud host with asymmetric management routing we leave it alone.
+      {% if current_rp_filter.stdout | trim != '0' %}
       net.ipv4.conf.all.rp_filter = 2
       net.ipv4.conf.default.rp_filter = 2
+      {% else %}
+      # rp_filter left at 0 — base image had it disabled (cloud host, policy routing).
+      {% endif %}
 
 # Apply now. -e ignores bridge keys that do not exist yet (br_netfilter not
 # loaded); rp_filter keys always exist and take effect immediately. The drop-in
