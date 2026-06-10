@@ -650,6 +650,22 @@ phase_5_checklist() {
 
   _load_env
 
+  # --- Start firewalld now (deferred from Ansible phase to avoid Instruqt
+  #     connectivity issues caused by wicked/firewalld zone integration on a host
+  #     where ifcfg-eth0 is empty — the Instruqt SLES 16 base image configures eth0
+  #     via cloud-init, not wicked ifcfg, so the wicked-firewalld handshake is
+  #     undefined and can break the management connection).
+  log "Starting firewalld (deferred from Ansible phase)..."
+  if systemctl is-active firewalld &>/dev/null; then
+    log "  firewalld already running — reloading permanent rules."
+    firewall-cmd --reload
+  else
+    systemctl start firewalld
+    firewall-cmd --reload
+  fi
+  ok "firewalld running. DNAT rules active for Harvester UI (:8443) and Rancher (:30002)."
+  firewall-cmd --zone=public --list-all | grep -E "ports:|forward-ports:|masquerade:" || true
+
   echo ""
   echo -e "${YELLOW}${BOLD}  These steps require the Harvester and Rancher UIs. Complete them manually.${RESET}"
   echo ""

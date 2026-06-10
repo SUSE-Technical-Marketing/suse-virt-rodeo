@@ -92,6 +92,16 @@ EXTRA_VARS+=(
 ansible-playbook -i "${ANSIBLE_INVENTORY}" "${REPO}/ansible/playbook.yml" "${EXTRA_VARS[@]}"
 
 # ---------------------------------------------------------------------------
+# 2b. Start firewalld (Ansible only writes permanent rules, does not start it,
+#     to avoid disrupting Instruqt management connectivity via the wicked
+#     ifcfg-eth0/firewalld zone integration issue on cloud images).
+# ---------------------------------------------------------------------------
+log "Starting firewalld and loading permanent rules..."
+systemctl start firewalld
+firewall-cmd --reload
+log "firewalld running. DNAT rules active for Harvester UI (:8443) and Rancher (:30002)."
+
+# ---------------------------------------------------------------------------
 # 3. Start VMs and wait for the Harvester cluster
 # ---------------------------------------------------------------------------
 log "Starting VMs and waiting for Harvester..."

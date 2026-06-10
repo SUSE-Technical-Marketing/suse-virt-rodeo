@@ -202,9 +202,15 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
 Two kvm_host role changes can disrupt the Instruqt management connection if applied
 carelessly. Both are mitigated in the current code but worth knowing:
 
-- **firewalld cold start**: if firewalld is not running on the base image, starting it
-  applies default zone rules. We explicitly allow SSH in the public zone as the very
-  first firewall task to guarantee the management connection is never cut off.
+- **firewalld deferred start**: The Instruqt SLES 16 base image (`suse/harv-rodeo-sles16`)
+  configures eth0 via cloud-init/Instruqt bootstrap — `ifcfg-eth0` is empty. When
+  firewalld starts and tries to integrate with wicked for zone assignment, the empty
+  ifcfg leaves eth0 in an undefined state and breaks the management connection after
+  a save/restart. The fix: the Ansible role writes all firewalld rules as permanent
+  (`immediate: false`) but does NOT start or enable-now the service. `rodeo.sh` phase 5
+  starts firewalld right before saving the final image. `deployer/deploy.sh` starts it
+  right after the Ansible phase. libvirt's own iptables-based NAT handles guest traffic
+  during the build without needing firewalld.
 - **rp_filter**: `net.ipv4.conf.all.rp_filter=2` affects every NIC including the
   management NIC. If the base image has it set to 0 (disabled — typical on some GCP
   images with asymmetric policy routing) adding any filtering can drop management

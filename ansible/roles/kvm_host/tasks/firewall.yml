@@ -1,19 +1,31 @@
 ---
-- name: Ensure firewalld is running
+# On Instruqt, eth0 is configured via cloud-init/Instruqt bootstrap — the wicked
+# ifcfg-eth0 file is empty. When firewalld starts and integrates with wicked, the
+# empty ifcfg leaves eth0 in an undefined zone state, which breaks management
+# connectivity after a save/restart. We therefore only ENABLE firewalld here (so
+# it is present in the baked image) but do NOT start it. rodeo.sh phase 5 starts
+# it right before the final image save, at which point the VMs are fully running
+# and the host is not going to be saved/restarted mid-session.
+# On bare-metal deployer runs, the `Start firewalld` task in deploy.sh does this.
+- name: Install and enable firewalld (do not start — started by rodeo.sh phase 5 or deployer)
   ansible.builtin.systemd:
     name: firewalld
     enabled: true
-    state: started
+    state: stopped
+  # state: stopped keeps it down now; 'enabled' ensures it starts on next boot
+  # once the image is baked.
 
-# Protect the Instruqt/host management connection before touching anything else.
-# firewalld may be starting cold on the base image; the public zone default should
-# include SSH, but we make it explicit so a misconfigured base image cannot cut us off.
+# All remaining tasks use permanent: true + immediate: false so they stage
+# the rules into /etc/firewalld without touching the live (non-running) daemon.
+
+# Protect the management connection — explicit SSH even if the public zone default
+# ever differs across SLES 16 image variants.
 - name: Ensure SSH is allowed in the public zone (protect management connectivity)
   ansible.posix.firewalld:
     zone: public
     service: ssh
     permanent: true
-    immediate: true
+    immediate: false
     state: enabled
 
 - name: Allow forwarding in the libvirt zone
@@ -34,7 +46,7 @@
     zone: libvirt
     rich_rule: "rule family=ipv4 source address={{ libvirt_network_cidr }} accept"
     permanent: true
-    immediate: true
+    immediate: false
     state: enabled
   when: network_mode == 'nat'
   notify: reload firewalld
@@ -48,7 +60,7 @@
     zone: public
     port: "{{ item }}/tcp"
     permanent: true
-    immediate: true
+    immediate: false
     state: enabled
   loop:
     - "{{ harvester_ui_port }}"
@@ -61,7 +73,7 @@
     zone: public
     masquerade: true
     permanent: true
-    immediate: true
+    immediate: false
     state: enabled
   when: network_mode == 'nat'
   notify: reload firewalld
@@ -75,7 +87,7 @@
     zone: libvirt
     masquerade: true
     permanent: true
-    immediate: true
+    immediate: false
     state: enabled
   when: network_mode == 'nat'
   notify: reload firewalld
@@ -89,7 +101,7 @@
         toport: "{{ item.toport }}"
         toaddr: "{{ item.toaddr }}"
     permanent: true
-    immediate: true
+    immediate: false
     state: enabled
   loop:
     # Harvester serves on 443 at the VIP, so host:8443 must DNAT to VIP:443.
