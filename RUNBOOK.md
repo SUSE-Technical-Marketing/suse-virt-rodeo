@@ -164,6 +164,15 @@ from it in minutes.
   ```
 - A SLES 16 base image in the org. `builder/config.yml` is set to
   `suse/harv-rodeo-sles16` (confirmed slug).
+- **OVMF paths must be confirmed before the first build.** The two variables
+  `ovmf_code` and `ovmf_vars_template` in
+  `ansible/roles/vms/defaults/main.yml` are set to `FIXME_*` placeholders.
+  On the target SLES 16 host run:
+  ```bash
+  rpm -ql qemu-ovmf-x86_64 | grep bin
+  ```
+  and update both values to the actual paths. If left as-is, `virsh define`
+  will fail for every VM and the deploy will stop in the `vms` role.
 
 ### 2A — Build the custom image (builder track)
 

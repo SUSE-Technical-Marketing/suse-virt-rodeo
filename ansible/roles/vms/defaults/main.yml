@@ -16,10 +16,12 @@ harvester_os_password: "Foobar12345$"
 
 rancher_vm_password: "Foobar12345$"
 
-# OVMF/UEFI firmware from the qemu-ovmf-x86_64 package (SLES 16). Override if a
-# host ships the firmware under different names.
-ovmf_code: /usr/share/qemu/ovmf-x86_64-code.bin
-ovmf_vars_template: /usr/share/qemu/ovmf-x86_64-vars.bin
+# OVMF/UEFI firmware from the qemu-ovmf-x86_64 package.
+# UNCONFIRMED ON SLES 16 — run `rpm -ql qemu-ovmf-x86_64 | grep bin` on the
+# target host and update both paths before the first build or the vms role will
+# fail at domain definition time (libvirt rejects XML that references missing files).
+ovmf_code: FIXME_ovmf_code_path
+ovmf_vars_template: FIXME_ovmf_vars_template_path
 
 libvirt_pool_name: default
 libvirt_pool_path: /var/lib/libvirt/images
