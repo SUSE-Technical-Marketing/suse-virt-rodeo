@@ -64,7 +64,7 @@ is not in the SUSE base repos). SSH to the guests is key-based (the playbook bak
 the host public key into the Rancher VM and Harvester nodes), so no `sshpass`:
 
 ```bash
-zypper install -y ansible
+zypper install -y ansible qemu-ovmf-x86_64
 ```
 
 Install Ansible collections:
