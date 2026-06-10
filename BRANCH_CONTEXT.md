@@ -127,6 +127,22 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
     kubectl bcrypt user-patch remains a fallback if a version ever differs.
 - Legacy `Converting-SLES-15.6-KVM-host.md` rewritten as `Converting-SLES-16-KVM-host.md`.
 
+**Audit fixes (2026-06-10 round):**
+- `vm_setup.yml` define-once guard removed — `virsh define` is an upsert; re-runs
+  now pick up RAM/NIC/boot changes without manual `virsh undefine`.
+- `config.yml` image slug updated to `suse/suse-virt-rodeo-180`.
+- `ansible/group_vars/all.yml` created — single source of truth for `harvester_vip`,
+  `rancher_ip`, `network_mode`, `host_bridge`. Both role defaults now point to it;
+  group_vars precedence ensures no drift.
+- Harvester config seed ISOs: removed `creates:` guard — template edits now take
+  effect on re-run (matches the existing Rancher cloud-init ISO behaviour).
+- `deployer/deploy.vars.yml.example` — added missing `hostname` fields
+  (`alpha`/`bravo`/`charlie`/`rancher`) required by the DNS Jinja templates in bridge
+  mode.
+- `builder/deploy-vms.sh` — added kubeconfig fetch + 3-node Ready wait (mirrors
+  `deployer/lib/start-vms.sh`). The builder now exits only after the full cluster
+  is Ready, not just after the VIP first responds.
+
 ## Where things live
 
 ```

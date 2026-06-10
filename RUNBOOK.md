@@ -183,21 +183,22 @@ Same flow as Part 1, plus image prep:
 
 - Step 0 — confirm ≥ 1 TB disk and nested virt.
 - Step 1 — clone via SSH: `git clone -b dev git@github.com:SUSE-Technical-Marketing/test-harv-rodeo.git`
-- Step 2 — `zypper install -y ansible git`, then
+- Step 2 — `zypper install -y ansible qemu-ovmf-x86_64`, then
   `ansible-galaxy collection install -r ansible/requirements.yml` (the playbook
   installs the KVM stack, xorriso, kubectl, etc.).
 - Step 3 — `ansible-playbook -i deployer/inventory.local ansible/playbook.yml`.
-- Step 4 — `cd deployer && sudo ./deploy.sh` (or run the Ansible playbook + start-vms + setup-rancher separately).
-- Step 5 — watch the serial logs.
-- Step 6 — `./setup-rancher.sh`.
-- Step 7 — verify the Harvester cluster is **Active** in Rancher
+- Step 4 — `cd builder && ./deploy-vms.sh` — starts VMs, waits for VIP, then waits
+  for all 3 nodes to reach Ready (40-90 min). Watch serial logs in a second terminal:
+  `tail -f /var/log/libvirt/qemu/harvester1_serial.log`
+- Step 5 — `./setup-rancher.sh`.
+- Step 6 — verify the Harvester cluster is **Active** in Rancher
   (`https://192.168.122.9:30002`).
-- Step 8 — disable the Longhorn V2 data engine and install the Harvester UI plugin
+- Step 7 — disable the Longhorn V2 data engine and install the Harvester UI plugin
   v1.8.0 (manual; V2/SPDK does not work in nested KVM, and the plugin must match
   the cluster version).
-- Step 9 — upload the Leap 16 cloud image, named exactly **`leap16`** (challenges
+- Step 8 — upload the Leap 16 cloud image, named exactly **`leap16`** (challenges
   reference `default/leap16`).
-- Step 10 — shut off all four VMs cleanly.
+- Step 9 — shut off all four VMs cleanly.
 
 **Step 3 — Save the image**
 

@@ -235,6 +235,7 @@ handler chains, and `--tags` support to run only what needs running.
 │   ├── playbook.yml              # runs kvm_host + vms roles
 │   ├── inventory.example         # remote-host example (placeholder)
 │   ├── requirements.yml          # community.libvirt, community.general, ansible.posix
+│   ├── group_vars/all.yml        # shared vars: harvester_vip, rancher_ip, network_mode, host_bridge
 │   └── roles/
 │       ├── kvm_host/             # host packages, libvirt config, DNAT, firewall
 │       └── vms/
@@ -243,7 +244,7 @@ handler chains, and `--tags` support to run only what needs running.
 │           │   ├── network_setup.yml    # redefine virbr0 with static DHCP entries
 │           │   ├── storage_setup.yml    # ensure default storage pool exists
 │           │   ├── images.yml           # ISO download, disks, config ISOs, cloud-init
-│           │   └── vm_setup.yml         # idempotent VM define from template
+│           │   └── vm_setup.yml         # VM define from template (always re-applies)
 │           └── templates/
 │               ├── vm.xml.j2                # parameterized KVM domain XML
 │               ├── network.xml.j2           # libvirt NAT network + static DHCP
@@ -326,12 +327,12 @@ Open the `geekohive` terminal.
 ### Step 2 — Clone the repo and verify prerequisites
 
 ```bash
-git clone -b dev https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
+git clone -b dev git@github.com:SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
 cd /root/rodeo
 
 # Only ansible is needed up front; the playbook installs the KVM stack, xorriso,
 # jq/curl, firewalld, and kubectl (via the upstream Kubernetes repo).
-zypper install -y ansible
+zypper install -y ansible qemu-ovmf-x86_64
 
 ansible-galaxy collection install -r ansible/requirements.yml
 ```
@@ -364,8 +365,8 @@ chmod +x deploy-vms.sh
 
 The script starts harvester1, polls the VIP `https://192.168.122.10` until Harvester
 responds (20-40 minutes), staggers harvester2 and harvester3 by 90 seconds to avoid
-etcd join race conditions, then starts the rancher VM. All 4 VMs are running when
-the script exits.
+etcd join race conditions, starts the rancher VM, then fetches the kubeconfig via SSH
+and waits until all 3 nodes reach `Ready` before exiting. Total time: 40-90 minutes.
 
 Monitor install progress in a second terminal:
 
@@ -375,15 +376,7 @@ tail -f /var/log/libvirt/qemu/harvester2_serial.log
 tail -f /var/log/libvirt/qemu/harvester3_serial.log
 ```
 
-### Step 5 — Confirm the cluster
-
-```bash
-ssh -i /root/.ssh/id_ed25519 rancher@192.168.122.10 "sudo kubectl get nodes -o wide"
-```
-
-All 3 nodes should show `Ready`. Total time from VM start: 40-90 minutes.
-
-### Step 6 — Install K3s, Rancher, and import Harvester
+### Step 5 — Install K3s, Rancher, and import Harvester
 
 ```bash
 chmod +x /root/rodeo/builder/setup-rancher.sh
@@ -399,15 +392,15 @@ from all three Harvester VMs.
 
 ```bash
 cat /root/rancher-password
-curl -sk https://rancher.192.168.122.9.sslip.io/ping | grep -q "pong" && echo "Rancher OK"
+curl -sk https://192.168.122.9:30002/ping | grep -q "pong" && echo "Rancher OK"
 ```
 
-### Step 7 — Install the Harvester UI plugin
+### Step 6 — Install the Harvester UI plugin
 
 In Rancher, navigate to **local cluster > Apps** and install the Harvester UI plugin
 version 1.8.0. The plugin version must match the Harvester cluster version exactly.
 
-### Step 8 — Pre-load the openSUSE Leap 16 image
+### Step 7 — Pre-load the openSUSE Leap 16 image
 
 ```bash
 curl -sk -X POST \
@@ -422,7 +415,7 @@ curl -sk -X POST \
 
 Wait for the image to reach `status.state: active` before proceeding.
 
-### Step 9 — Shut off all VMs
+### Step 8 — Shut off all VMs
 
 ```bash
 for vm in harvester1 harvester2 harvester3 rancher; do
@@ -434,7 +427,7 @@ virsh list --all
 
 All four VMs must show `shut off` before saving.
 
-### Step 10 — Save the image
+### Step 9 — Save the image
 
 1. In the Instruqt web console, select the `geekohive` VM
 2. Click **Save as image**, name it `suse-virt-rodeo-180`, owner `suse`

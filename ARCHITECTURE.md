@@ -365,12 +365,13 @@ See `builder/` directory for the builder track config and Ansible playbook.
    - Per-node Harvester config ISOs rendered from template
    - Rancher cloud-init ISO generated
    - All 4 VMs defined in libvirt XML (not yet started)
-4. Start VMs and wait for Harvester install:
+4. Start VMs and wait for all 3 nodes Ready:
      cd builder && ./deploy-vms.sh
+   The script starts harvester1, waits for the VIP, staggers harvester2/3,
+   then fetches the kubeconfig and polls until 3 nodes are Ready (40-90 min).
    Monitor install progress (serial is file-based — no virsh console):
      tail -f /var/log/libvirt/qemu/harvester1_serial.log
-5. Wait for 3-node cluster to form (40-90 min total)
-6. Run: ./setup-rancher.sh
+5. Run: ./setup-rancher.sh
    Installs K3s + Rancher Prime 2.13.1, imports Harvester cluster,
    ejects installer ISOs from all Harvester VMs
 7. Install Harvester UI plugin v1.8.0 in Rancher
