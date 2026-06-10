@@ -334,7 +334,7 @@ These cannot be done at sandbox startup — too slow or require pre-provisioning
 | `/root/.kube/harvester.yaml` | Generated after cluster forms |
 | `/root/rancher-password` | Set during image prep |
 | Harvester UI plugin v1.8.0 in Rancher | Must match Harvester version exactly |
-| openSUSE Leap 16 qcow2 image in Harvester | Download during startup would stall students |
+| openSUSE Leap 16 KVM image in Harvester (`kvm-and-xen` variant) | Download during startup would stall students; `Cloud` variant fails without a metadata endpoint |
 | firewalld permanent port-forwards (8443/30002 → guests) | Must survive reboots |
 | KVM VMs defined in libvirt XML | shut off, not suspended |
 | virbr0 (default libvirt network) with DHCP MAC reservations for eth0 NICs | Fixed IPs required for etcd stability |
@@ -454,7 +454,7 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 - [ ] `/root/rancher-password` file exists with admin password
 
 **Harvester content:**
-- [ ] openSUSE Leap 16 qcow2 image imported (name: `default/leap16`)
+- [ ] openSUSE Leap 16 KVM image imported (name: `default/leap16`, `kvm-and-xen` variant)
 - [ ] Longhorn V2 data engine disabled in Harvester settings
 - [ ] Longhorn disk configured on each node: Harvester UI > Hosts > each node > Storage — add disk path `/var/lib/longhorn` if not auto-detected
 

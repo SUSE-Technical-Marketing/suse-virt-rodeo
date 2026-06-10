@@ -235,8 +235,10 @@ All output (Ansible, virsh, SSH, serial logs) streams to stdout and
 - Step 7 — disable the Longhorn V2 data engine and install the Harvester UI plugin
   v1.8.0 (manual; V2/SPDK does not work in nested KVM, and the plugin must match
   the cluster version).
-- Step 8 — upload the Leap 16 cloud image, named exactly **`leap16`** (challenges
-  reference `default/leap16`).
+- Step 8 — upload the Leap 16 KVM image (`kvm-and-xen` variant), named exactly
+  **`leap16`** (challenges reference `default/leap16`). Use the `kvm-and-xen` variant —
+  virtio drivers included; the `Cloud` variant expects a cloud metadata endpoint that
+  does not exist on the libvirt NAT network.
 - Step 9 — shut off all four VMs cleanly.
 
 **Step 3 — Save the image**

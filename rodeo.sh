@@ -662,7 +662,8 @@ phase_5_checklist() {
          Rancher UI → Extensions → enable Harvester repo → install v1.8.0
          Reason: plugin version must match the cluster version exactly.
 
-  [ ] 3. Pre-load the openSUSE Leap 16 cloud image into Harvester
+  [ ] 3. Pre-load the openSUSE Leap 16 KVM image into Harvester (kvm-and-xen variant —
+         virtio drivers built in; Cloud variant fails without a metadata endpoint).
          Name MUST be exactly 'leap16' — challenges reference default/leap16.
 
 CHECKLIST

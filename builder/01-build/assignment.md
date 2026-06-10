@@ -204,10 +204,13 @@ UI and Longhorn storage will misbehave in nested KVM.
 
 ---
 
-## Step 9 — Load the openSUSE Leap 16 cloud image
+## Step 9 — Load the openSUSE Leap 16 KVM image
 
-Upload the Leap 16 cloud image so it is pre-loaded in Harvester for lab use. The
-image **name must be `leap16`** — every challenge references `default/leap16`:
+Upload the Leap 16 KVM image so it is pre-loaded in Harvester for lab use. Use the
+`kvm-and-xen` variant — it has virtio drivers built in and does not depend on a cloud
+metadata service (the `Cloud` variant expects a cloud metadata endpoint at boot, which
+does not exist on the libvirt NAT network). The image **name must be `leap16`** —
+every challenge references `default/leap16`:
 
 ```bash
 LEAP16_URL="https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2"

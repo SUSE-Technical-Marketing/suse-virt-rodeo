@@ -89,13 +89,13 @@
 
 # --- Rancher VM disk and cloud-init ---
 
-- name: Download openSUSE Leap 16 cloud base image
+- name: Download openSUSE Leap 16 KVM base image (kvm-and-xen variant; virtio drivers included)
   ansible.builtin.get_url:
     url: "{{ leap16_url }}"
     dest: "{{ image_dir }}/Leap-16.0-kvm-and-xen.qcow2"
     mode: '0644'
 
-- name: Convert Leap 16 base image to Rancher VM disk
+- name: Convert Leap 16 KVM base image to Rancher VM disk
   ansible.builtin.command: >
     qemu-img convert -f qcow2 -O qcow2 -o preallocation=metadata
     '{{ image_dir }}/Leap-16.0-kvm-and-xen.qcow2'

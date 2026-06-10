@@ -408,7 +408,7 @@ curl -sk https://192.168.122.9:30002/ping | grep -q "pong" && echo "Rancher OK"
 In Rancher, navigate to **local cluster > Apps** and install the Harvester UI plugin
 version 1.8.0. The plugin version must match the Harvester cluster version exactly.
 
-### Step 7 — Pre-load the openSUSE Leap 16 image
+### Step 7 — Pre-load the openSUSE Leap 16 KVM image
 
 ```bash
 curl -sk -X POST \
@@ -420,6 +420,10 @@ curl -sk -X POST \
                "sourceType":"download"}}' \
   https://192.168.122.10/v1/harvesterhci.io.virtualmachineimages
 ```
+
+Use the `kvm-and-xen` variant — virtio drivers are built in and it does not depend on
+a cloud metadata service. The `Cloud` variant expects a metadata endpoint at boot,
+which does not exist on the libvirt NAT network.
 
 Wait for the image to reach `status.state: active` before proceeding.
 
@@ -521,7 +525,7 @@ AeroGrid's first migration target is `virt1` — the ground operations VM handli
 baggage tracking, gate assignments, and ramp coordination. Under VMware this was a
 vMotion-capable workload on ESXi.
 
-Students create `virt1` from the pre-loaded openSUSE Leap 16 cloud image. Cloud-init
+Students create `virt1` from the pre-loaded openSUSE Leap 16 KVM image (`leap16`). Cloud-init
 network data assigns a static IP (`192.168.122.50`) and injects the `cloud-client`
 SSH key. Once running, they SSH into the VM and confirm the ground ops service is
 reachable. They then trigger a **live migration** — moving the running VM to a
