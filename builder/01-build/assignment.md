@@ -49,7 +49,7 @@ resized there.
 ## Step 1 — Clone the repo
 
 ```bash
-git clone -b dev https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
+git clone -b dev git@github.com:SUSE-Technical-Marketing/test-harv-rodeo.git /root/rodeo
 cd /root/rodeo
 ```
 

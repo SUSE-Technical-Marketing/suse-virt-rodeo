@@ -63,9 +63,18 @@ playbook bakes the host public key into the Rancher VM and Harvester nodes), so 
 
 ### Step 3 — Clone the repo
 
+Access is SSH-only. Make sure an SSH key is configured for GitHub on the host
+(personal key in `~/.ssh/` or a deploy key) before running:
+
 ```bash
-git clone -b dev https://github.com/SUSE-Technical-Marketing/test-harv-rodeo.git
+git clone -b dev git@github.com:SUSE-Technical-Marketing/test-harv-rodeo.git
 cd test-harv-rodeo/deployer
+```
+
+Quick SSH check if the clone fails:
+
+```bash
+ssh -T git@github.com    # expect: Hi <user>! You've successfully authenticated...
 ```
 
 `deployer/` is the entrypoint; it reuses the shared roles in `../ansible/`.
@@ -153,8 +162,8 @@ from it in minutes.
   instruqt version
   instruqt auth login
   ```
-- A SLES 16 base image in the org. `builder/config.yml` assumes `suse/sles-16-0`;
-  confirm the slug in the catalog and update that file if it differs.
+- A SLES 16 base image in the org. `builder/config.yml` is set to
+  `suse/harv-rodeo-sles16` (confirmed slug).
 
 ### 2A — Build the custom image (builder track)
 
@@ -173,12 +182,12 @@ sandbox needs a ≥ 1 TB disk (set at image/sandbox creation, not in `config.yml
 Same flow as Part 1, plus image prep:
 
 - Step 0 — confirm ≥ 1 TB disk and nested virt.
-- Step 1 — clone `-b dev` from `test-harv-rodeo`.
+- Step 1 — clone via SSH: `git clone -b dev git@github.com:SUSE-Technical-Marketing/test-harv-rodeo.git`
 - Step 2 — `zypper install -y ansible git`, then
   `ansible-galaxy collection install -r ansible/requirements.yml` (the playbook
   installs the KVM stack, xorriso, kubectl, etc.).
 - Step 3 — `ansible-playbook -i deployer/inventory.local ansible/playbook.yml`.
-- Step 4 — `cd builder && ./deploy-vms.sh`.
+- Step 4 — `cd deployer && sudo ./deploy.sh` (or run the Ansible playbook + start-vms + setup-rancher separately).
 - Step 5 — watch the serial logs.
 - Step 6 — `./setup-rancher.sh`.
 - Step 7 — verify the Harvester cluster is **Active** in Rancher
