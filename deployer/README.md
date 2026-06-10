@@ -47,6 +47,19 @@ sudo ./deploy.sh
 
 Expect 40–90 minutes end to end; most of it is the Harvester install.
 
+After deploy completes, the lab DNS names are live on the host (via `/etc/hosts`):
+
+| Name | IP |
+|------|----|
+| `virtualization.aerogrid.com` | 192.168.122.10 (Harvester VIP) |
+| `rancher.aerogrid.com` | 192.168.122.9 (Rancher Prime) |
+| `alpha.aerogrid.com` | 192.168.122.11 (Harvester node 1) |
+| `bravo.aerogrid.com` | 192.168.122.12 (Harvester node 2) |
+| `charlie.aerogrid.com` | 192.168.122.13 (Harvester node 3) |
+
+VMs on the NAT network resolve the same names via the libvirt dnsmasq on `192.168.122.1`.
+Kubernetes pods inside Harvester resolve them via a forward zone patched into RKE2's CoreDNS.
+
 ## Networking: nat vs bridge
 
 Set `NETWORK_MODE` in `deploy.env`.

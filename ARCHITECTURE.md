@@ -143,6 +143,26 @@ overlay (Canal VXLAN +50B, Kube-OVN Geneve +58B) runs inside the guests over a
 1500-MTU bridge; RKE2 auto-shrinks the pod/overlay MTU, so no host MTU change is
 needed — but suspect MTU first if large-payload inter-node transfers ever hang.
 
+### Lab DNS (aerogrid.com)
+
+The lab runs a three-layer DNS setup so every consumer can resolve `aerogrid.com` names:
+
+| Name | IP | Resolves from |
+|------|----|---------------|
+| `virtualization.aerogrid.com` | 192.168.122.10 | VMs, host, cloud-client, K8s pods |
+| `rancher.aerogrid.com` | 192.168.122.9 | same |
+| `alpha.aerogrid.com` | 192.168.122.11 | same |
+| `bravo.aerogrid.com` | 192.168.122.12 | same |
+| `charlie.aerogrid.com` | 192.168.122.13 | same |
+
+**Layer 1 — libvirt dnsmasq (virbr0):** The libvirt network XML carries a `<domain name='aerogrid.com'/>` and `<dns>` block. The built-in dnsmasq on `192.168.122.1` serves all five A records to every VM on the NAT network.
+
+**Layer 2 — `/etc/hosts` on geekohive:** Ansible `blockinfile` writes the same entries so scripts running on the KVM host itself (curl, kubectl, setup-rancher.sh) can resolve names without going through dnsmasq.
+
+**Layer 3 — cloud-client:** `setup-cloud-client` resolves geekohive's Instruqt IP dynamically and writes all five names to `/etc/hosts`. nginx on cloud-client also adds port-443 HTTPS named vhosts (`virtualization.aerogrid.com` → geekohive:8443, `rancher.aerogrid.com` → geekohive:30002) backed by a self-signed `*.aerogrid.com` cert, so students can `curl -k https://virtualization.aerogrid.com` from the terminal.
+
+**Pod DNS inside Harvester:** `setup-rancher.sh` patches the RKE2 CoreDNS ConfigMap (`rke2-coredns-rke2-coredns` in `kube-system`) to add a forward zone that sends `aerogrid.com` queries to `192.168.122.1`. CoreDNS's `reload` plugin picks it up within ~30s — no pod restart needed.
+
 ---
 
 ## KVM Guest Configuration (per Harvester node)
@@ -248,10 +268,16 @@ containers:
 2. Write /etc/nginx/conf.d/harvester-proxy.conf
    :90 → https://geekohive:8443  (Harvester UI)
    :91 → https://geekohive:30002 (Rancher UI)
-3. nginx -s reload
-4. Build kubectl context: Harvester API via Rancher proxy
-5. SSH keygen + register public key as Harvester KeyPair resource
-6. Write ~/.ssh/config for virt* hosts
+3. nginx -s reload (ports 90/91)
+4. Resolve geekohive IP → write /etc/hosts aerogrid.com entries
+5. Generate self-signed *.aerogrid.com cert
+6. Write /etc/nginx/conf.d/aerogrid-vhosts.conf
+   virtualization.aerogrid.com:443 → https://geekohive:8443
+   rancher.aerogrid.com:443        → https://geekohive:30002
+7. nginx -s reload (port 443 named vhosts active)
+8. Build kubectl context: Harvester API via Rancher proxy
+9. SSH keygen + register public key as Harvester KeyPair resource
+10. Write ~/.ssh/config for virt* hosts
 ```
 
 Port 92 is not configured here. The student opens it in challenge 06.

@@ -96,6 +96,24 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
   ed25519 key first and bakes the public key into the Rancher VM (cloud-init, root)
   and the Harvester nodes (`os.ssh_authorized_keys`). `setup-rancher.sh` connects
   key-based: `root@rancher-vm`, and `rancher@VIP` + `sudo` for the kubeconfig.
+- **aerogrid.com lab DNS (three layers):**
+  - libvirt network XML `<domain>` + `<dns>` block — built-in dnsmasq on
+    `192.168.122.1` serves all five A records to VMs on the NAT network.
+  - Ansible `blockinfile` writes the same entries to `/etc/hosts` on geekohive.
+  - `setup-cloud-client` writes `/etc/hosts` on cloud-client (resolving to
+    geekohive's Instruqt IP) and adds nginx port-443 HTTPS named vhosts
+    (`virtualization.aerogrid.com` → :8443, `rancher.aerogrid.com` → :30002).
+  - `setup-rancher.sh` patches the RKE2 CoreDNS ConfigMap in `kube-system` to
+    forward `aerogrid.com` to `192.168.122.1` — covers Kubernetes pods inside
+    Harvester. Idempotent; reload plugin picks it up in ~30s.
+  - Name table: `virtualization.aerogrid.com` (.10 VIP), `rancher.aerogrid.com`
+    (.9), `alpha.aerogrid.com` (.11), `bravo.aerogrid.com` (.12),
+    `charlie.aerogrid.com` (.13).
+- **ISO URL fix:** Harvester ISOs are on `releases.rancher.com`, not GitHub
+  releases. `images.yml` corrected + SHA-512 checksum pinned for v1.8.0.
+- **Deployer race fix:** `start-vms.sh` now waits for all 3 nodes to reach
+  `Ready` (kubectl poll via SSH-fetched kubeconfig) before handing off to
+  `setup-rancher.sh`. Previously it exited after only the VIP responded.
 - **Single lab admin password `Foobar12345$`** (user `admin`) for both the Rancher
   and Harvester dashboards/APIs, plus the node/VM console passwords. `setup-rancher.sh`
   sets Rancher's admin to it (was random) and sets Harvester's admin via the embedded
@@ -160,15 +178,12 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
   Verify on a live host: firewalld masquerade/DNAT return path; bridge mode; the
   Rancher NodePort `30002` patch on the rancher svc; the Harvester import going
   Active via `server-url` on `:30002`.
-- **Harvester UI port (resolved):** Harvester serves the UI/API on `443` at the
-  VIP (per the v1.8 docs), not `8443`. The DNAT now forwards host `:8443` -> VIP
-  `:443` (`harvester_https_port`). The host-side `8443` (nginx :90 -> geekohive:8443)
-  is unchanged. Still worth a live `curl -k https://192.168.122.10/ping` to confirm.
-- **Harvester node SSH (keys-only)**: `setup-rancher.sh` fetches the kubeconfig
-  key-based as the `rancher` user (`sudo cat /etc/rancher/rke2/rke2.yaml`). The
-  host public key is baked into the nodes via `os.ssh_authorized_keys`. Confirm on
-  a live host that the key is accepted and the `rancher` user has passwordless sudo.
-- Builder base image slug confirmed: `suse/harv-rodeo-sles16` (set in `builder/config.yml`).
+- **Harvester node SSH (keys-only)**: confirm on a live host that the ed25519 key
+  baked into nodes via `os.ssh_authorized_keys` is accepted and the `rancher` user
+  has passwordless sudo.
+- **aerogrid.com DNS**: libvirt dnsmasq and RKE2 CoreDNS patch not yet verified
+  on a live host. Confirm with `dig alpha.aerogrid.com @192.168.122.1` from a
+  Harvester node and `kubectl exec` into a pod to check `nslookup`.
 - MTU: RKE2 auto-shrinks the overlay MTU on a 1500 bridge, so no host change; suspect
   MTU only if large inter-node transfers ever hang.
 

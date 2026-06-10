@@ -69,12 +69,13 @@ Port 92 is not pre-configured. The student runs `kubectl port-forward` in challe
 
 ### KVM guest configuration
 
-| VM | vCPU | RAM | Disk | IP | Purpose |
-|---|---|---|---|---|---|
-| harvester1 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.11 | Bootstrap (cluster-init) node |
-| harvester2 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.12 | Join node |
-| harvester3 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.13 | Join node |
-| rancher | 4 | 12 GiB | 60 GB qcow2 | 192.168.122.9 | K3s + Rancher Prime 2.13.1 |
+| VM | vCPU | RAM | Disk | IP | DNS name | Purpose |
+|---|---|---|---|---|---|---|
+| harvester1 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.11 | `alpha.aerogrid.com` | Bootstrap (cluster-init) node |
+| harvester2 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.12 | `bravo.aerogrid.com` | Join node |
+| harvester3 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.13 | `charlie.aerogrid.com` | Join node |
+| rancher | 4 | 12 GiB | 60 GB qcow2 | 192.168.122.9 | `rancher.aerogrid.com` | K3s + Rancher Prime 2.13.1 |
+| Harvester VIP | — | — | — | 192.168.122.10 | `virtualization.aerogrid.com` | kube-vip floating VIP, cluster API + UI |
 
 The cluster API/UI live on a **floating kube-vip VIP at `192.168.122.10`** — a free
 address, not any node's IP, so it survives a node going down. All VMs share a single
@@ -95,12 +96,12 @@ The dynamic DHCP pool starts at `.100` to keep static assignments well clear.
 
 ```
 virbr0 -- 192.168.122.0/24
-  .1    gateway
-  .9    rancher     (02:00:00:0D:62:E9 -- static reservation)
-  .10   Harvester VIP (kube-vip, floating -- not a node, not in DHCP)
-  .11   harvester1  (02:00:00:0D:62:E1 -- static reservation)
-  .12   harvester2  (02:00:00:0D:62:E2 -- static reservation)
-  .13   harvester3  (02:00:00:0D:62:E3 -- static reservation)
+  .1    gateway + libvirt dnsmasq (serves aerogrid.com for NAT VMs)
+  .9    rancher     (02:00:00:0D:62:E9)  rancher.aerogrid.com
+  .10   Harvester VIP (kube-vip, floating)  virtualization.aerogrid.com
+  .11   harvester1  (02:00:00:0D:62:E1)  alpha.aerogrid.com
+  .12   harvester2  (02:00:00:0D:62:E2)  bravo.aerogrid.com
+  .13   harvester3  (02:00:00:0D:62:E3)  charlie.aerogrid.com
   .50   virt1       (challenge 02 VM, static via cloud-init inside Kube-OVN)
   .100-.254         dynamic DHCP pool
   .200-.220         rodeo-ippool (Harvester LoadBalancer IPs, ARP on eth3/eth4)
