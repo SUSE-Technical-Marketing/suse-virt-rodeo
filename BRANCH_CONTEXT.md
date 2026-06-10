@@ -217,6 +217,23 @@ carelessly. Both are mitigated in the current code but worth knowing:
   packets. The role reads the current value first and skips the rp_filter lines if
   the base image already has it at 0.
 
+- **virbr0 / libvirt boot-time services**: three issues can cause the Instruqt
+  instance to not come back after a save/reboot mid-build:
+  1. The `kvm_server` pattern enables `libvirtd.service` and `libvirt-guests.service`
+     via package post-install scripts. `libvirtd` brings up virbr0/dnsmasq at boot
+     (before cloud-init finishes); `libvirt-guests` socket-activates `virtnetworkd`
+     which does the same. Either stalls `network-online.target` and blocks the
+     Instruqt agent.
+  2. With `autostart: true` on the default network, any libvirt daemon start at boot
+     will bring up virbr0. wicked may then try to DHCP the new bridge, adding another
+     timeout to the boot path.
+  3. If wicked's `MANAGE_VIRTUAL_BRIDGES` is on, virbr0 can stall `network-online.target`
+     even without a DHCP timeout.
+  Fixes applied: `libvirtd.service`/`libvirtd.socket` and `libvirt-guests` are
+  explicitly disabled in `libvirt.yml`; `autostart: false` is set in `network_setup.yml`
+  (phase 3 re-enables it before starting VMs); `ifcfg-virbr0` with `STARTMODE=off`
+  is written by `libvirt.yml` so wicked never touches it.
+
 **virbr0 redefinition** (network_setup.yml) is safe — it only affects the guest
 bridge, not the physical management NIC.
 

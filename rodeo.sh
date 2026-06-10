@@ -290,6 +290,14 @@ phase_3_vms() {
     fi
   }
 
+  # Ansible sets autostart: false on the default network to prevent virbr0 from
+  # coming up at boot (before cloud-init finishes) during intermediate saves.
+  # Enable autostart now and start it — VMs need dnsmasq on 192.168.122.1.
+  log "Starting libvirt default network (virbr0)..."
+  virsh net-start default 2>/dev/null || true
+  virsh net-autostart default
+  ok "virbr0 running — dnsmasq serving DHCP on 192.168.122.1."
+
   _start_serial_tailers
 
   # --- harvester1 + VIP wait ---

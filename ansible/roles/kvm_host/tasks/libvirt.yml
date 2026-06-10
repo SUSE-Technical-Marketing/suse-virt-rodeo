@@ -20,12 +20,51 @@
   loop: "{{ libvirt_modular_sockets }}"
   when: libvirt_daemon_mode == 'modular'
 
+# The kvm_server zypper pattern often enables monolithic libvirtd via package
+# post-install scripts. Running both monolithic and modular simultaneously stalls
+# boot: libvirtd takes over the default network, brings up virbr0/dnsmasq before
+# cloud-init finishes, which can block network-online.target and prevent the
+# Instruqt agent from connecting after a save/reboot.
+- name: Disable monolithic libvirtd (package scripts may enable it; we use modular)
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  loop:
+    - libvirtd.service
+    - libvirtd.socket
+  failed_when: false
+  when: libvirt_daemon_mode == 'modular'
+
+# libvirt-guests saves/restores running VMs on shutdown/startup. kvm_server
+# enables it by default. At boot it accesses the libvirt API which socket-activates
+# virtqemud → virtnetworkd → virbr0/dnsmasq — all before cloud-init is done.
+# Disable it during the build phase; VMs are started explicitly by rodeo.sh phase 3.
+- name: Disable libvirt-guests (must not trigger libvirt on boot during build)
+  ansible.builtin.systemd:
+    name: libvirt-guests
+    enabled: false
+    state: stopped
+  failed_when: false
+
 - name: Enable and start monolithic libvirtd (legacy hosts only)
   ansible.builtin.systemd:
     name: libvirtd
     enabled: true
     state: started
   when: libvirt_daemon_mode == 'monolithic'
+
+# Belt-and-braces: tell wicked to never manage virbr0, even if it appears at boot.
+# If virbr0 comes up before cloud-init is done and wicked tries to DHCP it,
+# network-online.target stalls on the timeout and the Instruqt agent never starts.
+- name: Mark virbr0 unmanaged by wicked (libvirt owns it, not wicked)
+  ansible.builtin.copy:
+    dest: /etc/sysconfig/network/ifcfg-virbr0
+    content: "STARTMODE=off\nBOOTPROTO=none\n"
+    owner: root
+    group: root
+    mode: '0644'
+  when: network_mode == 'nat'
 
 - name: Add {{ libvirt_user }} to libvirt and kvm groups
   ansible.builtin.user:
