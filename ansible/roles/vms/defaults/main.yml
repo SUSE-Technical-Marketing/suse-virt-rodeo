@@ -16,12 +16,11 @@ harvester_os_password: "Foobar12345$"
 
 rancher_vm_password: "Foobar12345$"
 
-# OVMF/UEFI firmware from the qemu-ovmf-x86_64 package.
-# UNCONFIRMED ON SLES 16 — run `rpm -ql qemu-ovmf-x86_64 | grep bin` on the
-# target host and update both paths before the first build or the vms role will
-# fail at domain definition time (libvirt rejects XML that references missing files).
-ovmf_code: FIXME_ovmf_code_path
-ovmf_vars_template: FIXME_ovmf_vars_template_path
+# OVMF/UEFI firmware from the qemu-ovmf-x86_64 package (202602+, SLES 16 / Leap 16).
+# The 202602 build dropped the old 2MB images; these are the plain 4MB non-SecureBoot
+# variants — correct for nested KVM guests with no Secure Boot requirement.
+ovmf_code: /usr/share/qemu/ovmf-x86_64-4m-code.bin
+ovmf_vars_template: /usr/share/qemu/ovmf-x86_64-4m-vars.bin
 
 libvirt_pool_name: default
 libvirt_pool_path: /var/lib/libvirt/images

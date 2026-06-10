@@ -172,14 +172,6 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
 # bridge per mode) and harvester-config.yaml.j2 (node1 create / node2 join, VIP .10).
 ```
 
-## Blockers before first build
-
-- **OVMF paths unconfirmed.** `ovmf_code` and `ovmf_vars_template` in
-  `ansible/roles/vms/defaults/main.yml` are set to `FIXME_*` placeholders.
-  Run `rpm -ql qemu-ovmf-x86_64 | grep bin` on the SLES 16 target host and
-  update both. If left as-is, libvirt will reject the VM XML and the `vms`
-  role fails before any VM starts.
-
 ## Open items / things only verifiable on a real SLES 16 host
 
 - Nothing has been run end-to-end; the custom Instruqt image has never been built.
