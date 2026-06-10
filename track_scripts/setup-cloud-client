@@ -97,7 +97,107 @@ server {
 NGINXEOF
 
 nginx -s reload 2>/dev/null || nginx
-echo ">>> nginx proxy configured"
+echo ">>> nginx proxy configured (ports 90/91)"
+
+# --- aerogrid.com DNS / named HTTPS vhosts ----------------------------------
+#
+# Resolve geekohive's address via the Instruqt internal DNS, then map the lab
+# domain names to it so students can use names instead of IP:port combos.
+# nginx listens on port 443 with a self-signed wildcard cert for *.aerogrid.com
+# and routes by Host header to the right backend port on geekohive.
+#
+#   virtualization.aerogrid.com:443  → geekohive:8443  (Harvester VIP proxy)
+#   rancher.aerogrid.com:443         → geekohive:30002 (Rancher Prime)
+#
+GEEKOHIVE_IP=$(getent hosts geekohive | awk '{print $1}')
+if [ -z "${GEEKOHIVE_IP}" ]; then
+  echo ">>> WARNING: could not resolve geekohive — aerogrid.com DNS entries skipped"
+else
+  # Write /etc/hosts so all CLI tools resolve the lab names
+  grep -q "aerogrid.com" /etc/hosts && \
+    sed -i '/aerogrid\.com/d' /etc/hosts
+  cat >> /etc/hosts << HOSTSEOF
+${GEEKOHIVE_IP} virtualization.aerogrid.com
+${GEEKOHIVE_IP} rancher.aerogrid.com
+${GEEKOHIVE_IP} alpha.aerogrid.com
+${GEEKOHIVE_IP} bravo.aerogrid.com
+${GEEKOHIVE_IP} charlie.aerogrid.com
+HOSTSEOF
+  echo ">>> /etc/hosts: aerogrid.com entries → ${GEEKOHIVE_IP}"
+fi
+
+# Self-signed wildcard cert for *.aerogrid.com (lab-grade, students use -k / accept)
+CERT_DIR="/etc/ssl/aerogrid"
+mkdir -p "${CERT_DIR}"
+if [ ! -f "${CERT_DIR}/tls.crt" ]; then
+  openssl req -x509 -newkey rsa:2048 \
+    -keyout "${CERT_DIR}/tls.key" \
+    -out    "${CERT_DIR}/tls.crt" \
+    -days 3650 -nodes \
+    -subj "/O=AeroGrid Operations/CN=aerogrid.com" \
+    -addext "subjectAltName=DNS:aerogrid.com,DNS:*.aerogrid.com" \
+    2>/dev/null
+  echo ">>> TLS cert generated for *.aerogrid.com"
+fi
+
+# Named HTTPS vhosts on port 443
+cat > /etc/nginx/conf.d/aerogrid-vhosts.conf << 'NGINXEOF'
+server {
+    listen 443 ssl;
+    server_name virtualization.aerogrid.com;
+    ssl_certificate     /etc/ssl/aerogrid/tls.crt;
+    ssl_certificate_key /etc/ssl/aerogrid/tls.key;
+    ssl_verify_client   off;
+
+    location / {
+        proxy_pass              https://geekohive:8443;
+        proxy_ssl_verify        off;
+        proxy_buffering         off;
+        proxy_http_version      1.1;
+        proxy_set_header        Host                $http_host;
+        proxy_set_header        X-Real-IP           $remote_addr;
+        proxy_set_header        X-Forwarded-For     $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto   https;
+        proxy_set_header        X-Forwarded-Host    $http_host;
+        proxy_set_header        X-Forwarded-Port    443;
+        proxy_set_header        Upgrade             $http_upgrade;
+        proxy_set_header        Connection          "upgrade";
+        proxy_read_timeout      3600s;
+        proxy_redirect          https://geekohive:8443/ $scheme://$http_host/;
+        proxy_hide_header       X-Frame-Options;
+        proxy_hide_header       Content-Security-Policy;
+    }
+}
+server {
+    listen 443 ssl;
+    server_name rancher.aerogrid.com;
+    ssl_certificate     /etc/ssl/aerogrid/tls.crt;
+    ssl_certificate_key /etc/ssl/aerogrid/tls.key;
+    ssl_verify_client   off;
+
+    location / {
+        proxy_pass              https://geekohive:30002;
+        proxy_ssl_verify        off;
+        proxy_buffering         off;
+        proxy_http_version      1.1;
+        proxy_set_header        Host                $http_host;
+        proxy_set_header        X-Real-IP           $remote_addr;
+        proxy_set_header        X-Forwarded-For     $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto   https;
+        proxy_set_header        X-Forwarded-Host    $http_host;
+        proxy_set_header        X-Forwarded-Port    443;
+        proxy_set_header        Upgrade             $http_upgrade;
+        proxy_set_header        Connection          "upgrade";
+        proxy_read_timeout      3600s;
+        proxy_redirect          https://geekohive:30002/ $scheme://$http_host/;
+        proxy_hide_header       X-Frame-Options;
+        proxy_hide_header       Content-Security-Policy;
+    }
+}
+NGINXEOF
+
+nginx -s reload 2>/dev/null || nginx
+echo ">>> nginx: aerogrid.com named HTTPS vhosts active on port 443"
 
 # Update Rancher's server-url so login redirects go back through the Instruqt proxy.
 #

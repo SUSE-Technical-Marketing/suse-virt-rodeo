@@ -116,5 +116,6 @@ LAB_ADMIN_PASSWORD="${LAB_ADMIN_PASSWORD:-Foobar12345\$}" \
 
 log ""
 log "Deployment complete."
-log "  Harvester VIP : https://${HARVESTER_VIP}  (admin / ${LAB_ADMIN_PASSWORD:-Foobar12345\$})"
-log "  Rancher       : https://${RANCHER_IP}:30002  (admin / ${LAB_ADMIN_PASSWORD:-Foobar12345\$})"
+log "  Harvester VIP : https://${HARVESTER_VIP}  → virtualization.aerogrid.com  (admin / ${LAB_ADMIN_PASSWORD:-Foobar12345\$})"
+log "  Rancher       : https://${RANCHER_IP}:30002  → rancher.aerogrid.com       (admin / ${LAB_ADMIN_PASSWORD:-Foobar12345\$})"
+log "  DNS: /etc/hosts on this host has the aerogrid.com entries (written by Ansible)"
