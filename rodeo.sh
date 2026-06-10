@@ -659,10 +659,9 @@ phase_5_checklist() {
   _load_env
 
   # --- Start firewalld now (deferred from Ansible phase to avoid Instruqt
-  #     connectivity issues caused by wicked/firewalld zone integration on a host
-  #     where ifcfg-eth0 is empty — the Instruqt SLES 16 base image configures eth0
-  #     via cloud-init, not wicked ifcfg, so the wicked-firewalld handshake is
-  #     undefined and can break the management connection).
+  #     connectivity issues: SLES 16 uses NetworkManager; when firewalld starts and
+  #     integrates with NM via D-Bus, it can reassign eth0's zone in a way that drops
+  #     the management connection on a mid-build save/reboot).
   log "Enabling and starting firewalld (deferred from Ansible phase)..."
   if systemctl is-active firewalld &>/dev/null; then
     log "  firewalld already running — reloading permanent rules."
@@ -674,6 +673,18 @@ phase_5_checklist() {
   fi
   ok "firewalld running. DNAT rules active for Harvester UI (:8443) and Rancher (:30002)."
   firewall-cmd --zone=public --list-all | grep -E "ports:|forward-ports:|masquerade:" || true
+
+  # --- Enable graceful VM shutdown/restart on host stop/reboot.
+  #     libvirt-guests was disabled during the build phase to prevent it from
+  #     triggering libvirt before cloud-init finishes. Now that all VMs are running
+  #     and the image is about to be saved, enable it so any subsequent host stop or
+  #     reboot sends ACPI shutdown to all VMs instead of hard-killing them.
+  log "Enabling libvirt-guests and setting VM autostart..."
+  for vm in harvester1 harvester2 harvester3 rancher; do
+    virsh autostart "${vm}"
+  done
+  systemctl enable libvirt-guests
+  ok "libvirt-guests enabled — VMs will shut down cleanly on host stop and restart on boot."
 
   echo ""
   echo -e "${YELLOW}${BOLD}  These steps require the Harvester and Rancher UIs. Complete them manually.${RESET}"
