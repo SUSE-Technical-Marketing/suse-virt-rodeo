@@ -24,6 +24,18 @@
 #   5  Checklist     manual steps before saving the Instruqt image
 # =============================================================================
 
+# Persist in a tmux session so Instruqt terminal disconnects do not kill
+# long-running phases (phase 3 takes 20-40 min). Re-exec inside "rodeo" session
+# if not already in one; attach to an existing session if it is still running.
+if [[ -z "${TMUX:-}" ]] && command -v tmux &>/dev/null; then
+  session="rodeo"
+  if tmux has-session -t "${session}" 2>/dev/null; then
+    echo "Attaching to existing 'rodeo' tmux session (Ctrl-b d to detach safely)."
+    exec tmux attach-session -t "${session}"
+  fi
+  exec tmux new-session -s "${session}" "$0" "$@"
+fi
+
 set -euo pipefail
 trap '_on_error ${LINENO}' ERR
 
