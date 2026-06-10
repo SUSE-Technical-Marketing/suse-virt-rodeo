@@ -286,6 +286,41 @@ cp "${HARVESTER_KUBECONFIG}" /root/.kube/harvester.yaml
 chmod 600 /root/.kube/harvester.yaml
 log "Harvester kubeconfig saved to /root/.kube/harvester.yaml (API at ${HARVESTER_VIP}:6443)"
 
+# ---------------------------------------------------------------------------
+# Patch RKE2 CoreDNS to forward aerogrid.com to the host libvirt dnsmasq.
+# Pods inside Harvester use the cluster's own CoreDNS which by default has no
+# knowledge of aerogrid.com. A forward zone closes that gap so every pod can
+# resolve virtualization/rancher/alpha/bravo/charlie.aerogrid.com.
+# ---------------------------------------------------------------------------
+LAB_DNS_SERVER="${LAB_DNS_SERVER:-192.168.122.1}"
+log "Patching RKE2 CoreDNS: aerogrid.com → ${LAB_DNS_SERVER}..."
+if KUBECONFIG="${HARVESTER_KUBECONFIG}" kubectl get cm rke2-coredns-rke2-coredns -n kube-system &>/dev/null; then
+  COREDNS_CM="rke2-coredns-rke2-coredns"
+elif KUBECONFIG="${HARVESTER_KUBECONFIG}" kubectl get cm coredns -n kube-system &>/dev/null; then
+  COREDNS_CM="coredns"
+else
+  log "  WARNING: CoreDNS ConfigMap not found — pod DNS patch skipped"
+  COREDNS_CM=""
+fi
+if [[ -n "${COREDNS_CM}" ]]; then
+  CURRENT_CF=$(KUBECONFIG="${HARVESTER_KUBECONFIG}" \
+    kubectl get cm "${COREDNS_CM}" -n kube-system -o jsonpath='{.data.Corefile}')
+  if echo "${CURRENT_CF}" | grep -q "aerogrid.com"; then
+    log "  aerogrid.com zone already present — skipping"
+  else
+    KUBECONFIG="${HARVESTER_KUBECONFIG}" \
+      kubectl get cm "${COREDNS_CM}" -n kube-system -o json \
+      | jq --arg zone "
+aerogrid.com:53 {
+    errors
+    forward . ${LAB_DNS_SERVER}
+    cache 30
+}" '.data.Corefile += $zone' \
+      | KUBECONFIG="${HARVESTER_KUBECONFIG}" kubectl apply -f -
+    log "  CoreDNS patched. Reload plugin picks it up within ~30s."
+  fi
+fi
+
 # Apply the Rancher import manifest on the Harvester cluster
 curl -sk "${MANIFEST_URL}" | \
   KUBECONFIG="${HARVESTER_KUBECONFIG}" kubectl apply -f -
