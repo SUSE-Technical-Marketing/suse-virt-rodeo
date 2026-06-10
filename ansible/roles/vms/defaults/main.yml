@@ -44,7 +44,7 @@ host_bridge: br0
 node_subnet_mask: "255.255.255.0"
 node_prefix: 24
 
-leap16_url: "https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
+leap16_url: "https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2"
 
 # Sized to fit a ~90 GB / 32 vCPU host: 3x20 GiB + 12 GiB = 72 GiB for guests,
 # leaving ~13 GB for the host + QEMU overhead. Harvester stays above its 16 GiB

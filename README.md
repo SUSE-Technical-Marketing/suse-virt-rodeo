@@ -416,7 +416,7 @@ curl -sk -X POST \
   -H "Content-Type: application/json" \
   -d '{"metadata":{"name":"leap16","namespace":"default"},
        "spec":{"displayName":"openSUSE Leap 16",
-               "url":"https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2",
+               "url":"https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2",
                "sourceType":"download"}}' \
   https://192.168.122.10/v1/harvesterhci.io.virtualmachineimages
 ```

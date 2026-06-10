@@ -92,13 +92,13 @@
 - name: Download openSUSE Leap 16 cloud base image
   ansible.builtin.get_url:
     url: "{{ leap16_url }}"
-    dest: "{{ image_dir }}/Leap-16.0-Cloud.qcow2"
+    dest: "{{ image_dir }}/Leap-16.0-kvm-and-xen.qcow2"
     mode: '0644'
 
 - name: Convert Leap 16 base image to Rancher VM disk
   ansible.builtin.command: >
     qemu-img convert -f qcow2 -O qcow2 -o preallocation=metadata
-    '{{ image_dir }}/Leap-16.0-Cloud.qcow2'
+    '{{ image_dir }}/Leap-16.0-kvm-and-xen.qcow2'
     '{{ image_dir }}/rancher-vda.qcow2'
   args:
     creates: "{{ image_dir }}/rancher-vda.qcow2"

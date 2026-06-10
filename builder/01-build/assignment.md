@@ -210,7 +210,7 @@ Upload the Leap 16 cloud image so it is pre-loaded in Harvester for lab use. The
 image **name must be `leap16`** — every challenge references `default/leap16`:
 
 ```bash
-LEAP16_URL="https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
+LEAP16_URL="https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2"
 curl -sk -X POST \
   -H "Authorization: Bearer $(cat /root/harvester-token)" \
   -H "Content-Type: application/json" \
