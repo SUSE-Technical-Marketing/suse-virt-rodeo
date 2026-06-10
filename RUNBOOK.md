@@ -183,7 +183,7 @@ Same flow as Part 1, plus image prep:
 
 - Step 0 — confirm ≥ 1 TB disk and nested virt.
 - Step 1 — clone via SSH: `git clone -b dev git@github.com:SUSE-Technical-Marketing/test-harv-rodeo.git`
-- Step 2 — `zypper install -y ansible qemu-ovmf-x86_64`, then
+- Step 2 — `zypper install -y ansible`, then
   `ansible-galaxy collection install -r ansible/requirements.yml` (the playbook
   installs the KVM stack, xorriso, kubectl, etc.).
 - Step 3 — `ansible-playbook -i deployer/inventory.local ansible/playbook.yml`.

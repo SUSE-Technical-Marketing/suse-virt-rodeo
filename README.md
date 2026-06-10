@@ -332,7 +332,7 @@ cd /root/rodeo
 
 # Only ansible is needed up front; the playbook installs the KVM stack, xorriso,
 # jq/curl, firewalld, and kubectl (via the upstream Kubernetes repo).
-zypper install -y ansible qemu-ovmf-x86_64
+zypper install -y ansible
 
 ansible-galaxy collection install -r ansible/requirements.yml
 ```
