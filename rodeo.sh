@@ -671,7 +671,7 @@ CHECKLIST
   echo "           -H \"Content-Type: application/json\" \\"
   echo "           -d '{\"metadata\":{\"name\":\"leap16\",\"namespace\":\"default\"},"
   echo "               \"spec\":{\"displayName\":\"openSUSE Leap 16\","
-  echo "               \"url\":\"https://download.opensuse.org/distribution/leap/16.0/appliances/openSUSE-Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2\","
+  echo "               \"url\":\"https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2\","
   echo "               \"sourceType\":\"download\"}}' \\"
   echo "           https://${HARVESTER_VIP}/v1/harvesterhci.io.virtualmachineimages"
   echo ""
