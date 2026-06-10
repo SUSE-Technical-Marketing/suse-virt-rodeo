@@ -1,23 +1,24 @@
 ---
-# On Instruqt, eth0 is configured via cloud-init/Instruqt bootstrap — the wicked
-# ifcfg-eth0 file is empty. When firewalld starts and integrates with wicked, the
-# empty ifcfg leaves eth0 in an undefined zone state, which breaks management
-# connectivity after a save/restart. We therefore only ENABLE firewalld here (so
-# it is present in the baked image) but do NOT start it. rodeo.sh phase 5 starts
-# it right before the final image save, at which point the VMs are fully running
-# and the host is not going to be saved/restarted mid-session.
-# On bare-metal deployer runs, the `Start firewalld` task in deploy.sh does this.
+# On Instruqt, eth0 is configured via cloud-init/Instruqt bootstrap. SLES 16 uses
+# NetworkManager (wicked is removed). When firewalld starts and integrates with NM
+# via D-Bus, NM reports the zone for each connected interface. If the NM connection
+# for eth0 has no zone set (which cloud-init typically does not set), firewalld can
+# leave eth0 in an undefined zone state or reassign it in a way that drops the
+# Instruqt management connection after a save/restart. We therefore keep firewalld
+# disabled and stopped during the build phase. rodeo.sh phase 5 starts it right
+# before the final image save, at which point the VMs are fully running and no more
+# intermediate saves/reboots will occur.
+# On bare-metal deployer runs, deploy.sh starts it explicitly after the Ansible phase.
 - name: Install firewalld — disabled and stopped during build (phase 5 / deployer enables it)
   ansible.builtin.systemd:
     name: firewalld
     enabled: false
     state: stopped
   # enabled: false prevents firewalld from auto-starting on boot during the build
-  # phase. On Instruqt, eth0 is configured via cloud-init (ifcfg-eth0 is empty);
-  # when firewalld starts and tries to integrate with wicked for zone assignment,
-  # the empty ifcfg leaves eth0 in an undefined state and breaks the management
-  # connection. rodeo.sh phase 5 runs: systemctl enable --now firewalld
-  # right before the image is saved, so it is active in the final baked image.
+  # phase. When firewalld starts and integrates with NetworkManager, it may reassign
+  # eth0's zone in a way that drops the Instruqt management connection. rodeo.sh
+  # phase 5 runs: systemctl enable --now firewalld right before the image is saved,
+  # so it is active in the final baked image.
 
 # All remaining tasks use permanent: true + immediate: false so they stage
 # the rules into /etc/firewalld without touching the live (non-running) daemon.

@@ -54,13 +54,17 @@
     state: started
   when: libvirt_daemon_mode == 'monolithic'
 
-# Belt-and-braces: tell wicked to never manage virbr0, even if it appears at boot.
-# If virbr0 comes up before cloud-init is done and wicked tries to DHCP it,
-# network-online.target stalls on the timeout and the Instruqt agent never starts.
-- name: Mark virbr0 unmanaged by wicked (libvirt owns it, not wicked)
+# Belt-and-braces: tell NetworkManager to never manage virbr0 or vnet tap interfaces.
+# SLES 16 uses NM (wicked is removed). NM typically ignores libvirt bridges it did not
+# create, but an explicit unmanaged-devices drop-in guarantees it: NM will not try to
+# DHCP virbr0 if it appears at boot before cloud-init finishes, which would stall
+# network-online.target and prevent the Instruqt agent from connecting.
+- name: Mark virbr0 and vnet* unmanaged by NetworkManager (libvirt owns them)
   ansible.builtin.copy:
-    dest: /etc/sysconfig/network/ifcfg-virbr0
-    content: "STARTMODE=off\nBOOTPROTO=none\n"
+    dest: /etc/NetworkManager/conf.d/99-libvirt-unmanaged.conf
+    content: |
+      [keyfile]
+      unmanaged-devices=interface-name:virbr0;interface-name:vnet*
     owner: root
     group: root
     mode: '0644'

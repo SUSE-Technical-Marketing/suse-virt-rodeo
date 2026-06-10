@@ -202,15 +202,15 @@ bash -n deployer/deploy.sh deployer/lib/*.sh
 Two kvm_host role changes can disrupt the Instruqt management connection if applied
 carelessly. Both are mitigated in the current code but worth knowing:
 
-- **firewalld deferred start**: The Instruqt SLES 16 base image (`suse/harv-rodeo-sles16`)
-  configures eth0 via cloud-init/Instruqt bootstrap — `ifcfg-eth0` is empty. When
-  firewalld starts and tries to integrate with wicked for zone assignment, the empty
-  ifcfg leaves eth0 in an undefined state and breaks the management connection after
-  a save/restart. The fix: the Ansible role writes all firewalld rules as permanent
-  (`immediate: false`) but does NOT start or enable-now the service. `rodeo.sh` phase 5
-  starts firewalld right before saving the final image. `deployer/deploy.sh` starts it
-  right after the Ansible phase. libvirt's own iptables-based NAT handles guest traffic
-  during the build without needing firewalld.
+- **firewalld deferred start**: SLES 16 uses NetworkManager (wicked is removed). When
+  firewalld starts and integrates with NM via D-Bus, NM reports zones for connected
+  interfaces. The cloud-init NM connection for eth0 typically has no zone set; firewalld
+  can leave eth0 in an undefined state or reassign it in a way that drops the Instruqt
+  management connection after a save/restart. The fix: the Ansible role writes all
+  firewalld rules as permanent (`immediate: false`) but does NOT start or enable the
+  service. `rodeo.sh` phase 5 starts firewalld right before saving the final image.
+  `deployer/deploy.sh` starts it right after the Ansible phase. libvirt's own NAT
+  handles guest traffic during the build without needing firewalld.
 - **rp_filter**: `net.ipv4.conf.all.rp_filter=2` affects every NIC including the
   management NIC. If the base image has it set to 0 (disabled — typical on some GCP
   images with asymmetric policy routing) adding any filtering can drop management
@@ -225,14 +225,14 @@ carelessly. Both are mitigated in the current code but worth knowing:
      which does the same. Either stalls `network-online.target` and blocks the
      Instruqt agent.
   2. With `autostart: true` on the default network, any libvirt daemon start at boot
-     will bring up virbr0. wicked may then try to DHCP the new bridge, adding another
-     timeout to the boot path.
-  3. If wicked's `MANAGE_VIRTUAL_BRIDGES` is on, virbr0 can stall `network-online.target`
-     even without a DHCP timeout.
+     will bring up virbr0. NetworkManager may then try to manage the new bridge,
+     adding another source of delay to the boot path.
+  3. NM does not typically DHCP interfaces it did not create, but without an explicit
+     unmanaged-devices config it is not guaranteed to leave virbr0 alone.
   Fixes applied: `libvirtd.service`/`libvirtd.socket` and `libvirt-guests` are
   explicitly disabled in `libvirt.yml`; `autostart: false` is set in `network_setup.yml`
-  (phase 3 re-enables it before starting VMs); `ifcfg-virbr0` with `STARTMODE=off`
-  is written by `libvirt.yml` so wicked never touches it.
+  (phase 3 re-enables it before starting VMs); `/etc/NetworkManager/conf.d/99-libvirt-unmanaged.conf`
+  marks `virbr0` and `vnet*` as unmanaged so NM never touches them.
 
 **virbr0 redefinition** (network_setup.yml) is safe — it only affects the guest
 bridge, not the physical management NIC.
