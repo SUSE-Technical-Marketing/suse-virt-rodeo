@@ -350,12 +350,39 @@ The same Ansible roles drive the cloud/bare-metal `deployer/` (no Instruqt). See
 
 See `builder/` directory for the builder track config and Ansible playbook.
 
+### Interactive deployer (rodeo.sh)
+
+`rodeo.sh` at the repo root wraps the entire build sequence (phases 1-5) in a single
+script with unified logging, phase confirmation, and state-based resume. All output —
+including Ansible, virsh, SSH, and the Harvester serial console streams — goes to
+both stdout and `logs/rodeo-latest.log`.
+
+```bash
+sudo ./rodeo.sh                 # interactive menu
+sudo ./rodeo.sh --all           # run all 5 phases unattended
+sudo ./rodeo.sh --interactive   # confirm between each phase
+sudo ./rodeo.sh --phase 2       # run one phase only (1=preflight, 2=ansible,
+                                #   3=VMs, 4=rancher, 5=checklist)
+sudo ./rodeo.sh --from 3        # resume from a specific phase after failure
+sudo ./rodeo.sh --status        # show which phases have completed
+sudo ./rodeo.sh --reset         # clear state for a full re-run
+```
+
+Phases 2 and 4 are idempotent (Ansible is always re-runnable; phase 4 skips
+already-installed K3s, Helm, cert-manager, Rancher, cluster import, CoreDNS patch,
+and CDROM eject). Phase 3 starts VMs and waits for 3 nodes Ready — re-running it is
+safe if VMs are already running. On error, the script prints the failed phase, the
+log path, and the exact `--from N` command to resume.
+
 ### Build sequence
 
 ```
 1. Spin up builder track (SLES 16, n2-standard-32, nested virt enabled)
-2. Clone repo, install Ansible collections:
+2. Clone repo, install Ansible:
+     zypper install -y ansible
      ansible-galaxy collection install -r ansible/requirements.yml
+   Then run: sudo ./rodeo.sh --from 2
+   (or continue manually with steps 3-5 below)
 3. Run the full Ansible playbook (kvm_host + vms roles):
      ansible-playbook -i deployer/inventory.local ansible/playbook.yml
    This configures the KVM host AND prepares all VM assets:
@@ -374,10 +401,10 @@ See `builder/` directory for the builder track config and Ansible playbook.
 5. Run: ./setup-rancher.sh
    Installs K3s + Rancher Prime 2.13.1, imports Harvester cluster,
    ejects installer ISOs from all Harvester VMs
-7. Install Harvester UI plugin v1.8.0 in Rancher
-8. Pre-load openSUSE Leap 16 image into Harvester
-9. Shut off all KVM VMs: virsh shutdown harvester1 harvester2 harvester3 rancher
-10. Save image via Instruqt CLI: instruqt track image create
+6. Install Harvester UI plugin v1.8.0 in Rancher
+7. Pre-load openSUSE Leap 16 image into Harvester
+8. Shut off all KVM VMs: virsh shutdown harvester1 harvester2 harvester3 rancher
+9. Save image via Instruqt CLI: instruqt track image create
 ```
 
 ---

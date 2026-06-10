@@ -274,6 +274,7 @@ handler chains, and `--tags` support to run only what needs running.
 ├── 06-alien-geeko/               # Challenge 06
 │
 ├── assets/                       # GIF demos embedded in challenge assignments
+├── rodeo.sh                      # interactive deployer (all phases, logging, resume)
 ├── ARCHITECTURE.md               # detailed architecture and ops reference
 ├── Converting-SLES-16-KVM-host.md  # guide to set up a SLES 16 KVM host
 ├── config.yml                    # Instruqt main track sandbox config
@@ -314,6 +315,13 @@ IPs) networking are both supported. See [`deployer/README.md`](deployer/README.m
 The lab runs from a custom Instruqt image that contains the pre-installed Harvester
 cluster. Building takes 2-3 hours, mostly unattended. Full step-by-step instructions
 are in `builder/01-build/assignment.md`. The summary below covers each major step.
+
+> **Interactive deployer:** `rodeo.sh` at the repo root wraps all five phases
+> (preflight, Ansible, VMs, Rancher, checklist) in a single interactive script with
+> unified logging and phase-level resume. After cloning and setting up `deploy.env`,
+> run `sudo ./rodeo.sh` for a menu, `sudo ./rodeo.sh --all` for a fully unattended run,
+> or `sudo ./rodeo.sh --from 3` to continue from a specific phase after a failure.
+> All output goes to both stdout and `logs/rodeo-latest.log`.
 
 ### Step 1 — Spin up the builder track
 

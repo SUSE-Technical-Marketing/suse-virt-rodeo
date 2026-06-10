@@ -127,6 +127,14 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
     kubectl bcrypt user-patch remains a fallback if a version ever differs.
 - Legacy `Converting-SLES-15.6-KVM-host.md` rewritten as `Converting-SLES-16-KVM-host.md`.
 
+**Interactive deployer (2026-06-10):**
+- `rodeo.sh` added at repo root — wraps the full 5-phase build (preflight, Ansible,
+  VMs, Rancher, checklist) with unified stdout+file logging, per-phase confirmation,
+  state-based resume (`--from N`), and idempotency checks throughout phase 4.
+- All output (Ansible, virsh, SSH, Harvester serial console streams) goes to
+  `logs/rodeo-YYYYMMDD-HHMMSS.log` (symlinked as `logs/rodeo-latest.log`).
+- `logs/` and `.rodeo-state` added to `.gitignore`.
+
 **Audit fixes (2026-06-10 round):**
 - `vm_setup.yml` define-once guard removed — `virsh define` is an upsert; re-runs
   now pick up RAM/NIC/boot changes without manual `virsh undefine`.
@@ -163,6 +171,7 @@ deployer/                   Agnostic cloud/bare-metal deployer (this branch's ne
                             overrides (bridge gateway + per-node IPs). Must NOT redefine
                             the keys deploy.env owns.
   lib/                      start-vms.sh, setup-rancher.sh (env-driven, no secrets)
+rodeo.sh                    Interactive deployer: 5 phases, unified logging, resume
 config.yml / track.yml      Main Instruqt track
 ARCHITECTURE.md             Full stack reference (kept current)
 README.md                   Project + build + troubleshooting + "deploy outside Instruqt"

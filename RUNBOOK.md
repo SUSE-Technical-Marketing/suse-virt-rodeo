@@ -103,6 +103,24 @@ Set at minimum:
 
 ### Step 5 — Run the deployer
 
+Two options. `rodeo.sh` (repo root) is the recommended path — it adds unified
+logging, per-phase confirmation, and state-based resume. `deployer/deploy.sh` is
+the lower-level entrypoint (no state tracking, no interactive menu).
+
+**Option A — `rodeo.sh` (recommended):**
+
+```bash
+cd /path/to/test-harv-rodeo
+sudo ./rodeo.sh              # interactive menu
+sudo ./rodeo.sh --all        # unattended
+sudo ./rodeo.sh --from 3     # resume from VMs phase after a failure
+sudo ./rodeo.sh --status     # show which phases completed
+```
+
+Logs go to `logs/rodeo-latest.log` (symlink) and a timestamped copy.
+
+**Option B — `deployer/deploy.sh` (direct):**
+
 ```bash
 sudo ./deploy.sh
 ```
@@ -179,7 +197,28 @@ sandbox needs a ≥ 1 TB disk (set at image/sandbox creation, not in `config.yml
 
 **Step 2 — Run the build (follow `01-build/assignment.md`)**
 
-Same flow as Part 1, plus image prep:
+Same flow as Part 1, plus image prep. You can run all phases manually or use the
+interactive deployer (`rodeo.sh`) to run them in one go.
+
+**Option A — `rodeo.sh` (recommended):**
+
+After cloning and installing Ansible, set up `deployer/deploy.env` (copy from
+`deploy.env.example`), then:
+
+```bash
+cd /root/rodeo
+sudo ./rodeo.sh --all          # fully unattended, all 5 phases
+# or
+sudo ./rodeo.sh --interactive  # confirm between each phase
+# or resume from a failure
+sudo ./rodeo.sh --from 3       # re-run from phase 3 (VMs) onwards
+```
+
+All output (Ansible, virsh, SSH, serial logs) streams to stdout and
+`logs/rodeo-latest.log`. Use `--status` to check which phases have completed and
+`--reset` to clear state for a full re-run.
+
+**Option B — manual steps:**
 
 - Step 0 — confirm ≥ 1 TB disk and nested virt.
 - Step 1 — clone via SSH: `git clone -b dev git@github.com:SUSE-Technical-Marketing/test-harv-rodeo.git`
