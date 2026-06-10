@@ -5,3 +5,7 @@ CLAUDE.md
 # Deployer secrets / local overrides
 deployer/deploy.env
 deployer/deploy.vars.yml
+
+# rodeo.sh runtime artifacts
+logs/
+.rodeo-state
