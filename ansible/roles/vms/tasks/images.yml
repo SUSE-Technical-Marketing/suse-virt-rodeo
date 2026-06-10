@@ -83,8 +83,6 @@
     -V HarvesterConfig -J -r
     -o '{{ image_dir }}/{{ item.config_iso_name }}.iso'
     '{{ config_dir }}/{{ item.config_iso_name }}'
-  args:
-    creates: "{{ image_dir }}/{{ item.config_iso_name }}.iso"
   loop: "{{ vm_nodes | selectattr('flavor', 'equalto', 'harvester') | list }}"
   loop_control:
     label: "{{ item.name }}"

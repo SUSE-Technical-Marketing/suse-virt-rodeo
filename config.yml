@@ -2,8 +2,7 @@ version: "3"
 virtualmachines:
 - name: geekohive
   # Image built from SLES 16 with KVM + 3 Harvester 1.8.0 nodes + K3s/Rancher 2.13.1
-  # TODO: update to suse/suse-virt-rodeo-180 once image build is complete
-  image: suse/suse-virtualization-rodeo-dev
+  image: suse/suse-virt-rodeo-180
   shell: /bin/bash
   machine_type: n2-standard-32
   enable_nested_virtualization: true

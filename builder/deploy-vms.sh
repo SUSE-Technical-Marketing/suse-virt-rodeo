@@ -88,10 +88,41 @@ start_vm rancher
 log ""
 log "All VMs started."
 virsh list --all
+
+# Wait for all 3 Harvester nodes to reach Ready before signalling done.
+SSH_KEY="/root/.ssh/id_ed25519"
+KUBECONFIG_TMP="/tmp/harvester-kubeconfig"
+
+log "Fetching kubeconfig from Harvester VIP..."
+FETCH_ELAPSED=0
+FETCH_MAX=1800
+while ! ssh -i "${SSH_KEY}" \
+    -o StrictHostKeyChecking=no -o ConnectTimeout=10 -o BatchMode=yes \
+    "rancher@${HARVESTER_VIP}" \
+    "sudo cat /etc/rancher/rke2/rke2.yaml" \
+    > "${KUBECONFIG_TMP}" 2>/dev/null; do
+  FETCH_ELAPSED=$((FETCH_ELAPSED + 15))
+  [[ ${FETCH_ELAPSED} -ge ${FETCH_MAX} ]] && die "Timed out (${FETCH_MAX}s) fetching kubeconfig"
+  log "  SSH not ready yet — ${FETCH_ELAPSED}s / ${FETCH_MAX}s..."
+  sleep 15
+done
+sed -i "s|127.0.0.1|${HARVESTER_VIP}|g" "${KUBECONFIG_TMP}"
+log "Kubeconfig fetched."
+
+log "Waiting for all 3 Harvester nodes to be Ready (up to 90 minutes)..."
+NODE_ELAPSED=0
+NODE_MAX=5400
+until [[ "$(KUBECONFIG=${KUBECONFIG_TMP} kubectl get nodes --no-headers 2>/dev/null \
+    | grep -c ' Ready' || echo 0)" -ge 3 ]]; do
+  sleep 20
+  NODE_ELAPSED=$((NODE_ELAPSED + 20))
+  [[ ${NODE_ELAPSED} -ge ${NODE_MAX} ]] && die "Timed out (${NODE_MAX}s) waiting for 3 nodes Ready"
+  if [[ $((NODE_ELAPSED % 120)) -eq 0 ]]; then
+    READY=$(KUBECONFIG=${KUBECONFIG_TMP} kubectl get nodes --no-headers 2>/dev/null \
+        | grep -c ' Ready' || echo 0)
+    log "  ${NODE_ELAPSED}s elapsed — ${READY}/3 nodes Ready"
+  fi
+done
+log "All 3 Harvester nodes Ready."
 log ""
-log "Harvester nodes are installing in the background."
-log "When all 3 nodes show Ready, run: ./setup-rancher.sh"
-log ""
-log "Check node status (from inside harvester1 after install completes):"
-log "  virsh console harvester1   # not available — serial is file-based"
-log "  tail -f ${SERIAL_LOG_DIR}/harvester1_serial.log"
+log "Run: ./setup-rancher.sh"

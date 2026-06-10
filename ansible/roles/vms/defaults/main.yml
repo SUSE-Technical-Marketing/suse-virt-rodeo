@@ -31,7 +31,8 @@ libvirt_network_gateway: "192.168.122.1"
 # to /etc/hosts on the host for geekohive scripts + cloud-client).
 lab_dns_domain: "aerogrid.com"
 
-# Network model — must match the kvm_host role.
+# network_mode and host_bridge are set in ansible/group_vars/all.yml.
+# Values below are role-default fallbacks only — group_vars takes precedence.
 #   nat    — guests on libvirt virbr0 (default network), gateway 192.168.122.1
 #   bridge — guests attach to the host bridge; set node IPs + libvirt_network_gateway
 #            to your real LAN values, and harvester_vip to a free LAN address.

@@ -5,11 +5,6 @@
     state: directory
     mode: '0755'
 
-- name: List currently defined domains
-  community.libvirt.virt:
-    command: list_vms
-  register: existing_vms
-
 - name: Define KVM virtual machines from template
   community.libvirt.virt:
     command: define
@@ -17,4 +12,3 @@
   loop: "{{ vm_nodes }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.name not in existing_vms.list_vms

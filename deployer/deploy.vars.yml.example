@@ -24,6 +24,7 @@ libvirt_network_gateway: "192.168.1.1"
 vm_nodes:
   - name: harvester1
     flavor: harvester
+    hostname: alpha
     uuid: "1c5e1f38-1fb8-4f03-9eaa-12838f70faa1"
     mgmt_mac: "02:00:00:0D:62:E1"
     storage_mac: "02:00:00:0D:63:E1"
@@ -34,6 +35,7 @@ vm_nodes:
     config_iso_name: "harvester-config-node1"
   - name: harvester2
     flavor: harvester
+    hostname: bravo
     uuid: "4e156918-3e00-44c2-bf47-0b532b3807c1"
     mgmt_mac: "02:00:00:0D:62:E2"
     storage_mac: "02:00:00:0D:63:E2"
@@ -44,6 +46,7 @@ vm_nodes:
     config_iso_name: "harvester-config-node2"
   - name: harvester3
     flavor: harvester
+    hostname: charlie
     uuid: "4541177c-c6b7-4ab3-b418-e2a0b17beb9d"
     mgmt_mac: "02:00:00:0D:62:E3"
     storage_mac: "02:00:00:0D:63:E3"
@@ -54,6 +57,7 @@ vm_nodes:
     config_iso_name: "harvester-config-node3"
   - name: rancher
     flavor: rancher
+    hostname: rancher
     uuid: "77994fd6-7ebb-4ad3-baf4-55575b0ce265"
     mgmt_mac: "02:00:00:0D:62:E9"
     ip: "192.168.1.9"

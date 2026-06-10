@@ -21,8 +21,9 @@ kvm_host_packages:
 kubectl_repo_channel: "stable:/v1.36"
 
 # --- Lab addressing ---
-# Floating cluster VIP held by kube-vip. MUST NOT be a node IP — it migrates to a
-# surviving node when one goes down, which is the whole point of the VIP.
+# harvester_vip, rancher_ip, network_mode, host_bridge are set in
+# ansible/group_vars/all.yml (single source of truth). Values below are
+# role-default fallbacks only — group_vars takes precedence.
 harvester_vip: "192.168.122.10"
 rancher_ip: "192.168.122.9"
 libvirt_network_cidr: "192.168.122.0/24"
