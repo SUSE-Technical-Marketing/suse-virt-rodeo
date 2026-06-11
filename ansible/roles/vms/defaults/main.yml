@@ -46,17 +46,17 @@ node_prefix: 24
 
 leap16_url: "https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2"
 
-# Sized to fit a ~90 GB / 32 vCPU host: 3x20 GiB + 12 GiB = 72 GiB for guests,
-# leaving ~13 GB for the host + QEMU overhead. Harvester stays above its 16 GiB
-# lab minimum. CPU is 3x8 + 4 = 28 vCPU, leaving 4 for the host. Bump back up on a
-# larger host (e.g. 24 GiB / 16 GiB on a 128 GiB box) if you have the headroom.
+# Sized to fit a ~64 GB / 32 vCPU host: 3x16 GiB + 8 GiB = 56 GiB for guests,
+# leaving ~8 GB for the host + QEMU overhead. Harvester meets its 16 GiB minimum.
+# CPU is 3x8 + 4 = 28 vCPU, leaving 4 for the host. Bump back up on a larger host
+# (e.g. 20 GiB / 12 GiB on a 90 GB box, or 24 GiB / 16 GiB on a 128 GiB box).
 libvirt_flavors:
   harvester:
-    memory_mib: 20480
+    memory_mib: 16384
     vcpu: 8
     disk_gb: 270
   rancher:
-    memory_mib: 12288
+    memory_mib: 8192
     vcpu: 4
     disk_gb: 60
 
