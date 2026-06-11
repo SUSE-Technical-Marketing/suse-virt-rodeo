@@ -15,6 +15,7 @@
 #   sudo ./rodeo.sh --from N           run phases N to 5
 #   sudo ./rodeo.sh --status           show completed phases
 #   sudo ./rodeo.sh --reset            clear state (full re-run on next invoke)
+#   sudo ./rodeo.sh --clean            destroy VMs + disks, reset to before phase 2
 #
 # Phases:
 #   1  Preflight     resource + tool checks
@@ -744,6 +745,55 @@ CHECKLIST
 }
 
 # =============================================================================
+# CLEAN — Tear down phase 2 artifacts so Ansible can re-run cleanly
+# =============================================================================
+_clean_vms() {
+  _banner "CLEAN" "Destroy VMs + disks so phase 2 can re-run from scratch"
+
+  local images_dir="/var/lib/libvirt/images"
+
+  echo -e "${YELLOW}  This destroys all VM definitions and their disk images."
+  echo -e "  Kept (large downloads): Harvester ISO, Leap 16 base image.${RESET}"
+  echo ""
+  read -r -p "  Type 'yes' to continue: " _confirm_clean
+  [[ "${_confirm_clean}" == "yes" ]] || { log "Aborted."; return; }
+
+  log "Stopping and undefining VMs..."
+  for vm in harvester1 harvester2 harvester3 rancher; do
+    virsh destroy  "${vm}" 2>/dev/null && log "  ${vm}: destroyed" || true
+    virsh undefine "${vm}" --nvram 2>/dev/null \
+      || virsh undefine "${vm}" 2>/dev/null \
+      || true
+    log "  ${vm}: undefined"
+  done
+
+  log "Removing VM disk images..."
+  for f in harvester1-vda harvester2-vda harvester3-vda rancher-vda; do
+    local path="${images_dir}/${f}.qcow2"
+    [[ -f "${path}" ]] && rm -f "${path}" && log "  removed ${f}.qcow2" || true
+  done
+
+  log "Removing seed / config ISOs..."
+  rm -f "${images_dir}"/harvester-config-node{1,2,3}.iso \
+        "${images_dir}"/rancher-cloud-init.iso 2>/dev/null || true
+
+  log "Removing managed save and kubeconfig files..."
+  rm -f /var/lib/libvirt/qemu/save/*.save \
+        /tmp/harvester-kubeconfig \
+        /root/.kube/harvester.yaml 2>/dev/null || true
+
+  log "Destroying and undefining libvirt default network..."
+  virsh net-destroy  default 2>/dev/null || true
+  virsh net-undefine default 2>/dev/null || true
+
+  log "Resetting phase state (2–5)..."
+  sed -i '/^phase[2-5]$/d' "${STATE_FILE}" 2>/dev/null || true
+
+  echo ""
+  ok "Clean complete. Run './rodeo.sh --from 2' to rebuild."
+}
+
+# =============================================================================
 # Run helpers
 # =============================================================================
 _run_phase() {
@@ -787,6 +837,7 @@ _print_menu() {
   echo -e "  ${BOLD}[3]${RESET}  Run a specific phase (1–5)"
   echo -e "  ${BOLD}[4]${RESET}  Resume from a specific phase"
   echo -e "  ${BOLD}[5]${RESET}  Reset state (re-run everything)"
+  echo -e "  ${BOLD}[6]${RESET}  Clean — destroy VMs + disks, reset to before phase 2"
   echo -e "  ${BOLD}[q]${RESET}  Quit"
   echo ""
 }
@@ -807,6 +858,7 @@ case "${1:-}" in
                  _run_all "$2"; exit 0 ;;
   --status)      show_status; exit 0 ;;
   --reset)       reset_state; exit 0 ;;
+  --clean)       _clean_vms; exit 0 ;;
   --help|-h)     grep "^# " "${BASH_SOURCE[0]}" | head -20 | sed 's/^# //'; exit 0 ;;
 esac
 
@@ -830,6 +882,7 @@ while true; do
       break
       ;;
     5) reset_state ;;
+    6) _clean_vms ;;
     q|Q) log "Exiting."; exit 0 ;;
     *) echo "  Invalid choice." ;;
   esac
