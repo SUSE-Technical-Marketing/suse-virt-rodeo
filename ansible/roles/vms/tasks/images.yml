@@ -28,12 +28,23 @@
 
 # --- Harvester ISO ---
 
+- name: Check Harvester ISO presence and checksum
+  ansible.builtin.stat:
+    path: "{{ image_dir }}/harvester-v{{ harvester_version }}-amd64.iso"
+    checksum_algorithm: sha512
+    get_checksum: "{{ harvester_iso_checksum is defined }}"
+  register: _iso_stat
+
 - name: Download Harvester {{ harvester_version }} ISO
   ansible.builtin.get_url:
     url: "https://releases.rancher.com/harvester/v{{ harvester_version }}/harvester-v{{ harvester_version }}-amd64.iso"
     dest: "{{ image_dir }}/harvester-v{{ harvester_version }}-amd64.iso"
     checksum: "{{ harvester_iso_checksum | default(omit) }}"
     mode: '0644'
+  when: >-
+    not _iso_stat.stat.exists or
+    (harvester_iso_checksum is defined and
+     _iso_stat.stat.checksum != harvester_iso_checksum.split(':')[1])
 
 # --- Harvester node disks and OVMF vars ---
 
