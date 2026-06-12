@@ -21,4 +21,4 @@ ipxe_efi_url: "https://boot.ipxe.org/x86_64-efi/ipxe.efi"
 
 # Harvester release base URL — vmlinuz/initrd/rootfs are fetched from here.
 # harvester_version is loaded from vms/defaults in tasks/main.yml.
-pxe_harvester_base_url: "https://releases.rancher.com/harvester/v{{ harvester_version | default('1.8.0') }}"
+pxe_harvester_base_url: "https://releases.rancher.com/harvester/v{{ harvester_version }}"

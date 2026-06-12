@@ -13,10 +13,13 @@
     - "{{ pxe_http_root }}/config"
 
 # On SLES 16 the nginx package may not include conf.d/ by default.
-# Add the include if it is absent so our site config is picked up.
+# regexp match prevents inserting a duplicate if the line already exists
+# (e.g. with different whitespace), which would cause nginx to parse two
+# includes and potentially serve the distro default config instead of ours.
 - name: Ensure nginx.conf includes conf.d
   ansible.builtin.lineinfile:
     path: /etc/nginx/nginx.conf
+    regexp: '^\s*include\s+/etc/nginx/conf\.d/\*\.conf;'
     line: "    include /etc/nginx/conf.d/*.conf;"
     insertafter: "http {"
     state: present
