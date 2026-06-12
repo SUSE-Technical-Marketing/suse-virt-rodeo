@@ -228,7 +228,32 @@ containers:
     memory: 2048
 ```
 
-`high-ports` on geekohive is for direct SSH/debug access during development: Instruqt only exposes ports >= 1024 externally, so sshd on geekohive listens on **1068** (`host_ssh_port` in the kvm_host role, drop-in at `/etc/ssh/sshd_config.d/10-rodeo-port.conf`). Connect with `ssh -p 1068 root@<geekohive-external-ip>`. UI traffic always goes through `cloud-client`.
+### SSH access map
+
+There are four distinct SSH paths in the lab. Only one of them uses a non-standard port.
+
+| From | To | Port | Key | Notes |
+|---|---|---|---|---|
+| External admin | geekohive | **1068** | any key authorised on the image | Instruqt `high-ports` only exposes >= 1024; port 22 is blocked externally |
+| cloud-client | guest VMs (virt1, virt2…) | 22 | `/root/.ssh/id_rsa` (cloud-client) | VMs are internal; no external exposure; `Host virt*` block in `/root/.ssh/config` |
+| geekohive | rancher VM | 22 | `/root/.ssh/id_ed25519` (geekohive) | Used by deployer scripts (`start-vms.sh`, `setup-rancher.sh`) |
+| geekohive | harvester nodes | 22 | `/root/.ssh/id_ed25519` (geekohive) | Harvester serial console used instead where SSH is not yet up |
+
+**Why geekohive uses port 1068:** Instruqt's `allow_external_ingress: high-ports` rule only
+exposes TCP ports >= 1024 on the geekohive VM. Port 22 is blocked at the Instruqt network
+boundary, so it can never be reached from outside the sandbox. Moving sshd to 1068 puts it
+inside the exposed range. The port is set via a drop-in at
+`/etc/ssh/sshd_config.d/10-rodeo-port.conf` (managed by `host_ssh_port` in the kvm_host
+Ansible role) so it survives openssh package updates. sshd also continues to listen on 22
+for connections that originate inside the sandbox.
+
+**Why guest VMs and KVM guests stay on 22:** They have no external IP. All SSH to those
+machines originates from inside the 192.168.122.0/24 NAT network (cloud-client or
+geekohive), where port 22 is reachable without restriction.
+
+**UI traffic** never goes through SSH — it flows via nginx on cloud-client (ports 90/91/92)
+over HTTPS to geekohive (8443/30002), then via firewalld DNAT to the Harvester VIP or
+Rancher K3s NodePort.
 
 ---
 

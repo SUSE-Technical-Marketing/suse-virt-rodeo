@@ -63,10 +63,22 @@ geekohive:30002 --DNAT--> 192.168.122.9:30002   (Rancher K3s NodePort)
 Port 92 is not pre-configured. The student runs `kubectl port-forward` in challenge
 06, which brings the NOC dashboard live in that tab.
 
-sshd on `geekohive` listens on **1068**, not 22: Instruqt's `allow_external_ingress:
-high-ports` only exposes ports >= 1024, so port 22 is unreachable from outside the
-sandbox. Set via `host_ssh_port` in the kvm_host role. For direct debug access:
+### SSH access map
+
+| From | To | Port | Key |
+|---|---|---|---|
+| External admin | geekohive | **1068** | any key authorised on the image |
+| cloud-client | guest VMs (virt1…) | 22 | `/root/.ssh/id_rsa` on cloud-client |
+| geekohive | rancher / harvester nodes | 22 | `/root/.ssh/id_ed25519` on geekohive |
+
+geekohive's sshd listens on **1068** because Instruqt's `allow_external_ingress: high-ports`
+only exposes ports >= 1024 externally; port 22 is blocked at the sandbox boundary. The port
+is set by `host_ssh_port` in the kvm_host Ansible role (drop-in at
+`/etc/ssh/sshd_config.d/10-rodeo-port.conf`). Direct debug access:
 `ssh -p 1068 root@<geekohive-external-ip>`.
+
+All other SSH paths are internal (inside 192.168.122.0/24) and stay on port 22.
+See ARCHITECTURE.md for the full breakdown.
 
 ### Network topology
 
