@@ -5,8 +5,10 @@ Two paths, in order. **Part 1** stands up the lab host with the agnostic deploye
 then ship the student track). The Instruqt builder runs the same Part 1 steps
 inside a sandbox and snapshots the result, so read Part 1 first.
 
-Source: `SUSE-Technical-Marketing/test-harv-rodeo` branch `dev` (the working repo;
-mirror of `SUSE-Technical-Marketing/instruqt-virtualization` branch `sles16-mig`).
+**Testing repo:** `SUSE-Technical-Marketing/test-harv-rodeo` branch `dev` — clone
+this on build hosts and sandboxes. **Track repo:** `SUSE-Technical-Marketing/instruqt-virtualization`
+— where the published Instruqt track lives; merge tested changes from test-harv-rodeo
+when ready.
 
 Addressing (NAT mode, `virbr0` `192.168.122.0/24`): floating kube-vip VIP `.10`
 (not a node), harvester1/2/3 `.11/.12/.13`, rancher `.9`.
@@ -24,8 +26,9 @@ A SLES 16 / openSUSE Leap 16 machine (bare metal, cloud VM, or IaaS). It needs:
 - **Nested virtualization on.** Harvester runs VMs inside itself (KubeVirt), so the
   host CPU must pass virtualization through. On a cloud VM enable this at creation
   (e.g. GCP `--enable-nested-virtualization`, or a bare-metal/`*.metal` instance).
-- **Capacity:** 32 vCPU, ~90 GB RAM, ~950 GB disk. The guests take 28 vCPU and
-  72 GiB (3×20 GiB Harvester + 12 GiB Rancher), leaving ~13 GiB for the host. The
+- **Capacity:** 32 vCPU, ~64 GB RAM minimum (~90 GB recommended), ~950 GB disk. The
+  guests take 28 vCPU and 56 GiB (3×16 GiB Harvester + 8 GiB Rancher), leaving ~8 GiB
+  for the host on a 64 GB machine. The
   disks are thin (`preallocation=metadata`): 870 GB virtual, ~300-350 GB actually
   used, so 950 GB is plenty. On a larger host you can raise the node memory in
   `ansible/roles/vms/defaults/main.yml` (`libvirt_flavors`).
@@ -37,7 +40,7 @@ Confirm the hardware:
 ```bash
 lscpu | grep -i virtualization                 # expect VT-x or AMD-V
 cat /sys/module/kvm_intel/parameters/nested    # expect Y (kvm_amd on AMD)
-free -g                                         # expect ~90 GB total
+free -g                                         # expect >= 64 GB total
 df -h /var/lib                                  # expect ~950 GB free
 ```
 
@@ -128,10 +131,11 @@ sudo ./deploy.sh
 Four phases:
 
 1. **Preflight + collections** — verifies tools, installs the Ansible collections.
-2. **Ansible playbook** (`kvm_host` then `vms`) — configures the host (modular
-   libvirt daemons, firewalld DNAT, RKE2-friendly sysctls) and stages all VM
-   assets (NAT network with static DHCP, qcow2 disks, Harvester ISO, per-node
-   config ISOs, Rancher cloud-init ISO, the four libvirt domains).
+2. **Ansible playbook** (`kvm_host` → `vms` → `pxe_server`) — configures the host
+   (modular libvirt daemons, firewalld DNAT, RKE2-friendly sysctls), stages all VM
+   assets (NAT network with static DHCP, qcow2 disks, Rancher cloud-init ISO, the
+   four libvirt domains), and sets up the **iPXE boot server** (dnsmasq TFTP +
+   nginx HTTP on `192.168.122.1:8080` for unattended Harvester install).
 3. **Start VMs + wait** (`lib/start-vms.sh`) — boots harvester1, waits for the VIP,
    staggers harvester2/3 and the Rancher VM. The long wait (~20–40 min).
 4. **K3s + Rancher** (`lib/setup-rancher.sh`) — installs K3s + Rancher Prime,
@@ -188,7 +192,7 @@ from it in minutes.
 **Step 1 — Push and start the builder track**
 
 ```bash
-cd instruqt-virtualization/builder
+cd test-harv-rodeo/builder
 instruqt track push
 ```
 

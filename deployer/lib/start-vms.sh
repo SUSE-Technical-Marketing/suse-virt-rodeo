@@ -98,4 +98,8 @@ until [[ "$(KUBECONFIG=${KUBECONFIG_TMP} kubectl get nodes --no-headers 2>/dev/n
     log "  ${NODE_ELAPSED}s elapsed — ${READY}/3 nodes Ready"
   fi
 done
+mkdir -p /root/.kube
+cp "${KUBECONFIG_TMP}" /root/.kube/harvester.yaml
+chmod 600 /root/.kube/harvester.yaml
+log "Kubeconfig saved to /root/.kube/harvester.yaml"
 log "All 3 Harvester nodes Ready. Handing off to Rancher setup."

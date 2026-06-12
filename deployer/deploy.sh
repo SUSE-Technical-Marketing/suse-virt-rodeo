@@ -7,7 +7,7 @@
 #
 # What it does:
 #   1. Installs the required Ansible collections.
-#   2. Runs the shared Ansible playbook (kvm_host + vms roles) to configure the
+#   2. Runs the shared Ansible playbook (kvm_host + vms + pxe_server) to configure the
 #      host and stage all VM assets (disks, ISOs, libvirt domains).
 #   3. Starts the VMs and waits for the Harvester cluster to form.
 #   4. Installs K3s + Rancher Prime and imports the Harvester cluster.
@@ -120,7 +120,6 @@ RANCHER_VM_IP="${RANCHER_IP}" \
 RANCHER_VERSION="${RANCHER_VERSION}" \
 K3S_VERSION="${K3S_VERSION}" \
 HARVESTER_VIP="${HARVESTER_VIP}" \
-HARVESTER_OS_PASSWORD="${HARVESTER_OS_PASSWORD}" \
 LAB_ADMIN_PASSWORD="${LAB_ADMIN_PASSWORD:-Foobar12345\$}" \
   "${HERE}/lib/setup-rancher.sh"
 

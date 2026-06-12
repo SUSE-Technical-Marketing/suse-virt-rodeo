@@ -88,10 +88,10 @@ See ARCHITECTURE.md for the full breakdown.
 
 | VM | vCPU | RAM | Disk | IP | DNS name | Purpose |
 |---|---|---|---|---|---|---|
-| harvester1 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.11 | `alpha.aerogrid.com` | Bootstrap (cluster-init) node |
-| harvester2 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.12 | `bravo.aerogrid.com` | Join node |
-| harvester3 | 8 | 20 GiB | 270 GB qcow2 | 192.168.122.13 | `charlie.aerogrid.com` | Join node |
-| rancher | 4 | 12 GiB | 60 GB qcow2 | 192.168.122.9 | `rancher.aerogrid.com` | K3s + Rancher Prime 2.13.1 |
+| harvester1 | 8 | 16 GiB | 270 GB qcow2 | 192.168.122.11 | `alpha.aerogrid.com` | Bootstrap (cluster-init) node |
+| harvester2 | 8 | 16 GiB | 270 GB qcow2 | 192.168.122.12 | `bravo.aerogrid.com` | Join node |
+| harvester3 | 8 | 16 GiB | 270 GB qcow2 | 192.168.122.13 | `charlie.aerogrid.com` | Join node |
+| rancher | 4 | 8 GiB | 60 GB qcow2 | 192.168.122.9 | `rancher.aerogrid.com` | K3s + Rancher Prime 2.13.1 |
 | Harvester VIP | — | — | — | 192.168.122.10 | `virtualization.aerogrid.com` | kube-vip floating VIP, cluster API + UI |
 
 The cluster API/UI live on a **floating kube-vip VIP at `192.168.122.10`** — a free
@@ -127,16 +127,16 @@ virbr0 -- 192.168.122.0/24
 ### Host resource budget
 
 ```
-geekohive: 32 vCPU, 90 GB RAM, 950 GB SSD
+geekohive: 32 vCPU, 64 GB RAM minimum (90 GB recommended), 950 GB SSD
 
-  harvester1:  8 vCPU  20 GiB  vda = 270 GB qcow2 (preallocation=metadata)
-  harvester2:  8 vCPU  20 GiB  vda = 270 GB qcow2
-  harvester3:  8 vCPU  20 GiB  vda = 270 GB qcow2
-  rancher:     4 vCPU  12 GiB  60 GB qcow2
+  harvester1:  8 vCPU  16 GiB  vda = 270 GB qcow2 (preallocation=metadata)
+  harvester2:  8 vCPU  16 GiB  vda = 270 GB qcow2
+  harvester3:  8 vCPU  16 GiB  vda = 270 GB qcow2
+  rancher:     4 vCPU   8 GiB  60 GB qcow2
   -------------------------------------------------------
-  KVM total:  28 vCPU  72 GiB
+  KVM total:  28 vCPU  56 GiB
   Host overhead:  4 vCPU, ~4-8 GiB
-  RAM headroom:  ~13 GiB on a 90 GB host
+  RAM headroom:  ~8 GiB on a 64 GB host; ~30 GiB on a 90 GB host
 
 Disk layout per Harvester node (270 GB vda):
   COS_PERSISTENT:    ~173 GB  (OS + container images)
@@ -153,15 +153,16 @@ Disk layout per Harvester node (270 GB vda):
 Single-node Harvester is technically possible but teaches nothing about the HA
 properties that make the platform valuable. The 3-node setup gives a real etcd
 quorum, demonstrates live migration across nodes, and lets students see Longhorn
-replica distribution across the cluster. 20 GiB per node is below the production
+replica distribution across the cluster. 16 GiB per node is below the production
 minimum of 32 GiB but proven to work for dev and lab workloads (the Harvester
 reference HCIAB uses 16 GiB).
 
-### Nested KVM on a 32 vCPU / 90 GB host
+### Nested KVM on a 32 vCPU / 64 GB host
 
 A single instance with nested virtualization runs all four KVM guests without
-physical hardware or a dedicated lab environment. 32 vCPU and 90 GB RAM are enough:
-guests take 28 vCPU and 72 GiB, leaving ~13 GiB for the host. The 950 GB SSD holds
+physical hardware or a dedicated lab environment. 32 vCPU and 64 GB RAM are the
+minimum: guests take 28 vCPU and 56 GiB, leaving ~8 GiB for the host. A 90 GB host
+gives more headroom. The 950 GB SSD holds
 the thin-provisioned disks (870 GB virtual, ~300-350 GB actually used). On a larger
 host (e.g. a 128 GiB n2-standard-32) raise the node memory in `libvirt_flavors`.
 
@@ -169,11 +170,11 @@ host (e.g. a 128 GiB n2-standard-32) raise the node memory in `libvirt_flavors`.
 
 The host runs SLES 16, which ships the modular libvirt daemons (`virtqemud`,
 `virtnetworkd`, `virtstoraged`, …) by default instead of the monolithic `libvirtd`.
-It also moves to SELinux (enforcing) in place of AppArmor, and firewalld's nftables
-backend. The `kvm_host` role targets the modular daemons, sets `security_driver = "none"`
-in qemu.conf, builds seed ISOs with `xorriso` (genisoimage is gone), and does the UI
-DNAT with native firewalld port-forwarding. A `libvirt_daemon_mode: monolithic` switch
-remains for older hosts.
+It also moves to SELinux in place of AppArmor, and firewalld's nftables backend. The
+`kvm_host` role sets SELinux to **permissive** (nested KVM + libvirt paths), targets
+the modular daemons, sets `security_driver = "none"` in qemu.conf, builds seed ISOs
+with `xorriso` (genisoimage is gone), and does the UI DNAT with native firewalld
+port-forwarding. A `libvirt_daemon_mode: monolithic` switch remains for older hosts.
 
 ### Single virbr0 bridge for all five NICs on Harvester nodes
 
@@ -225,14 +226,27 @@ miscalculate the `HARV_LH_DEFAULT` (Longhorn) partition. The `metadata` mode wri
 the qcow2 cluster table upfront so the virtual size is reported correctly, while
 actual disk consumption stays thin.
 
+### iPXE network install (not ISO-first boot)
+
+Harvester nodes install over the network via **iPXE**, not by booting the ISO
+CDROM attached in the VM XML. The `pxe_server` Ansible role sets up:
+
+- **TFTP** via libvirt dnsmasq on virbr0 (`ipxe.efi` from boot.ipxe.org)
+- **HTTP** via nginx on `192.168.122.1:8080` (vmlinuz, initrd, squashfs, per-node configs)
+- **Two-stage DHCP**: UEFI gets `ipxe.efi`; iPXE gets a per-node HTTP boot script
+
+VM boot order is **disk first, management NIC second**. On first boot the empty qcow2
+has no bootloader, so UEFI falls through to the NIC, iPXE runs, and the unattended
+installer starts. After install, subsequent reboots go straight to disk. The ISO
+CDROMs in the VM XML are a fallback only; `setup-rancher.sh` ejects them after
+install completes. See `IPXE-CONTEXT.md` for the full implementation reference.
+
 ### CDROM eject after install
 
 After Harvester installs and reboots, its EFI boot entry points to the hard disk.
-If QEMU loses its in-memory EFI variables (host crash, power loss), it falls back
-to the boot order in the VM XML, which had the installer CDROM at `boot order=1`.
 Ejecting CDROMs after a confirmed install with `virsh change-media --eject --live
 --config` removes them from both the running state and the persistent XML, so there
-is no ISO to accidentally re-install from.
+is no ISO to accidentally re-install from on a host reboot.
 
 ### Ansible roles instead of a shell script
 
@@ -249,12 +263,13 @@ handler chains, and `--tags` support to run only what needs running.
 ```
 .
 ├── ansible/
-│   ├── playbook.yml              # runs kvm_host + vms roles
+│   ├── playbook.yml              # runs kvm_host + vms + pxe_server roles
 │   ├── inventory.example         # remote-host example (placeholder)
 │   ├── requirements.yml          # community.libvirt, community.general, ansible.posix
 │   ├── group_vars/all.yml        # shared vars: harvester_vip, rancher_ip, network_mode, host_bridge
 │   └── roles/
 │       ├── kvm_host/             # host packages, libvirt config, DNAT, firewall
+│       ├── pxe_server/           # iPXE TFTP + HTTP boot server for Harvester install
 │       └── vms/
 │           ├── defaults/main.yml # all parameters: flavors, MACs, IPs, UUIDs, paths
 │           ├── tasks/
@@ -272,8 +287,8 @@ handler chains, and `--tags` support to run only what needs running.
 │
 ├── builder/
 │   ├── 01-build/assignment.md    # step-by-step image build guide
-│   ├── deploy-vms.sh             # start VMs, wait for Harvester install
-│   ├── setup-rancher.sh          # K3s + Rancher Prime, import, eject ISOs
+│   ├── deploy-vms.sh             # wrapper → deployer/lib/start-vms.sh
+│   ├── setup-rancher.sh          # wrapper → deployer/lib/setup-rancher.sh
 │   ├── harvester-config-node*.yaml # reference copies (Ansible renders the real ones)
 │   ├── config.yml                # Instruqt builder sandbox config
 │   └── track.yml                 # Instruqt builder track definition
@@ -299,6 +314,15 @@ handler chains, and `--tags` support to run only what needs running.
 ```
 
 ---
+
+## Two repos
+
+| Repo | Branch | Use |
+|------|--------|-----|
+| [test-harv-rodeo](https://github.com/SUSE-Technical-Marketing/test-harv-rodeo) | `dev` | **Testing** — clone this on build hosts and sandboxes |
+| [instruqt-virtualization](https://github.com/SUSE-Technical-Marketing/instruqt-virtualization) | `main` / `sles16-mig` | **Published track** — merge here when ready to ship |
+
+Build and deploy commands in this doc target **test-harv-rodeo** unless noted otherwise.
 
 ## Deploying outside Instruqt
 
@@ -677,7 +701,7 @@ Bare metal (3 nodes)
 
 All dashboards use one fixed lab admin password: **`Foobar12345$`** (user `admin`).
 Lab-grade only — do not reuse it anywhere real. Override it with `LAB_ADMIN_PASSWORD`
-(deployer) or the constant in `builder/setup-rancher.sh`.
+(deployer) or `LAB_ADMIN_PASSWORD` in `deployer/lib/setup-rancher.sh`.
 
 | Resource | Username | Password / Token |
 |---|---|---|

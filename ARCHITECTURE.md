@@ -143,6 +143,25 @@ overlay (Canal VXLAN +50B, Kube-OVN Geneve +58B) runs inside the guests over a
 1500-MTU bridge; RKE2 auto-shrinks the pod/overlay MTU, so no host MTU change is
 needed — but suspect MTU first if large-payload inter-node transfers ever hang.
 
+### Harvester install via iPXE (not ISO-first boot)
+
+The `pxe_server` Ansible role provisions network boot on virbr0. Harvester 1.8.0
+requires UEFI; legacy BIOS PXE is not supported.
+
+```
+UEFI firmware (empty disk, no bootloader)
+  → DHCP from dnsmasq on 192.168.122.1
+  → Stage 1: boot ipxe.efi (TFTP)
+  → Stage 2: per-node HTTP script at :8080/ipxe/harvester{1,2,3}
+  → kernel + initrd + squashfs over HTTP
+  → unattended install (config YAML at :8080/config/config-harvesterN.yaml)
+```
+
+VM XML boot order is **disk first, management NIC (eth0) second**. After install,
+reboots go straight to disk. ISO CDROMs remain in the XML as a fallback but are
+ejected by `deployer/lib/setup-rancher.sh` once the cluster is up. Full details:
+`IPXE-CONTEXT.md`.
+
 ### Lab DNS (aerogrid.com)
 
 The lab runs a three-layer DNS setup so every consumer can resolve `aerogrid.com` names:
@@ -191,7 +210,7 @@ Longhorn V2 data engine must remain **disabled** — SPDK requires NVMe and does
 
 ```
 CPU:  4 vCPU
-RAM:  12 GiB
+RAM:  8 GiB
 Disk: 60 GB qcow2
 NIC:  virbr0 only (management, 192.168.122.9)
 Runtime:
@@ -325,16 +344,16 @@ Port 92 is not configured here. The student opens it in challenge 06.
 ## Resource Budget
 
 ```
-Host: 32 vCPU, 90 GB RAM, 950 GB SSD  (e.g. n2-standard-32 has more RAM headroom)
+Host: 32 vCPU, 64 GB RAM minimum (90 GB recommended), 950 GB SSD
 
-  harvester1:  8 vCPU  20 GiB  vda=270 GB
-  harvester2:  8 vCPU  20 GiB  vda=270 GB
-  harvester3:  8 vCPU  20 GiB  vda=270 GB
-  rancher:     4 vCPU  12 GiB  60 GB
+  harvester1:  8 vCPU  16 GiB  vda=270 GB
+  harvester2:  8 vCPU  16 GiB  vda=270 GB
+  harvester3:  8 vCPU  16 GiB  vda=270 GB
+  rancher:     4 vCPU   8 GiB  60 GB
   ─────────────────────────────────────────────────────
-  Total KVM:  28 vCPU  72 GiB
+  Total KVM:  28 vCPU  56 GiB
   Host overhead: 4 vCPU, ~4-8 GiB
-  Remaining:  4 vCPU slack, ~13 GiB RAM headroom on a 90 GB host
+  Remaining:  4 vCPU slack, ~8 GiB RAM headroom on a 64 GB host
 
 Disk (qcow2, preallocation=metadata, 950 GB SSD):
   host root:  ~40 GB
@@ -344,7 +363,7 @@ Disk (qcow2, preallocation=metadata, 950 GB SSD):
   Longhorn usable per node (after 30% reserve): ~68 GB
 ```
 
-The disks are thin (`preallocation=metadata`), so 870 GB of virtual disk fits comfortably on a 950 GB SSD — actual use is ~300-350 GB. RAM is the binding constraint, not disk: the 72 GiB guest allocation leaves ~13 GiB on a 90 GB host. 20 GiB per Harvester node is below the official 32 GiB production minimum but proven for dev/lab clusters (the Harvester reference HCIAB uses 16 GiB). On a larger host (e.g. 128 GiB) you can raise the nodes back to 24 GiB / 16 GiB in `libvirt_flavors`.
+The disks are thin (`preallocation=metadata`), so 870 GB of virtual disk fits comfortably on a 950 GB SSD — actual use is ~300-350 GB. RAM is the binding constraint, not disk: the 56 GiB guest allocation leaves ~8 GiB on a 64 GB host. 16 GiB per Harvester node is below the official 32 GiB production minimum but proven for dev/lab clusters (the Harvester reference HCIAB uses 16 GiB). On a larger host (e.g. 90 GB or 128 GiB) you can raise the nodes in `libvirt_flavors` (e.g. 20 GiB / 12 GiB).
 
 ---
 

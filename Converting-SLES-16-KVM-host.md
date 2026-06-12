@@ -60,9 +60,10 @@ sudo nmcli con up br0
 
 ## Step 5: SELinux
 
-SLES 16 runs SELinux in enforcing mode (AppArmor is removed). The default policy
-allows libvirt to run guests from the standard `/var/lib/libvirt` paths. For a lab
-where you want to disable per-VM sVirt labelling, set the security driver to none:
+SLES 16 ships with SELinux enabled (AppArmor is removed). The rodeo playbook sets
+**permissive** mode on the KVM host so libvirt/QEMU paths work without sVirt
+labelling friction. For a lab where you want to disable per-VM sVirt labelling,
+set the security driver to none:
 
 ```bash
 sudo sed -i 's/^#\?security_driver.*/security_driver = "none"/' /etc/libvirt/qemu.conf

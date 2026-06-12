@@ -23,7 +23,7 @@ developers:
 - andres.valero@suse.com
 - raul.mahiques@suse.com
 maintenance: true
-skipping_enabled: true
+skipping_enabled: false
 idle_timeout: 7200
 timelimit: 10800
 lab_config:

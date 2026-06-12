@@ -24,8 +24,8 @@ Expected total time: 2-3 hours (most of it is unattended Harvester installation)
 
 ## Step 0 — Confirm the builder host has enough resources and nested virt
 
-The build needs roughly **32 vCPU, 90 GB RAM, and a ~950 GB disk**. The guests take
-28 vCPU and 72 GiB RAM (3×20 GiB Harvester + 12 GiB Rancher). The playbook creates
+The build needs roughly **32 vCPU, 64 GB RAM minimum, and a ~950 GB disk**. The guests
+take 28 vCPU and 56 GiB RAM (3×16 GiB Harvester + 8 GiB Rancher). The playbook creates
 3× 270 GB Harvester disks + a 60 GB Rancher disk, but they are thin
 (`preallocation=metadata`): ~870 GB virtual, ~300-350 GB actually used.
 
@@ -33,13 +33,13 @@ Before going further, confirm `geekohive` has the capacity and nested
 virtualization enabled:
 
 ```bash
-free -g                                      # expect ~90 GB total
+free -g                                      # expect >= 64 GB total
 nproc                                         # expect 32
 df -h /var/lib/libvirt/images                # expect ~950 GB available
 cat /sys/module/kvm_intel/parameters/nested  # expect Y (or kvm_amd on AMD)
 ```
 
-If RAM is below ~90 GB the guests will not fit — lower the node memory in
+If RAM is below ~64 GB the guests will not fit — lower the node memory in
 `ansible/roles/vms/defaults/main.yml` (`libvirt_flavors`) first. Instruqt sets VM
 disk size at image creation, not in `config.yml`, so a too-small base disk must be
 resized there.

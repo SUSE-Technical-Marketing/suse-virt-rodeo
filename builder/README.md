@@ -23,12 +23,13 @@ environment with no waiting.
 | `config.yml` | Instruqt config for the builder sandbox VM |
 | `track.yml` | Instruqt track YAML (slug: suse-virt-rodeo-builder) |
 | `01-build/assignment.md` | Step-by-step instructions for the image builder |
-| `deploy-vms.sh` | Starts KVM VMs in sequence and waits for Harvester bootstrap |
-| `setup-rancher.sh` | Installs K3s + Rancher Prime, imports Harvester, ejects installer ISOs |
+| `deploy-vms.sh` | Wrapper → `deployer/lib/start-vms.sh` |
+| `setup-rancher.sh` | Wrapper → `deployer/lib/setup-rancher.sh` |
 | `harvester-config-node1/2/3.yaml` | Reference copies of Harvester unattended configs (superseded by Ansible template) |
 
 VM assets (disks, ISOs, config ISOs, OVMF vars, cloud-init) are now created by the
-`ansible/roles/vms/` role. `deploy-vms.sh` only starts VMs and waits for install.
+`ansible/roles/vms/` and `pxe_server/` roles. `deploy-vms.sh` only starts VMs and
+waits for install (Harvester nodes boot via iPXE, not ISO-first).
 
 ## Ansible role structure
 
@@ -92,7 +93,7 @@ Before running the builder track, confirm:
 - The SLES 16 base image slug is `suse/sles-16-0` (verify in the Instruqt image catalog).
   If the slug differs, update `config.yml` before pushing the builder track.
 - The builder sandbox must have nested virtualization enabled (already set in `config.yml`).
-- The sandbox needs ~32 vCPU and ~90 GB RAM (guests use 28 vCPU / 72 GiB). An
+- The sandbox needs ~32 vCPU and ~64 GB RAM minimum (guests use 28 vCPU / 56 GiB). An
   `n2-standard-32` (32 vCPU, 128 GiB) has extra headroom; raise the node memory in
   `ansible/roles/vms/defaults/main.yml` if you have it.
 - Only `ansible` is needed up front (`zypper install -y ansible`). The `kvm_host`

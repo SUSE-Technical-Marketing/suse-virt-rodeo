@@ -17,10 +17,10 @@ An Instruqt interactive lab. Learners migrate a fictional airport IT platform
 ("AeroGrid Operations") from VMware to SUSE Virtualization (Harvester HCI). A single
 GCP VM (`geekohive`, n2-standard-32, nested virt on) runs four nested KVM guests:
 
-- `harvester1/2/3` — 8 vCPU, 20 GiB, 270 GB qcow2, Harvester 1.8.0, 5 NICs each
-- `rancher` — 4 vCPU, 12 GiB, 60 GB, K3s + Rancher Prime 2.13.1
-- Sized for a 32 vCPU / 90 GB / 950 GB host (guests 28 vCPU / 72 GiB; thin disks).
-  Raise node memory in `libvirt_flavors` on a 128 GiB host.
+- `harvester1/2/3` — 8 vCPU, 16 GiB, 270 GB qcow2, Harvester 1.8.0, 5 NICs each
+- `rancher` — 4 vCPU, 8 GiB, 60 GB, K3s + Rancher Prime 2.13.1
+- Sized for a 32 vCPU / 64 GB minimum / 950 GB host (guests 28 vCPU / 56 GiB; thin
+  disks). Raise node memory in `libvirt_flavors` on a 90 GB or 128 GiB host.
 
 Harvester is built on **RKE2**. Rancher imports the Harvester cluster. Component
 versions are unchanged on this branch (Harvester 1.8.0, Rancher Prime 2.13.1, K3s
@@ -56,7 +56,8 @@ VIP to a node IP.
 - Seed ISOs built with `xorriso -as mkisofs` (`genisoimage` is gone on SLES 16).
 - OVMF uses explicit pflash loader + per-VM nvram (dropped `firmware='efi'`
   autoselect) from `qemu-ovmf-x86_64` at `/usr/share/qemu/`.
-- SELinux is enforcing (AppArmor removed); `security_driver = "none"` in qemu.conf.
+- SELinux set to **permissive** on the KVM host (AppArmor removed); `security_driver =
+  "none"` in qemu.conf.
 
 **RKE2/Harvester host hardening (the reason node-to-node traffic does not break):**
 - `bridge-nf-call-iptables/ip6tables/arptables = 0` so the host firewall never
@@ -82,8 +83,9 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
 - `setup-cloud-client` queries the Rancher cluster by `name=harvester`, not `name=local`
   (which is Rancher's own K3s cluster).
 - Harvester image name standardized to **`leap16`** (challenges use `default/leap16`).
-- Builder docs: clone `-b dev` from test-harv-rodeo, run with
-  `deployer/inventory.local`, Step 0 resource check (32 vCPU / 90 GB / 950 GB),
+- Builder docs: clone `-b dev` from **test-harv-rodeo** (the testing repo; not
+  instruqt-virtualization), run with
+  `deployer/inventory.local`, Step 0 resource check (32 vCPU / 64 GB / 950 GB),
   manual Longhorn-V2-disable + Harvester-UI-plugin steps.
 - **kubectl** is installed by the `kvm_host` role (not in SUSE base repos): it adds
   the upstream Kubernetes repo `pkgs.k8s.io` (channel `kubectl_repo_channel`, default
