@@ -11,5 +11,6 @@
     zone: libvirt
     service: tftp
     permanent: true
-    immediate: true
+    immediate: false
     state: enabled
+  notify: reload firewalld
