@@ -228,7 +228,7 @@ containers:
     memory: 2048
 ```
 
-`high-ports` on geekohive is for direct SSH/debug access during development. UI traffic always goes through `cloud-client`.
+`high-ports` on geekohive is for direct SSH/debug access during development: Instruqt only exposes ports >= 1024 externally, so sshd on geekohive listens on **1068** (`host_ssh_port` in the kvm_host role, drop-in at `/etc/ssh/sshd_config.d/10-rodeo-port.conf`). Connect with `ssh -p 1068 root@<geekohive-external-ip>`. UI traffic always goes through `cloud-client`.
 
 ---
 

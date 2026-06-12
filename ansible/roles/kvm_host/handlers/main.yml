@@ -4,6 +4,13 @@
     name: "{{ libvirt_primary_service }}"
     state: restarted
 
+- name: restart sshd
+  # Existing SSH sessions survive an sshd restart, so this is safe even when
+  # the play itself runs over SSH (default inventory is ansible_connection=local).
+  ansible.builtin.systemd:
+    name: sshd
+    state: restarted
+
 - name: reload firewalld
   # firewalld is not started during the Ansible phase (see firewall.yml).
   # This handler is a no-op here; the deployer's deploy.sh starts it explicitly.

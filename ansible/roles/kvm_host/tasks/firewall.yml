@@ -24,11 +24,21 @@
 # the rules into /etc/firewalld without touching the live (non-running) daemon.
 
 # Protect the management connection — explicit SSH even if the public zone default
-# ever differs across SLES 16 image variants.
+# ever differs across SLES 16 image variants. sshd listens on {{ host_ssh_port }}
+# (see ssh.yml); the ssh service rule (22) stays as a lockout guard in case the
+# drop-in is ever removed and sshd falls back to the default port.
 - name: Ensure SSH is allowed in the public zone (protect management connectivity)
   ansible.posix.firewalld:
     zone: public
     service: ssh
+    permanent: true
+    immediate: false
+    state: enabled
+
+- name: Allow the sshd port in the public zone
+  ansible.posix.firewalld:
+    zone: public
+    port: "{{ host_ssh_port }}/tcp"
     permanent: true
     immediate: false
     state: enabled

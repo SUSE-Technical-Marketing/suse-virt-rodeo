@@ -63,6 +63,11 @@ geekohive:30002 --DNAT--> 192.168.122.9:30002   (Rancher K3s NodePort)
 Port 92 is not pre-configured. The student runs `kubectl port-forward` in challenge
 06, which brings the NOC dashboard live in that tab.
 
+sshd on `geekohive` listens on **1068**, not 22: Instruqt's `allow_external_ingress:
+high-ports` only exposes ports >= 1024, so port 22 is unreachable from outside the
+sandbox. Set via `host_ssh_port` in the kvm_host role. For direct debug access:
+`ssh -p 1068 root@<geekohive-external-ip>`.
+
 ### Network topology
 
 ![Network Topology](assets/diagrams/network-topology.png)
