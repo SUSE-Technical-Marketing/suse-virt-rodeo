@@ -93,8 +93,8 @@
       <source path='{{ serial_log_dir }}/{{ item.name }}_serial.log' append='on'/>
       <target type='isa-serial' port='1'/>
     </serial>
-    <graphics type='vnc' port='-1' autoport='yes' listen='127.0.0.1'>
-      <listen type='address' address='127.0.0.1'/>
+    <graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0'>
+      <listen type='address' address='0.0.0.0'/>
     </graphics>
     <video>
       <model type='vga' vram='16384' heads='1'/>
