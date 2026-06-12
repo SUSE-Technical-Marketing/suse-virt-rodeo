@@ -37,8 +37,10 @@ install:
     ip: {{ item.ip }}
     subnet_mask: {{ node_subnet_mask }}
     gateway: {{ libvirt_network_gateway }}
+{% if item.name == first_harvester.name %}
   vip: {{ harvester_vip }}
   vip_mode: static
+{% endif %}
   device: /dev/vda
-  tty: ttyS0
+  tty: ttyS0,115200n8
   poweroff: false
