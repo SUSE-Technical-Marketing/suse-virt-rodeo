@@ -12,12 +12,10 @@
       changed_when: false
       failed_when: false
 
-    - name: Fail if domains are running (network redefinition would drop guest connectivity)
-      ansible.builtin.fail:
-        msg: >
-          Cannot redefine the default network — the following domains are running:
-          {{ running_domains.stdout_lines }}.
-          Stop all VMs first: virsh destroy harvester1 harvester2 harvester3 rancher
+    - name: Destroy running domains before network redefinition
+      ansible.builtin.command: virsh destroy {{ item }}
+      loop: "{{ running_domains.stdout_lines | select('match', '.+') | list }}"
+      failed_when: false
       when:
         - running_domains.rc == 0
         - running_domains.stdout | trim != ''

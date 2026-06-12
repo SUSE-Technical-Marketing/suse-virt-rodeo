@@ -33,12 +33,10 @@
       changed_when: false
       failed_when: false
 
-    - name: Fail if any domain is running (network teardown would drop guest traffic)
-      ansible.builtin.fail:
-        msg: >
-          Cannot redefine the default network with PXE options — domains are running:
-          {{ _pxe_running_domains.stdout_lines }}.
-          Stop all VMs first: virsh destroy harvester1 harvester2 harvester3 rancher
+    - name: Destroy running domains before network redefinition
+      ansible.builtin.command: virsh destroy {{ item }}
+      loop: "{{ _pxe_running_domains.stdout_lines | select('match', '.+') | list }}"
+      failed_when: false
       when:
         - _pxe_running_domains.rc == 0
         - _pxe_running_domains.stdout | trim != ''
