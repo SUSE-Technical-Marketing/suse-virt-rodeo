@@ -1,7 +1,11 @@
 ---
-# Move sshd to {{ host_ssh_port }}. Instruqt's `allow_external_ingress: high-ports`
-# (config.yml) only exposes ports >= 1024, so sshd must leave 22 for direct
-# SSH/debug access to geekohive to work from outside the sandbox.
+# Add {{ host_ssh_port }} as an sshd listen port. Instruqt's
+# `allow_external_ingress: high-ports` (config.yml) only exposes ports >= 1024,
+# so port 22 is unreachable externally; 1068 is.
+#
+# Note: the drop-in ADDS a port rather than replacing 22. sshd will listen on
+# both 22 and 1068. Port 22 remains blocked externally by Instruqt, so this is
+# fine for the lab — but be aware if you ever need to close it internally.
 #
 # Drop-in only — /etc/ssh/sshd_config on SLES 16 ships with
 # `Include /etc/ssh/sshd_config.d/*.conf`, and a drop-in survives openssh
@@ -23,5 +27,5 @@
 - name: Label the ssh port for SELinux (best effort)
   ansible.builtin.command: semanage port -a -t ssh_port_t -p tcp {{ host_ssh_port }}
   register: semanage_ssh_port
-  changed_when: semanage_ssh_port.rc == 0
+  changed_when: semanage_ssh_port.rc == 0 and 'already defined' not in (semanage_ssh_port.stderr | default(''))
   failed_when: false

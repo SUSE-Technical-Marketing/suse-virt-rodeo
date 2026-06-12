@@ -42,6 +42,7 @@
     permanent: true
     immediate: false
     state: enabled
+  notify: reload firewalld
 
 - name: Allow forwarding in the libvirt zone
   ansible.posix.firewalld:
