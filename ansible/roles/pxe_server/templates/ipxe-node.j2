@@ -10,6 +10,7 @@
 dhcp
 
 kernel http://{{ pxe_http_bind }}:{{ pxe_http_port }}/harvester/harvester-v{{ harvester_version }}-vmlinuz-amd64 \
+  initrd=harvester-v{{ harvester_version }}-initrd-amd64 \
   ip=dhcp \
   rd.net.dhcp.retry=30 \
   rd.cos.disable \
