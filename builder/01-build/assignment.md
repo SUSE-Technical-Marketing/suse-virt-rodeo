@@ -33,52 +33,20 @@ Host requirements: 32 vCPU, 64 GB RAM, ~950 GB disk, nested KVM enabled.
 curl -fsSL https://raw.githubusercontent.com/avaleror/rodeo-cli/main/install.sh | bash
 ```
 
-## 2. Install host dependencies
+## 2. Deploy
 
 ```bash
-rodeo install-deps
+rodeo up --profile harvester --dir /root/rodeo-lab --yes --no-tmux
 ```
 
-## 3. Clean any previous state
-
-```bash
-for vm in harvester1 harvester2 harvester3 rancher; do
-  virsh destroy   "$vm" 2>/dev/null || true
-  virsh undefine --nvram "$vm" 2>/dev/null || true
-done
-virsh net-destroy  default 2>/dev/null || true
-virsh net-undefine default 2>/dev/null || true
-
-rm -f  /var/lib/libvirt/images/harvester*.qcow2      \
-       /var/lib/libvirt/images/harvester*_vars.bin   \
-       /var/lib/libvirt/images/rancher*.qcow2        \
-       /var/lib/libvirt/images/Leap-*.qcow2          \
-       /var/lib/libvirt/images/harvester-config-*.iso \
-       /var/lib/libvirt/images/harvester-v*.iso
-rm -rf /srv/harvester-pxe/ ~/.rodeo/ /root/rodeo-lab /opt/rodeo-cli
-rm -f  /usr/local/bin/rodeo
-```
-
-## 4. Init the lab
-
-```bash
-mkdir -p /root/rodeo-lab
-rodeo init --profile harvester --dir /root/rodeo-lab
-```
-
-## 5. Deploy (2-3 h)
-
-```bash
-rodeo deploy --no-tui --config-dir /root/rodeo-lab
-```
-
-To watch Harvester install progress in a second terminal:
+That's it. `rodeo up` handles host dep install, lab setup, secrets, and the full deploy
+in one command. Watch Harvester install progress in a second terminal:
 
 ```bash
 tail -f /var/log/libvirt/qemu/harvester1_serial.log
 ```
 
-## 6. Load the Leap 16 image
+## 3. Load the Leap 16 image
 
 Once deploy finishes and Harvester shows **active** in Rancher:
 
@@ -97,11 +65,11 @@ curl -sk -X POST \
     }
   }' \
   https://192.168.122.10/v1/harvesterhci.io.virtualmachineimages
-
-# Wait for the image to be active (check Harvester UI or poll the API).
 ```
 
-## 7. Stop all VMs
+Wait for the image to become active (check Harvester UI or poll the API).
+
+## 4. Stop all VMs
 
 ```bash
 rodeo stop --yes --all --config-dir /root/rodeo-lab
