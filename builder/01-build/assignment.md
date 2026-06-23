@@ -18,8 +18,8 @@ enhanced_loading: null
 
 # Build the suse-virt-rodeo-180 image
 
-Runs rodeo-cli to deploy 3-node Harvester HCI + Rancher Prime on geekohive, load
-the Leap 16 guest image, and stop all VMs ready for snapshot.
+Deploys 3-node Harvester HCI + Rancher Prime on geekohive, loads the Leap 16 guest
+image, and stops all VMs ready for snapshot.
 
 Expected total time: **2-3 hours** (mostly unattended Harvester installation).
 
@@ -27,32 +27,86 @@ Host requirements: 32 vCPU, 64 GB RAM, ~950 GB disk, nested KVM enabled.
 
 ---
 
-## Run the build script
-
-The entire build is automated by a single script in rodeo-cli. Run it as root:
+## 1. Install rodeo-cli
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/avaleror/rodeo-cli/main/scripts/build-instruqt-image.sh | bash
+curl -fsSL https://raw.githubusercontent.com/avaleror/rodeo-cli/main/install.sh | bash
 ```
 
-The script handles everything in sequence:
-- Cleans any previous state (VMs, disks, networks, rodeo state)
-- Installs rodeo-cli into a venv (SLES 16 / PEP 668 safe)
-- Installs host dependencies (ansible, kubectl, collections)
-- Initialises the lab with the `harvester` profile (`deployment_target: instruqt` — `finalise` skipped pre-snapshot)
-- Deploys: `kvm_host` → `vms` → `pxe_server` → `cluster` → `rancher` (2-3 h)
-- Verifies Harvester cluster is Active in Rancher
-- Loads the openSUSE Leap 16 KVM image into Harvester and waits for it to be active
-- Stops all VMs cleanly
+## 2. Install host dependencies
 
-To watch Harvester install progress while the script runs, open a second terminal tab:
+```bash
+rodeo install-deps
+```
+
+## 3. Clean any previous state
+
+```bash
+for vm in harvester1 harvester2 harvester3 rancher; do
+  virsh destroy   "$vm" 2>/dev/null || true
+  virsh undefine --nvram "$vm" 2>/dev/null || true
+done
+virsh net-destroy  default 2>/dev/null || true
+virsh net-undefine default 2>/dev/null || true
+
+rm -f  /var/lib/libvirt/images/harvester*.qcow2      \
+       /var/lib/libvirt/images/harvester*_vars.bin   \
+       /var/lib/libvirt/images/rancher*.qcow2        \
+       /var/lib/libvirt/images/Leap-*.qcow2          \
+       /var/lib/libvirt/images/harvester-config-*.iso \
+       /var/lib/libvirt/images/harvester-v*.iso
+rm -rf /srv/harvester-pxe/ ~/.rodeo/ /root/rodeo-lab /opt/rodeo-cli
+rm -f  /usr/local/bin/rodeo
+```
+
+## 4. Init the lab
+
+```bash
+mkdir -p /root/rodeo-lab
+rodeo init --profile harvester --dir /root/rodeo-lab
+```
+
+## 5. Deploy (2-3 h)
+
+```bash
+rodeo deploy --no-tui --config-dir /root/rodeo-lab
+```
+
+To watch Harvester install progress in a second terminal:
 
 ```bash
 tail -f /var/log/libvirt/qemu/harvester1_serial.log
 ```
 
-When the script ends with the success banner, all four VMs are shut off and the
-environment is ready to snapshot.
+## 6. Load the Leap 16 image
+
+Once deploy finishes and Harvester shows **active** in Rancher:
+
+```bash
+HVTOKEN=$(cat /root/harvester-token)
+
+curl -sk -X POST \
+  -H "Authorization: Bearer $HVTOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "metadata": {"name": "leap16", "namespace": "default"},
+    "spec": {
+      "displayName": "openSUSE Leap 16",
+      "url": "https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2",
+      "sourceType": "download"
+    }
+  }' \
+  https://192.168.122.10/v1/harvesterhci.io.virtualmachineimages
+
+# Wait for the image to be active (check Harvester UI or poll the API).
+```
+
+## 7. Stop all VMs
+
+```bash
+rodeo stop --yes --all --config-dir /root/rodeo-lab
+virsh list --all   # all must show 'shut off'
+```
 
 ---
 

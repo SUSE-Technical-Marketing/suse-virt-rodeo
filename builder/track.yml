@@ -1,4 +1,5 @@
 slug: suse-virt-rodeo-builder
+id: 3zhyrx4xy7d5
 title: SUSE Virt Rodeo — Image Builder
 description: |
   Builder track for the suse-virt-rodeo-180 custom Instruqt image.
@@ -7,17 +8,15 @@ description: |
   Not intended for end users — internal use only.
 icon: https://www.suse.com/favicon.ico
 tags:
-- virtualization
-- harvester
-- suse
-- rancher
 - image-builder
+- harvester
+- rancher
+- virtualization
+- suse
 owner: suse
 developers:
 - andres.valero@suse.com
 - raul.mahiques@suse.com
-maintenance: false
-skipping_enabled: false
 idle_timeout: 14400
 timelimit: 21600
 lab_config:
@@ -25,7 +24,7 @@ lab_config:
   feedback_recap_enabled: false
   feedback_tab_enabled: false
   loadingMessages: false
+  hideStopButton: false
   default_layout: AssignmentLeft
-
-# Challenges are defined by their folder's assignment.md frontmatter (same as the
-# main track), not inline here. The single challenge lives in 01-build/.
+checksum: "13712193907407682082"
+enhanced_loading: false
