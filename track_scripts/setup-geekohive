@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-SERIAL_LOG_DIR="/var/log/libvirt/qemu"
+LAB_DIR="/root/rodeo-lab"
 
 until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
   sleep 2
@@ -10,29 +10,11 @@ done
 
 echo ">>> Starting SUSE Virtualization KVM cluster..."
 
-start_vm() {
-  local name="$1"
-  if virsh domstate "$name" 2>/dev/null | grep -q "running"; then
-    echo ">>> $name already running."
-  else
-    virsh start "$name"
-    echo ">>> Started $name."
-  fi
-}
-
-start_vm harvester1
-sleep 15
-start_vm harvester2
-sleep 15
-start_vm harvester3
-sleep 15
-start_vm rancher
+# Start VMs in definition order (harvester1 → harvester2 → harvester3 → rancher).
+# rodeo start reads the lab definition for the correct start sequence and etcd gap.
+rodeo start --yes --all --config-dir "$LAB_DIR"
 
 echo ">>> Waiting for Harvester nodes to join the cluster (up to 90 minutes)..."
-echo ">>> Serial logs available at:"
-echo ">>>   ${SERIAL_LOG_DIR}/harvester1_serial.log"
-echo ">>>   ${SERIAL_LOG_DIR}/harvester2_serial.log"
-echo ">>>   ${SERIAL_LOG_DIR}/harvester3_serial.log"
 
 export KUBECONFIG=/root/.kube/harvester.yaml
 
@@ -53,29 +35,6 @@ until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo
 done
 echo ">>> All 3 Harvester nodes Ready"
 
-# Brief settle period — nodes report Ready as soon as kubelet starts,
-# but EFI boot entry writes complete just before that. 30s ensures the
-# first boot is fully done before we eject the CDROMs.
-sleep 30
-
-eject_cdrom() {
-  local domain="$1" dev="$2"
-  local err
-  err=$(virsh change-media "$domain" "$dev" --eject --live --config 2>&1) || {
-    # "No media" / "not a cdrom" are expected if already ejected — log anything else
-    echo "$err" | grep -qiE "no media|not a cdrom|No such file" \
-      || echo ">>> WARNING: eject ${domain}:${dev} -- ${err}"
-  }
-}
-
-echo ">>> Ejecting installer ISOs from Harvester VMs..."
-for node in harvester1 harvester2 harvester3; do
-  for cdrom in sda sdb; do
-    eject_cdrom "$node" "$cdrom"
-  done
-  echo ">>> $node: CDROMs ejected"
-done
-
 echo ">>> Waiting for Rancher to become available (up to 30 minutes)..."
 ELAPSED=0
 MAX_WAIT=1800
@@ -89,8 +48,13 @@ until curl -sk --max-time 5 https://192.168.122.9:30002/v3 2>/dev/null | grep -q
 done
 echo ">>> Rancher is up"
 
+# Enable VM autostart now that the instance is live (skipped during image build
+# because deployment_target: instruqt guards the finalise phase pre-snapshot).
+echo ">>> Enabling VM autostart (finalise phase)..."
+rodeo deploy --finalise --yes --config-dir "$LAB_DIR"
+
 if [ ! -f /root/rancher-password ]; then
-  echo "ERROR: /root/rancher-password not found — was setup-rancher.sh run during image build?"
+  echo "ERROR: /root/rancher-password not found — was the builder run correctly?"
   exit 1
 fi
 RANCHER_PASS=$(cat /root/rancher-password)
@@ -99,7 +63,7 @@ RANCHER_TOKEN=$(curl -sk -X POST \
   "https://192.168.122.9:30002/v3-public/localProviders/local?action=login" \
   -H "Content-Type: application/json" \
   -d "{\"username\":\"admin\",\"password\":\"${RANCHER_PASS}\"}" \
-  | jq -r .token)
+  | python3 -c "import sys,json; print(json.load(sys.stdin).get('token',''))")
 
 if [ -z "$RANCHER_TOKEN" ] || [ "$RANCHER_TOKEN" = "null" ]; then
   echo "ERROR: Failed to get Rancher token"
