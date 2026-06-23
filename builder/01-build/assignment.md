@@ -1,16 +1,19 @@
 ---
 slug: build
+id: xf3qowwvu7dv
 type: challenge
 title: Build the suse-virt-rodeo-180 image
-teaser: Build the custom image from scratch — install rodeo-cli, deploy the nested Harvester cluster and Rancher, then snapshot geekohive.
+teaser: Build the custom image from scratch — install rodeo-cli, deploy the nested
+  Harvester cluster and Rancher, then snapshot geekohive.
 tabs:
-- id: terminal-geekohive
+- id: heyxefb5qwjv
   title: geekohive
   type: terminal
   hostname: geekohive
   cmd: su - root
-timelimit: 21600
 difficulty: advanced
+timelimit: 21600
+enhanced_loading: null
 ---
 
 # Build the suse-virt-rodeo-180 image
@@ -40,9 +43,13 @@ cat /sys/module/kvm_intel/parameters/nested   # expect Y
 
 ## Step 1 — Install rodeo-cli
 
+SLES 16 enforces PEP 668 (externally-managed Python), so install into a venv:
+
 ```bash
-zypper install -y python3-pip git
-pip3 install git+https://github.com/avaleror/rodeo-cli.git@v0.10.1
+zypper install -y python3-pip python3-venv git
+python3 -m venv /opt/rodeo-venv
+/opt/rodeo-venv/bin/pip install git+https://github.com/avaleror/rodeo-cli.git@v0.10.1
+ln -sf /opt/rodeo-venv/bin/rodeo /usr/local/bin/rodeo
 ```
 
 Verify:

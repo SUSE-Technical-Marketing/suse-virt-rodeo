@@ -3,6 +3,7 @@
 set -euo pipefail
 
 LAB_DIR="/root/rodeo-lab"
+RODEO=/usr/local/bin/rodeo   # symlinked from /opt/rodeo-venv/bin/rodeo at build time
 
 until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
   sleep 2
@@ -12,7 +13,7 @@ echo ">>> Starting SUSE Virtualization KVM cluster..."
 
 # Start VMs in definition order (harvester1 → harvester2 → harvester3 → rancher).
 # rodeo start reads the lab definition for the correct start sequence and etcd gap.
-rodeo start --yes --all --config-dir "$LAB_DIR"
+"$RODEO" start --yes --all --config-dir "$LAB_DIR"
 
 echo ">>> Waiting for Harvester nodes to join the cluster (up to 90 minutes)..."
 
@@ -51,7 +52,7 @@ echo ">>> Rancher is up"
 # Enable VM autostart now that the instance is live (skipped during image build
 # because deployment_target: instruqt guards the finalise phase pre-snapshot).
 echo ">>> Enabling VM autostart (finalise phase)..."
-rodeo deploy --finalise --yes --config-dir "$LAB_DIR"
+"$RODEO" deploy --finalise --yes --config-dir "$LAB_DIR"
 
 if [ ! -f /root/rancher-password ]; then
   echo "ERROR: /root/rancher-password not found — was the builder run correctly?"
