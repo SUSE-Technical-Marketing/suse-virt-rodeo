@@ -52,7 +52,7 @@ echo ">>> Rancher is up"
 # Enable VM autostart now that the instance is live (skipped during image build
 # because deployment_target: instruqt guards the finalise phase pre-snapshot).
 echo ">>> Enabling VM autostart (finalise phase)..."
-"$RODEO" deploy --finalise --yes --config-dir "$LAB_DIR"
+"$RODEO" deploy --finalise --no-tui --config-dir "$LAB_DIR"
 
 if [ ! -f /root/rancher-password ]; then
   echo "ERROR: /root/rancher-password not found — was the builder run correctly?"
