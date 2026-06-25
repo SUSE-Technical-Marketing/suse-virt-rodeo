@@ -1,7 +1,7 @@
 # Agnostic deployer
 
 Deploys the SUSE Virtualization Rodeo stack — a 3-node Harvester 1.8.0 cluster
-plus Rancher Prime 2.14.1 (on K3s v1.32), all as nested KVM guests — on **any**
+plus Rancher Prime 2.14.1 (on K3s v1.35), all as nested KVM guests — on **any**
 SLES 16 / openSUSE Leap 16 host: bare metal, a cloud VM, or an IaaS instance.
 
 No Instruqt required. The Instruqt builder track lives in `../builder/` and is

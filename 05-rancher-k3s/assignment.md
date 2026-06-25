@@ -123,7 +123,7 @@ In the [button label="Rancher UI" variant="success"](tab-1) tab:
 3. Under **Infrastructure**, select **Harvester**
 4. Set:
    - **Cluster Name:** `checkin-cluster`
-   - **Kubernetes Version:** Latest K3s v1.33 or v1.34 (Rancher 2.14+ requires v1.32 minimum — v1.30/v1.31 are no longer listed)
+   - **Kubernetes Version:** K3s v1.35 (aligned with SUSE Edge 3.6)
    - **Cloud Credential:** `harvester-local`
 
 5. Configure the Node Pool:

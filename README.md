@@ -5,7 +5,7 @@ platform from VMware to **SUSE Virtualization** (Harvester HCI). The lab runs on
 pre-built custom image containing a fully operational 3-node Harvester 1.8.0 cluster
 managed by Rancher Prime 2.14.1 — no waiting for installation during the session.
 
-**Versions:** Harvester 1.8.0 · Rancher Prime 2.14.1 · K3s v1.32 · SLES 16 host  
+**Versions:** Harvester 1.8.0 · Rancher Prime 2.14.1 · K3s v1.35 · SLES 16 host  
 **Duration:** ~3 hours (6 challenges)  
 **Audience:** DevOps engineers, SREs, platform teams evaluating or adopting SUSE Virtualization
 

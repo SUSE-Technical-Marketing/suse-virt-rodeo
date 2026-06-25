@@ -23,7 +23,7 @@ GCP VM (`geekohive`, n2-standard-32, nested virt on) runs four nested KVM guests
   disks). Raise node memory in `libvirt_flavors` on a 90 GB or 128 GiB host.
 
 Harvester is built on **RKE2**. Rancher imports the Harvester cluster. Component
-versions on this branch: Harvester 1.8.0, Rancher Prime 2.14.1, K3s v1.32.
+versions on this branch: Harvester 1.8.0, Rancher Prime 2.14.1, K3s v1.35, cert-manager v1.20.1.
 Host OS and tooling moved to SLES 16.
 
 ## Addressing (memorize this)
