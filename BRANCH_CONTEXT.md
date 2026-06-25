@@ -18,13 +18,13 @@ An Instruqt interactive lab. Learners migrate a fictional airport IT platform
 GCP VM (`geekohive`, n2-standard-32, nested virt on) runs four nested KVM guests:
 
 - `harvester1/2/3` — 8 vCPU, 16 GiB, 270 GB qcow2, Harvester 1.8.0, 5 NICs each
-- `rancher` — 4 vCPU, 8 GiB, 60 GB, K3s + Rancher Prime 2.13.1
+- `rancher` — 4 vCPU, 8 GiB, 60 GB, K3s + Rancher Prime 2.14.1
 - Sized for a 32 vCPU / 64 GB minimum / 950 GB host (guests 28 vCPU / 56 GiB; thin
   disks). Raise node memory in `libvirt_flavors` on a 90 GB or 128 GiB host.
 
 Harvester is built on **RKE2**. Rancher imports the Harvester cluster. Component
-versions are unchanged on this branch (Harvester 1.8.0, Rancher Prime 2.13.1, K3s
-v1.31); only the host OS and tooling moved to SLES 16.
+versions on this branch: Harvester 1.8.0, Rancher Prime 2.14.1, K3s v1.32.
+Host OS and tooling moved to SLES 16.
 
 ## Addressing (memorize this)
 

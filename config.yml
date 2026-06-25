@@ -1,7 +1,7 @@
 version: "3"
 virtualmachines:
 - name: geekohive
-  # Image built from SLES 16 with KVM + 3 Harvester 1.8.0 nodes + K3s/Rancher 2.13.1
+  # Image built from SLES 16 with KVM + 3 Harvester 1.8.0 nodes + K3s v1.32/Rancher 2.14.1
   image: suse/suse-virt-rodeo-180
   shell: /bin/bash
   machine_type: n2-standard-32

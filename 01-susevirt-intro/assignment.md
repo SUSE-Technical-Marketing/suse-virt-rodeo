@@ -44,7 +44,7 @@ It replaces every proprietary VMware component with an open-source equivalent:
 | ESXi | KubeVirt + KVM | KubeVirt v1.7.0 |
 | vSAN | Longhorn distributed storage | Longhorn v1.11.1 |
 | NSX | Kube-OVN + Multus | Kube-OVN v1.15.4 |
-| vCenter | SUSE Rancher Prime | Rancher Prime v2.13.1 |
+| vCenter | SUSE Rancher Prime | Rancher Prime v2.14.1 |
 
 No vendor lock-in. No vTax. No proprietary kernel. One platform, one bill.
 

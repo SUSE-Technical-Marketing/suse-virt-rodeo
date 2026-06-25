@@ -3,9 +3,9 @@
 An Instruqt-based interactive lab where participants migrate a fictional airport IT
 platform from VMware to **SUSE Virtualization** (Harvester HCI). The lab runs on a
 pre-built custom image containing a fully operational 3-node Harvester 1.8.0 cluster
-managed by Rancher Prime 2.13.1 — no waiting for installation during the session.
+managed by Rancher Prime 2.14.1 — no waiting for installation during the session.
 
-**Versions:** Harvester 1.8.0 · Rancher Prime 2.13.1 · K3s v1.31 · SLES 16 host  
+**Versions:** Harvester 1.8.0 · Rancher Prime 2.14.1 · K3s v1.32 · SLES 16 host  
 **Duration:** ~3 hours (6 challenges)  
 **Audience:** DevOps engineers, SREs, platform teams evaluating or adopting SUSE Virtualization
 
@@ -91,7 +91,7 @@ See ARCHITECTURE.md for the full breakdown.
 | harvester1 | 8 | 16 GiB | 270 GB qcow2 | 192.168.122.11 | `alpha.aerogrid.com` | Bootstrap (cluster-init) node |
 | harvester2 | 8 | 16 GiB | 270 GB qcow2 | 192.168.122.12 | `bravo.aerogrid.com` | Join node |
 | harvester3 | 8 | 16 GiB | 270 GB qcow2 | 192.168.122.13 | `charlie.aerogrid.com` | Join node |
-| rancher | 4 | 8 GiB | 60 GB qcow2 | 192.168.122.9 | `rancher.aerogrid.com` | K3s + Rancher Prime 2.13.1 |
+| rancher | 4 | 8 GiB | 60 GB qcow2 | 192.168.122.9 | `rancher.aerogrid.com` | K3s + Rancher Prime 2.14.1 |
 | Harvester VIP | — | — | — | 192.168.122.10 | `virtualization.aerogrid.com` | kube-vip floating VIP, cluster API + UI |
 
 The cluster API/UI live on a **floating kube-vip VIP at `192.168.122.10`** — a free
@@ -433,7 +433,7 @@ chmod +x /root/rodeo/builder/setup-rancher.sh
 ```
 
 The script installs K3s and Helm on the rancher VM, deploys cert-manager and Rancher
-Prime 2.13.1 via Helm, sets the fixed lab admin password `Foobar12345$` (also written
+Prime 2.14.1 via Helm, sets the fixed lab admin password `Foobar12345$` (also written
 to `/root/rancher-password`), exposes Rancher on NodePort 30002, sets the Harvester
 dashboard admin to the same password, creates the Harvester cluster import record in
 Rancher, applies the import manifest to the Harvester cluster, and ejects the installer ISOs

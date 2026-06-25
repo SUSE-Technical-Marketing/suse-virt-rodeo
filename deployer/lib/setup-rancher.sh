@@ -5,8 +5,8 @@
 #
 # Env (all have sensible defaults except where noted):
 #   RANCHER_VM_IP          rancher VM management IP        (default 192.168.122.9)
-#   RANCHER_VERSION        Rancher Prime chart version     (default 2.13.1)
-#   K3S_VERSION            K3s install version             (default v1.31.4+k3s1)
+#   RANCHER_VERSION        Rancher Prime chart version     (default 2.14.1)
+#   K3S_VERSION            K3s install version             (default v1.32.4+k3s1)
 #   HARVESTER_VIP          Harvester floating VIP          (default 192.168.122.10)
 #   CERT_MANAGER_VERSION   cert-manager version            (default v1.16.2)
 #   LAB_ADMIN_PASSWORD     lab admin for Rancher + Harvester dashboards
@@ -16,8 +16,8 @@
 set -euo pipefail
 
 RANCHER_VM_IP="${RANCHER_VM_IP:-192.168.122.9}"
-RANCHER_VERSION="${RANCHER_VERSION:-2.13.1}"
-K3S_VERSION="${K3S_VERSION:-v1.31.4+k3s1}"
+RANCHER_VERSION="${RANCHER_VERSION:-2.14.1}"
+K3S_VERSION="${K3S_VERSION:-v1.32.4+k3s1}"
 HARVESTER_VIP="${HARVESTER_VIP:-192.168.122.10}"
 CERT_MANAGER_VERSION="${CERT_MANAGER_VERSION:-v1.16.2}"
 LAB_ADMIN_PASSWORD="${LAB_ADMIN_PASSWORD:-Foobar12345\$}"
