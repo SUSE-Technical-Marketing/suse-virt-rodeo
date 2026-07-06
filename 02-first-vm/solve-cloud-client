@@ -1,0 +1,132 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source ~/.bashrc
+
+# --- Create virt1 VM ---
+echo ">>> Creating VM 'virt1'..."
+kubectl apply -f - << 'EOF'
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: virt1
+  namespace: default
+  labels:
+    harvesterhci.io/creator: harvester
+    harvesterhci.io/os: linux
+  annotations:
+    harvesterhci.io/volumeClaimTemplates: >-
+      [{"metadata":{"name":"virt1-disk-0","annotations":{"harvesterhci.io/imageId":"default/leap16"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"20Gi"}},"storageClassName":"harvester-longhorn","volumeMode":"Block"}}]
+    network.harvesterhci.io/ips: >-
+      [{"ipAddress":"192.168.122.50","subnetMask":"255.255.255.0","gateway":"192.168.122.1"}]
+spec:
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      annotations:
+        harvesterhci.io/sshNames: '["default/cloud-client"]'
+      labels:
+        harvesterhci.io/vmName: virt1
+    spec:
+      domain:
+        cpu:
+          cores: 2
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+            - name: disk-0
+              disk:
+                bus: virtio
+            - name: cloudinit
+              disk:
+                bus: virtio
+          interfaces:
+            - name: vmnet-iface
+              bridge: {}
+        machine:
+          type: q35
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+      evictionStrategy: LiveMigrate
+      hostname: virt1
+      networks:
+        - name: vmnet-iface
+          multus:
+            networkName: default/vmnet
+      volumes:
+        - name: disk-0
+          dataVolume:
+            name: virt1-disk-0
+        - name: cloudinit
+          cloudInitNoCloud:
+            networkData: |
+              version: 2
+              ethernets:
+                enp1s0:
+                  addresses:
+                    - 192.168.122.50/24
+                  gateway4: 192.168.122.1
+                  nameservers:
+                    addresses:
+                      - 8.8.8.8
+            userData: |
+              #cloud-config
+              ssh_authorized_keys:
+                - $(cat /root/.ssh/id_rsa.pub 2>/dev/null || echo "# no key found")
+  dataVolumeTemplates:
+    - metadata:
+        name: virt1-disk-0
+        annotations:
+          harvesterhci.io/imageId: default/leap16
+      spec:
+        pvc:
+          accessModes:
+            - ReadWriteMany
+          resources:
+            requests:
+              storage: 20Gi
+          storageClassName: harvester-longhorn
+          volumeMode: Block
+        source:
+          blank: {}
+EOF
+
+# Wait for VM to be running (up to 10 minutes — image import takes time)
+echo ">>> Waiting for virt1 to reach Running state (up to 10 minutes)..."
+for i in $(seq 1 60); do
+  READY=$(kubectl get vm virt1 -n default -o jsonpath='{.status.ready}' 2>/dev/null || echo "false")
+  echo "  Ready: ${READY} (attempt ${i}/60)"
+  [ "$READY" = "true" ] && break
+  sleep 10
+done
+
+if [ "$(kubectl get vm virt1 -n default -o jsonpath='{.status.ready}' 2>/dev/null)" != "true" ]; then
+  echo "WARNING: virt1 is not ready yet — the image clone may still be in progress"
+fi
+
+# --- Trigger live migration ---
+echo ">>> Triggering live migration of virt1..."
+kubectl apply -f - << 'EOF'
+apiVersion: kubevirt.io/v1
+kind: VirtualMachineInstanceMigration
+metadata:
+  name: virt1-solve-migration
+  namespace: default
+spec:
+  vmiName: virt1
+EOF
+
+echo ">>> Waiting for migration to complete (up to 5 minutes)..."
+for i in $(seq 1 30); do
+  PHASE=$(kubectl get virtualmachineinstancemigration virt1-solve-migration -n default \
+    -o jsonpath='{.status.phase}' 2>/dev/null || echo "")
+  echo "  Migration phase: ${PHASE} (attempt ${i}/30)"
+  [ "$PHASE" = "Succeeded" ] && break
+  sleep 10
+done
+
+echo ">>> Challenge 02 solve complete."

@@ -4,6 +4,55 @@ set -euo pipefail
 
 source ~/.bashrc
 
-# kubectl context is already configured by the track-level setup script.
-# Verify connectivity before the student starts.
+RANCHER_TOKEN=$(agent variable get RANCHER_TOKEN)
+RANCHER_URL=$(agent variable get RANCHER_URL)
+
+# Harvester is now imported — configure kubectl to talk to it through Rancher.
+# Query by name "harvester" (set during the import challenge), not "local"
+# which is Rancher's own K3s management cluster.
+echo ">>> Configuring kubectl to access Harvester through Rancher..."
+CLUSTER_ID=$(curl -sk \
+  -H "Authorization: Bearer $RANCHER_TOKEN" \
+  "${RANCHER_URL}/v3/clusters?name=harvester" \
+  | jq -r '.data[0].id')
+
+if [ -z "$CLUSTER_ID" ] || [ "$CLUSTER_ID" = "null" ]; then
+  echo "ERROR: Harvester cluster not found in Rancher. Was the import challenge completed?"
+  exit 1
+fi
+
+mkdir -p /root/.kube
+
+kubectl config set-credentials rancher-bearer \
+  --token="$RANCHER_TOKEN"
+
+kubectl config set-cluster susevirt-through-rancher \
+  --server="${RANCHER_URL}/k8s/clusters/${CLUSTER_ID}" \
+  --insecure-skip-tls-verify=true
+
+kubectl config set-context susevirt-through-rancher \
+  --cluster=susevirt-through-rancher \
+  --user=rancher-bearer
+
+kubectl config use-context susevirt-through-rancher
+
+echo ">>> kubectl configured. Cluster nodes:"
 kubectl get nodes
+
+# Register the cloud-client SSH public key as a Harvester KeyPair resource.
+# Challenge 02 uses this key to SSH into virt1.
+if [ -f /root/.ssh/id_rsa.pub ]; then
+  kubectl apply -f - << EOF
+apiVersion: harvesterhci.io/v1beta1
+kind: KeyPair
+metadata:
+  name: cloud-client
+  namespace: default
+spec:
+  publicKey: >-
+    $(cat /root/.ssh/id_rsa.pub)
+EOF
+  echo ">>> SSH KeyPair 'cloud-client' registered."
+fi
+
+echo "Challenge 01 ready."

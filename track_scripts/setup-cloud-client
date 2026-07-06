@@ -224,59 +224,12 @@ else
   echo ">>> _SANDBOX_DNS not set — skipping Rancher server-url update (nginx proxy_redirect active)"
 fi
 
-# Get the Rancher cluster ID for the imported Harvester cluster.
-# Query by name "harvester" (the name setup-rancher.sh imports it under) — NOT
-# "local", which is Rancher's own K3s management cluster. Falls back to the first
-# non-local cluster if the name ever changes.
-echo ">>> Configuring kubectl to access Harvester through Rancher..."
-CLUSTER_ID=$(curl -sk \
-  -H "Authorization: Bearer $RANCHER_TOKEN" \
-  "${RANCHER_URL}/v3/clusters?name=harvester" \
-  | jq -r '.data[0].id')
-
-if [ -z "$CLUSTER_ID" ] || [ "$CLUSTER_ID" = "null" ]; then
-  CLUSTER_ID=$(curl -sk \
-    -H "Authorization: Bearer $RANCHER_TOKEN" \
-    "${RANCHER_URL}/v3/clusters" \
-    | jq -r '.data[] | select(.id != "local") | .id' | head -1)
-fi
-
-mkdir -p /root/.kube
-
-kubectl config set-credentials rancher-bearer \
-  --token="$RANCHER_TOKEN"
-
-kubectl config set-cluster susevirt-through-rancher \
-  --server="${RANCHER_URL}/k8s/clusters/${CLUSTER_ID}" \
-  --insecure-skip-tls-verify=true
-
-kubectl config set-context susevirt-through-rancher \
-  --cluster=susevirt-through-rancher \
-  --user=rancher-bearer
-
-kubectl config use-context susevirt-through-rancher
-
-echo ">>> kubectl configured. Cluster nodes:"
-kubectl get nodes
-
-# Generate SSH key for VM access in later challenges
+# Generate SSH key for VM access in later challenges.
+# kubectl config and KeyPair registration happen in challenge 01 setup, after import.
 if [ ! -f /root/.ssh/id_rsa ]; then
   ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N ""
 fi
 
-# Register public key as a Harvester KeyPair resource
-cat << EOF | kubectl apply -f -
-apiVersion: harvesterhci.io/v1beta1
-kind: KeyPair
-metadata:
-  name: cloud-client
-  namespace: default
-spec:
-  publicKey: >-
-    $(cat /root/.ssh/id_rsa.pub)
-EOF
-
-# SSH config for guest VMs
 mkdir -p /root/.ssh
 cat >> /root/.ssh/config << 'SSHEOF'
 
