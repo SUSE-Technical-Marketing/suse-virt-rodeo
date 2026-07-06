@@ -78,4 +78,13 @@ agent variable set HARVESTER_URL       "https://geekohive:8443"
 agent variable set HARVESTER_NAT_IP    "geekohive"
 agent variable set HARVESTER_PASSWORD  "$RANCHER_PASS"
 
+# DNAT so cloud-client can SSH into the student VM (virt1) via geekohive:2222.
+# virt1 lives on virbr0 (192.168.122.50) which is NAT-only — unreachable from
+# cloud-client without an explicit port-forward on the host.
+# The rule is static: it is safe to add before virt1 exists.
+echo ">>> Adding DNAT rule: geekohive:2222 → 192.168.122.50:22 (virt1 SSH)..."
+firewall-cmd --permanent --zone=public \
+  --add-forward-port=port=2222:proto=tcp:toport=22:toaddr=192.168.122.50 2>/dev/null || true
+firewall-cmd --reload
+
 echo ">>> Agent variables set. Setup complete."

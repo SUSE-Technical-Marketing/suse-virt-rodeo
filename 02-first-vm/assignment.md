@@ -107,7 +107,7 @@ TASK: Confirm virt1 is Operational
 Once `virt1` is `Running`, switch to the [button label="Terminal" variant="success"](tab-0) tab and wait for SSH to come up:
 
 ```bash,run
-until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa opensuse@192.168.122.50 "uname -a" 2>/dev/null; do
+until ssh virt1 "uname -a" 2>/dev/null; do
   echo "Waiting for ground ops VM..."
   sleep 10
 done
@@ -118,7 +118,7 @@ When the kernel info prints, the VM is alive. Cloud-init configured the network 
 Connect and verify:
 
 ```bash,run
-ssh -i ~/.ssh/id_rsa opensuse@192.168.122.50
+ssh virt1
 ```
 
 ```bash,run
@@ -158,7 +158,7 @@ kubectl get vmi virt1 -n default -o jsonpath='{.status.nodeName}'
 Confirm the VM never went offline during the migration:
 
 ```bash,run
-ssh -i ~/.ssh/id_rsa opensuse@192.168.122.50 "hostname && uptime"
+ssh virt1 "hostname && uptime"
 ```
 
 `virt1` moved between nodes with zero downtime. This is the vMotion equivalent, running on open-source KubeVirt — no VMware license required.

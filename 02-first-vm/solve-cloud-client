@@ -5,8 +5,11 @@ set -euo pipefail
 source ~/.bashrc
 
 # --- Create virt1 VM ---
+SSH_PUB_KEY=$(cat /root/.ssh/id_rsa.pub 2>/dev/null || echo "")
+
 echo ">>> Creating VM 'virt1'..."
-kubectl apply -f - << 'EOF'
+# Unquoted heredoc so SSH_PUB_KEY expands; no other $ references in this YAML.
+kubectl apply -f - << EOF
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
@@ -18,8 +21,6 @@ metadata:
   annotations:
     harvesterhci.io/volumeClaimTemplates: >-
       [{"metadata":{"name":"virt1-disk-0","annotations":{"harvesterhci.io/imageId":"default/leap16"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"20Gi"}},"storageClassName":"harvester-longhorn","volumeMode":"Block"}}]
-    network.harvesterhci.io/ips: >-
-      [{"ipAddress":"192.168.122.50","subnetMask":"255.255.255.0","gateway":"192.168.122.1"}]
 spec:
   runStrategy: RerunOnFailure
   template:
@@ -76,7 +77,7 @@ spec:
             userData: |
               #cloud-config
               ssh_authorized_keys:
-                - $(cat /root/.ssh/id_rsa.pub 2>/dev/null || echo "# no key found")
+                - ${SSH_PUB_KEY}
   dataVolumeTemplates:
     - metadata:
         name: virt1-disk-0

@@ -233,6 +233,17 @@ fi
 mkdir -p /root/.ssh
 cat >> /root/.ssh/config << 'SSHEOF'
 
+# virt1 lives on geekohive's internal KVM bridge (192.168.122.50).
+# geekohive DNATs port 2222 → 192.168.122.50:22 so cloud-client can reach it.
+# This entry must come before the Host virt* wildcard.
+Host virt1
+  HostName geekohive
+  Port 2222
+  User opensuse
+  IdentityFile ~/.ssh/id_rsa
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+
 Host virt*
   User opensuse
   IdentityFile ~/.ssh/id_rsa
