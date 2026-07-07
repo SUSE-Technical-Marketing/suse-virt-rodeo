@@ -2,10 +2,10 @@
 
 An Instruqt-based interactive lab where participants migrate a fictional airport IT
 platform from VMware to **SUSE Virtualization** (Harvester HCI). The lab runs on a
-pre-built custom image containing a fully operational 3-node Harvester 1.8.0 cluster
+pre-built custom image containing a fully operational 3-node Harvester 1.8.1 cluster
 managed by Rancher Prime 2.14.1 — no waiting for installation during the session.
 
-**Versions:** Harvester 1.8.0 · Rancher Prime 2.14.1 · K3s v1.35 · SLES 16 host  
+**Versions:** Harvester 1.8.1 · Rancher Prime 2.14.1 · K3s v1.35 · SLES 16 host  
 **Duration:** ~3 hours (6 challenges)  
 **Audience:** DevOps engineers, SREs, platform teams evaluating or adopting SUSE Virtualization
 
@@ -400,7 +400,7 @@ What this does:
   (`virtqemud` et al), configures firewalld with native port-forwarding for the UI
   DNAT (NAT mode), enables IP forwarding
 - **vms:** redefines virbr0 with static DHCP host entries, creates qcow2 disks
-  (3x 270 GB Harvester, 1x 60 GB Rancher), downloads Harvester 1.8.0 ISO, renders
+  (3x 270 GB Harvester, 1x 60 GB Rancher), downloads Harvester 1.8.1 ISO, renders
   per-node config ISOs from template, creates Rancher cloud-init ISO, defines all
   4 KVM VMs in libvirt
 
@@ -447,7 +447,7 @@ curl -sk https://192.168.122.9:30002/ping | grep -q "pong" && echo "Rancher OK"
 ### Step 6 — Install the Harvester UI plugin
 
 In Rancher, navigate to **local cluster > Apps** and install the Harvester UI plugin
-version 1.8.0. The plugin version must match the Harvester cluster version exactly.
+version 1.8.1. The plugin version must match the Harvester cluster version exactly.
 
 ### Step 7 — Pre-load the openSUSE Leap 16 KVM image
 
@@ -504,7 +504,7 @@ All four VMs must show `shut off` before saving.
 **Rancher:**
 - [ ] Rancher pods Ready in `cattle-system`
 - [ ] Harvester cluster shows Active in Rancher Virtualization Management
-- [ ] Harvester UI plugin v1.8.0 installed
+- [ ] Harvester UI plugin v1.8.1 installed
 - [ ] `/root/rancher-password` exists on geekohive
 
 **Harvester content:**
@@ -629,7 +629,7 @@ and restored (clean) — for comparison.
 The challenge ends with an inspection of the Longhorn backup target configuration
 (S3/NFS), which covers the ICAO off-site retention requirement.
 
-A callout introduces Harvester 1.8.0's new **in-place storage live migration**
+A callout introduces Harvester 1.8.1's new **in-place storage live migration**
 feature — moving a running VM's disk between storage backends without stopping the VM.
 
 **VMware equivalent:** Longhorn StorageClasses replace vSAN storage policies; VM

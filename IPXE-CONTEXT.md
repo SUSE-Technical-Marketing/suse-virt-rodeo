@@ -1,7 +1,7 @@
 ## iPXE PXE Boot Implementation — Harvester Rodeo
 
 ### Objective
-Configure geekohive (SLES 16 KVM host) to install Harvester 1.8.0 on 3 nested KVM guests via iPXE instead of ISO boot. Harvester 1.8.0 requires UEFI; legacy BIOS PXE is not supported.
+Configure geekohive (SLES 16 KVM host) to install Harvester 1.8.1 on 3 nested KVM guests via iPXE instead of ISO boot. Harvester 1.8.1 requires UEFI; legacy BIOS PXE is not supported.
 
 ### Components added
 
@@ -31,8 +31,8 @@ Stage 2 — iPXE loaded (user-class=iPXE):
                → boot file: http://192.168.122.1:8080/ipxe/<nodename> (HTTP)
   iPXE script runs:
     dhcp
-    kernel http://.../harvester-v1.8.0-vmlinuz-amd64 [cmdline]
-    initrd http://.../harvester-v1.8.0-initrd-amd64
+    kernel http://.../harvester-v1.8.1-vmlinuz-amd64 [cmdline]
+    initrd http://.../harvester-v1.8.1-initrd-amd64
     boot
 ```
 
@@ -58,7 +58,7 @@ Template: `ansible/roles/pxe_server/templates/ipxe-node.j2`
 Key kernel parameters:
 ```
 ip=dhcp rd.net.dhcp.retry=30 rd.cos.disable rd.noverifyssl net.ifnames=1
-root=live:http://192.168.122.1:8080/harvester/harvester-v1.8.0-rootfs-amd64.squashfs
+root=live:http://192.168.122.1:8080/harvester/harvester-v1.8.1-rootfs-amd64.squashfs
 console=ttyS0,115200n8
 harvester.install.automatic=true
 harvester.install.skipchecks=true
@@ -71,7 +71,7 @@ harvester.install.config_url=http://192.168.122.1:8080/config/config-<nodename>.
 
 Template: `ansible/roles/pxe_server/templates/config-node.yaml.j2`
 Mirrors `ansible/roles/vms/templates/harvester-config.yaml.j2` with two additions:
-- `iso_url: http://192.168.122.1:8080/harvester/harvester-v1.8.0-amd64.iso` (installer fetches ISO over HTTP)
+- `iso_url: http://192.168.122.1:8080/harvester/harvester-v1.8.1-amd64.iso` (installer fetches ISO over HTTP)
 - `tty: ttyS0`
 
 harvester1: `mode: create`, static IP `.11`, VIP `.10`, `server_url: ""`
@@ -98,10 +98,10 @@ Rationale: disk-first prevents re-installation on every reboot. On first boot th
 
 /srv/harvester-pxe/
 ├── harvester/
-│   ├── harvester-v1.8.0-vmlinuz-amd64
-│   ├── harvester-v1.8.0-initrd-amd64
-│   ├── harvester-v1.8.0-rootfs-amd64.squashfs
-│   └── harvester-v1.8.0-amd64.iso  → symlink to /var/lib/libvirt/images/
+│   ├── harvester-v1.8.1-vmlinuz-amd64
+│   ├── harvester-v1.8.1-initrd-amd64
+│   ├── harvester-v1.8.1-rootfs-amd64.squashfs
+│   └── harvester-v1.8.1-amd64.iso  → symlink to /var/lib/libvirt/images/
 ├── ipxe/
 │   ├── harvester1
 │   ├── harvester2

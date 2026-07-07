@@ -8,7 +8,7 @@ graph TB
 
             subgraph VIRBR["virbr0  ·  libvirt NAT  ·  192.168.122.0/24  ·  VIP .10 (kube-vip, floating)"]
                 direction TB
-                subgraph HVC["Harvester 1.8.0  —  3-node HA cluster"]
+                subgraph HVC["Harvester 1.8.1  —  3-node HA cluster"]
                     direction LR
                     H1["harvester1  ·  .11\n8 vCPU · 16 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]
                     H2["harvester2  ·  .12\n8 vCPU · 16 GiB · 270 GB\neth0 mgmt  ·  eth1 storage\neth2 migration\neth3 service1  ·  eth4 service2"]

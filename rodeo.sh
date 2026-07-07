@@ -388,8 +388,8 @@ phase_5_checklist() {
          Harvester UI → Advanced → Settings → longhorn-v2-data-engine → false
          Reason: V2/SPDK requires NVMe — virtio-blk in nested KVM is not supported.
 
-  [ ] 2. Install Harvester UI plugin v1.8.0 in Rancher
-         Rancher UI → Extensions → enable Harvester repo → install v1.8.0
+  [ ] 2. Install Harvester UI plugin v1.8.1 in Rancher
+         Rancher UI → Extensions → enable Harvester repo → install v1.8.1
          Reason: plugin version must match the cluster version exactly.
 
   [ ] 3. Pre-load the openSUSE Leap 16 KVM image into Harvester (kvm-and-xen variant —

@@ -1,4 +1,4 @@
-# Harvester 1.8.0 unattended install config — node2 (join node)
+# Harvester 1.8.1 unattended install config — node2 (join node)
 # Ref: https://docs.harvesterhci.io/v1.8/install/harvester-configuration/
 #
 # Joins the cluster bootstrapped by harvester1.

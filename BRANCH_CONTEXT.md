@@ -17,13 +17,13 @@ An Instruqt interactive lab. Learners migrate a fictional airport IT platform
 ("AeroGrid Operations") from VMware to SUSE Virtualization (Harvester HCI). A single
 GCP VM (`geekohive`, n2-standard-32, nested virt on) runs four nested KVM guests:
 
-- `harvester1/2/3` — 8 vCPU, 16 GiB, 270 GB qcow2, Harvester 1.8.0, 5 NICs each
+- `harvester1/2/3` — 8 vCPU, 16 GiB, 270 GB qcow2, Harvester 1.8.1, 5 NICs each
 - `rancher` — 4 vCPU, 8 GiB, 60 GB, K3s + Rancher Prime 2.14.1
 - Sized for a 32 vCPU / 64 GB minimum / 950 GB host (guests 28 vCPU / 56 GiB; thin
   disks). Raise node memory in `libvirt_flavors` on a 90 GB or 128 GiB host.
 
 Harvester is built on **RKE2**. Rancher imports the Harvester cluster. Component
-versions on this branch: Harvester 1.8.0, Rancher Prime 2.14.1, K3s v1.35, cert-manager v1.20.1.
+versions on this branch: Harvester 1.8.1, Rancher Prime 2.14.1, K3s v1.35, cert-manager v1.20.1.
 Host OS and tooling moved to SLES 16.
 
 ## Addressing (memorize this)
@@ -112,7 +112,7 @@ host with no Instruqt. NAT or bridge networking selectable. SUSE-family only.
     (.9), `alpha.aerogrid.com` (.11), `bravo.aerogrid.com` (.12),
     `charlie.aerogrid.com` (.13).
 - **ISO URL fix:** Harvester ISOs are on `releases.rancher.com`, not GitHub
-  releases. `images.yml` corrected + SHA-512 checksum pinned for v1.8.0.
+  releases. `images.yml` corrected + SHA-512 checksum pinned for v1.8.1.
 - **Deployer race fix:** `start-vms.sh` now waits for all 3 nodes to reach
   `Ready` (kubectl poll via SSH-fetched kubeconfig) before handing off to
   `setup-rancher.sh`. Previously it exited after only the VIP responded.

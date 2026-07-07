@@ -2,7 +2,7 @@
 
 Nested KVM on Instruqt. Students get three browser tabs pointing at live UIs. This document explains the full stack: what runs where, how traffic reaches the student, and what needs to be right in the image for it to work.
 
-**Versions:** Harvester 1.8.0 · Rancher Prime 2.14.1 (K3s) · SLES 16 host (modular libvirt daemons)
+**Versions:** Harvester 1.8.1 · Rancher Prime 2.14.1 (K3s) · SLES 16 host (modular libvirt daemons)
 
 ---
 
@@ -145,7 +145,7 @@ needed — but suspect MTU first if large-payload inter-node transfers ever hang
 
 ### Harvester install via iPXE (not ISO-first boot)
 
-The `pxe_server` Ansible role provisions network boot on virbr0. Harvester 1.8.0
+The `pxe_server` Ansible role provisions network boot on virbr0. Harvester 1.8.1
 requires UEFI; legacy BIOS PXE is not supported.
 
 ```
@@ -301,7 +301,7 @@ Rancher K3s NodePort.
 - KVM VMs have stable UUIDs (set in `ansible/roles/vms/defaults/main.yml`)
 - firewalld permanent port-forwards (NAT mode) DNATing the UI ports to the guests
 - Harvester already imported into Rancher (not provisioned — import model)
-- Harvester UI plugin v1.8.0 installed in Rancher
+- Harvester UI plugin v1.8.1 installed in Rancher
 - openSUSE Leap 16 qcow2 image pre-loaded into Harvester
 - Serial console logs at `/var/log/libvirt/qemu/<vm>_serial.log` (file-based, not pty)
 
@@ -373,11 +373,11 @@ These cannot be done at sandbox startup — too slow or require pre-provisioning
 
 | Item | Why it must be baked |
 |------|---------------------|
-| Harvester 1.8.0 — 3-node cluster, fully formed | Bootstrap takes 45-90 min |
+| Harvester 1.8.1 — 3-node cluster, fully formed | Bootstrap takes 45-90 min |
 | Rancher Prime 2.14.1 on K3s — Harvester imported | Import flow is interactive |
 | `/root/.kube/harvester.yaml` | Generated after cluster forms |
 | `/root/rancher-password` | Set during image prep |
-| Harvester UI plugin v1.8.0 in Rancher | Must match Harvester version exactly |
+| Harvester UI plugin v1.8.1 in Rancher | Must match Harvester version exactly |
 | openSUSE Leap 16 KVM image in Harvester (`kvm-and-xen` variant) | Download during startup would stall students; `Cloud` variant fails without a metadata endpoint |
 | firewalld permanent port-forwards (8443/30002 → guests) | Must survive reboots |
 | KVM VMs defined in libvirt XML | shut off, not suspended |
@@ -432,7 +432,7 @@ log path, and the exact `--from N` command to resume.
    This configures the KVM host AND prepares all VM assets:
    - libvirt network (virbr0) redefined with static DHCP entries
    - 3x 270 GB Harvester qcow2 disks + 60 GB Rancher disk
-   - Harvester 1.8.0 ISO downloaded
+   - Harvester 1.8.1 ISO downloaded
    - Per-node Harvester config ISOs rendered from template
    - Rancher cloud-init ISO generated
    - All 4 VMs defined in libvirt XML (not yet started)
@@ -445,7 +445,7 @@ log path, and the exact `--from N` command to resume.
 5. Run: ./setup-rancher.sh
    Installs K3s + Rancher Prime 2.14.1, imports Harvester cluster,
    ejects installer ISOs from all Harvester VMs
-6. Install Harvester UI plugin v1.8.0 in Rancher
+6. Install Harvester UI plugin v1.8.1 in Rancher
 7. Pre-load openSUSE Leap 16 image into Harvester
 8. Shut off all KVM VMs: virsh shutdown harvester1 harvester2 harvester3 rancher
 9. Save image via Instruqt CLI: instruqt track image create
@@ -485,7 +485,7 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 - [ ] modular libvirt daemons active: `systemctl is-active virtqemud.socket virtnetworkd.socket`
 
 **Harvester cluster:**
-- [ ] 3 Harvester 1.8.0 nodes installed and clustered
+- [ ] 3 Harvester 1.8.1 nodes installed and clustered
 - [ ] `kubectl get nodes --kubeconfig /root/.kube/harvester.yaml` → 3 Ready
 - [ ] Harvester VIP responds: `curl -sk https://192.168.122.10/ping` (VIP serves on 443)
 - [ ] VIP is floating, not a node IP: `ssh -i /root/.ssh/id_ed25519 rancher@192.168.122.10 "ip a"` lands on the current leader
@@ -494,7 +494,7 @@ The student runs the port-forward in challenge 06. This is intentional: it is th
 - [ ] K3s running on rancher VM (192.168.122.9)
 - [ ] Rancher Prime 2.14.1 pods Ready in cattle-system namespace
 - [ ] Harvester cluster visible in Rancher → Virtualization Management
-- [ ] Harvester UI plugin v1.8.0 installed
+- [ ] Harvester UI plugin v1.8.1 installed
 - [ ] `/root/rancher-password` file exists with admin password
 
 **Harvester content:**

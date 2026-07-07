@@ -1,4 +1,4 @@
-# Harvester 1.8.0 unattended install config — node1 (bootstrap / cluster creator)
+# Harvester 1.8.1 unattended install config — node1 (bootstrap / cluster creator)
 # Ref: https://docs.harvesterhci.io/v1.8/install/harvester-configuration/
 #
 # This node creates the cluster and sets the kube-vip VIP.

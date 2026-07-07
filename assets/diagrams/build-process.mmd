@@ -6,7 +6,7 @@ flowchart TD
     subgraph ANSIBLE["🔧 ansible-playbook — runs both roles"]
         A1["kvm_host role\n• KVM packages via zypper\n• virtqemud: security_driver=none\n• IP forwarding\n• firewalld port-forward (DNAT)\n• firewalld rules"]:::role
         FLUSH["meta: flush_handlers\n(restart virtqemud before vms role)"]:::flush
-        A2["vms role\n• Redefine virbr0 with static DHCP\n• Storage pool check\n• Download Harvester 1.8.0 ISO\n• Create 3×270GB + 60GB qcow2\n• Render Harvester config ISOs\n• Create Rancher cloud-init ISO\n• Define 4 KVM VMs (idempotent)"]:::role
+        A2["vms role\n• Redefine virbr0 with static DHCP\n• Storage pool check\n• Download Harvester 1.8.1 ISO\n• Create 3×270GB + 60GB qcow2\n• Render Harvester config ISOs\n• Create Rancher cloud-init ISO\n• Define 4 KVM VMs (idempotent)"]:::role
         A1 --> FLUSH --> A2
     end
 
@@ -16,7 +16,7 @@ flowchart TD
 
     S5["setup-rancher.sh\n• Install K3s + Helm on rancher VM\n• Deploy Rancher Prime 2.13.1\n• Set admin password\n• Import Harvester cluster\n• Eject installer ISOs"]:::step
 
-    S6["Manual steps\n• Install Harvester UI plugin v1.8.0\n• Upload openSUSE Leap 16 image"]:::manual
+    S6["Manual steps\n• Install Harvester UI plugin v1.8.1\n• Upload openSUSE Leap 16 image"]:::manual
 
     S7["Verify build checklist\n• 3 nodes Ready\n• Rancher cluster Active\n• UI plugin installed\n• Leap 16 image active"]:::check
 

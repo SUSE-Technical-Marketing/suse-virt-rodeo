@@ -9,7 +9,7 @@ environment with no waiting.
 
 - SLES 16 host OS (geekohive VM) — modular libvirt daemons, SELinux, firewalld/nftables
 - KVM + libvirt + supporting tools
-- 3x Harvester 1.8.0 nodes (harvester1, harvester2, harvester3) — clustered, shut off
+- 3x Harvester 1.8.1 nodes (harvester1, harvester2, harvester3) — clustered, shut off
 - 1x Rancher Prime 2.13.1 on K3s (rancher VM) — Harvester already imported, shut off
 - All disk images in `/var/lib/libvirt/images/`
 - Each Harvester node has five NICs on virbr0: eth0 (management) + eth1-4

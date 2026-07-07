@@ -163,10 +163,10 @@ kubectl get settings.harvesterhci.io backup-target -o yaml
 
 In a production AeroGrid deployment, this would point to MinIO, AWS S3, or an NFS share at a separate facility. The backup engine is Longhorn-native and can restore full VMs or individual volumes from the off-site target. ICAO retention compliance requires this to be configured and tested before go-live.
 
-What's New in 1.8.0: In-Place Storage Live Migration
+What's New in 1.8: In-Place Storage Live Migration
 ===
 
-SUSE Virtualization 1.8.0 adds the ability to move a running VM's disk between storage backends — for example from Longhorn to an external CSI volume — without stopping the VM. This is called **in-place storage live migration** and is the storage equivalent of compute live migration. It is not covered in this challenge but is available in **Advanced > Volumes** on any running VM once the feature is enabled.
+SUSE Virtualization 1.8 introduced the ability to move a running VM's disk between storage backends — for example from Longhorn to an external CSI volume — without stopping the VM. This is called **in-place storage live migration** and is the storage equivalent of compute live migration. It is not covered in this challenge but is available in **Advanced > Volumes** on any running VM once the feature is enabled.
 
 Verify Replica Distribution Across Nodes
 ===
