@@ -17,9 +17,14 @@ EOF
 
 # --- NodeNetworkConfig: eth3 on alpha, bravo, charlie ---
 # Node hostnames come from definition.yaml: harvester1=alpha, harvester2=bravo, harvester3=charlie
+# --validate=false bypasses client-side CRD discovery; after import the kubeconfig
+# context may be Rancher-proxied which doesn't list Harvester CRDs in its discovery.
+echo ">>> Available network.harvesterhci.io resources:"
+kubectl api-resources --api-group=network.harvesterhci.io --no-headers 2>/dev/null | awk '{print "  "$1}' || echo "  (discovery failed)"
+
 for NODE in alpha bravo charlie; do
   echo ">>> Configuring eth3 uplink on node ${NODE}..."
-  kubectl apply -f - << EOF
+  kubectl apply --validate=false -f - << EOF
 apiVersion: network.harvesterhci.io/v1beta1
 kind: NodeNetworkConfig
 metadata:
