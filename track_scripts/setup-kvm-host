@@ -9,8 +9,15 @@ until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
   sleep 2
 done
 
-echo ">>> Starting SUSE Virtualization KVM cluster..."
-"$RODEO" start --yes --all --config-dir "$LAB_DIR"
+# VMs may already be running if the image was baked with autostart enabled.
+# virsh counts running domains; if all 4 are up, skip rodeo start entirely.
+RUNNING=$(virsh list --name 2>/dev/null | grep -cE "harvester|rancher" || true)
+if [ "${RUNNING}" -ge 4 ]; then
+  echo ">>> VMs already running (${RUNNING} detected) — skipping rodeo start..."
+else
+  echo ">>> Starting SUSE Virtualization KVM cluster..."
+  "$RODEO" start --yes --all --config-dir "$LAB_DIR"
+fi
 
 echo ">>> Waiting for Harvester nodes (up to 90 minutes)..."
 export KUBECONFIG=/root/.kube/harvester.yaml
