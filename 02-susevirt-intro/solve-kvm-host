@@ -13,9 +13,6 @@ apiVersion: network.harvesterhci.io/v1beta1
 kind: ClusterNetwork
 metadata:
   name: vms
-spec:
-  enable: true
-  mtu: 1500
 EOF
 
 # --- NodeNetworkConfig: eth3 on alpha, bravo, charlie ---
