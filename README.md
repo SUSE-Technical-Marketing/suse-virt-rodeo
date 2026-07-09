@@ -781,7 +781,7 @@ If a LoadBalancer service stays in `<pending>`, verify the `rodeo-ippool` exists
 is scoped to the correct VM network:
 
 ```bash
-kubectl get ippools.network.harvesterhci.io -n default -o yaml
+kubectl get ippools.loadbalancer.harvesterhci.io -n default -o yaml
 ```
 
 The selector must reference `default/vmnet`.

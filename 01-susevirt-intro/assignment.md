@@ -123,9 +123,9 @@ In the [button label="Harvester UI" variant="success"](tab-2) tab:
 2. Set the name to `vms`
 3. Under **Node Network Config**, add an entry for each node:
    - Click **Add**
-   - Select a node (e.g., `harvester1`)
+   - Select a node (e.g., `alpha`)
    - Set **NIC** to `eth3`
-   - Repeat for `harvester2` and `harvester3`
+   - Repeat for `bravo` and `charlie`
 4. Click **Create**
 
 Wait for all three node configs to show `Active` before continuing.
@@ -178,7 +178,7 @@ In the [button label="Harvester UI" variant="success"](tab-2) tab:
 Verify:
 
 ```bash,run
-kubectl get ippools.network.harvesterhci.io -n default
+kubectl get ippools.loadbalancer.harvesterhci.io -n default
 ```
 
 `rodeo-ippool` should be listed. The cluster is ready to provision workloads and expose services.

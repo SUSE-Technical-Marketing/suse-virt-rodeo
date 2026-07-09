@@ -4,57 +4,39 @@ set -euo pipefail
 
 source ~/.bashrc
 
-RANCHER_PASSWORD=$(agent variable get RANCHER_PASSWORD)
-
-echo ">>> Getting Harvester API token..."
-HARV_TOKEN=$(curl -sk -X POST \
-  -H "Content-Type: application/json" \
-  "https://192.168.122.10/v3-public/localProviders/local?action=login" \
-  -d "{\"username\":\"admin\",\"password\":\"${RANCHER_PASSWORD}\",\"ttl\":600000}" \
-  | jq -r '.token // empty')
-
-if [ -z "$HARV_TOKEN" ]; then
-  echo "ERROR: Failed to get Harvester API token"
-  exit 1
-fi
+export KUBECONFIG=/root/.kube/harvester.yaml
 
 # --- ClusterNetwork: vms ---
 echo ">>> Creating 'vms' cluster network..."
-curl -sk -X POST \
-  -H "Authorization: Bearer $HARV_TOKEN" \
-  -H "Content-Type: application/json" \
-  "https://192.168.122.10/v1/network.harvesterhci.io.clusternetworks" \
-  -d '{
-    "apiVersion": "network.harvesterhci.io/v1beta1",
-    "kind": "ClusterNetwork",
-    "metadata": {"name": "vms"},
-    "spec": {"enable": true, "mtu": 1500}
-  }' > /dev/null || echo "  (vms may already exist)"
+kubectl apply -f - << 'EOF'
+apiVersion: network.harvesterhci.io/v1beta1
+kind: ClusterNetwork
+metadata:
+  name: vms
+spec:
+  enable: true
+  mtu: 1500
+EOF
 
 # --- NodeNetworkConfig: eth3 on alpha, bravo, charlie ---
+# Node hostnames come from definition.yaml: harvester1=alpha, harvester2=bravo, harvester3=charlie
 for NODE in alpha bravo charlie; do
   echo ">>> Configuring eth3 uplink on node ${NODE}..."
-  curl -sk -X POST \
-    -H "Authorization: Bearer $HARV_TOKEN" \
-    -H "Content-Type: application/json" \
-    "https://192.168.122.10/v1/namespaces/harvester-system/network.harvesterhci.io.nodenetworkconfigs" \
-    -d "{
-      \"apiVersion\": \"network.harvesterhci.io/v1beta1\",
-      \"kind\": \"NodeNetworkConfig\",
-      \"metadata\": {
-        \"name\": \"${NODE}\",
-        \"namespace\": \"harvester-system\",
-        \"labels\": {\"network.harvesterhci.io/clusternetwork\": \"vms\"}
-      },
-      \"spec\": {
-        \"clusterNetwork\": \"vms\",
-        \"uplinks\": {
-          \"bondMode\": \"active-backup\",
-          \"linkAttributes\": {\"txQueueLen\": -1, \"mtu\": 0},
-          \"nics\": [{\"name\": \"eth3\"}]
-        }
-      }
-    }" > /dev/null || echo "  (${NODE} config may already exist)"
+  kubectl apply -f - << EOF
+apiVersion: network.harvesterhci.io/v1beta1
+kind: NodeNetworkConfig
+metadata:
+  name: ${NODE}
+  namespace: harvester-system
+  labels:
+    network.harvesterhci.io/clusternetwork: vms
+spec:
+  uplinks:
+    - clusterNetwork: vms
+      nics:
+        - eth3
+      bondMode: active-backup
+EOF
 done
 
 echo ">>> Waiting 15s for cluster network to initialise..."
@@ -95,10 +77,11 @@ spec:
 EOF
 
 echo ">>> Verifying resources..."
-kubectl get clusternetworks.network.harvesterhci.io vms 2>/dev/null && echo "  vms cluster network OK" || echo "  WARNING: vms cluster network not found — check ClusterNetwork API"
-kubectl get network-attachment-definitions vmnet -n default 2>/dev/null && echo "  vmnet OK" || echo "  WARNING: vmnet not found"
+kubectl get clusternetworks.network.harvesterhci.io vms 2>/dev/null \
+  && echo "  vms cluster network OK" || echo "  WARNING: vms cluster network not found"
+kubectl get network-attachment-definitions vmnet -n default 2>/dev/null \
+  && echo "  vmnet OK" || echo "  WARNING: vmnet not found"
 kubectl get ippools.loadbalancer.harvesterhci.io rodeo-ippool -n default 2>/dev/null \
-  || kubectl get ippools.network.harvesterhci.io rodeo-ippool -n default 2>/dev/null \
   && echo "  rodeo-ippool OK" || echo "  WARNING: rodeo-ippool not found"
 
 echo ">>> Challenge 01 solve complete."
