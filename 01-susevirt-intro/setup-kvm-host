@@ -39,20 +39,20 @@ kubectl config use-context susevirt-through-rancher
 echo ">>> kubectl configured. Cluster nodes:"
 kubectl get nodes
 
-# Register the cloud-client SSH public key as a Harvester KeyPair resource.
+# Register the kvm-host SSH public key as a Harvester KeyPair resource.
 # Challenge 02 uses this key to SSH into virt1.
 if [ -f /root/.ssh/id_rsa.pub ]; then
   kubectl apply -f - << EOF
 apiVersion: harvesterhci.io/v1beta1
 kind: KeyPair
 metadata:
-  name: cloud-client
+  name: kvm-host
   namespace: default
 spec:
   publicKey: >-
     $(cat /root/.ssh/id_rsa.pub)
 EOF
-  echo ">>> SSH KeyPair 'cloud-client' registered."
+  echo ">>> SSH KeyPair 'kvm-host' registered."
 fi
 
 echo "Challenge 01 ready."

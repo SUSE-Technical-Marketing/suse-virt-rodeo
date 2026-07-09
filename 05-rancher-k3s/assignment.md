@@ -8,20 +8,19 @@ tabs:
 - id: tab-terminal
   title: Terminal
   type: terminal
-  hostname: cloud-client
-  cmd: su - root
+  hostname: kvm-host
 - id: tab-rancher
   title: Rancher UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 91
+  port: 30002
 - id: tab-harvester
   title: Harvester UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 90
+  port: 8443
 difficulty: intermediate
 timelimit: 3600
 enhanced_loading: null

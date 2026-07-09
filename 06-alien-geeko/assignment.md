@@ -8,26 +8,25 @@ tabs:
 - id: tab-terminal
   title: Terminal
   type: terminal
-  hostname: cloud-client
-  cmd: su - root
+  hostname: kvm-host
 - id: tab-rancher
   title: Rancher UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 91
+  port: 30002
 - id: tab-harvester
   title: Harvester UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 90
+  port: 8443
 - id: tab-nostromo
   title: AeroGrid NOC
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 92
+  port: 8092
 difficulty: basic
 timelimit: 2400
 enhanced_loading: null
@@ -229,7 +228,7 @@ TASK: Open the NOC Dashboard Tab
 The dashboard is running. Port-forward it to the NOC tab so the AeroGrid team has live cluster visibility.
 
 ```bash,run
-kubectl port-forward -n alien-geeko svc/alien-geeko 92:80 --address=0.0.0.0 &
+kubectl port-forward -n alien-geeko svc/alien-geeko 8092:80 --address=0.0.0.0 &
 ```
 
 > [!NOTE]
@@ -298,7 +297,7 @@ Bare metal (3 nodes)
   └── SUSE Virtualization (KubeVirt + Longhorn + Kube-OVN)
         └── checkin-cluster VM (K3s, provisioned by Rancher)
               └── alien-geeko (NOC dashboard, LoadBalancer via rodeo-ippool)
-                    └── Port-forward → NOC tab (port 92)
+                    └── Port-forward → NOC tab (port 8092)
 ```
 
 Every component is open source. Every component is SUSE-supported. No VMware. No Broadcom invoice. AeroGrid's platform is live.

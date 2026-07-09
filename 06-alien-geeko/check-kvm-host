@@ -18,9 +18,9 @@ if [ "$POD_STATUS" != "Running" ]; then
   exit 1
 fi
 
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 3 http://localhost:92/health 2>/dev/null || echo "000")
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 3 http://localhost:8092/health 2>/dev/null || echo "000")
 if [ "$HTTP_STATUS" != "200" ]; then
-  fail-message "The NOC dashboard tab is not active (HTTP ${HTTP_STATUS}). Run: kubectl port-forward -n alien-geeko svc/alien-geeko 92:80 --address=0.0.0.0 &"
+  fail-message "The NOC dashboard tab is not active (HTTP ${HTTP_STATUS}). Run: kubectl port-forward.*alien-geeko.*8092:80 --address=0.0.0.0 &"
   exit 1
 fi
 

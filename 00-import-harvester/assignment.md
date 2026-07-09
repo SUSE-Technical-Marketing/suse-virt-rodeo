@@ -8,20 +8,19 @@ tabs:
 - id: tab-terminal
   title: Terminal
   type: terminal
-  hostname: cloud-client
-  cmd: su - root
+  hostname: kvm-host
 - id: tab-rancher
   title: Rancher UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 91
+  port: 30002
 - id: tab-harvester
   title: Harvester UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 90
+  port: 8443
 difficulty: basic
 timelimit: 1800
 enhanced_loading: null
@@ -43,8 +42,8 @@ Your Lab Environment
 Open the [button label="Terminal" variant="success"](tab-0) tab and verify the cluster is reachable:
 
 ```bash,run
-curl -sk https://geekohive:8443/v1 | jq -r '.apiVersion'
-curl -sk https://geekohive:30002/v3 | jq -r '.type'
+curl -sk https://192.168.122.10/v1 | jq -r '.apiVersion'
+curl -sk https://192.168.122.9:30002/v3 | jq -r '.type'
 ```
 
 Both should return without error — `management.cattle.io/v3` and `collection`. The backends are up.
@@ -56,7 +55,7 @@ Open the [button label="Rancher UI" variant="success"](tab-1) tab.
 
 Log in with:
 - **Username:** `admin`
-- **Password:** `[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="cloud-client" ]]`
+- **Password:** `[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]`
 
 You will land on the Rancher home screen. There is one cluster listed: **local** — that is Rancher's own K3s management cluster, not the SUSE Virtualization platform. It has no Virtualization Management section yet because no Harvester cluster is imported.
 
@@ -71,7 +70,7 @@ In the [button label="Rancher UI" variant="success"](tab-1) tab:
 4. Click **Create**
 
 Rancher now shows a registration URL. It looks like:
-`https://geekohive:30002/v3/import/xxxxx_c-xxxxx.yaml`
+`https://192.168.122.9:30002/v3/import/xxxxx_c-xxxxx.yaml`
 
 Copy this URL. You need it in the next step.
 

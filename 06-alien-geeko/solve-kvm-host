@@ -165,13 +165,13 @@ echo ">>> Waiting for rollout..."
 kubectl rollout status deployment/alien-geeko -n alien-geeko --timeout=120s
 
 # Start port-forward in background so the NOC tab works
-pkill -f "port-forward.*alien-geeko.*92:80" 2>/dev/null || true
-kubectl port-forward -n alien-geeko svc/alien-geeko 92:80 --address=0.0.0.0 &
+pkill -f "port-forward.*8092:80" 2>/dev/null || true
+kubectl port-forward -n alien-geeko svc/alien-geeko 8092:80 --address=0.0.0.0 &
 sleep 3
 
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 http://localhost:92/health 2>/dev/null || echo "000")
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 http://localhost:8092/health 2>/dev/null || echo "000")
 if [ "$HTTP_STATUS" = "200" ]; then
-  echo ">>> NOC dashboard is live at port 92 (health: $HTTP_STATUS)."
+  echo ">>> NOC dashboard is live at port 8092 (health: $HTTP_STATUS)."
 else
   echo "WARNING: Health check returned $HTTP_STATUS — port-forward may still be starting"
 fi

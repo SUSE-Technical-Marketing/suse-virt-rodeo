@@ -8,20 +8,19 @@ tabs:
 - id: tab-terminal
   title: Terminal
   type: terminal
-  hostname: cloud-client
-  cmd: su - root
+  hostname: kvm-host
 - id: tab-rancher
   title: Rancher UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 91
+  port: 30002
 - id: tab-harvester
   title: Harvester UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 90
+  port: 8443
 difficulty: basic
 timelimit: 2400
 enhanced_loading: null
@@ -56,7 +55,7 @@ Open the [button label="Rancher UI" variant="success"](tab-1) tab and navigate t
 1. Click **Create**
 2. Set the **Name** to `virt1`
 3. Set **CPU** to `2` and **Memory** to `2 GiB`
-4. Under **SSH Keys**, select `default/cloud-client` — this injects the terminal's public key so we can connect directly
+4. Under **SSH Keys**, select `default/kvm-host` — this injects the terminal's public key so we can connect directly
 
 ![12-create_vm.gif](../assets/12-create_vm.gif)
 

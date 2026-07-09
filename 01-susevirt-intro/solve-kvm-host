@@ -9,7 +9,7 @@ RANCHER_PASSWORD=$(agent variable get RANCHER_PASSWORD)
 echo ">>> Getting Harvester API token..."
 HARV_TOKEN=$(curl -sk -X POST \
   -H "Content-Type: application/json" \
-  "https://geekohive:8443/v3-public/localProviders/local?action=login" \
+  "https://192.168.122.10/v3-public/localProviders/local?action=login" \
   -d "{\"username\":\"admin\",\"password\":\"${RANCHER_PASSWORD}\",\"ttl\":600000}" \
   | jq -r '.token // empty')
 
@@ -23,7 +23,7 @@ echo ">>> Creating 'vms' cluster network..."
 curl -sk -X POST \
   -H "Authorization: Bearer $HARV_TOKEN" \
   -H "Content-Type: application/json" \
-  "https://geekohive:8443/v1/network.harvesterhci.io.clusternetworks" \
+  "https://192.168.122.10/v1/network.harvesterhci.io.clusternetworks" \
   -d '{
     "apiVersion": "network.harvesterhci.io/v1beta1",
     "kind": "ClusterNetwork",
@@ -37,7 +37,7 @@ for NODE in alpha bravo charlie; do
   curl -sk -X POST \
     -H "Authorization: Bearer $HARV_TOKEN" \
     -H "Content-Type: application/json" \
-    "https://geekohive:8443/v1/namespaces/harvester-system/network.harvesterhci.io.nodenetworkconfigs" \
+    "https://192.168.122.10/v1/namespaces/harvester-system/network.harvesterhci.io.nodenetworkconfigs" \
     -d "{
       \"apiVersion\": \"network.harvesterhci.io/v1beta1\",
       \"kind\": \"NodeNetworkConfig\",

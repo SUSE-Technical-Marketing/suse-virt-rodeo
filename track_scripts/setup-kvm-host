@@ -1,0 +1,108 @@
+#!/bin/bash
+
+set -euo pipefail
+
+LAB_DIR="/root/rodeo-lab"
+RODEO=/usr/local/bin/rodeo
+
+until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
+  sleep 2
+done
+
+echo ">>> Starting SUSE Virtualization KVM cluster..."
+"$RODEO" start --yes --all --config-dir "$LAB_DIR"
+
+echo ">>> Waiting for Harvester nodes (up to 90 minutes)..."
+export KUBECONFIG=/root/.kube/harvester.yaml
+
+ELAPSED=0
+MAX_WAIT=5400
+until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo 0)" -ge 3 ]; do
+  sleep 20
+  ELAPSED=$((ELAPSED + 20))
+  if [[ $ELAPSED -ge $MAX_WAIT ]]; then
+    echo "ERROR: Timed out waiting for Harvester nodes"
+    virsh list --all
+    exit 1
+  fi
+  if [[ $((ELAPSED % 120)) -eq 0 ]]; then
+    READY=$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo 0)
+    echo ">>> ${ELAPSED}s elapsed — ${READY}/3 nodes Ready"
+  fi
+done
+echo ">>> All 3 Harvester nodes Ready"
+
+echo ">>> Waiting for Rancher (up to 30 minutes)..."
+ELAPSED=0
+MAX_WAIT=1800
+until curl -sk --max-time 5 https://192.168.122.9:30002/v3 2>/dev/null | grep -q '"type":"collection"'; do
+  sleep 10
+  ELAPSED=$((ELAPSED + 10))
+  if [[ $ELAPSED -ge $MAX_WAIT ]]; then
+    echo "ERROR: Timed out waiting for Rancher"
+    exit 1
+  fi
+done
+echo ">>> Rancher is up"
+
+echo ">>> Enabling VM autostart (finalise phase)..."
+"$RODEO" deploy --finalise --no-tui --config-dir "$LAB_DIR"
+
+RANCHER_PASS=$(cat /root/rancher-password)
+
+RANCHER_TOKEN=$(curl -sk -X POST \
+  "https://192.168.122.9:30002/v3-public/localProviders/local?action=login" \
+  -H "Content-Type: application/json" \
+  -d "{\"username\":\"admin\",\"password\":\"${RANCHER_PASS}\"}" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin).get('token',''))")
+
+if [ -z "$RANCHER_TOKEN" ] || [ "$RANCHER_TOKEN" = "null" ]; then
+  echo "ERROR: Failed to get Rancher token"
+  exit 1
+fi
+
+agent variable set RANCHER_PASSWORD   "$RANCHER_PASS"
+agent variable set RANCHER_TOKEN      "$RANCHER_TOKEN"
+agent variable set RANCHER_URL        "https://192.168.122.9:30002"
+agent variable set HARVESTER_URL      "https://192.168.122.10"
+agent variable set HARVESTER_PASSWORD "$RANCHER_PASS"
+
+# Update Rancher server-url so login redirects go through the Instruqt service tab.
+# With provision_ssl_certificate the tab URL is: https://kvm-host-30002.<_SANDBOX_DNS>
+if [ -n "${_SANDBOX_DNS:-}" ]; then
+  RANCHER_PROXY_URL="https://kvm-host-30002.${_SANDBOX_DNS}"
+  curl -sk -X PUT \
+    -H "Authorization: Bearer ${RANCHER_TOKEN}" \
+    -H "Content-Type: application/json" \
+    "https://192.168.122.9:30002/v3/settings/server-url" \
+    -d "{\"value\": \"${RANCHER_PROXY_URL}\"}" >/dev/null 2>&1 \
+    && echo ">>> Rancher server-url → ${RANCHER_PROXY_URL}" \
+    || echo ">>> WARNING: server-url update failed"
+fi
+
+# SSH key for virt1 (challenges 02+).
+# kvm-host IS the KVM hypervisor — virbr0 (192.168.122.x) is directly reachable.
+# No DNAT or jump host needed; ssh virt1 goes straight to 192.168.122.50.
+if [ ! -f /root/.ssh/id_rsa ]; then
+  ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N ""
+  chmod 600 /root/.ssh/id_rsa
+fi
+
+mkdir -p /root/.ssh
+cat >> /root/.ssh/config << 'SSHEOF'
+
+Host virt1
+  HostName 192.168.122.50
+  User opensuse
+  IdentityFile /root/.ssh/id_rsa
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+
+Host virt*
+  User opensuse
+  IdentityFile /root/.ssh/id_rsa
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+SSHEOF
+
+echo ">>> Track setup complete."

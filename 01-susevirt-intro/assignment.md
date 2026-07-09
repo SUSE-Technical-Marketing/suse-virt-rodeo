@@ -1,6 +1,6 @@
 ---
 slug: susevirt-intro
-id: l5se76zdmayc
+id: icy38paodrho
 type: challenge
 title: AeroGrid OPS — Bring the Airport Cluster Online
 teaser: Confirm the cluster is healthy, build the primary VM network, and set up the LoadBalancer IP pool before airline workloads go live
@@ -8,20 +8,19 @@ tabs:
 - id: tab-terminal
   title: Terminal
   type: terminal
-  hostname: cloud-client
-  cmd: su - root
+  hostname: kvm-host
 - id: tab-rancher
   title: Rancher UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 91
+  port: 30002
 - id: tab-harvester
   title: Harvester UI
   type: service
-  hostname: cloud-client
+  hostname: kvm-host
   path: /
-  port: 90
+  port: 8443
 difficulty: basic
 timelimit: 2400
 enhanced_loading: null
@@ -57,7 +56,7 @@ Your sandbox is a fully running 3-node SUSE Virtualization cluster inside a nest
 
 - **3 Harvester nodes** — forming a highly available cluster
 - **Rancher Prime** — connected and managing the cluster
-- **A terminal** on the cloud-client with `kubectl` already configured
+- **A terminal** on the KVM host with `kubectl` already configured
 
 Use the tabs at the top to switch between the Terminal, Rancher UI, and Harvester UI.
 
@@ -72,7 +71,7 @@ Open the [button label="Rancher UI" variant="success"](tab-1) tab.
 Log in with:
 
 - **Username:** `admin`
-- **Password:** `[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="cloud-client" ]]`
+- **Password:** `[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]`
 
 Select **Virtualization Management** from the left menu. The AeroGrid cluster appears listed and ready.
 

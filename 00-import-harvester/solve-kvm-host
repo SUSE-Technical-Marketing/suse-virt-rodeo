@@ -61,7 +61,7 @@ echo ">>> Registration URL: $MANIFEST_URL"
 echo ">>> Authenticating to Harvester API..."
 HARV_TOKEN=$(curl -sk -X POST \
   -H "Content-Type: application/json" \
-  "https://geekohive:8443/v3-public/localProviders/local?action=login" \
+  "https://192.168.122.10/v3-public/localProviders/local?action=login" \
   -d "{\"username\":\"admin\",\"password\":\"${RANCHER_PASSWORD}\",\"ttl\":600000}" \
   | jq -r '.token // empty')
 
@@ -75,7 +75,7 @@ echo ">>> Setting cluster-registration-url in Harvester..."
 RESULT=$(curl -sk -X PUT \
   -H "Authorization: Bearer $HARV_TOKEN" \
   -H "Content-Type: application/json" \
-  "https://geekohive:8443/v1/harvesterhci.io.settings/cluster-registration-url" \
+  "https://192.168.122.10/v1/harvesterhci.io.settings/cluster-registration-url" \
   -d "{\"value\": \"${MANIFEST_URL}\"}" \
   | jq -r '.value // empty')
 
