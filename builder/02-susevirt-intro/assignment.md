@@ -1,19 +1,23 @@
 ---
 slug: susevirt-intro
+id: 466mu16vtzgz
 type: challenge
 title: AeroGrid OPS — Bring the Airport Cluster Online
 teaser: Confirm the cluster is healthy, build the primary VM network, and set up the
   LoadBalancer IP pool before airline workloads go live
 tabs:
-- title: Terminal
+- id: zxdxdjqymxh1
+  title: Terminal
   type: terminal
   hostname: kvm-host
-- title: Rancher UI
+- id: 7qroeqbghujq
+  title: Rancher UI
   type: service
   hostname: kvm-host
   path: /
   port: 30002
-- title: Harvester UI
+- id: 0irzm741crxe
+  title: Harvester UI
   type: service
   hostname: kvm-host
   path: /

@@ -1,19 +1,23 @@
 ---
 slug: networking
+id: shi00bldqrd2
 type: challenge
 title: AeroGrid Network Topology — VLANs and Airline Isolation
 teaser: Build the AeroGrid backbone VLAN and isolate airline tenant networks so passenger
   data never crosses carrier boundaries
 tabs:
-- title: Terminal
+- id: lf0jggv5uzkq
+  title: Terminal
   type: terminal
   hostname: kvm-host
-- title: Rancher UI
+- id: shyx5rj5k7oc
+  title: Rancher UI
   type: service
   hostname: kvm-host
   path: /
   port: 30002
-- title: Harvester UI
+- id: owyfssiiyqh6
+  title: Harvester UI
   type: service
   hostname: kvm-host
   path: /

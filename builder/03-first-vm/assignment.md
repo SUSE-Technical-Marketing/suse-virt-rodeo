@@ -1,19 +1,23 @@
 ---
 slug: first-vm
+id: gd5f1fx7pv3n
 type: challenge
 title: AeroGrid Ground Ops — Provision the First VM
 teaser: Deploy the ground operations VM with cloud-init, connect to it over SSH, and
   prove zero-downtime live migration before any flight dependency goes live
 tabs:
-- title: Terminal
+- id: ivpepqxu3q1f
+  title: Terminal
   type: terminal
   hostname: kvm-host
-- title: Rancher UI
+- id: w3o0wlua8oqe
+  title: Rancher UI
   type: service
   hostname: kvm-host
   path: /
   port: 30002
-- title: Harvester UI
+- id: 05dfq0tvxmta
+  title: Harvester UI
   type: service
   hostname: kvm-host
   path: /

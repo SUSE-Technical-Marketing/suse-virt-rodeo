@@ -1,18 +1,23 @@
 ---
 slug: import-harvester
+id: gjavnafkbtaf
 type: challenge
 title: AeroGrid Platform — Connect SUSE Virtualization to Rancher Prime
-teaser: Import the running SUSE Virtualization cluster into Rancher Prime to get a single pane of glass over the full platform
+teaser: Import the running SUSE Virtualization cluster into Rancher Prime to get a
+  single pane of glass over the full platform
 tabs:
-- title: Terminal
+- id: o9dfelpioltd
+  title: Terminal
   type: terminal
   hostname: kvm-host
-- title: Rancher UI
+- id: xrbnccilq3xv
+  title: Rancher UI
   type: service
   hostname: kvm-host
   path: /
   port: 30002
-- title: Harvester UI
+- id: fnfsuwhntfn2
+  title: Harvester UI
   type: service
   hostname: kvm-host
   path: /

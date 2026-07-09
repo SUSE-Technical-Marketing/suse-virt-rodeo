@@ -1,0 +1,36 @@
+flowchart TD
+    S0(["🚀 Start: SLES 16\nInstruqt builder sandbox"]):::start
+
+    S1["Step 1\nClone repo\nInstall prerequisites\nansible · kubectl · jq · xorriso\nansible collections"]:::step
+
+    subgraph ANSIBLE["🔧 ansible-playbook — runs both roles"]
+        A1["kvm_host role\n• KVM packages via zypper\n• virtqemud: security_driver=none\n• IP forwarding\n• firewalld port-forward (DNAT)\n• firewalld rules"]:::role
+        FLUSH["meta: flush_handlers\n(restart virtqemud before vms role)"]:::flush
+        A2["vms role\n• Redefine virbr0 with static DHCP\n• Storage pool check\n• Download Harvester 1.8.1 ISO\n• Create 3×270GB + 60GB qcow2\n• Render Harvester config ISOs\n• Create Rancher cloud-init ISO\n• Define 4 KVM VMs (idempotent)"]:::role
+        A1 --> FLUSH --> A2
+    end
+
+    S3["deploy-vms.sh\n• virsh start harvester1\n• Wait for Harvester API :443\n• Start harvester2 (90s stagger)\n• Start harvester3\n• Start rancher VM"]:::step
+
+    S4["⏳ Harvester installs\n(40–90 min)\ntail -f serial logs"]:::wait
+
+    S5["setup-rancher.sh\n• Install K3s + Helm on rancher VM\n• Deploy Rancher Prime 2.13.1\n• Set admin password\n• Import Harvester cluster\n• Eject installer ISOs"]:::step
+
+    S6["Manual steps\n• Install Harvester UI plugin v1.8.1\n• Upload openSUSE Leap 16 image"]:::manual
+
+    S7["Verify build checklist\n• 3 nodes Ready\n• Rancher cluster Active\n• UI plugin installed\n• Leap 16 image active"]:::check
+
+    S8["virsh shutdown all VMs\n(4× shut off)"]:::step
+
+    S9(["💾 Save image\ninstruqt track image create\nsuse/suse-virt-rodeo-180"]):::done
+
+    S0 --> S1 --> ANSIBLE --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9
+
+    classDef start fill:#30BA78,stroke:#1A7A40,color:#000,rx:20
+    classDef done fill:#30BA78,stroke:#1A7A40,color:#000,rx:20
+    classDef step fill:#1B3D6F,stroke:#30BA78,color:#fff
+    classDef role fill:#0C2340,stroke:#6EC6A0,color:#adf
+    classDef flush fill:#2A1F3D,stroke:#9B6BD4,color:#ddf
+    classDef wait fill:#3D2800,stroke:#FFA500,color:#FFD080
+    classDef manual fill:#3D1A00,stroke:#FF8C00,color:#FFD080
+    classDef check fill:#1A3320,stroke:#30BA78,color:#cfc

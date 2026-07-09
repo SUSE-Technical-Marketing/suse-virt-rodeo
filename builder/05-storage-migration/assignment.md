@@ -1,19 +1,23 @@
 ---
 slug: storage-migration
+id: v0xyxik6vxlw
 type: challenge
 title: AeroGrid Flight Data — Snapshots and DR
 teaser: Configure storage policies, take a checkpoint before a risky ops change, simulate
   database corruption, and restore the VM to a clean state
 tabs:
-- title: Terminal
+- id: n4h0yw9ygmvi
+  title: Terminal
   type: terminal
   hostname: kvm-host
-- title: Rancher UI
+- id: pbms4dvigdux
+  title: Rancher UI
   type: service
   hostname: kvm-host
   path: /
   port: 30002
-- title: Harvester UI
+- id: rlnr9zlpzoqt
+  title: Harvester UI
   type: service
   hostname: kvm-host
   path: /
