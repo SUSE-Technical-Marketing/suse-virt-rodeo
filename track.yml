@@ -13,11 +13,11 @@ description: |
   <p>Let's get it done.</p></span>
 icon: https://www.suse.com/favicon.ico
 tags:
-- virtualization
-- harvester
-- suse
-- rancher
 - hci
+- harvester
+- rancher
+- virtualization
+- suse
 owner: suse
 developers:
 - andres.valero@suse.com
@@ -36,5 +36,5 @@ lab_config:
   override_challenge_layout: false
   hideStopButton: false
   default_layout: AssignmentLeft
-checksum: "5402286137901644492"
+checksum: "4907538152501009062"
 enhanced_loading: true
