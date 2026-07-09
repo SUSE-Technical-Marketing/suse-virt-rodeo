@@ -1,12 +1,12 @@
 version: "3"
 virtualmachines:
-- name: geekohive
-  # Builder VM: SLES 16 base with nested virt — used to bake the custom rodeo image.
-  image: suse/harv-rodeo-sles16
-  shell: /bin/bash
-  machine_type: n2-standard-32
-  enable_nested_virtualization: true
+- name: kvm-host
+  image: suse/suse-virt-rodeo-rc
+  memory: 92160
+  cpus: 32
   allow_external_ingress:
+  - https
   - high-ports
   - http
-  - https
+  nested_virtualization: true
+  provision_ssl_certificate: true

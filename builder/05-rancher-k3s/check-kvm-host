@@ -1,0 +1,24 @@
+#!/bin/bash
+set -euo pipefail
+source ~/.bashrc
+
+RANCHER_TOKEN=$(agent variable get RANCHER_TOKEN)
+RANCHER_URL=$(agent variable get RANCHER_URL)
+
+CLUSTER_STATE=$(curl -sk \
+  -H "Authorization: Bearer $RANCHER_TOKEN" \
+  "${RANCHER_URL}/v3/clusters?name=checkin-cluster" \
+  | jq -r '.data[0].state' 2>/dev/null || echo "")
+
+if [ -z "$CLUSTER_STATE" ] || [ "$CLUSTER_STATE" = "null" ]; then
+  fail-message "The 'checkin-cluster' does not exist in Rancher yet. Create it from Cluster Management > Create > Harvester."
+  exit 1
+fi
+
+if [ "$CLUSTER_STATE" != "active" ]; then
+  fail-message "The 'checkin-cluster' is in state '${CLUSTER_STATE}'. Wait for it to become active."
+  exit 1
+fi
+
+echo "checkin-cluster is active. Passenger portal cluster is online."
+exit 0

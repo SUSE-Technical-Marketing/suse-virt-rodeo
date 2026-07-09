@@ -1,0 +1,102 @@
+#!/bin/bash
+
+set -euo pipefail
+
+RANCHER_TOKEN=$(agent variable get RANCHER_TOKEN)
+RANCHER_URL=$(agent variable get RANCHER_URL)
+RANCHER_PASSWORD=$(agent variable get RANCHER_PASSWORD)
+
+echo ">>> Checking if Harvester cluster is already imported..."
+EXISTING_STATE=$(curl -sk \
+  -H "Authorization: Bearer $RANCHER_TOKEN" \
+  "${RANCHER_URL}/v3/clusters?name=harvester" \
+  | jq -r '.data[0].state // empty')
+
+if [ "$EXISTING_STATE" = "active" ]; then
+  echo ">>> Harvester cluster already imported and Active. Nothing to do."
+  exit 0
+fi
+
+# Create the import cluster entry in Rancher if it does not exist yet
+CLUSTER_ID=$(curl -sk \
+  -H "Authorization: Bearer $RANCHER_TOKEN" \
+  "${RANCHER_URL}/v3/clusters?name=harvester" \
+  | jq -r '.data[0].id // empty')
+
+if [ -z "$CLUSTER_ID" ]; then
+  echo ">>> Creating Harvester import cluster in Rancher..."
+  CLUSTER_ID=$(curl -sk -X POST \
+    -H "Authorization: Bearer $RANCHER_TOKEN" \
+    -H "Content-Type: application/json" \
+    "${RANCHER_URL}/v3/clusters" \
+    -d '{"type":"cluster","name":"harvester","annotations":{"field.cattle.io/description":"AeroGrid SUSE Virtualization HCI cluster"}}' \
+    | jq -r '.id')
+
+  if [ -z "$CLUSTER_ID" ] || [ "$CLUSTER_ID" = "null" ]; then
+    echo "ERROR: Failed to create cluster entry in Rancher"
+    exit 1
+  fi
+  echo ">>> Cluster created: $CLUSTER_ID"
+fi
+
+# Wait for the cluster registration token to be generated
+echo ">>> Waiting for registration token..."
+MANIFEST_URL=""
+for i in $(seq 1 12); do
+  MANIFEST_URL=$(curl -sk \
+    -H "Authorization: Bearer $RANCHER_TOKEN" \
+    "${RANCHER_URL}/v3/clusterregistrationtokens?clusterId=${CLUSTER_ID}" \
+    | jq -r '.data[0].manifestUrl // empty')
+  [ -n "$MANIFEST_URL" ] && break
+  sleep 5
+done
+
+if [ -z "$MANIFEST_URL" ]; then
+  echo "ERROR: Could not get registration manifest URL from Rancher"
+  exit 1
+fi
+echo ">>> Registration URL: $MANIFEST_URL"
+
+# Get a Harvester API token using the lab admin credentials
+echo ">>> Authenticating to Harvester API..."
+HARV_TOKEN=$(curl -sk -X POST \
+  -H "Content-Type: application/json" \
+  "https://192.168.122.10/v3-public/localProviders/local?action=login" \
+  -d "{\"username\":\"admin\",\"password\":\"${RANCHER_PASSWORD}\",\"ttl\":600000}" \
+  | jq -r '.token // empty')
+
+if [ -z "$HARV_TOKEN" ]; then
+  echo "ERROR: Failed to get Harvester API token"
+  exit 1
+fi
+
+# Set the cluster-registration-url setting in Harvester
+echo ">>> Setting cluster-registration-url in Harvester..."
+RESULT=$(curl -sk -X PUT \
+  -H "Authorization: Bearer $HARV_TOKEN" \
+  -H "Content-Type: application/json" \
+  "https://192.168.122.10/v1/harvesterhci.io.settings/cluster-registration-url" \
+  -d "{\"value\": \"${MANIFEST_URL}\"}" \
+  | jq -r '.value // empty')
+
+if [ -z "$RESULT" ]; then
+  echo "WARNING: Unexpected response from Harvester settings API — checking if import proceeds anyway"
+fi
+
+# Wait for the cluster to become Active (up to 10 minutes)
+echo ">>> Waiting for cluster to become Active (may take up to 10 minutes)..."
+for i in $(seq 1 60); do
+  STATE=$(curl -sk \
+    -H "Authorization: Bearer $RANCHER_TOKEN" \
+    "${RANCHER_URL}/v3/clusters/${CLUSTER_ID}" \
+    | jq -r '.state // empty')
+  echo "  State: ${STATE} (attempt ${i}/60)"
+  if [ "$STATE" = "active" ]; then
+    echo ">>> SUSE Virtualization cluster is Active in Rancher."
+    exit 0
+  fi
+  sleep 10
+done
+
+echo "ERROR: Cluster did not reach Active state within 10 minutes"
+exit 1

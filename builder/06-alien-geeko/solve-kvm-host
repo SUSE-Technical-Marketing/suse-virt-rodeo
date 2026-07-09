@@ -1,0 +1,179 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source ~/.bashrc
+
+if [ ! -f /root/.kube/checkin-cluster.yaml ]; then
+  echo "ERROR: /root/.kube/checkin-cluster.yaml not found. Run challenge 05 solve first."
+  exit 1
+fi
+
+export KUBECONFIG=/root/.kube/checkin-cluster.yaml
+
+echo ">>> Connected to checkin-cluster:"
+kubectl get nodes
+
+# --- Deploy alien-geeko ---
+echo ">>> Creating namespace..."
+kubectl apply -f - << 'EOF'
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: alien-geeko
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/warn: restricted
+EOF
+
+echo ">>> Creating RBAC..."
+kubectl apply -f - << 'EOF'
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: alien-geeko
+  namespace: alien-geeko
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: alien-geeko-reader
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list"]
+  - nonResourceURLs: ["/version"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: alien-geeko-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: alien-geeko-reader
+subjects:
+  - kind: ServiceAccount
+    name: alien-geeko
+    namespace: alien-geeko
+EOF
+
+echo ">>> Creating ConfigMap with NOC terminal name..."
+kubectl apply -f - << 'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alien-geeko-config
+  namespace: alien-geeko
+data:
+  CLUSTER_NAME: "AEROGRID-NOC-TERMINAL-1"
+EOF
+
+echo ">>> Deploying alien-geeko and LoadBalancer service..."
+kubectl apply -f - << 'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alien-geeko
+  namespace: alien-geeko
+  labels:
+    app: alien-geeko
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alien-geeko
+  template:
+    metadata:
+      labels:
+        app: alien-geeko
+    spec:
+      serviceAccountName: alien-geeko
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: alien-geeko
+          image: docker.io/avaleror/alien-geeko:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CLUSTER_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: alien-geeko-config
+                  key: CLUSTER_NAME
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alien-geeko
+  namespace: alien-geeko
+spec:
+  selector:
+    app: alien-geeko
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+EOF
+
+echo ">>> Waiting for rollout..."
+kubectl rollout status deployment/alien-geeko -n alien-geeko --timeout=120s
+
+# Start port-forward in background so the NOC tab works
+pkill -f "port-forward.*8092:80" 2>/dev/null || true
+kubectl port-forward -n alien-geeko svc/alien-geeko 8092:80 --address=0.0.0.0 &
+sleep 3
+
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 http://localhost:8092/health 2>/dev/null || echo "000")
+if [ "$HTTP_STATUS" = "200" ]; then
+  echo ">>> NOC dashboard is live at port 8092 (health: $HTTP_STATUS)."
+else
+  echo "WARNING: Health check returned $HTTP_STATUS — port-forward may still be starting"
+fi
+
+echo ">>> Challenge 06 solve complete."

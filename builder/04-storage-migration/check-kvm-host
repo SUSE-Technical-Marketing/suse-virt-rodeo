@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+source ~/.bashrc
+
+# Verify snapshot was taken
+SNAPSHOT_READY=$(kubectl get vmsnapshot virt1-snap1 -n default \
+  -o jsonpath='{.status.readyToUse}' 2>/dev/null || echo "")
+
+if [ "$SNAPSHOT_READY" != "true" ]; then
+  fail-message "Snapshot 'virt1-snap1' not found or not ready. Take a snapshot of virt1 from the VM menu."
+  exit 1
+fi
+
+# Verify the custom storage class was created
+if ! kubectl get storageclass harvester-longhorn-2rep &>/dev/null; then
+  fail-message "StorageClass 'harvester-longhorn-2rep' not found. Run the kubectl apply command from the assignment."
+  exit 1
+fi
+
+echo "Snapshot and storage class verified."
+exit 0

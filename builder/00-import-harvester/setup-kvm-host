@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source ~/.bashrc
+
+# Verify the backends are reachable before the student starts
+echo ">>> Verifying Harvester and Rancher are reachable..."
+until curl -sk --max-time 5 "https://192.168.122.10/v1" &>/dev/null; do
+  echo "Waiting for Harvester API..."
+  sleep 5
+done
+until curl -sk --max-time 5 "https://192.168.122.9:30002/v3" &>/dev/null; do
+  echo "Waiting for Rancher API..."
+  sleep 5
+done
+
+echo "Challenge 00 ready — Harvester and Rancher APIs are up."
