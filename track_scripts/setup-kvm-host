@@ -9,21 +9,35 @@ until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
   sleep 2
 done
 
-# Start VMs idempotently using virsh directly.
-# rodeo start races with libvirt-guests: it detects harvester nodes as "already running"
-# but calls virDomainCreate("rancher") just as libvirt-guests finishes booting it.
-# virsh start is safe to call on already-running domains — we suppress the error.
-echo ">>> Ensuring all KVM VMs are running..."
-for VM in harvester1 harvester2 harvester3 rancher; do
+# Start VMs idempotently using virsh — mirroring rodeo's dependency order.
+# Rancher must start AFTER the Harvester VIP is up; starting it too early causes
+# Rancher to fail initialisation trying to connect to a cluster that isn't ready.
+# virsh start is used instead of rodeo to avoid the "domain already running" crash.
+echo ">>> Starting Harvester VMs..."
+for VM in harvester1 harvester2 harvester3; do
   if virsh list --name 2>/dev/null | grep -q "^${VM}$"; then
     echo "  skip (running) ${VM}"
   else
     echo "  starting ${VM}..."
     virsh start "${VM}" 2>/dev/null \
       && echo "  started ${VM}" \
-      || echo "  ${VM} start skipped (already running or race — continuing)"
+      || echo "  ${VM}: already running"
   fi
 done
+
+echo ">>> Waiting for Harvester VIP (192.168.122.10) before starting Rancher..."
+until curl -sk --max-time 5 "https://192.168.122.10" &>/dev/null; do
+  sleep 5
+done
+echo ">>> Harvester VIP up — starting Rancher..."
+
+if virsh list --name 2>/dev/null | grep -q "^rancher$"; then
+  echo "  skip (running) rancher"
+else
+  virsh start rancher 2>/dev/null \
+    && echo "  started rancher" \
+    || echo "  rancher: already running"
+fi
 
 echo ">>> Waiting for Harvester nodes (up to 90 minutes)..."
 export KUBECONFIG=/root/.kube/harvester.yaml
