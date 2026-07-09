@@ -1,27 +1,28 @@
 ---
 slug: alien-geeko
-id: agk1nostr0m01
+id: urywopzwh7qx
 type: challenge
 title: AeroGrid NOC Dashboard — Activate alien-geeko
-teaser: Deploy alien-geeko on the check-in cluster and open the AeroGrid NOC tab to watch live cluster vitals
+teaser: Deploy alien-geeko on the check-in cluster and open the AeroGrid NOC tab to
+  watch live cluster vitals
 tabs:
-- id: tab-terminal
+- id: v0hef9kc5oc2
   title: Terminal
   type: terminal
   hostname: kvm-host
-- id: tab-rancher
+- id: h3rmpn2c9wjx
   title: Rancher UI
   type: service
   hostname: kvm-host
   path: /
   port: 30002
-- id: tab-harvester
+- id: xxbximbofflz
   title: Harvester UI
   type: service
   hostname: kvm-host
   path: /
   port: 8443
-- id: tab-nostromo
+- id: wo1pthytyjlb
   title: AeroGrid NOC
   type: service
   hostname: kvm-host

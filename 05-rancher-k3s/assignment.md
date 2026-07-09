@@ -1,21 +1,22 @@
 ---
 slug: rancher-k3s
-id: rnc1rbac0k3s1
+id: zzffibuwjdbo
 type: challenge
 title: AeroGrid Check-In Portal — Provision the K3s Cluster
-teaser: Set up terminal RBAC, wire Rancher to SUSE Virtualization, and provision a K3s cluster for the passenger self-service check-in portal
+teaser: Set up terminal RBAC, wire Rancher to SUSE Virtualization, and provision a
+  K3s cluster for the passenger self-service check-in portal
 tabs:
-- id: tab-terminal
+- id: hpwljx4lgkea
   title: Terminal
   type: terminal
   hostname: kvm-host
-- id: tab-rancher
+- id: jadcgtdypf8k
   title: Rancher UI
   type: service
   hostname: kvm-host
   path: /
   port: 30002
-- id: tab-harvester
+- id: v4jbellecp3u
   title: Harvester UI
   type: service
   hostname: kvm-host
