@@ -9,24 +9,21 @@ until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
   sleep 2
 done
 
-# The image is baked with VM autostart enabled; libvirt-guests starts all 4
-# VMs on boot but may not finish before this script runs. Wait up to 2 minutes
-# for the domain count to stabilise at 4, then skip rodeo start if they're up.
-echo ">>> Waiting for libvirt-guests to finish starting VMs..."
-BOOT_ELAPSED=0
-while [ $BOOT_ELAPSED -lt 120 ]; do
-  RUNNING=$(virsh list --name 2>/dev/null | grep -cE "harvester|rancher" || true)
-  [ "${RUNNING}" -ge 4 ] && break
-  sleep 5
-  BOOT_ELAPSED=$((BOOT_ELAPSED + 5))
+# Start VMs idempotently using virsh directly.
+# rodeo start races with libvirt-guests: it detects harvester nodes as "already running"
+# but calls virDomainCreate("rancher") just as libvirt-guests finishes booting it.
+# virsh start is safe to call on already-running domains — we suppress the error.
+echo ">>> Ensuring all KVM VMs are running..."
+for VM in harvester1 harvester2 harvester3 rancher; do
+  if virsh list --name 2>/dev/null | grep -q "^${VM}$"; then
+    echo "  skip (running) ${VM}"
+  else
+    echo "  starting ${VM}..."
+    virsh start "${VM}" 2>/dev/null \
+      && echo "  started ${VM}" \
+      || echo "  ${VM} start skipped (already running or race — continuing)"
+  fi
 done
-RUNNING=$(virsh list --name 2>/dev/null | grep -cE "harvester|rancher" || true)
-if [ "${RUNNING}" -ge 4 ]; then
-  echo ">>> VMs already running (${RUNNING} detected) — skipping rodeo start..."
-else
-  echo ">>> Starting SUSE Virtualization KVM cluster (${RUNNING}/4 VMs up)..."
-  "$RODEO" start --yes --all --config-dir "$LAB_DIR"
-fi
 
 echo ">>> Waiting for Harvester nodes (up to 90 minutes)..."
 export KUBECONFIG=/root/.kube/harvester.yaml
