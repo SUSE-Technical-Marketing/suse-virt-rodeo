@@ -92,4 +92,6 @@ Host virt*
   UserKnownHostsFile /dev/null
 SSHEOF
 
+sleep 600
+
 echo ">>> Track setup complete."
