@@ -2,28 +2,22 @@ slug: suse-virt-rodeo
 id: zsmgdhzafjtf
 title: SUSE Virtualization Rodeo
 description: |
-  <span style="font-family: suse; src: url('https://fonts.google.com/specimen/SUSE');"><p><b style="color: #30ba78">AEROGRID OPERATIONS — SUSE VIRTUALIZATION MIGRATION LAB</b></p>
+  <span style="font-family: suse; src: url('https://fonts.google.com/specimen/SUSE');"><p>Throughout this workshop, you will explore the core capabilities of <b style="color: #30ba78">SUSE Multi-Linux Manager</b>, our best-in-class solution for managing diverse Linux environments at scale, and <b style="color: #30ba78">SUSE Multi-Linux Support</b></p>
 
-  <p>AeroGrid manages IT for a regional international airport. When the Broadcom acquisition closed, their VMware renewal quote came in at 3.2x the previous cost. They chose <b style="color: #30ba78">SUSE Virtualization</b> (Harvester). You are the infrastructure engineer getting it operational.</p>
+  <p>You will learn how to solve real-world IT challenges by using <b style="color: #30ba78">SUSE</b>'s powerful tools to automate tasks, ensure security compliance, and manage the entire lifecycle of your systems—from legacy distributions to the latest enterprise servers.</p>
 
-  <p>Over the course of this rodeo you will bring up the cluster, create the ramp control backbone VLAN and airline tenant isolation zones, provision the first ground ops VM with live migration, protect flight data with snapshots and restore from them, provision a K3s passenger check-in cluster via <b style="color: #30ba78">SUSE Rancher Prime</b>, and deploy the AeroGrid NOC dashboard so the ops team has live visibility into the platform.</p>
+  <p>This workshop is designed to give you practical skills and a clear understanding of how to simplify and control your complex infrastructure.</p>
 
-  <p>All of this runs on open-source CNCF technology — no proprietary hypervisor, no vTax, no Broadcom invoice. Just the platform and the stack.</p>
-
-  <p>Let's get it done.</p></span>
+  <p>Let's get started.</p></span>
 icon: https://www.suse.com/favicon.ico
 tags:
-- hci
-- harvester
-- rancher
-- virtualization
-- suse
+- virt
+- virtualizacion
+- prod
 owner: suse
 developers:
 - andres.valero@suse.com
 - raul.mahiques@suse.com
-instructors:
-- adrian.lopez1@suse.com
 maintenance: true
 skipping_enabled: true
 idle_timeout: 6000
@@ -36,5 +30,5 @@ lab_config:
   override_challenge_layout: false
   hideStopButton: false
   default_layout: AssignmentLeft
-checksum: "453744600949427980"
+checksum: "12078731833240080016"
 enhanced_loading: true

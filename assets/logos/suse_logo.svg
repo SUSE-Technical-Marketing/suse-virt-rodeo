@@ -1,0 +1,11 @@
+--2025-08-08 09:33:41--  https://storage-us-gcs.bfldr.com/tr6vc8nms9hxsf4ccfkx56kc/v/1220900750/original/SUSE_Logo-hor_L_Green-pos_sRGB.svg?dl=true&Expires=1754724718&KeyName=gcs-bfldr-prod&Signature=E2aCvPc3MtnzChG49h_mS9oqPl0=
+Resolving storage-us-gcs.bfldr.com (storage-us-gcs.bfldr.com)... 34.117.101.15
+Connecting to storage-us-gcs.bfldr.com (storage-us-gcs.bfldr.com)|34.117.101.15|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7555 (7.4K) [image/svg+xml]
+Saving to: ‘SUSE_Logo-hor_L_Green-pos_sRGB.svg?dl=true&Expires=1754724718&KeyName=gcs-bfldr-prod&Signature=E2aCvPc3MtnzChG49h_mS9oqPl0=’
+
+     0K .......                                               100%  211M=0s
+
+2025-08-08 09:33:44 (211 MB/s) - ‘SUSE_Logo-hor_L_Green-pos_sRGB.svg?dl=true&Expires=1754724718&KeyName=gcs-bfldr-prod&Signature=E2aCvPc3MtnzChG49h_mS9oqPl0=’ saved [7555/7555]
+
