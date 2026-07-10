@@ -1,6 +1,0 @@
----
-- name: Install nginx for the PXE HTTP file server
-  community.general.zypper:
-    name: nginx
-    state: present
-  notify: restart nginx

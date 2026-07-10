@@ -1,4 +1,0 @@
-# For a local run (e.g. during image build from inside the VM itself):
-[kvm_host]
-localhost ansible_connection=local become=false
-

@@ -2,11 +2,11 @@ slug: suse-virt-rodeo
 id: zsmgdhzafjtf
 title: SUSE Virtualization Rodeo
 description: |
-  <span style="font-family: suse; src: url('https://fonts.google.com/specimen/SUSE');"><p>Throughout this workshop, you will explore the core capabilities of <b style="color: #30ba78">SUSE Multi-Linux Manager</b>, our best-in-class solution for managing diverse Linux environments at scale, and <b style="color: #30ba78">SUSE Multi-Linux Support</b></p>
+  <span style="font-family: suse; src: url('https://fonts.google.com/specimen/SUSE');"><p>Step into <b style="color: #30ba78">Vertex Trust Bank</b> and take command of <b style="color: #30ba78">SUSE Virtualization</b>, the enterprise HCI platform (Harvester) managed by <b style="color: #30ba78">Rancher Prime</b>, as the bank moves off its costly legacy hypervisor.</p>
 
-  <p>You will learn how to solve real-world IT challenges by using <b style="color: #30ba78">SUSE</b>'s powerful tools to automate tasks, ensure security compliance, and manage the entire lifecycle of your systems—from legacy distributions to the latest enterprise servers.</p>
+  <p>Across nine story-driven chapters you will solve real IT crises with SUSE's tools: bring a cluster online, deploy VMs under pressure, run a zero-downtime live migration, isolate a sensitive database with software-defined networking, recover data with snapshots, scale a fleet from templates, and migrate the last workload off the old vendor.</p>
 
-  <p>This workshop is designed to give you practical skills and a clear understanding of how to simplify and control your complex infrastructure.</p>
+  <p>This workshop gives you practical, hands-on skills for running virtual machines on a modern, Kubernetes-native platform.</p>
 
   <p>Let's get started.</p></span>
 icon: https://www.suse.com/favicon.ico

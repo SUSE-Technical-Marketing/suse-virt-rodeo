@@ -1,3 +1,0 @@
-# Default deployer inventory — run against the local SLES 16 KVM host.
-[kvm_host]
-localhost ansible_connection=local

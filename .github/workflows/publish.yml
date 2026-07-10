@@ -1,9 +1,9 @@
 name: Publish Instruqt Track
 
 # Validates and pushes the track on every push to main.
-# Requires INSTRUQT_TOKEN in repo secrets and the image suse/suse-virt-rodeo-180
+# Requires INSTRUQT_TOKEN in repo secrets and the image suse/suse-virt-rodeo-rc
 # published in the Instruqt org. Use workflow_dispatch to publish manually from
-# any branch while the image is still being built.
+# any branch.
 
 on:
   push:

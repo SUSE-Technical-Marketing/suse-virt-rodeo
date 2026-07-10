@@ -76,7 +76,7 @@ admin
 - Password:
 
 ```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="cloud-client" ]]
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
 
 ### Accessing the SUSE Virtualization Cluster

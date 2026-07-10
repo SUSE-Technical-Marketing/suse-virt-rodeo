@@ -1,5 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-source ~/.bashrc
-kubectl config use-context susevirt-through-rancher
-echo "Challenge 03 ready."
