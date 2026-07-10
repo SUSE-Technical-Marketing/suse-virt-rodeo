@@ -1,0 +1,83 @@
+#!/bin/bash
+# Challenge 1 setup — safety net for the Harvester (SUSE Virtualization) Rancher UI
+# extension. Ensures the extension is reconciled to the required version at lab
+# start, in case the image ships an older one.
+#
+# The durable fix lives in rodeo-cli (declared as rancher.ui_extensions in the
+# profile definition). This script does the same reconcile at runtime so any image
+# lands on the right version. It is idempotent and non-fatal: it never blocks the lab.
+
+set -uo pipefail
+
+RANCHER_IP="192.168.122.9"
+RANCHER_API="https://${RANCHER_IP}:30002"
+SSH_KEY="/root/.ssh/id_ed25519"
+SSH_OPTS="-i ${SSH_KEY} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10"
+
+# Extension coordinates (from the live cluster: ClusterRepo 'rancher' -> rancher/ui-plugin-charts).
+EXT_NAME="harvester"
+EXT_REPO="rancher"
+EXT_NS="cattle-ui-plugin-system"
+EXT_VERSION="1.8.1"     # target — keep in step with the Harvester server version
+
+log(){ echo ">>> [ui-ext] $*"; }
+rsh(){ ssh ${SSH_OPTS} "root@${RANCHER_IP}" "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml; $*"; }
+
+# Installed UIPlugin version (empty if not installed).
+current_ver(){
+  rsh "kubectl -n ${EXT_NS} get uiplugins.catalog.cattle.io ${EXT_NAME} -o jsonpath='{.spec.plugin.version}' 2>/dev/null" 2>/dev/null
+}
+
+log "waiting for Rancher API at ${RANCHER_API} ..."
+for _ in $(seq 1 60); do
+  curl -sk --max-time 5 "${RANCHER_API}/ping" 2>/dev/null | grep -q pong && break
+  sleep 10
+done
+
+CUR="$(current_ver)"
+log "installed: '${CUR:-none}'  target: ${EXT_VERSION}"
+if [ "${CUR}" = "${EXT_VERSION}" ]; then
+  log "already at target; nothing to do."
+  echo ">>> Challenge 1 setup complete."
+  exit 0
+fi
+
+# Force the ClusterRepo to re-index so the target version is resolvable even if the
+# image baked a stale index (the original 1.8.0-vs-1.8.1 problem).
+log "refreshing ClusterRepo ${EXT_REPO} ..."
+rsh "kubectl patch clusterrepo ${EXT_REPO} --type=merge -p '{\"spec\":{\"forceUpdate\":\"$(date -u +%FT%TZ)\"}}'" \
+  || log "warn: could not patch ClusterRepo ${EXT_REPO}"
+sleep 20
+
+# Admin API token (login is enough for the catalog action).
+PASS="$(cat /root/rancher-password 2>/dev/null)"
+TOKEN="$(curl -sk --max-time 15 "${RANCHER_API}/v3-public/localProviders/local?action=login" \
+  -H 'Content-Type: application/json' \
+  -d "{\"username\":\"admin\",\"password\":\"${PASS}\"}" \
+  | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')"
+if [ -z "${TOKEN}" ]; then
+  log "warn: no Rancher API token; skipping reconcile (non-fatal)."
+  echo ">>> Challenge 1 setup complete."
+  exit 0
+fi
+
+ACTION="install"; [ -n "${CUR}" ] && ACTION="upgrade"
+log "catalog ${ACTION}: ${EXT_NAME} ${EXT_VERSION} from repo ${EXT_REPO} ..."
+
+BODY="{\"charts\":[{\"chartName\":\"${EXT_NAME}\",\"version\":\"${EXT_VERSION}\",\"releaseName\":\"${EXT_NAME}\",\"annotations\":{\"catalog.cattle.io/ui-source-repo-type\":\"cluster\",\"catalog.cattle.io/ui-source-repo\":\"${EXT_REPO}\"},\"values\":{}}],\"namespace\":\"${EXT_NS}\",\"wait\":true,\"timeout\":\"600s\"}"
+
+HTTP="$(curl -sk --max-time 300 -o /tmp/ui-ext-resp.json -w '%{http_code}' \
+  "${RANCHER_API}/v1/catalog.cattle.io.clusterrepos/${EXT_REPO}?action=${ACTION}" \
+  -H "Authorization: Bearer ${TOKEN}" -H 'Content-Type: application/json' -d "${BODY}")"
+log "catalog ${ACTION} -> HTTP ${HTTP}"
+[ "${HTTP}" -ge 400 ] && log "warn: $(cat /tmp/ui-ext-resp.json 2>/dev/null)"
+
+# Verify (poll up to ~3 min).
+for _ in $(seq 1 18); do
+  [ "$(current_ver)" = "${EXT_VERSION}" ] && { log "reconciled to ${EXT_VERSION}."; break; }
+  sleep 10
+done
+[ "$(current_ver)" = "${EXT_VERSION}" ] || log "warn: not at ${EXT_VERSION} yet (non-fatal); check the Extensions page."
+
+echo ">>> Challenge 1 setup complete."
+exit 0
