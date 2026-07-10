@@ -69,6 +69,10 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
+> [!NOTE]
+> **UI login.** The SUSE Virtualization UI and the Rancher Prime UI use the same credentials.
+> Username: `admin`  ·  Password: `[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]`
+
 <img class="logos" alt="Welcome!" src="../assets/02-chapter-img.png"/>
 
 <div class="storybox">
