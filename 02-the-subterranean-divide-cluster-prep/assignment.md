@@ -102,8 +102,8 @@ You walk between the two rows, feeling the distinct temperature differential. *"
 
 You explain the elegant architecture of <b class="virt">SUSE Virtualization</b>: by leveraging advanced open-source technologies on a **Kubernetes foundation**, the platform does not just *tolerate* virtual machines — it treats them as **native citizens of the container ecosystem**. The heavy virtual machines will run side-by-side with the nimble containers, managed by the exact same orchestration engine:
 
-| Legacy silo | Container silo | Unified on SUSE Virtualization |
-|-------------|----------------|-------------------------------|
+| Virtualization silo | Container silo | Unified on SUSE Virtualization |
+|---------------------|----------------|-------------------------------|
 | Hypervisor hosts | Kubernetes nodes | **One set of nodes runs both** |
 | Hypervisor management console | Container tooling | **One platform underneath** — SUSE Virtualization runs the VMs, Rancher Prime commands the clusters and the containers |
 | SAN storage arrays | CSI volumes | **Longhorn serves VMs and pods alike** |
