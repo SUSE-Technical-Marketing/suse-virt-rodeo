@@ -123,15 +123,7 @@ echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/opens
 1. Navigate to the <b class="highlightcopy">transaction-ledger</b> details page
 2. Click the **Snapshots** tab
 3. Click **Take Snapshot** and name it <b class="highlightcopy">pre-disaster-backup</b>
-4. Wait for the storage subsystem to flag the snapshot state as **Active**
-
-You can confirm the checkpoint from the API as well — in a second terminal or after the next step:
-
-```bash,run
-kubectl get vmsnapshots -A
-```
-
-The snapshot should report `ReadyToUse: true`. The rollback point is set.
+4. Wait for the storage subsystem to flag the snapshot state as **Active** — the rollback point is set
 
 > [!NOTE]
 > Snapshots are **crash-consistent** by default — equivalent to pulling the power cord and booting back up. For **application-consistent** snapshots (filesystem freeze during capture), the QEMU guest agent must be running inside the VM — you will meet it again in a later chapter.
@@ -199,59 +191,30 @@ Now that you have verified the snapshot's integrity, return to the [button label
 
 Optionally, SSH back into the production ledger and `cat` the file one last time — the record is back where it belongs.
 
-🏋️ Bonus Drills — from snapshots to a real protection strategy
-===============================================================
+🏋️ Bonus Drills — from snapshots to a real protection strategy (optional)
+===========================================================================
 
-- **Tier your protection policies.** Every ledger disk currently gets **3 replicas** — one per node. Inspect the default policy in the UI under **Advanced > Storage Classes** (click `harvester-longhorn` and note `numberOfReplicas: "3"`). Not everything deserves banking-grade replication, though — create a lighter 2-replica tier for the bank's dev and staging workloads:
+- **Tier your protection policies.** Every ledger disk currently gets **3 replicas** — one per node. Inspect the default policy in the [button label="SUSE Virtualization UI" variant="success"](tab-0) under **Advanced > Storage Classes**: click `harvester-longhorn` and note **Number Of Replicas: 3**. Not everything deserves banking-grade replication, though — create a lighter tier for the bank's dev and staging workloads:
 
-```bash,run
-cat << EOF | kubectl apply -f -
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: harvester-longhorn-2rep
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "false"
-provisioner: driver.longhorn.io
-allowVolumeExpansion: true
-reclaimPolicy: Delete
-volumeBindingMode: Immediate
-parameters:
-  numberOfReplicas: "2"
-  staleReplicaTimeout: "30"
-  fromBackup: ""
-  fsType: ext4
-EOF
-```
+  1. In **Advanced > Storage Classes**, click **Create**
+  2. Set the **Name** to <b class="highlightcopy">harvester-longhorn-2rep</b>
+  3. Set **Number Of Replicas** to <b class="highlightcopy">2</b>
+  4. Click **Create**
+
+  Two policies now exist side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and `harvester-longhorn-2rep` (2 replicas — dev and staging).
+
+- **See the replication with your own eyes.** Open the **Longhorn** dashboard (**Advanced > Longhorn**, as in Chapter 1), go to the **Volume** page, and click any volume. The diagram shows its replicas spread across different nodes — one node can burn down and the ledger keeps serving.
+
+- **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object:
 
 ```bash,run
-kubectl get storageclass
-```
-
-  Two policies now exist: `harvester-longhorn` (3 replicas — production ledgers) and `harvester-longhorn-2rep` (2 replicas — dev and staging).
-
-- **See the replication with your own eyes.** Check how Longhorn spreads each volume's replicas across different nodes — one node can burn down and the ledger keeps serving:
-
-```bash,run
-kubectl get replicas.longhorn.io -n longhorn-system -o custom-columns=NAME:.metadata.name,NODE:.spec.nodeID,VOLUME:.spec.volumeName,STATE:.status.currentState
-```
-
-- **Look one layer deeper** — each VM snapshot is built from volume-level snapshots in Longhorn:
-
-```bash,run
-kubectl get volumesnapshots -A
+kubectl get vmsnapshots -A; kubectl get volumesnapshots -A
 ```
 
 - **Clean up the sandbox.** The staging clone did its job; delete <b class="highlightcopy">ledger-staging-verify</b> from the **Virtual Machines** page to return its resources to the pool.
 
 > [!IMPORTANT]
-> Snapshots live on the **same cluster** as the workload — they protect against fat fingers, not against a datacenter fire. For real disaster recovery, <b class="virt">SUSE Virtualization</b> also supports **VM backups** to an external S3 or NFS backup target, plus scheduled snapshot/backup policies. Inspect where it plugs in:
-
-```bash,run
-kubectl get settings.harvesterhci.io backup-target -o yaml
-```
-
-> In a production <b class="bank">Vertex Trust Bank</b> deployment, this would point to an S3 bucket or NFS share at a separate facility — the modern equivalent of the midnight tape run, minus the midnight.
+> Snapshots live on the **same cluster** as the workload — they protect against fat fingers, not against a datacenter fire. For real disaster recovery, <b class="virt">SUSE Virtualization</b> also supports **VM backups** to an external S3 or NFS backup target, plus scheduled snapshot/backup policies. See where it plugs in under **Advanced > Settings > backup-target** in the UI. In a production <b class="bank">Vertex Trust Bank</b> deployment, this would point to an S3 bucket or NFS share at a separate facility — the modern equivalent of the midnight tape run, minus the midnight.
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================

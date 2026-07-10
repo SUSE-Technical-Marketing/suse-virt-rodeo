@@ -102,12 +102,12 @@ You don't need physical cables. You have the power of **software-defined network
 
 ## <b class="hovereffect">Two layers of software-defined networking</b>
 
-<b class="virt">SUSE Virtualization</b> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN — capabilities the bank used to pay a separate NSX license for:
+<b class="virt">SUSE Virtualization</b> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN — capabilities the bank used to pay a separate closed-source SDN license for:
 
 | Layer | Technology | Use tonight |
 |-------|-----------|-------------|
 | L2 / VLAN bridging | **Multus** | The vault VLAN isolating the database |
-| SDN / isolated overlay zones | **Kube-OVN** v1.15.4 | Private subnets with no external path — even overlapping CIDRs |
+| SDN / isolated overlay zones | **Kube-OVN** | Private subnets with no external path — even overlapping CIDRs |
 
 <div class="missionbox">
 
@@ -115,8 +115,7 @@ You don't need physical cables. You have the power of **software-defined network
 
 1. Construct the virtual vault network
 2. Isolate the database into the vault
-3. Enforce strict Kubernetes network policies
-4. Prove the lateral attack vector is severed
+3. Prove the lateral attack vector is severed
 
 </div>
 
@@ -138,13 +137,7 @@ Click **Create**.
   <img class="animatedgif" src="../assets/02-create_vm_network.gif"/>
 </div>
 
-Verify from the [button label="Cluster Terminal" variant="success"](tab-1) that the VLAN tag is baked into the CNI configuration:
-
-```bash,run
-kubectl get network-attachment-definitions secure-vault-vlan -n default -o yaml | grep -i vlan
-```
-
-You should see VLAN `100` in the config — traffic on this network is tagged separately from the untagged `vmnet` you built earlier.
+Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-vault-vlan</b> appears with **VLAN ID 100** and an **Active** status — traffic on this network is tagged separately from the untagged `vmnet` you built earlier.
 
 > [!NOTE]
 > In a physical deployment, the upstream switch ports connected to the cluster nodes must have VLAN 100 trunked. In this lab the fabric is virtual, so the tag is honored end to end automatically.
@@ -164,12 +157,37 @@ Return to the **Virtual Machines** dashboard. Locate and edit the <b class="high
 
 The database now lives inside the vault. Anything outside VLAN 100 simply cannot see it at layer 2.
 
-🛡️ Task 3: Enforce strict Kubernetes network policies
+🎯 Task 3: Prove the lateral attack vector is severed
 =====================================================
 
-One wall is good. Two walls are banking-grade. To provide **defense-in-depth**, apply a strict network policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation.
+Trust nothing you have not tested. Retrieve the IP addresses for both the <b class="highlightcopy">web-frontend</b> and the <b class="highlightcopy">insider-threat-db</b> from the UI.
 
-Switch to the [button label="Cluster Terminal" variant="success"](tab-1) and apply a default deny-all ingress policy to the secure namespace:
+Simulate the attacker's position: log into the public perimeter by accessing the web server from your terminal (replace `WEB_FRONTEND_IP`):
+
+```bash
+ssh opensuse@WEB_FRONTEND_IP
+```
+
+From **inside** the web server, attempt to reach the internal database (replace `INSIDER_THREAT_DB_IP`):
+
+```bash
+ping INSIDER_THREAT_DB_IP
+```
+
+<div class="storybox">
+
+The terminal hangs. The packets simply vanish into the void. The software-defined network boundary is holding firm. The database is **entirely invisible** to the outside world.
+
+</div>
+
+Press `Ctrl+C` to cancel the ping, and type `exit` to return to your Cluster Terminal. You finally allow yourself a sip of the cold coffee. ☕
+
+🏋️ Bonus Drills — for the command-line curious (optional)
+==========================================================
+
+New to Kubernetes? **Skip ahead freely** — the vault is already sealed. These optional drills add extra walls with pure Kubernetes tooling.
+
+**Drill 1 — a second wall: Kubernetes network policies.** One wall is good. Two walls are banking-grade. For **defense-in-depth**, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
 
 ```bash,run
 cat << EOF | kubectl apply -f -
@@ -191,35 +209,7 @@ Confirm the policy is enforced:
 kubectl get networkpolicy -n vertex-trust-prod
 ```
 
-🎯 Task 4: Prove the lateral attack vector is severed
-=====================================================
-
-Trust nothing you have not tested. Retrieve the IP addresses for both the <b class="highlightcopy">web-frontend</b> and the <b class="highlightcopy">insider-threat-db</b> from the UI.
-
-Simulate the attacker's position: log into the public perimeter by accessing the web server from your terminal (replace `WEB_FRONTEND_IP`):
-
-```bash
-ssh opensuse@WEB_FRONTEND_IP
-```
-
-From **inside** the web server, attempt to reach the internal database (replace `INSIDER_THREAT_DB_IP`):
-
-```bash
-ping INSIDER_THREAT_DB_IP
-```
-
-<div class="storybox">
-
-The terminal hangs. The packets simply vanish into the void. The software-defined network boundary and the Kubernetes network policy are holding firm. The database is **entirely invisible** to the outside world.
-
-</div>
-
-Press `Ctrl+C` to cancel the ping, and type `exit` to return to your Cluster Terminal. You finally allow yourself a sip of the cold coffee. ☕
-
-🏋️ Bonus Drill — build air-gapped containment zones
-====================================================
-
-VLANs segment the physical network — but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:
+**Drill 2 — build air-gapped containment zones.** VLANs segment the physical network — but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:
 
 ```bash,run
 cat << EOF | kubectl apply -f -

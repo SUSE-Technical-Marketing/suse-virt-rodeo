@@ -127,15 +127,9 @@ ping PAYMENT_GATEWAY_IP
 🚚 Task 3: Execute the Live Migration
 =====================================
 
-First, record exactly which node the gateway is running on — you will want proof it moved. In the [button label="Cluster Terminal" variant="success"](tab-1) (a second terminal view works, or just read the **Node** column in the UI):
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the <b class="highlightcopy">payment-gateway-prod</b> instance:
 
-```bash
-kubectl get vmi -A -o wide | grep payment-gateway
-```
-
-Note the `NODE` column. Now, in the [button label="SUSE Virtualization UI" variant="success"](tab-0), locate the <b class="highlightcopy">payment-gateway-prod</b> instance:
-
-1. Confirm the **Node** column matches what you just recorded
+1. Read the **Node** column and **write down** which node the gateway is running on — you will want proof it moved
 2. Click the **three vertical dots** on the far right side of its row
 3. Select **Migrate** from the context menu
 4. Choose a different, safe target node from the dropdown list
@@ -156,13 +150,9 @@ You hold your breath as the hypervisor coordinates the massive memory transfer o
 
 Press `Ctrl+C` to terminate the ping. You exhale sharply. **The transaction flow survived.**
 
-Confirm the VM now reports a different node than the one you recorded before the migration:
+Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">payment-gateway-prod</b> now shows a **different node** than the one you wrote down — the gateway physically moved while its customers never noticed.
 
-```bash,run
-kubectl get vmi -A -o wide | grep payment-gateway
-```
-
-And produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running (replace `PAYMENT_GATEWAY_IP`):
+Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running (replace `PAYMENT_GATEWAY_IP`):
 
 ```bash
 ssh opensuse@PAYMENT_GATEWAY_IP "hostname && uptime"
@@ -176,10 +166,10 @@ Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). 
 1. Click the **three dots** on its row
 2. Select **Unpause** to allow the non-critical jobs to resume
 
-🏋️ Bonus Drills — the migration paper trail
-============================================
+🏋️ Bonus Drills — the migration paper trail (optional, for the command-line curious)
+======================================================================================
 
-Every migration is itself a Kubernetes object — which means it is auditable. In the [button label="Cluster Terminal" variant="success"](tab-1):
+New to Kubernetes? **Skip ahead freely.** Otherwise: every migration is itself a Kubernetes object — which means it is auditable. In the [button label="Cluster Terminal" variant="success"](tab-1):
 
 - **Review the migration record** (who moved, when, from where to where):
 
@@ -200,7 +190,7 @@ kubectl get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStr
 ```
 
 > [!NOTE]
-> **New in SUSE Virtualization 1.8:** the same zero-downtime idea now applies to *disks*. **In-place storage live migration** can move a running VM's volumes between storage backends — for example from Longhorn to an external CSI array — without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
+> **Beyond compute:** the same zero-downtime idea also applies to *disks*. <b class="virt">SUSE Virtualization</b> supports **in-place storage live migration** — moving a running VM's volumes between storage backends — for example from Longhorn to an external CSI array — without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================

@@ -4,7 +4,7 @@ id: ph0397pwupps
 type: challenge
 title: ⚔️ Chapter 8 — The Final Showdown
 teaser: The legacy vendor wants 40% more for the renewal. Decline it — then extract
-  the last critical VM from the old ISAWare cluster while it is still running.
+  the last critical VM from the old ISAware cluster while it is still running.
 tabs:
 - id: ophxsxtfty7o
   title: SUSE Virtualization UI
@@ -105,18 +105,10 @@ Sarah looks at you, stunned. *"If we turn that cluster off, the bank dies."*
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to the **Advanced** menu on the left, and click **Migration**.
 
-Click on **Sources** to ensure the bridge to the old world is established. Verify that <b class="highlightcopy">vcenter-legacy-01</b> is displaying a green **Ready** status.
+Click on **Sources** to ensure the bridge to the old world is established. Verify that <b class="highlightcopy">isaware-legacy-01</b> is displaying a green **Ready** status.
 
 > [!NOTE]
-> A migration source holds the address and credentials of the legacy vCenter or ESXi endpoint. The import controller uses it to enumerate and extract VMs — no agent is installed on the old cluster.
-
-You can also confirm the machinery is alive from the [button label="Cluster Terminal" variant="success"](tab-1):
-
-```bash,run
-kubectl get pods -A | grep vm-import
-```
-
-The `vm-import-controller` pod should be `Running` — this is the engine that will perform the heist.
+> A migration source holds the address and credentials of the legacy ISAware management endpoint. The import controller uses it to enumerate and extract VMs — no agent is installed on the old cluster.
 
 📦 Task 2: Execute the workload extraction
 ==========================================
@@ -136,12 +128,6 @@ Click **Create** and watch the progress bar closely.
 Behind the scenes, the new cluster is reaching into the legacy storage array, copying the raw disk blocks, converting them into cloud-native volumes, and wrapping them in modern descriptors. The old hypervisor doesn't even know the ledger is leaving.
 
 </div>
-
-While it runs, watch the import object progress from the terminal:
-
-```bash,run
-kubectl get virtualmachineimports -A
-```
 
 ✅ Task 3: Verify the migrated workload
 =======================================
@@ -172,10 +158,16 @@ sudo systemctl enable --now qemu-guest-agent
 
 Type `exit` to return to the Cluster Terminal. If you look back at the [button label="SUSE Virtualization UI" variant="success"](tab-0), the virtual machine will now report rich telemetry data — including memory usage and assigned IP addresses — directly to the dashboard.
 
-🏋️ Bonus Drills — treat the refugee like a citizen
-===================================================
+🏋️ Bonus Drills — treat the refugee like a citizen (optional)
+==============================================================
 
 The migrated VM is now a first-class <b class="virt">SUSE Virtualization</b> workload. Prove it by applying what you learned in the previous chapters:
+
+- **For the command-line curious — watch the extraction machinery at work.** The importer runs as a pod, and every migration is a trackable API object:
+
+```bash,run
+kubectl get pods -A | grep vm-import; kubectl get virtualmachineimports -A
+```
 
 - **Confirm it is a native Kubernetes object** like every other VM in the fleet:
 

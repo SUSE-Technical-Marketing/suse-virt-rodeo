@@ -97,21 +97,23 @@ Your journey begins right now. Before you can begin dismantling the old world, y
 
 ## <b class="hovereffect">What is SUSE Virtualization?</b>
 
-<b class="virt">SUSE Virtualization</b> (also known as **Harvester**) is a modern, open-source hyperconverged infrastructure (HCI) platform built on Kubernetes. It runs directly on bare metal and manages both **virtual machines** and **container workloads** from a single interface — exactly the bridge <b class="bank">Vertex Trust Bank</b> needs:
+<b class="virt">SUSE Virtualization</b> (also known as **Harvester**) is a modern, open-source hyperconverged infrastructure (HCI) platform built on Kubernetes. It runs directly on bare metal and gives the bank enterprise-grade **virtual machines** on a cloud-native foundation — exactly the bridge <b class="bank">Vertex Trust Bank</b> needs:
 
 - **KubeVirt + KVM** — enterprise virtualization as native Kubernetes workloads
 - **Longhorn** — distributed, replicated block storage across every node
 - **Software-defined networking** — VLANs and isolated overlay networks without touching a cable
 - **One open-source bill** — no per-socket hypervisor tax
 
+Because the platform runs *on* Kubernetes, containerized workloads can run on the very same cluster. Keep the division of labor straight from day one: the <b class="virt">SUSE Virtualization</b> UI manages **virtual machines** — managing containers (and managing whole fleets of clusters) is the job of **Rancher Prime**, which you will meet in a moment.
+
 Every proprietary component bleeding the bank's budget dry has a modern, open-source replacement:
 
-| The old world (per-socket licensing) | SUSE Virtualization | Version |
-|--------------------------------------|---------------------|---------|
-| ESXi | KubeVirt + KVM | KubeVirt v1.7.0 |
-| vSAN | Longhorn distributed storage | Longhorn v1.11.1 |
-| NSX | Kube-OVN + Multus | Kube-OVN v1.15.4 |
-| vCenter | SUSE Rancher Prime | Rancher Prime v2.13.1 |
+| The old world (per-socket licensing) | SUSE Virtualization |
+|--------------------------------------|---------------------|
+| ISAware proprietary hypervisor | KubeVirt + KVM |
+| Proprietary storage array | Longhorn distributed storage |
+| Closed-source SDN | Kube-OVN + Multus |
+| ISAware Command Throne | SUSE Rancher Prime |
 
 No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform, one bill** — exactly what you promised Sarah in the boardroom.
 
@@ -120,9 +122,9 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 ## 🎯 Your Quest Objectives
 
 1. Log in and inspect the unified dashboard
-2. Validate the distributed storage fabric
-3. Test your administrative terminal access
-4. Check cluster component health
+2. Meet Rancher Prime, the fleet commander
+3. Validate the distributed storage fabric
+4. Test your administrative terminal access
 
 </div>
 
@@ -153,9 +155,6 @@ Password:
 
 Navigate to the [button label="SUSE Virtualization UI" variant="success"](tab-0) tab and log in using your credentials.
 
-> [!NOTE]
-> The platform is also connected to **Rancher Prime** — the bank's future "single pane of glass" over every cluster it will ever run. Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** from the left menu to see the cluster from the fleet-management perspective. You will use this view again later in the mission.
-
 ![01-connect_to_cluster.gif](../assets/01-connect_to_cluster.gif)
 
 Take a moment to examine the main **Dashboard** — this is your command center for the entire mission:
@@ -165,9 +164,19 @@ Take a moment to examine the main **Dashboard** — this is your command center 
 - Check the **Events** stream: a healthy cluster should show routine activity, not a sea of red like Sarah's old monitor.
 
 > [!NOTE]
-> Everything you see in this dashboard — VMs, volumes, networks — is a Kubernetes resource under the hood. You will use both the UI and `kubectl` throughout this mission, and they always show the same truth.
+> Everything you see in this dashboard — VMs, volumes, networks — is a Kubernetes resource under the hood. The UI is your primary tool for this mission; a terminal stands ready for the optional bonus drills, if you are curious about the machinery.
 
-💾 Task 2: Validate the distributed storage fabric
+🐮 Task 2: Meet Rancher Prime, the fleet commander
+==================================================
+
+The platform is also connected to **Rancher Prime** — and it is important to understand who does what in the bank's new world:
+
+- <b class="virt">SUSE Virtualization</b> manages the **virtual machines** on this cluster.
+- **Rancher Prime** manages **many clusters at once** — every SUSE Virtualization cluster in every branch datacenter — plus centralized **users, roles, and access control (RBAC)**, and the **container workloads** the bank will run alongside its VMs.
+
+Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** from the left menu to see this cluster from the fleet-management perspective. Today Rancher commands a fleet of one; when the bank's branch datacenters migrate, they will all report here. You will use this view again later in the mission.
+
+💾 Task 3: Validate the distributed storage fabric
 ==================================================
 
 A healthy storage backend is critical for banking operations. <b class="virt">SUSE Virtualization</b> uses **Longhorn** to replicate every volume across the cluster.
@@ -180,35 +189,27 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 If a node were unschedulable or a volume degraded, Longhorn would already be rebuilding replicas elsewhere — but you always confirm your ground truth before a migration of this magnitude.
 
-⌨️ Task 3: Test your administrative terminal access
+⌨️ Task 4: Test your administrative terminal access
 ===================================================
 
-Click on the [button label="Cluster Terminal" variant="success"](tab-1) tab. You must validate that your connection to the underlying Kubernetes engine is active:
+You will spend most of this mission in the UI, but an architect always verifies their emergency access. Click on the [button label="Cluster Terminal" variant="success"](tab-1) tab and run one command to validate that your connection to the underlying Kubernetes engine is active:
 
 ```bash,run
 kubectl cluster-info
 ```
 
-You should see the Kubernetes control plane and CoreDNS endpoints respond. Your administrative access is live.
+You should see the Kubernetes control plane and CoreDNS endpoints respond. Your administrative access is live — that is all the terminal work this chapter requires.
 
-🩺 Task 4: Check cluster component health
-=========================================
+🏋️ Bonus Drills — for the command-line curious (optional)
+==========================================================
 
-To ensure all <b class="virt">SUSE Virtualization</b> subsystems are operating correctly, query the control plane's health endpoint:
+New to Kubernetes? **Skip ahead freely** — everything that matters is in the UI. If you want to peek at the machinery, run these extra checks in the [button label="Cluster Terminal" variant="success"](tab-1):
+
+- **Check cluster component health** — query the control plane's health endpoint; every check (etcd, informers, shutdown hooks) should report `ok`:
 
 ```bash,run
 kubectl get --raw='/readyz?verbose'
 ```
-
-Review the output carefully — every check (etcd, informers, shutdown hooks) should report `ok`.
-
-> [!NOTE]
-> You may see older guides use `kubectl get componentstatuses`. That API is deprecated — the `/readyz` endpoint above is the modern, complete health readout, and it is what the bank's monitoring will scrape in production.
-
-🏋️ Bonus Drills — go deeper before you proceed
-===============================================
-
-A true architect never stops at the minimum. Run these extra checks in the [button label="Cluster Terminal" variant="success"](tab-1):
 
 - **Confirm every node in the fabric is ready:**
 
@@ -226,7 +227,7 @@ kubectl get pods -n harvester-system | grep -v Completed
 
   All pods should be `Running`.
 
-- **Confirm the exact platform version you promised Sarah:**
+- **Confirm the exact platform version the bank is running:**
 
 ```bash,run
 kubectl get settings.harvesterhci.io server-version
@@ -236,7 +237,8 @@ kubectl get settings.harvesterhci.io server-version
 ==============================================
 
 - **One command center.** VMs, storage, and networking are visible from a single dashboard — no more juggling three separate management consoles with three separate licenses.
-- **Kubernetes-native from day one.** Every check you just performed used standard `kubectl` — the same skills the bank's container teams already have.
+- **Kubernetes-native from day one.** Everything in the dashboard is a Kubernetes resource under the hood — the container team's existing skills transfer directly, while the VM team gets a friendly point-and-click UI.
+- **Fleet management and RBAC included.** Rancher Prime is ready to command every cluster the bank will ever run, with one login and one set of access rules.
 - **Distributed storage out of the box.** Longhorn replicates data across nodes automatically; no proprietary SAN, no synchronization nightmares.
 
 Once you confirm the control plane is responding, the storage is healthy, and your administrative access is secured, you are ready to proceed deeper into the facility.

@@ -90,7 +90,7 @@ You explain the elegant architecture of <b class="virt">SUSE Virtualization</b>:
 | Legacy silo | Container silo | Unified on SUSE Virtualization |
 |-------------|----------------|-------------------------------|
 | Hypervisor hosts | Kubernetes nodes | **One set of nodes runs both** |
-| VM management console | `kubectl` | **One API, one CLI, one UI** |
+| Hypervisor management console | Container tooling | **One platform underneath** — SUSE Virtualization runs the VMs, Rancher Prime commands the clusters and the containers |
 | SAN storage arrays | CSI volumes | **Longhorn serves VMs and pods alike** |
 | Two on-call teams | | **One platform team** |
 
@@ -101,11 +101,9 @@ To prove the architecture is sound, you must prepare the environment to host the
 ## 🎯 Your Quest Objectives
 
 1. Inspect the physical node topology
-2. Map the nodes via the command line
-3. Expose the virtualization operators
-4. Prepare a dedicated workspace for the bank
-5. Build the bank's production VM network
-6. Reserve address space for customer-facing services
+2. Prepare a dedicated workspace for the bank
+3. Build the bank's production VM network
+4. Reserve address space for customer-facing services
 
 </div>
 
@@ -119,44 +117,21 @@ Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navi
 
 Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the Longhorn distributed storage pool that will hold the bank's ledgers.
 
-🗺️ Task 2: Map the nodes via the command line
-=============================================
-
-Switch your view to the [button label="Cluster Terminal" variant="success"](tab-1). Because <b class="virt">SUSE Virtualization</b> operates natively on Kubernetes, these very same hosts can be queried using standard cluster commands:
-
-```bash,run
-kubectl get nodes -o wide
-```
-
-Compare the output with the **Hosts** page you just visited — same machines, same IPs, same OS image. The UI and the API are two views of one single source of truth.
-
-⚙️ Task 3: Expose the virtualization operators
-==============================================
-
-You need to reveal the hidden engine that translates traditional virtual machine instructions into container-native processes. Query the system namespace to expose the virtualization operators:
-
-```bash,run
-kubectl get pods -n harvester-system | grep virt
-```
-
-You should see components like `virt-api`, `virt-controller`, and `virt-handler` — this is **KubeVirt**, the engine that runs every VM as a pod. `virt-handler` runs on every node, acting as the bridge between Kubernetes and KVM.
-
-🏗️ Task 4: Prepare a dedicated workspace for the bank
+🏗️ Task 2: Prepare a dedicated workspace for the bank
 =====================================================
 
-In Kubernetes, workloads are isolated in **namespaces**. You need to create a dedicated space for the financial workloads you are about to deploy:
+The platform isolates workloads in **namespaces** — separate, governable workspaces on the same cluster. The bank's financial workloads deserve their own.
 
-```bash,run
-kubectl create namespace vertex-trust-prod
-```
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-Verify it exists:
+1. Select **Namespaces** from the left-hand menu
+2. Click **Create**
+3. Set the **Name** to <b class="highlightcopy">vertex-trust-prod</b>
+4. Click **Create**
 
-```bash,run
-kubectl get namespace vertex-trust-prod --show-labels
-```
+The new workspace appears in the list, ready to hold the bank's production systems with its own quotas, policies, and access controls.
 
-🌐 Task 5: Build the bank's production VM network
+🌐 Task 3: Build the bank's production VM network
 =================================================
 
 Before a single ledger VM can boot, it needs a network to live on — one that lets the bank's virtual machines talk to each other and to the outside world.
@@ -176,18 +151,12 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 ![03-create_vm_network.gif](../assets/03-create_vm_network.gif)
 
-Verify from the [button label="Cluster Terminal" variant="success"](tab-1):
-
-```bash,run
-kubectl get network-attachment-definitions -n default
-```
-
-`vmnet` should be listed. Every bank workload you deploy in the coming chapters attaches to this network.
+Back in the list, <b class="highlightcopy">vmnet</b> should show as **Active**. Every bank workload you deploy in the coming chapters attaches to this network.
 
 > [!NOTE]
 > On production hardware with more physical NICs, best practice is to split responsibilities across dedicated networks — management, storage replication, live migration, and VM workload traffic each on their own uplink. In this lab, everything rides the `mgmt` cluster network. SUSE Virtualization also supports VLAN tagging, load-balancer configurations, and other software-defined networking services — you will build a tagged VLAN yourself in a later chapter.
 
-🏦 Task 6: Reserve address space for customer-facing services
+🏦 Task 4: Reserve address space for customer-facing services
 =============================================================
 
 <b class="virt">SUSE Virtualization</b> is not only a virtualization platform — it is designed to also run Kubernetes clusters on top. Those clusters need LoadBalancer IPs to expose their services. An **IP Pool** pre-allocates a range of addresses for exactly that.
@@ -204,27 +173,29 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
    - **Namespace:** `default`
 5. Click **Create**
 
-Verify:
+<b class="highlightcopy">vertex-ippool</b> now appears in the list. The bank's address reserve is funded.
+
+🏋️ Bonus Drills — for the command-line curious (optional)
+==========================================================
+
+New to Kubernetes? **Skip ahead freely.** If you are curious, everything you just did in the UI is also visible through the Kubernetes API — open the [button label="Cluster Terminal" variant="success"](tab-1):
+
+- **Map the nodes from the command line** — same machines, same IPs, same OS image as the **Hosts** page; the UI and the API are two views of one single source of truth:
 
 ```bash,run
-kubectl get ippools.network.harvesterhci.io -n default
+kubectl get nodes -o wide
 ```
 
-`vertex-ippool` should be listed. The bank's address reserve is funded.
-
-🏋️ Bonus Drills — know your metal
-==================================
-
-- **Audit the resources one node can offer the bank.** Pick the first node name from `kubectl get nodes` and inspect its capacity:
+- **Expose the hidden engine** that runs every VM as a container-native process. You should see components like `virt-api`, `virt-controller`, and `virt-handler` — this is **KubeVirt**, the bridge between Kubernetes and KVM:
 
 ```bash,run
-kubectl describe node $(kubectl get nodes -o jsonpath='{.items[0].metadata.name}') | grep -A 6 "Allocatable"
+kubectl get pods -n harvester-system | grep virt
 ```
 
-- **Inspect the storage fabric powering those disks you saw in Task 1:**
+- **See your UI handiwork as API objects** — the workspace, the network, and the address reserve:
 
 ```bash,run
-kubectl get pods -n longhorn-system | head -15
+kubectl get namespace vertex-trust-prod; kubectl get network-attachment-definitions -n default; kubectl get ippools.network.harvesterhci.io -n default
 ```
 
 - **Confirm the cluster is a blank canvas** — no bank VMs exist yet anywhere:
@@ -249,7 +220,7 @@ kubectl label namespace vertex-trust-prod stage=prod owner=vertex-trust
 
 <div class="storybox">
 
-Sarah stares at the terminal output over your shoulder, watching the virtualization pods running smoothly across the nodes and the new namespace spin up. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*
+Sarah watches over your shoulder as the new workspace, the production network, and the address reserve appear on the dashboard, one after another. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*
 
 </div>
 

@@ -4,7 +4,8 @@ id: euwnv5ojhvfl
 type: challenge
 title: "\U0001F920 Chapter 7 — The Stampede"
 teaser: The markets are in freefall and the quants need the calculation fleet scaled
-  from three nodes to five — now. Treat your infrastructure as code with Terraform.
+  from three nodes to five — now. Forge a golden VM template and stamp out identical
+  machines on demand.
 tabs:
 - id: xxc2ymjtxzih
   title: SUSE Virtualization UI
@@ -75,148 +76,130 @@ enhanced_loading: null
 
 A sudden, aggressive shift in global interest rates sends the financial markets into a chaotic frenzy. <b class="bank">Vertex Trust Bank</b>'s risk analysis algorithms are screaming for more compute capacity to process the incoming flood of volatile market data.
 
-*"The three calculation engines are not enough anymore!"* the **Head of Quant** shouts across the room, waving a printed report. *"I need the cluster scaled up to <span class="danger">five nodes immediately</span>, or we fly blind into this market crash!"*
+*"One calculation engine is not enough anymore!"* the **Head of Quant** shouts across the room, waving a printed report. *"I need a fleet of <span class="danger">five identical engines immediately</span>, or we fly blind into this market crash!"*
 
-Clicking through a graphical user interface to provision machines is fine for a localized emergency. But to deploy and scale a massive, identical fleet of servers under immense time pressure requires a vastly different approach. Manual configuration invites human error — and right now, human error costs millions of dollars **per second**.
+Building five machines by hand, one screen at a time, invites exactly what you cannot afford right now: a mistyped memory size here, a forgotten network there. Configuration drift under pressure — and right now, human error costs millions of dollars **per second**.
 
-You pull up your terminal. It is time to treat **infrastructure as code**.
+You crack your knuckles. What the bank needs is a **golden blueprint**: define the perfect machine once, then stamp out identical copies on demand.
 
 </div>
 
-Using **Terraform**, you previously defined the fleet architecture in a simple text file. Now, you will modify that code to dynamically scale the infrastructure out — the same declarative workflow the bank already uses for its cloud accounts, pointed at its own datacenter.
+<b class="virt">SUSE Virtualization</b> has exactly that: **VM Templates**. A template captures CPU, memory, disks, networks, and cloud-init in a single versioned object. Combined with **multi-instance creation**, one blueprint becomes an entire fleet in a single click.
 
 <div class="missionbox">
 
 ## 🎯 Your Quest Objectives
 
-1. Inspect the initial infrastructure code
-2. Deploy the initial fleet
-3. Modify the code to scale the cluster
-4. Apply the infrastructure changes
-5. Clean up the environment
+1. Forge the golden template
+2. Stamp out the initial fleet
+3. Scale the fleet under pressure
+4. Stand the fleet down
 
 </div>
 
-📜 Task 1: Inspect the initial infrastructure code
-==================================================
+📜 Task 1: Forge the golden template
+====================================
 
-In the [button label="Cluster Terminal" variant="success"](tab-1), examine the pre-written Terraform blueprint:
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Advanced > Templates** and click **Create**. Define the blueprint for the calculation engines:
 
-```bash,run
-cat main.tf
+| Setting | Value |
+|--------:|:------|
+| **Name** | <b class="highlightcopy">stress-test-template</b> |
+| **Namespace** | <b class="highlightcopy">vertex-trust-prod</b> |
+| **CPU** | <b class="highlightcopy">1</b> |
+| **Memory** | <b class="highlightcopy">2 GiB</b> |
+
+Then:
+
+1. Under the **Volumes** tab, select the **openSUSE-Leap-15.5** image as the boot disk
+2. Under the **Networks** tab, attach the interface to <b class="highlightcopy">default/vmnet</b>
+3. Under **Advanced Options > Cloud Config**, paste the same credential bootstrap you used during the Flash Crash into **User Data**:
+
+```yaml
+#cloud-config
+password: password123
+chpasswd: { expire: False }
+ssh_pwauth: True
 ```
 
-Review the code on the screen. Notice the key elements:
+4. Click **Create**
 
-- the **provider** block pointing at the <b class="virt">SUSE Virtualization</b> API (it speaks Kubernetes, so it authenticates with the same kubeconfig you have been using)
-- the **resource** definition for the stress-test VMs
-- the <b class="highlightcopy">count = 3</b> variable — the single number that defines the fleet size
+The blueprint is forged. Every engine born from it will be configured identically — down to the last byte.
 
-Initialize the Terraform provider to download the necessary <b class="virt">SUSE Virtualization</b> API plugins:
+> [!NOTE]
+> Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage — a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
 
-```bash,run
-terraform init
-```
+🏭 Task 2: Stamp out the initial fleet
+======================================
 
-🏭 Task 2: Deploy the initial fleet
-===================================
+Navigate to **Virtual Machines** and click **Create**:
 
-Unleash the deployment command to forge the initial servers from code:
+1. Select **Multiple Instance** at the top of the form
+2. Set the **VM Name Prefix** to <b class="highlightcopy">stress-test</b>
+3. Set the **Count** to <b class="highlightcopy">3</b>
+4. Tick **Use VM Template** and select <b class="highlightcopy">stress-test-template</b> (default version)
+5. Make sure the **Namespace** is <b class="highlightcopy">vertex-trust-prod</b>
+6. Click **Create**
 
-```bash,run
-terraform apply -auto-approve
-```
+Watch as <b class="highlightcopy">stress-test-01</b>, <b class="highlightcopy">stress-test-02</b>, and <b class="highlightcopy">stress-test-03</b> materialize in the list and boot in parallel.
 
-Switch to the [button label="SUSE Virtualization UI" variant="success"](tab-0) and navigate to **Virtual Machines**. Watch as <b class="highlightcopy">stress-test-node-1</b>, <b class="highlightcopy">stress-test-node-2</b>, and <b class="highlightcopy">stress-test-node-3</b> materialize.
+Three identical engines, born from one blueprint. No tickets. No checklists. No slipped cursors.
 
-Three identical engines, born from one text file. No tickets. No checklists. No slipped cursors.
+📈 Task 3: Scale the fleet under pressure
+=========================================
 
-📈 Task 3: Modify the code to scale the cluster
-===============================================
+The Head of Quant needs **five** engines, not three. Because the blueprint already exists, scaling out is the same three clicks — click **Create** again:
 
-The Head of Quant needs **five** nodes, not three. Back in the [button label="Cluster Terminal" variant="success"](tab-1), edit the Terraform file to increase the replica count. This command automatically replaces the count variable in the file from 3 to 5:
+1. Select **Multiple Instance**
+2. Set the **VM Name Prefix** to <b class="highlightcopy">stress-test-surge</b>
+3. Set the **Count** to <b class="highlightcopy">2</b>
+4. Tick **Use VM Template** and select <b class="highlightcopy">stress-test-template</b> again
+5. Click **Create**
 
-```bash,run
-sed -i 's/count = 3/count = 5/g' main.tf
-```
-
-Confirm the change landed:
-
-```bash,run
-grep count main.tf
-```
-
-That one-line diff **is** the scaling operation. In a real engagement this edit would be a reviewed pull request — the infrastructure change gets the same code review as any application change.
-
-🚀 Task 4: Apply the infrastructure changes
-===========================================
-
-Execute a dry-run to see what Terraform plans to do. It should detect the change and plan to **add two new machines without destroying the existing three**:
-
-```bash,run
-terraform plan
-```
-
-Read the plan summary: `2 to add, 0 to change, 0 to destroy`. This is the safety net manual provisioning never had. Now apply the scaling operation:
-
-```bash,run
-terraform apply -auto-approve
-```
-
-Switch back to the [button label="SUSE Virtualization UI" variant="success"](tab-0). Watch as <b class="highlightcopy">stress-test-node-4</b> and <b class="highlightcopy">stress-test-node-5</b> dynamically boot up and join the fleet in perfect synchronization.
+<b class="highlightcopy">stress-test-surge-01</b> and <b class="highlightcopy">stress-test-surge-02</b> boot up and join the fleet — bit-for-bit identical to the first three, because they come from the exact same versioned blueprint.
 
 <div class="storybox">
 
-The risk analysis team begins feeding data into the expanded cluster, stabilizing the bank's market position just in time.
+The risk analysis team begins feeding data into the expanded fleet, stabilizing the bank's market position just in time.
 
 </div>
 
-🏋️ Bonus Drills — trust, but verify (with the API)
-===================================================
+> [!NOTE]
+> Everything you just clicked is also available through the platform's API — which means fleet operations like this can be fully automated and code-reviewed like any other change. Choosing the bank's automation toolchain is a story for another sprint.
 
-- **Count the fleet from the command line** — the UI, Terraform state, and the Kubernetes API must all agree:
+🧹 Task 4: Stand the fleet down
+===============================
 
-```bash,run
-kubectl get vm -A | grep stress-test
-```
+Once the market surge subsides, return the capacity to the pool. In **Virtual Machines**:
 
-- **Inspect Terraform's view of reality:**
+1. Tick the **checkboxes** next to all five `stress-test*` machines
+2. Click **Delete** and confirm
 
-```bash,run
-terraform state list
-```
+Five machines summoned, used, and returned — and the only artifact left behind is the golden template, versioned and waiting for the next flash crash.
 
-- **Templating without Terraform:** <b class="virt">SUSE Virtualization</b> also has built-in **VM Templates** for teams that prefer the UI. Explore **Advanced > Templates** in the UI, then list them via the API:
+🏋️ Bonus Drills — for the command-line curious (optional)
+==========================================================
 
-```bash,run
-kubectl get virtualmachinetemplates -A
-```
+New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label="Cluster Terminal" variant="success"](tab-1) that the UI, the fleet, and the API all agree:
 
-  A template captures CPU, memory, disks, networks, and cloud-init in a reusable, versioned object — golden configurations for the next flash crash.
-
-🧹 Task 5: Clean up the environment
-===================================
-
-Once the market surge subsides, clean up the environment to save resources:
+- **Count the fleet from the command line** (run this between Task 3 and Task 4 to see all five):
 
 ```bash,run
-terraform destroy -auto-approve
+kubectl get vm -n vertex-trust-prod | grep stress-test
 ```
 
-Verify the stress-test fleet is gone:
+- **Inspect the blueprint as an API object** — templates and their versions are resources too:
 
 ```bash,run
-kubectl get vm -A | grep stress-test || echo "Fleet decommissioned. Resources returned to the pool."
+kubectl get virtualmachinetemplates,virtualmachinetemplateversions -n vertex-trust-prod
 ```
-
-Five machines summoned, used, and returned — and the only artifact left behind is a text file in version control that describes exactly what happened.
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================
 
 - **Elasticity on owned hardware.** Cloud-style scale-out (and scale-in) on the bank's own datacenter — no data residency questions, no egress bills.
-- **Human error is engineered out.** Fleets are defined in reviewable code; `terraform plan` shows the blast radius *before* anything changes.
-- **Full lifecycle economics.** Decommissioning is one command, so temporary capacity never becomes permanent cost — the exact opposite of the old hypervisor sprawl.
+- **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle — configuration drift cannot happen at 2 AM.
+- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost — the exact opposite of the old hypervisor sprawl.
 
 Click **Check** to continue. ⚔️
 

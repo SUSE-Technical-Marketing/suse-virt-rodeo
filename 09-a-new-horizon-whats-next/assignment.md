@@ -88,14 +88,14 @@ You conquered incredible odds during your time here:
 
 | Chapter | Crisis | Skill you mastered |
 |:--------|:-------|:-------------------|
-| 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform via dashboard, Longhorn, and `kubectl` |
+| 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform dashboard, Longhorn storage, and Rancher Prime |
 | 🛗 The Subterranean Divide | Two warring hardware silos | Uniting VMs and containers on one Kubernetes fabric |
 | ⚡ The Flash Crash | A market meltdown | Deploying VMs in minutes with images, volumes, and cloud-init |
 | 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and resource management |
-| 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs, network policies, and private SDN subnets |
+| 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |
 | ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, safe staging clones, and non-destructive restores |
-| 🤠 The Stampede | A compute famine | Infrastructure as code — scaling fleets with Terraform |
-| ⚔️ The Final Showdown | A vendor holding the bank hostage | Live extraction from VMware and guest telemetry |
+| 🤠 The Stampede | A compute famine | Golden VM templates — stamping out identical fleets on demand |
+| ⚔️ The Final Showdown | A vendor holding the bank hostage | Live extraction from the ISAware cluster and guest telemetry |
 
 Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digital frontier is vast and constantly evolving. There are always new architectures to design and new systems to modernize.
 
@@ -104,18 +104,16 @@ Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digit
 
 The lab environment will remain active until your timer expires. Feel free to explore the dashboard and experiment with the infrastructure you have built. Some ideas:
 
-- **Take a final inventory of the empire you built**, in the [button label="Cluster Terminal" variant="success"](tab-1):
+- **Take a final inventory of the empire you built.** Tour the [button label="SUSE Virtualization UI" variant="success"](tab-0): the **Virtual Machines** page, the **Networks** you defined, the **Templates** blueprint, and the **Backup & Snapshot** history — every crisis of the week left its mark here.
+
+- **Design your own crisis.** Create a new VM from scratch — pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
+
+- **Peek at the monitoring stack** that has been watching over you all along, under **Monitoring & Logging** in the left menu.
+
+- **For the command-line curious (optional):** the same inventory, through the API:
 
 ```bash,run
-kubectl get vm -A && kubectl get network-attachment-definitions -A && kubectl get virtualmachinesnapshots -A
-```
-
-- **Design your own crisis.** Create a new VM from scratch in the [button label="SUSE Virtualization UI" variant="success"](tab-0) — pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
-
-- **Peek at the monitoring stack** that has been watching over you all along:
-
-```bash,run
-kubectl get pods -n cattle-monitoring-system | head -10
+kubectl get vm -A && kubectl get network-attachment-definitions -A && kubectl get vmsnapshots -A
 ```
 
 🏗️ Epilogue Quest — Sarah's last request (optional)
@@ -154,13 +152,13 @@ When **Rancher Prime** manages <b class="virt">SUSE Virtualization</b>, it treat
 5. Under the cluster add-ons, enable the **Harvester CSI Driver** (Longhorn-backed persistent volumes) and the **Harvester Cloud Provider** (LoadBalancer services from your IP pool)
 6. Click **Create**
 
-Watch the platform build a cluster inside itself from the [button label="Cluster Terminal" variant="success"](tab-1) — this takes 5–10 minutes; press `Ctrl+C` once it reports `Active`:
+Watch the platform build a cluster inside itself: stay on Rancher's **Cluster Management** page and watch <b class="highlightcopy">vertex-mobile</b> progress through the provisioning states — VMs appear on the **Virtual Machines** page of the [button label="SUSE Virtualization UI" variant="success"](tab-0) as Rancher creates them. This takes 5–10 minutes; wait for the state **Active**.
 
-```bash,run
-watch kubectl get clusters.provisioning.cattle.io -A
-```
+> For the command-line curious, the same show plays in the [button label="Cluster Terminal" variant="success"](tab-1): `watch kubectl get clusters.provisioning.cattle.io -A` (press `Ctrl+C` once it reports `Active`).
 
-**Step 4 — Light up the ops dashboard.** Once `vertex-mobile` is Active, open it in Rancher's **Cluster Explorer** and launch the built-in **Kubectl Shell** (`>_` icon, top right). Deploy the bank's ops dashboard — a tiny Node.js app that reads the cluster API and renders live vitals:
+**Step 4 — Light up the ops dashboard (advanced — for the Kubernetes-curious).** This final flourish deploys a small containerized app onto the new cluster. Note who is in charge here: the container work happens entirely through **Rancher**, not the SUSE Virtualization UI — running containers is Rancher's job. Skip freely; your mission is already complete.
+
+Once `vertex-mobile` is Active, open it in Rancher's **Cluster Explorer** and launch the built-in **Kubectl Shell** (`>_` icon, top right). Deploy the bank's ops dashboard — a tiny Node.js app that reads the cluster API and renders live vitals:
 
 ```bash
 kubectl create namespace vertex-ops

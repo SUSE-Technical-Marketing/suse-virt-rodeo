@@ -120,12 +120,6 @@ You bypass the legacy ticketing system entirely and prepare to deploy a fully co
 
 Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Images**, and confirm that the base **openSUSE-Leap-15.5** operating system image is present and marked as **Active**.
 
-You can confirm the same from the [button label="Cluster Terminal" variant="success"](tab-1) — images are API objects too:
-
-```bash,run
-kubectl get virtualmachineimages -A
-```
-
 > [!NOTE]
 > Images in <b class="virt">SUSE Virtualization</b> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk — the image itself is never modified.
 
@@ -258,10 +252,16 @@ lsblk
 
 You should see the boot disk **and** a second 10 GiB block device. Type `exit` to close the connection.
 
-🏋️ Bonus Drills — see through the abstraction
-==============================================
+🏋️ Bonus Drills — see through the abstraction (optional, for the command-line curious)
+========================================================================================
 
-Back in the [button label="Cluster Terminal" variant="success"](tab-1), look at what the platform actually created for you:
+New to Kubernetes? **Skip ahead freely.** Otherwise, back in the [button label="Cluster Terminal" variant="success"](tab-1), look at what the platform actually created for you:
+
+- **The golden images are API objects too:**
+
+```bash,run
+kubectl get virtualmachineimages -A
+```
 
 - **The VM is a Kubernetes resource:**
 
