@@ -99,10 +99,13 @@ Your journey begins right now. Before you can begin dismantling the old world, y
 
 <b class="virt">SUSE Virtualization</b> (also known as **Harvester**) is a modern, open-source hyperconverged infrastructure (HCI) platform built on Kubernetes. It runs directly on bare metal and gives the bank enterprise-grade **virtual machines** on a cloud-native foundation — exactly the bridge <b class="bank">Vertex Trust Bank</b> needs:
 
-- **KubeVirt + KVM** — enterprise virtualization as native Kubernetes workloads
-- **Longhorn** — distributed, replicated block storage across every node
+- **KubeVirt + KVM/QEMU** — enterprise virtualization as native Kubernetes workloads. Underneath sits the same battle-hardened **KVM/QEMU** pair that has powered Linux virtualization for decades — which is why the platform can run an enormous variety of guest operating systems, including the very old ones still serving in the bank's dustiest legacy corners, patiently waiting for their migration
+- **Longhorn** — distributed, replicated block storage across every node, set up and ready out of the box. And if the bank ever prefers different storage, **any CSI-compatible storage driver plugs right in** — freedom of choice, never lock-in
 - **Software-defined networking** — VLANs and isolated overlay networks without touching a cable
 - **One open-source bill** — no per-socket hypervisor tax
+- **Support that actually listens** — SUSE customers consistently rate **SUSE Support** among the best in the industry, and their feedback directly shapes where the products go next. Try asking a closed-source vendor for a seat at that table
+
+Because the platform runs *on* Kubernetes, containerized workloads can run on the very same cluster. Keep the division of labor straight from day one: the <b class="virt">SUSE Virtualization</b> UI manages **virtual machines** — managing containers (and managing whole fleets of clusters) is the job of **Rancher Prime**, which you will meet in a moment.
 
 Because the platform runs *on* Kubernetes, containerized workloads can run on the very same cluster. Keep the division of labor straight from day one: the <b class="virt">SUSE Virtualization</b> UI manages **virtual machines** — managing containers (and managing whole fleets of clusters) is the job of **Rancher Prime**, which you will meet in a moment.
 
@@ -111,7 +114,7 @@ Every proprietary component bleeding the bank's budget dry has a modern, open-so
 | The old world (per-socket licensing) | SUSE Virtualization |
 |--------------------------------------|---------------------|
 | ISAware proprietary hypervisor | KubeVirt + KVM |
-| Proprietary storage array | Longhorn distributed storage |
+| Proprietary storage array | Longhorn distributed storage — or any CSI driver the bank chooses |
 | Closed-source SDN | Kube-OVN + Multus |
 | ISAware Command Throne | SUSE Rancher Prime |
 

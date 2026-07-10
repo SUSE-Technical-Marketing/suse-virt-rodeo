@@ -103,7 +103,8 @@ To prove the architecture is sound, you must prepare the environment to host the
 1. Inspect the physical node topology
 2. Prepare a dedicated workspace for the bank
 3. Build the bank's production VM network
-4. Reserve address space for customer-facing services
+4. Carve out a development network on the spare uplink
+5. Reserve address space for customer-facing services
 
 </div>
 
@@ -116,6 +117,9 @@ Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navi
 2. Navigate to the **Storage** tab for that host
 
 Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the Longhorn distributed storage pool that will hold the bank's ledgers.
+
+> [!NOTE]
+> **Banks grow — and so does this fabric.** Adding a node to <b class="virt">SUSE Virtualization</b> is refreshingly simple: boot the new machine with the cluster's **join token** and its network and hostname settings, and it enrolls itself — no manual cluster surgery. Combine that with **PXE network boot** and racking new capacity becomes a matter of minutes: power on, walk away, and watch the newcomer appear on this Hosts page. The [PXE Boot Installation guide](https://documentation.suse.com/cloudnative/virtualization/latest/en/installation-setup/methods/pxe-boot-install.html) has the details.
 
 🏗️ Task 2: Prepare a dedicated workspace for the bank
 =====================================================
@@ -154,9 +158,34 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 Back in the list, <b class="highlightcopy">vmnet</b> should show as **Active**. Every bank workload you deploy in the coming chapters attaches to this network.
 
 > [!NOTE]
-> On production hardware with more physical NICs, best practice is to split responsibilities across dedicated networks — management, storage replication, live migration, and VM workload traffic each on their own uplink. In this lab, everything rides the `mgmt` cluster network. SUSE Virtualization also supports VLAN tagging, load-balancer configurations, and other software-defined networking services — you will build a tagged VLAN yourself in a later chapter.
+> On production hardware with more physical NICs, best practice is to split responsibilities across dedicated networks — management, storage replication, live migration, and VM workload traffic each on their own uplink. In this lab, production traffic rides the `mgmt` cluster network — and in the next task you will put a spare NIC to work for development traffic. SUSE Virtualization also supports VLAN tagging, load-balancer configurations, and other software-defined networking services — you will build a tagged VLAN yourself in a later chapter.
 
-🏦 Task 4: Reserve address space for customer-facing services
+🧪 Task 4: Carve out a development network on the spare uplink
+
+Production traffic should never share a lane with experiments. Every node in the bank's new fabric happens to have a **spare physical network interface** — `eth4` — carrying no traffic at all. You will turn it into a dedicated development network, physically separated from the production path. On legacy hardware this meant switch tickets and a week of waiting; here it is a two-minute job.
+
+First, define the cluster-wide network on the spare uplink. In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+
+1. Go to **Networks > Cluster Networks/Configs** and click **Create**
+2. Set the **Name** to <b class="highlightcopy">dev</b> and click **Create**
+3. Back in the list, find the new <b class="highlightcopy">dev</b> cluster network and click **Create Network Config** on its row
+4. Set the **Name** to <b class="highlightcopy">dev-uplink</b>
+5. Under **Uplink**, select NIC <b class="highlightcopy">eth4</b> (leave the node selector empty so the config applies to every node)
+6. Click **Create** and wait for the config to show as **Active** on all nodes
+
+Now build a VM network on top of it:
+
+7. Go to **Networks > Virtual Machine Networks** and click **Create**
+8. Fill in:
+   - **Name:** <b class="highlightcopy">devnet</b>
+   - **Type:** `UntaggedNetwork`
+   - **Cluster Network:** `dev`
+9. Click **Create**
+
+Two lanes now show as **Active** in the list: <b class="highlightcopy">vmnet</b> (production, on `mgmt`) and <b class="highlightcopy">devnet</b> (development, on the spare uplink). Two worlds, physically separated, zero switch tickets — the A-Team's future sandboxes will live here, safely away from the money.
+
+🏦 Task 5: Reserve address space for customer-facing services
+>>>>>>> 18b572d (more changes)
 =============================================================
 
 <b class="virt">SUSE Virtualization</b> is not only a virtualization platform — it is designed to also run Kubernetes clusters on top. Those clusters need LoadBalancer IPs to expose their services. An **IP Pool** pre-allocates a range of addresses for exactly that.
@@ -192,10 +221,10 @@ kubectl get nodes -o wide
 kubectl get pods -n harvester-system | grep virt
 ```
 
-- **See your UI handiwork as API objects** — the workspace, the network, and the address reserve:
+- **See your UI handiwork as API objects** — the workspace, both networks, and the address reserve:
 
 ```bash,run
-kubectl get namespace vertex-trust-prod; kubectl get network-attachment-definitions -n default; kubectl get ippools.network.harvesterhci.io -n default
+kubectl get namespace vertex-trust-prod; kubectl get clusternetworks.network.harvesterhci.io; kubectl get network-attachment-definitions -n default; kubectl get ippools.network.harvesterhci.io -n default
 ```
 
 - **Confirm the cluster is a blank canvas** — no bank VMs exist yet anywhere:
@@ -216,7 +245,7 @@ kubectl label namespace vertex-trust-prod stage=prod owner=vertex-trust
 - **The silos disappear.** VMs and containers share nodes, storage, networking, and one operations team — the datacenter's "temperature divide" is gone.
 - **No retraining cliff.** The container team's Kubernetes skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by the same API.
 - **Namespaces bring governance.** Financial workloads live in `vertex-trust-prod` with their own quotas, policies, and access controls — auditors will love it.
-- **Networking is self-service.** A production VM network and a LoadBalancer address reserve took minutes to define — no switch tickets, no waiting on the network team.
+- **Networking is self-service.** A production VM network, a physically separate development network on a spare NIC, and a LoadBalancer address reserve took minutes to define — no switch tickets, no waiting on the network team.
 
 <div class="storybox">
 

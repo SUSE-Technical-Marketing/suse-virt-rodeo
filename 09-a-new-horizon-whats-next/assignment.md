@@ -91,9 +91,9 @@ You conquered incredible odds during your time here:
 | 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform dashboard, Longhorn storage, and Rancher Prime |
 | 🛗 The Subterranean Divide | Two warring hardware silos | Uniting VMs and containers on one Kubernetes fabric |
 | ⚡ The Flash Crash | A market meltdown | Deploying VMs in minutes with images, volumes, and cloud-init |
-| 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and resource management |
+| 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and one-click node evacuation |
 | 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |
-| ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, safe staging clones, and non-destructive restores |
+| ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, staging clones, storage tiers, and scheduled off-cluster backups |
 | 🤠 The Stampede | A compute famine | Golden VM templates — stamping out identical fleets on demand |
 | ⚔️ The Final Showdown | A vendor holding the bank hostage | Live extraction from the ISAware cluster and guest telemetry |
 
@@ -252,6 +252,8 @@ Every layer open source. Every layer one bill. Sarah's mobile banking team gets 
 - 🐮 Learn how to manage **fleets of these clusters at scale** — one Rancher Prime managing every SUSE Virtualization cluster in every branch datacenter — with [SUSE Rancher Prime](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
 
 - 🧪 Rebuild this at home: <b class="virt">SUSE Virtualization</b> is open source. Grab the ISO, install it on any spare x86 box, and your own Vertex Trust migration begins.
+
+- 🤝 You are never alone on this trail: SUSE customers consistently rate **SUSE Support** among the best in the industry — and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
 
 - 💬 Talk to your <b class="suse">SUSE</b> representative about what this story would look like with **your** legacy cluster in the darkest corner of the room.
 

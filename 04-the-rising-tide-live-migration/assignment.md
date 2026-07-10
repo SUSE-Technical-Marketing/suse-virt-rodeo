@@ -95,6 +95,7 @@ But first, to ensure maximum bandwidth is available for the emergency migration,
 3. Execute the Live Migration
 4. Monitor the seamless transfer
 5. Resume normal operations
+6. Hand the damaged rack to the repair crew
 
 </div>
 
@@ -150,6 +151,8 @@ You hold your breath as the hypervisor coordinates the massive memory transfer o
 
 Press `Ctrl+C` to terminate the ping. You exhale sharply. **The transaction flow survived.**
 
+Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node — a micro-interruption measured in milliseconds. On a properly sized network it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization, the most you might have spotted is a single ping answering a touch slower than its siblings.
+
 Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">payment-gateway-prod</b> now shows a **different node** than the one you wrote down — the gateway physically moved while its customers never noticed.
 
 Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running (replace `PAYMENT_GATEWAY_IP`):
@@ -165,6 +168,26 @@ Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). 
 
 1. Click the **three dots** on its row
 2. Select **Unpause** to allow the non-critical jobs to resume
+
+====================================================
+
+The gateway is safe — but the water-damaged node is still dripping, and smaller workloads may still be running on it. You are not going to migrate them one by one while a puddle spreads across the floor. Let the platform do the thinking.
+
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Hosts**:
+
+1. Find the node that <b class="highlightcopy">payment-gateway-prod</b> was running on **before** the migration — the one you wrote down. That is the water-damaged machine
+2. Click the **three dots** on its row and select **Enable Maintenance Mode**, then confirm
+
+Now watch the **Virtual Machines** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty — no spreadsheets, no manual target-picking, no forgotten VM.
+
+Once the node shows **Maintenance** and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
+
+3. Click the **three dots** on its row again and select **Disable Maintenance Mode**
+
+The node rejoins the fabric, ready to accept workloads again.
+
+> [!NOTE]
+> The same intelligence works in the other direction, too: every time a new VM is created, the scheduler places it on the least-loaded suitable node, keeping the cluster naturally balanced — no manual Tetris required. Between automatic placement on the way in and automatic evacuation on the way out, the humans only decide *what* should run; the platform decides *where*.
 
 🏋️ Bonus Drills — the migration paper trail (optional, for the command-line curious)
 ======================================================================================
@@ -196,7 +219,7 @@ kubectl get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStr
 ==============================================
 
 - **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots — workloads simply slide to healthy nodes while customers keep paying with their cards.
-- **Planned maintenance without midnight windows.** The same live migration you just used under fire is how the team will drain nodes for routine patching, at 2 PM instead of 2 AM.
+- **Planned maintenance without midnight windows.** One click on **Maintenance Mode** drains an entire node automatically — routine patching happens at 2 PM instead of 2 AM, and nobody keeps a spreadsheet of which VM lives where.
 - **An audit trail regulators can read.** Every migration is a recorded API object — no more reconstructing what happened from console screenshots.
 
 Click **Check** to continue. 🕵️

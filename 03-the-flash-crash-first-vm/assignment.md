@@ -216,6 +216,9 @@ Select **Run virtual machine on any available node**.
 > [!NOTE]
 > Scheduling rules let you separate critical banking systems from background workloads — for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
 
+> [!NOTE]
+> **When microseconds are money:** the high-frequency trading desk will eventually demand more than placement rules, and the platform is ready. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through with **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys the one thing traders care about most: **predictable, consistent latency**. This lab's nested hardware cannot demo it — but when the real trading hardware arrives, it is a checkbox, not a project.
+
 Click **Create** to initialize the deployment.
 
 🖥️ Task 6: Access the Web Console

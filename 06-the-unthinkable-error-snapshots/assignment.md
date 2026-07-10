@@ -4,8 +4,8 @@ id: nkrkc4vyyywt
 type: challenge
 title: ⏪ Chapter 6 — The Unthinkable Error
 teaser: A slipped cursor just deleted a $100M settlement record. Turn back the clock
-  with VM snapshots — and verify the recovery in a safe staging clone before touching
-  production.
+  with VM snapshots, verify the recovery in a safe staging clone — then make protection
+  permanent with storage tiers and scheduled off-cluster backups.
 tabs:
 - id: lygpkmkmyndn
   title: SUSE Virtualization UI
@@ -25,7 +25,7 @@ tabs:
   port: 30002
   protocol: https
 difficulty: intermediate
-timelimit: 3000
+timelimit: 3600
 enhanced_loading: null
 ---
 
@@ -98,6 +98,10 @@ You step up to his terminal. It is time to turn back the clock. But you must be 
 2. Clone a staging environment from the snapshot
 3. Verify the data in the staging sandbox
 4. Restore the production system
+5. Create a lighter storage tier for development
+6. Provision the A-Team's compatibility-tests sandbox
+7. Connect the bank's off-cluster backup vault
+8. Put backups on a schedule
 
 </div>
 
@@ -191,37 +195,100 @@ Now that you have verified the snapshot's integrity, return to the [button label
 
 Optionally, SSH back into the production ledger and `cat` the file one last time — the record is back where it belongs.
 
-🏋️ Bonus Drills — from snapshots to a real protection strategy (optional)
-===========================================================================
+🧅 Task 5: Create a lighter storage tier for development
+========================================================
 
-- **Tier your protection policies.** Every ledger disk currently gets **3 replicas** — one per node. Inspect the default policy in the [button label="SUSE Virtualization UI" variant="success"](tab-0) under **Advanced > Storage Classes**: click `harvester-longhorn` and note **Number Of Replicas: 3**. Not everything deserves banking-grade replication, though — create a lighter tier for the bank's dev and staging workloads:
+The morning's drama is over — now Sarah wants policy, not heroics. Every disk in the cluster currently gets **3 replicas**, one per node. That is exactly right for production money, and overkill for development sandboxes. Not everything deserves banking-grade replication, so you will create a second, lighter storage tier.
 
-  1. In **Advanced > Storage Classes**, click **Create**
-  2. Set the **Name** to <b class="highlightcopy">harvester-longhorn-2rep</b>
-  3. Set **Number Of Replicas** to <b class="highlightcopy">2</b>
-  4. Click **Create**
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), under **Advanced > Storage Classes**:
 
-  Two policies now exist side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and `harvester-longhorn-2rep` (2 replicas — dev and staging).
+1. Click `harvester-longhorn` and note **Number Of Replicas: 3** — the default production policy
+2. Go back to the list and click **Create**
+3. Set the **Name** to <b class="highlightcopy">harvester-longhorn-2rep</b>
+4. Set **Number Of Replicas** to <b class="highlightcopy">2</b>
+5. Click **Create**
+
+Two policies now sit side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and `harvester-longhorn-2rep` (2 replicas — dev and staging).
+
+> [!NOTE]
+> Storage classes can encode more than replica counts. With disk tags you can steer each class to specific hardware — production classes on the fast NVMe drives, development classes on the slower, cheaper spindles. One cluster, several service levels, and every workload picks its tier at creation time.
+
+🧪 Task 6: Provision the A-Team's compatibility-tests sandbox
+=============================================================
+
+Word of your storage tiers travels fast. The application team — the bank's fabled **A-Team** — immediately requests a sandbox VM to run compatibility tests against the new platform. It belongs on the development network you built in Chapter 2 and on the cheap storage tier you created a minute ago.
+
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and click **Create**:
+
+| Setting | Value |
+|--------:|:------|
+| **Namespace** | <b class="highlightcopy">vertex-trust-prod</b> |
+| **Name** | <b class="highlightcopy">compatibility-tests</b> |
+| **CPU** | <b class="highlightcopy">1</b> |
+| **Memory** | <b class="highlightcopy">2 GiB</b> |
+
+Then walk the tabs:
+
+1. **Volumes** — select the **openSUSE-Leap-15.5** image as the boot disk. Then click **Add Volume**: name it <b class="highlightcopy">scratch-vol</b>, size **5 GiB**, and set its **Storage Class** to <b class="highlightcopy">harvester-longhorn-2rep</b> — test data does not need three copies
+2. **Networks** — attach the interface to <b class="highlightcopy">default/devnet</b>, the development lane on the spare uplink
+3. **Labels** — add the key <b class="highlightcopy">stage</b> with the value <b class="highlightcopy">dev</b>, so tooling and policies can tell sandboxes from production at a glance
+4. **Advanced Options** — set **Run Strategy** to <b class="highlightcopy">Manual</b>
+5. Click **Create**
+
+The VM is created — but notice it does **not** power on. `Manual` means the platform never starts or restarts it on its own; that is entirely the owner's call. **Leave it off.** The A-Team is still arguing about whose budget the compute comes out of, and you are not burning CPU cycles while finance deliberates. 💸
+
+🏦 Task 7: Connect the bank's off-cluster backup vault
+======================================================
+
+Snapshots saved the ledger this morning — but snapshots live on the **same cluster** as the workload. They protect against fat fingers, not against a datacenter fire. For real disaster recovery the bank operates an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
+
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+
+1. Go to **Advanced > Settings** and locate <b class="highlightcopy">backup-target</b>
+2. Click the **three dots** on its row and select **Edit Setting**
+3. Set the **Type** to <b class="highlightcopy">NFS</b>
+4. Set the **Endpoint** to <b class="highlightcopy">192.168.122.1:/srv/backups/</b>
+5. Click **Save**
+
+The cluster can now ship complete VM backups off the cluster — the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production <b class="bank">Vertex Trust Bank</b> deployment this would point to a separate facility.
+
+⏰ Task 8: Put backups on a schedule
+====================================
+
+Ad-hoc snapshots saved the day once; policy keeps the bank safe every day after. Put the new sandbox under an automatic backup schedule so nobody ever has to remember.
+
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+
+1. Go to **Backup & Snapshot > Virtual Machine Schedules** and click **Create schedule**
+2. Set the **Namespace** to <b class="highlightcopy">vertex-trust-prod</b> and the **Virtual Machine Name** to <b class="highlightcopy">compatibility-tests</b>
+3. On the **Basics** tab, fill in:
+   - **Cron Schedule:** <b class="highlightcopy">0 */5 * * *</b> — at minute 00, every 5 hours
+   - **Retain:** <b class="highlightcopy">5</b>
+   - **Max Failure:** <b class="highlightcopy">2</b>
+4. Click **Create**
+
+From now on the platform backs the sandbox up to the NFS vault every five hours, keeps the five most recent copies, and pauses the schedule if two consecutive runs fail. Set once, protected forever.
+
+🏋️ Bonus Drills — see the machinery behind the safety net (optional)
+======================================================================
 
 - **See the replication with your own eyes.** Open the **Longhorn** dashboard (**Advanced > Longhorn**, as in Chapter 1), go to the **Volume** page, and click any volume. The diagram shows its replicas spread across different nodes — one node can burn down and the ledger keeps serving.
 
-- **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object:
+- **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object — as are your new storage class and backup schedule:
 
 ```bash,run
-kubectl get vmsnapshots -A; kubectl get volumesnapshots -A
+kubectl get vmsnapshots -A; kubectl get volumesnapshots -A; kubectl get storageclasses; kubectl get schedulevmbackups -A
 ```
 
-- **Clean up the sandbox.** The staging clone did its job; delete <b class="highlightcopy">ledger-staging-verify</b> from the **Virtual Machines** page to return its resources to the pool.
-
-> [!IMPORTANT]
-> Snapshots live on the **same cluster** as the workload — they protect against fat fingers, not against a datacenter fire. For real disaster recovery, <b class="virt">SUSE Virtualization</b> also supports **VM backups** to an external S3 or NFS backup target, plus scheduled snapshot/backup policies. See where it plugs in under **Advanced > Settings > backup-target** in the UI. In a production <b class="bank">Vertex Trust Bank</b> deployment, this would point to an S3 bucket or NFS share at a separate facility — the modern equivalent of the midnight tape run, minus the midnight.
+- **Clean up the sandbox.** The staging clone did its job; delete <b class="highlightcopy">ledger-staging-verify</b> from the **Virtual Machines** page to return its resources to the pool. (Leave <b class="highlightcopy">compatibility-tests</b> alone — the A-Team will want it once the budget clears.)
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================
 
 - **Human error stops being catastrophic.** Recovery went from "wait for midnight tapes and pray" to a five-minute, self-service rollback.
 - **Verify before you overwrite.** Restoring to a clone means you never gamble production on an unverified backup — a pattern your auditors and your junior admins will both sleep better with.
-- **The same mechanism scales up.** Ad-hoc snapshots today; scheduled, off-cluster backups for every ledger tomorrow.
+- **Protection is now policy, not heroics.** A lighter storage tier for dev, an off-cluster NFS backup vault, and a five-hourly backup schedule — the safety net runs itself from here on.
+- **The right cost for the right workload.** Production ledgers get three replicas on fast storage; sandboxes get two on the cheap tier — and a VM with a `Manual` run strategy costs nothing at all until the budget clears.
 
 Click **Check** to continue. 🤠
 
