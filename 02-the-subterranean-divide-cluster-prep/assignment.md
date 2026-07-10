@@ -69,6 +69,8 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/02-chapter-img.png"/>
+
 <div class="storybox">
 
 Sarah leads you out of the quiet executive suites, into a secure elevator, and down into the bank's subterranean datacenter. The ambient temperature drops sharply as the heavy steel biometric doors lock behind you. The room hums with the deafening, relentless roar of industrial cooling systems.

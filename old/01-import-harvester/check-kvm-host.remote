@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -euo pipefail
+
+RANCHER_TOKEN=$(agent variable get RANCHER_TOKEN)
+RANCHER_URL=$(agent variable get RANCHER_URL)
+
+CLUSTER_STATE=$(curl -sk \
+  -H "Authorization: Bearer $RANCHER_TOKEN" \
+  "${RANCHER_URL}/v3/clusters?name=harvester" \
+  | jq -r '.data[0].state // empty')
+
+if [ -z "$CLUSTER_STATE" ] || [ "$CLUSTER_STATE" = "null" ]; then
+  fail-message "The Harvester cluster has not been imported yet. Go to Rancher Virtualization Management, click 'Import Existing', name it 'harvester', and paste the registration URL into Harvester Settings."
+  exit 1
+fi
+
+if [ "$CLUSTER_STATE" != "active" ]; then
+  fail-message "The Harvester cluster is in state '${CLUSTER_STATE}'. Wait for it to reach Active in Rancher Virtualization Management before checking."
+  exit 1
+fi
+
+echo "SUSE Virtualization cluster is imported and Active in Rancher."
+exit 0

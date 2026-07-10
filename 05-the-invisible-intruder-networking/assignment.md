@@ -86,6 +86,8 @@ enhanced_loading: null
   }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/05-chapter-img.png"/>
+
 <div class="storybox">
 
 It is now two in the morning. The datacenter is quiet, save for the rhythmic humming of the cooling fans. You are drinking stale coffee and reviewing the daily telemetry logs when your screen flashes <span class="danger">red</span>. A critical, high-priority alert from the Security Operations Center overrides your dashboard.

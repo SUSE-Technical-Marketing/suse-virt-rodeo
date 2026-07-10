@@ -68,6 +68,8 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/09-chapter-img.png"/>
+
 <div class="storybox">
 
 The dust has finally settled. The datacenter is quiet, bathed in the soft green glow of the <b class="virt">SUSE Virtualization</b> nodes operating in perfect harmony.

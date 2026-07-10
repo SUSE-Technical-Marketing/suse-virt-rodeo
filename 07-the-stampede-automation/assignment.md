@@ -69,6 +69,8 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/07-chapter-img.png"/>
+
 <div class="storybox">
 
 A sudden, aggressive shift in global interest rates sends the financial markets into a chaotic frenzy. <b class="bank">Vertex Trust Bank</b>'s risk analysis algorithms are screaming for more compute capacity to process the incoming flood of volatile market data.

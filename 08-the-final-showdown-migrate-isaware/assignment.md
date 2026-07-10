@@ -1,10 +1,10 @@
 ---
-slug: the-final-showdown-migrate-vmware
+slug: the-final-showdown-migrate-isaware
 id: ph0397pwupps
 type: challenge
 title: ⚔️ Chapter 8 — The Final Showdown
 teaser: The legacy vendor wants 40% more for the renewal. Decline it — then extract
-  the last critical VM from the old VMware cluster while it is still running.
+  the last critical VM from the old ISAWare cluster while it is still running.
 tabs:
 - id: ophxsxtfty7o
   title: SUSE Virtualization UI
@@ -69,11 +69,13 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/08-chapter-img.png"/>
+
 <div class="storybox">
 
 The week of relentless crises has finally stabilized, but one massive shadow still looms over the datacenter.
 
-In the darkest, coldest corner of the room sits the **legacy VMware cluster**. It is ancient, temperamental, and obscenely expensive to maintain. It holds the final, most critical piece of the bank's architecture: the <b class="highlightcopy">legacy-ledger-vm</b>.
+In the darkest, coldest corner of the room sits the **legacy ISAware cluster**. It is ancient, temperamental, and obscenely expensive to maintain. It holds the final, most critical piece of the bank's architecture: the <b class="highlightcopy">legacy-ledger-vm</b>.
 
 Sarah's phone buzzes. She looks down, her jaw tightening. *"It is the legacy vendor,"* she says. *"They are demanding a signed contract for the renewal by midnight, and they have hiked the licensing fee by another <span class="danger">forty percent</span>. They know we are trapped. They think we cannot move that machine without breaking the database."*
 
@@ -123,7 +125,7 @@ Navigate back to the main **Migrations** page and click **Create**. Configure th
 
 | Setting | Value |
 |--------:|:------|
-| **Source Type** | `VMware` |
+| **Source Type** | `ISAware` |
 | **Source VM** | <b class="highlightcopy">legacy-ledger-vm</b> |
 | **Target Network** | the default management **Network** (ensures connectivity upon boot) |
 
@@ -183,7 +185,7 @@ kubectl get vm -A | grep legacy-ledger
 
 - **Give it the protection the old cluster never had:** take a snapshot named <b class="highlightcopy">post-migration-baseline</b> from its **Snapshots** tab in the UI (Chapter 6 skills).
 
-- **Prove it can dodge hardware failures now:** live-migrate <b class="highlightcopy">legacy-ledger-vm</b> to another node (Chapter 4 skills). On VMware, that feature was a licensed add-on. Here, it is just Tuesday.
+- **Prove it can dodge hardware failures now:** live-migrate <b class="highlightcopy">legacy-ledger-vm</b> to another node (Chapter 4 skills). On ISAware, that feature was a licensed add-on. Here, it is just Tuesday.
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================

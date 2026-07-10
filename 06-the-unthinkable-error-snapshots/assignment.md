@@ -70,6 +70,8 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/06-chapter-img.png"/>
+
 <div class="storybox">
 
 The next morning, the exhausted silence of the night shift is abruptly broken by a muffled sob coming from the junior database administrator's desk.

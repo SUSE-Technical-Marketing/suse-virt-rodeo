@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+export KUBECONFIG=/root/.kube/harvester.yaml
+
+# Nothing to create — this chapter is about exploring the UI and running read-only commands.
+# Verify the cluster is healthy so Check passes immediately after Solve.
+
+READY=$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo 0)
+if [[ "$READY" -lt 3 ]]; then
+  echo "ERROR: Cluster not healthy — ${READY}/3 nodes Ready"
+  exit 1
+fi
+
+echo ">>> Cluster is healthy — Chapter 1 objectives verified"

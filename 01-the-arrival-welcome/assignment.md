@@ -4,7 +4,7 @@ id: ermykdy1tbse
 type: challenge
 title: "\U0001F3E6 Chapter 1 — The Arrival"
 teaser: Vertex Trust Bank is drowning in legacy hypervisor costs. Step into the boardroom,
-  take command of SUSE Virtualization 1.8.1, and inspect your new command center.
+  take command of SUSE Virtualization, and inspect your new command center.
 notes:
 - type: text
   contents: |
@@ -78,6 +78,9 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/01-chapter-img.png"/>
+
+
 <div class="storybox">
 
 The rain lashed against the floor-to-ceiling windows of <b class="bank">Vertex Trust Bank</b> headquarters, distorting the city skyline into a gray, watery blur. Inside the glass-walled executive boardroom, the atmosphere was equally turbulent. **Sarah**, the Chief Technology Officer, paced the length of the room, her eyes fixed on a massive overhead monitor projecting a sea of <span class="danger">red alerts</span> and performance warnings.
@@ -86,7 +89,7 @@ She turned to you, her voice tight with exhaustion. *"We are losing precious mil
 
 You sit quietly at the end of the mahogany table, reviewing the architectural schematics she provided. As an elite **Infrastructure Architect**, you have been brought in for one specific purpose: to save <b class="bank">Vertex Trust Bank</b> from total operational gridlock. They need a bridge to the cloud-native world — without rebuilding their entire application stack from scratch.
 
-*"We have a plan, Sarah,"* you finally say, closing your laptop with a reassuring click. *"We are going to transition the entire datacenter to <b class="virt">SUSE Virtualization 1.8.1</b>. We will bring your legacy systems into the modern era, and we will do it without missing a beat."*
+*"We have a plan, Sarah,"* you finally say, closing your laptop with a reassuring click. *"We are going to transition the entire datacenter to <b class="virt">SUSE Virtualization</b>. We will bring your legacy systems into the modern era, and we will do it without missing a beat."*
 
 </div>
 

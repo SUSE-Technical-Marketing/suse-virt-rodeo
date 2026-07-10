@@ -1,0 +1,89 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source ~/.bashrc
+
+export KUBECONFIG=/root/.kube/harvester.yaml
+
+# --- ClusterNetwork: vms ---
+echo ">>> Creating 'vms' cluster network..."
+kubectl apply -f - << 'EOF'
+apiVersion: network.harvesterhci.io/v1beta1
+kind: ClusterNetwork
+metadata:
+  name: vms
+EOF
+
+# --- NodeNetworkConfig: eth3 on alpha, bravo, charlie ---
+# Node hostnames come from definition.yaml: harvester1=alpha, harvester2=bravo, harvester3=charlie
+# --validate=false bypasses client-side CRD discovery; after import the kubeconfig
+# context may be Rancher-proxied which doesn't list Harvester CRDs in its discovery.
+echo ">>> Available network.harvesterhci.io resources:"
+kubectl api-resources --api-group=network.harvesterhci.io --no-headers 2>/dev/null | awk '{print "  "$1}' || echo "  (discovery failed)"
+
+for NODE in alpha bravo charlie; do
+  echo ">>> Configuring eth3 uplink on node ${NODE}..."
+  kubectl apply --validate=false -f - << EOF
+apiVersion: network.harvesterhci.io/v1beta1
+kind: NodeNetworkConfig
+metadata:
+  name: ${NODE}
+  namespace: harvester-system
+  labels:
+    network.harvesterhci.io/clusternetwork: vms
+spec:
+  uplinks:
+    - clusterNetwork: vms
+      nics:
+        - eth3
+      bondMode: active-backup
+EOF
+done
+
+echo ">>> Waiting 15s for cluster network to initialise..."
+sleep 15
+
+# --- VM Network: vmnet ---
+echo ">>> Creating 'vmnet' VM network (NetworkAttachmentDefinition)..."
+kubectl apply -f - << 'EOF'
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: vmnet
+  namespace: default
+  annotations:
+    network.harvesterhci.io/clusterNetworkName: vms
+spec:
+  config: '{"cniVersion":"0.3.1","name":"vmnet","type":"bridge","bridge":"vms-br","promMode":true,"vlan":1,"ipam":{},"macspoofchk":false,"mtu":1500,"hairpinMode":false}'
+EOF
+
+# --- IP Pool: rodeo-ippool ---
+echo ">>> Creating 'rodeo-ippool' LoadBalancer IP pool..."
+kubectl apply -f - << 'EOF'
+apiVersion: loadbalancer.harvesterhci.io/v1beta1
+kind: IPPool
+metadata:
+  name: rodeo-ippool
+  namespace: default
+spec:
+  ranges:
+    - subnet: 192.168.122.0/24
+      rangeStart: 192.168.122.200
+      rangeEnd: 192.168.122.220
+  selector:
+    priority: 0
+    network: "default/vmnet"
+    scope:
+      - namespace: default
+EOF
+
+echo ">>> Verifying resources..."
+kubectl get clusternetworks.network.harvesterhci.io vms 2>/dev/null \
+  && echo "  vms cluster network OK" || echo "  WARNING: vms cluster network not found"
+kubectl get network-attachment-definitions vmnet -n default 2>/dev/null \
+  && echo "  vmnet OK" || echo "  WARNING: vmnet not found"
+kubectl get ippools.loadbalancer.harvesterhci.io rodeo-ippool -n default 2>/dev/null \
+  && echo "  rodeo-ippool OK" || echo "  WARNING: rodeo-ippool not found"
+
+echo ">>> Challenge 01 solve complete."

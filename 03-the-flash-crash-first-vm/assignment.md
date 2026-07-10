@@ -85,6 +85,8 @@ enhanced_loading: null
   }
 </style>
 
+<img class="logos" alt="Welcome!" src="../assets/03-chapter-img.png"/>
+
 <div class="storybox">
 
 You are sitting in a makeshift office just outside the datacenter, halfway through reviewing the network topologies, when the overhead emergency lights suddenly pulse a harsh yellow. Your radio crackles to life. It is the **Head of Quantitative Trading**, and he sounds panicked.
