@@ -198,7 +198,7 @@ If a node were unschedulable or a volume degraded, Longhorn would already be reb
 You will spend most of this mission in the UI, but an architect always verifies their emergency access. Click on the [button label="Cluster Terminal" variant="success"](tab-1) tab and run one command to validate that your connection to the underlying Kubernetes engine is active:
 
 ```bash,run
-kubectl cluster-info
+kubectl cluster-info --kubeconfig .kube/harvester.yaml
 ```
 
 You should see the Kubernetes control plane and CoreDNS endpoints respond. Your administrative access is live — that is all the terminal work this chapter requires.
@@ -211,13 +211,13 @@ New to Kubernetes? **Skip ahead freely** — everything that matters is in the U
 - **Check cluster component health** — query the control plane's health endpoint; every check (etcd, informers, shutdown hooks) should report `ok`:
 
 ```bash,run
-kubectl get --raw='/readyz?verbose'
+kubectl get --raw='/readyz?verbose' --kubeconfig .kube/harvester.yaml
 ```
 
 - **Confirm every node in the fabric is ready:**
 
 ```bash,run
-kubectl get nodes
+kubectl get nodes --kubeconfig .kube/harvester.yaml
 ```
 
   All nodes should show `Ready`.
@@ -225,7 +225,7 @@ kubectl get nodes
 - **Verify the core virtualization services are running:**
 
 ```bash,run
-kubectl get pods -n harvester-system | grep -v Completed
+kubectl get pods -n harvester-system --kubeconfig .kube/harvester.yaml | grep -v Completed
 ```
 
   All pods should be `Running`.
@@ -233,7 +233,7 @@ kubectl get pods -n harvester-system | grep -v Completed
 - **Confirm the exact platform version the bank is running:**
 
 ```bash,run
-kubectl get settings.harvesterhci.io server-version
+kubectl --kubeconfig .kube/harvester.yaml get settings.harvesterhci.io server-version
 ```
 
 💼 Why does this matter for Vertex Trust Bank?

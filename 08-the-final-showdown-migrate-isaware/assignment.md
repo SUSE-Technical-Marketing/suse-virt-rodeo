@@ -166,13 +166,13 @@ The migrated VM is now a first-class <b class="virt">SUSE Virtualization</b> wor
 - **For the command-line curious — watch the extraction machinery at work.** The importer runs as a pod, and every migration is a trackable API object:
 
 ```bash,run
-kubectl get pods -A | grep vm-import; kubectl get virtualmachineimports -A
+kubectl --kubeconfig .kube/harvester.yaml get pods -A | grep vm-import; kubectl --kubeconfig .kube/harvester.yaml get virtualmachineimports -A
 ```
 
 - **Confirm it is a native Kubernetes object** like every other VM in the fleet:
 
 ```bash,run
-kubectl get vm -A | grep legacy-ledger
+kubectl --kubeconfig .kube/harvester.yaml get vm -A | grep legacy-ledger
 ```
 
 - **Give it the protection the old cluster never had:** take a snapshot named <b class="highlightcopy">post-migration-baseline</b> from its **Snapshots** tab in the UI (Chapter 6 skills).

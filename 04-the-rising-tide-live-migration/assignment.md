@@ -197,19 +197,19 @@ New to Kubernetes? **Skip ahead freely.** Otherwise: every migration is itself a
 - **Review the migration record** (who moved, when, from where to where):
 
 ```bash,run
-kubectl get virtualmachineinstancemigrations -A
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachineinstancemigrations -A
 ```
 
 - **Inspect the details of the completed migration:**
 
 ```bash,run
-kubectl describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
+kubectl --kubeconfig .kube/harvester.yaml describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
 ```
 
 - **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy — SUSE Virtualization can reschedule VMs from a failed host automatically:
 
 ```bash,run
-kubectl get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
+kubectl --kubeconfig .kube/harvester.yaml get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
 ```
 
 > [!NOTE]

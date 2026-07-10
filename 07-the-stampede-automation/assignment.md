@@ -185,13 +185,13 @@ New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label=
 - **Count the fleet from the command line** (run this between Task 3 and Task 4 to see all five):
 
 ```bash,run
-kubectl get vm -n vertex-trust-prod | grep stress-test
+kubectl --kubeconfig .kube/harvester.yaml get vm -n vertex-trust-prod | grep stress-test
 ```
 
 - **Inspect the blueprint as an API object** — templates and their versions are resources too:
 
 ```bash,run
-kubectl get virtualmachinetemplates,virtualmachinetemplateversions -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplates,virtualmachinetemplateversions -n vertex-trust-prod
 ```
 
 💼 Why does this matter for Vertex Trust Bank?

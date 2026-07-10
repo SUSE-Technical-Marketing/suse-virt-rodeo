@@ -190,7 +190,7 @@ New to Kubernetes? **Skip ahead freely** — the vault is already sealed. These 
 **Drill 1 — a second wall: Kubernetes network policies.** One wall is good. Two walls are banking-grade. For **defense-in-depth**, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
 
 ```bash,run
-cat << EOF | kubectl apply -f -
+cat << EOF | kubectl --kubeconfig .kube/harvester.yaml apply -f -
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -206,13 +206,13 @@ EOF
 Confirm the policy is enforced:
 
 ```bash,run
-kubectl get networkpolicy -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get networkpolicy -n vertex-trust-prod
 ```
 
 **Drill 2 — build air-gapped containment zones.** VLANs segment the physical network — but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:
 
 ```bash,run
-cat << EOF | kubectl apply -f -
+cat << EOF | kubectl --kubeconfig .kube/harvester.yaml apply -f -
 apiVersion: kubeovn.io/v1
 kind: Subnet
 metadata:
@@ -231,7 +231,7 @@ EOF
 Now prove the most counterintuitive capability of the SDN layer: **overlapping address space**. Create a second, completely independent zone for the forensics team — using the *exact same CIDR*:
 
 ```bash,run
-cat << EOF | kubectl apply -f -
+cat << EOF | kubectl --kubeconfig .kube/harvester.yaml apply -f -
 apiVersion: kubeovn.io/v1
 kind: Subnet
 metadata:
@@ -253,7 +253,7 @@ EOF
 Verify both zones exist with `natOutgoing: false` — no path out, no path in:
 
 ```bash,run
-kubectl get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
+kubectl --kubeconfig .kube/harvester.yaml get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
 ```
 
 Two vaults, same IP space, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else** — micro-segmentation without a proprietary SDN license, and without ever running out of address space.

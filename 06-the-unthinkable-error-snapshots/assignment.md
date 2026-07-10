@@ -277,7 +277,7 @@ From now on the platform backs the sandbox up to the NFS vault every five hours,
 - **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object — as are your new storage class and backup schedule:
 
 ```bash,run
-kubectl get vmsnapshots -A; kubectl get volumesnapshots -A; kubectl get storageclasses; kubectl get schedulevmbackups -A
+kubectl --kubeconfig .kube/harvester.yaml get vmsnapshots -A; kubectl --kubeconfig .kube/harvester.yaml get volumesnapshots -A; kubectl --kubeconfig .kube/harvester.yaml get storageclasses; kubectl --kubeconfig .kube/harvester.yaml get schedulevmbackups -A
 ```
 
 - **Clean up the sandbox.** The staging clone did its job; delete <b class="highlightcopy">ledger-staging-verify</b> from the **Virtual Machines** page to return its resources to the pool. (Leave <b class="highlightcopy">compatibility-tests</b> alone — the A-Team will want it once the budget clears.)

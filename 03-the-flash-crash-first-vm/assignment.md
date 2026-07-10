@@ -263,25 +263,25 @@ New to Kubernetes? **Skip ahead freely.** Otherwise, back in the [button label="
 - **The golden images are API objects too:**
 
 ```bash,run
-kubectl get virtualmachineimages -A
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachineimages -A
 ```
 
 - **The VM is a Kubernetes resource:**
 
 ```bash,run
-kubectl get virtualmachines -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachines -n vertex-trust-prod
 ```
 
 - **The running instance, with its node and IP** (the same IP you used for SSH):
 
 ```bash,run
-kubectl get vmi -n vertex-trust-prod -o wide
+kubectl --kubeconfig .kube/harvester.yaml get vmi -n vertex-trust-prod -o wide
 ```
 
 - **The disks are ordinary PersistentVolumeClaims backed by Longhorn:**
 
 ```bash,run
-kubectl get pvc -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get pvc -n vertex-trust-prod
 ```
 
 You should recognize `market-data-vol` in the list — a banking data drive, expressed as cloud-native storage.
