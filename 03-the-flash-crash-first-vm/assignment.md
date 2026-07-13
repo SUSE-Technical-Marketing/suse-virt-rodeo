@@ -85,21 +85,6 @@ enhanced_loading: null
   }
 </style>
 
-🔐 Login Credentials
-====================
-
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
-
-Username:
-```txt
-admin
-```
-
-Password:
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
-```
-
 <img class="logos" alt="Welcome!" src="../assets/03-chapter-img.png"/>
 
 <div class="storybox">
@@ -130,73 +115,119 @@ You bypass the legacy ticketing system entirely and prepare to deploy a fully co
 
 </div>
 
+🔐 Login Credentials
+====================
+
+The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+
+Username:
+```txt
+admin
+```
+
+Password:
+```txt
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
+```
+
+
+
+
 📀 Task 1: Verify the operating system image
 ============================================
 
-Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Images**, and confirm that the base **openSUSE-Leap-15.5** operating system image is present and marked as **Active**.
+Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Images** on the left side panel, and confirm that the base **SLES-16.0-Minimal-VM.x86_64.gcow2** operating system image is present and marked as **Active**.
 
 > [!NOTE]
 > Images in <b class="virt">SUSE Virtualization</b> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk — the image itself is never modified.
 
-**If the image were missing**, you could add it yourself in seconds — no waiting for a storage admin. Images can be created from a URL, uploaded from your workstation, or exported from an existing volume via **Images > Create**:
+**If the image were missing**, you could add it yourself in seconds — no waiting for a storage admin.
+
+Images can be created from a URL, uploaded from your workstation, or exported from an existing volume via **Images > Create**:
 
 <div style='align: middle; margin: 15px;'>
   <img class="animatedgif" src="../assets/04-create_vm_image.gif"/>
 </div>
 
-For example, to add a newer openSUSE Leap cloud image, you would paste this into the **URL** field:
+For example, lets add a new image:
+- go to 'Images' on the left panel, and click on 'Create'. Then fill in the following information:
+  - Namespace: 'official-images'
+  - Name: ''will be automatically filled''
+  - Basics
+    - URL: "https://pkg.adfinis.com/opensuse/distribution/leap-micro/6.2/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+- Click on 'Create'
 
-```txt
-https://mirror.rackspace.com/openSUSE/distribution/openSUSE-current/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-Cloud.qcow2
-```
+We will see the image we just created will appear in the list of images with the state 'Downloading', we can see the progress on the progress column.
+
+Let's move to the next task, once it has completed we will see an alert in the notification bell on the top right of the screen.
+
 
 > [!NOTE]
 > The download runs server-side and takes a couple of minutes — the image becomes **Active** once Longhorn has it replicated.
 
+
 🚀 Task 2: Provision the calculation engine
 ===========================================
 
-Navigate to **Virtual Machines** and click the **Create** button. Configure the engine exactly as the quants need it:
 
-| Setting | Value |
-|--------:|:------|
-| **Name** | <b class="highlightcopy">algo-trader-01</b> |
-| **Namespace** | <b class="highlightcopy">vertex-trust-prod</b> |
-| **CPU** | <b class="highlightcopy">2</b> |
-| **Memory** | <b class="highlightcopy">4 GiB</b> |
+For this task we are going to create our first VM.
+
+Navigate to **Virtual Machines** and click the **Create** button.
+
+Configure the engine exactly as the quants need it:
+
+- **Name**: <b class="highlightcopy">algo-trader-01</b>
+- **Namespace**: <b class="highlightcopy">vertex-trust-prod</b>
+
+  If the namespace doesn't exists create a new one.
+
+- **CPU**: <b class="highlightcopy">2</b>
+- **Memory**: <b class="highlightcopy">2 GiB</b>
+
+
+  Notice the very low resources, our future crew quants are highly skilled and their application is extremely optimized for low latency and low resources usage.
+
+- SSHKey: Select "prod/default"
+
+We are going to assing it some labels, go to 'Labels' and click 'Add Label':
+
+- Key: stage
+- Value: prod
+
+This will help us manage the VM with future automation.
+
 
 Do **not** click Create yet — the trader also needs his data volume.
 
 💽 Task 3: Attach the volumes and the production network
 ========================================================
 
-Under the **Volumes** tab:
+Under the **Volumes** tab fill in the following:
 
-1. Select the **openSUSE-Leap-15.5** image as the primary boot disk
-2. Click **Add Volume**
-3. Set the **Name** to <b class="highlightcopy">market-data-vol</b>
-4. Set the **Type** to `disk`
-5. Set the **Size** to **10 GiB**
+- Image: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2
+- Size: 5 GiB
 
-This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated Longhorn volumes — the market data survives even if a physical disk dies mid-trade.
+Then add a new volume by clicking on **Add Volume** and fill up the following details:
+
+- Name: 'market-data-vol'
+- Size: 1 GiB
 
 Now wire the engine into the bank's network. Under the **Networks** tab:
 
-6. Make sure the network interface is attached to <b class="highlightcopy">default/vmnet</b> — the production VM network you built in the previous chapter
+- Network: 'prod/service'
 
-🔑 Task 4: Inject security credentials
+
+This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated Longhorn volumes — the market data survives even if a physical disk dies mid-trade.
+
+
+🔑 Task 4: Customize the installation
 ======================================
 
-Navigate to **Advanced Options**, then select **Cloud Config**. To ensure the trading system is accessible immediately upon boot without manual intervention, you must inject an initialization script.
+Navigate to **Advanced Options**, then select **Cloud Configuration**. To ensure the trading system have all the required settings and packages installed.
 
-In the **User Data** field, type exactly the following lines to set up the default password:
 
-```yaml
-#cloud-config
-password: password123
-chpasswd: { expire: False }
-ssh_pwauth: True
-```
+On 'User Data Template' select 'prod/prod'.
+
 
 The trading desk's firewall team has one more demand: the engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
 
@@ -209,32 +240,42 @@ ethernets:
     gateway4: 192.168.122.1
     nameservers:
       addresses:
-        - 8.8.8.8
+        - 192.168.122.1
 ```
 
 Cloud-init applies both on first boot — <b class="highlightcopy">algo-trader-01</b> will come online at `192.168.122.50` with zero post-deployment manual setup.
 
 > [!NOTE]
-> This is **cloud-init** — the same industry-standard mechanism used by every major public cloud. In production you would inject SSH keys, package installs, and hardening scripts instead of a demo password (the **SSH Keys** selector at the top of the create form does exactly that).
+> This is **cloud-init** — the same industry-standard mechanism used by every major public cloud.
+> In a real case scenario there will be more complete automation and dedicated templates for this server's purpose..
+
 
 📍 Task 5: Choose where the engine is allowed to run
 ====================================================
 
-One decision remains before launch. Go to **Node Scheduling**. <b class="virt">SUSE Virtualization</b> offers three placement policies:
 
-- **Any available node** — the Kubernetes scheduler places the VM, and **live migration stays enabled**
-- **Specific node** — pin the VM to one node (no migration possible)
-- **Scheduling rules** — affinity rules based on node labels (GPU capability, NUMA topology, network zone…)
+Since this is a mixed environment cluster, lets make sure the VM runs only on production nodes.
 
-Select **Run virtual machine on any available node**.
+- Let's click on 'Node Scheduling', SUSE Virtualization offers three choices:
+
+  - **Any available node** — the Kubernetes scheduler choses where to place the VM, and **live migration stays enabled**
+  - **Specific node** — pin the VM to one node (no migration possible)
+  - **Scheduling rules** — affinity rules based on node labels (GPU capability, NUMA topology, network zone…)
+
+- Select 'Run virtual machine on node(s) matching scheduling rules'
+- Click on 'Add Node Selector'
+- Click on 'Add Rule'
+  - Key: stage
+  - Value: prod
+
+Click **Create** to initialize the deployment.
 
 > [!NOTE]
 > Scheduling rules let you separate critical banking systems from background workloads — for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
 
 > [!NOTE]
-> **When microseconds are money:** the high-frequency trading desk will eventually demand more than placement rules, and the platform is ready. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through with **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys the one thing traders care about most: **predictable, consistent latency**. This lab's nested hardware cannot demo it — but when the real trading hardware arrives, it is a checkbox, not a project.
+> **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.
 
-Click **Create** to initialize the deployment.
 
 🖥️ Task 6: Access the Web Console
 =================================
@@ -251,24 +292,19 @@ Monitor the [button label="SUSE Virtualization UI" variant="success"](tab-0) unt
 Thanks to the fixed address you injected, there is no hunting for IPs. Switch to the [button label="Cluster Terminal" variant="success"](tab-1) and wait for the engine to answer on the network:
 
 ```bash,run
-until ping -c1 -W1 192.168.122.50 >/dev/null 2>&1; do echo "Waiting for the calculation engine..."; sleep 5; done; echo "Engine is on the network."
+until nc -zv -w 1 192.168.122.50 22 >/dev/null 2>&1; do echo "Waiting for the calculation engine..."; sleep 5; done; echo "Engine is on the network."
 ```
 
-Establish the secure connection:
-
-```bash
-ssh opensuse@192.168.122.50
-```
-
-Enter the password <b class="highlightcopy">password123</b> when prompted.
-
-Verify that the secondary 10 GiB data volume is successfully attached to the system:
+Establish the secure connection and verify the secondary  data volume is successfully attached to the system::
 
 ```bash,run
-lsblk
+ssh -o StrictHostKeyChecking=accept-new  sles@192.168.122.50 lsblk
 ```
 
-You should see the boot disk **and** a second 10 GiB block device. Type `exit` to close the connection.
+
+You should see the boot disk **and** a second block device of 1G.
+
+
 
 🏋️ Bonus Drills — see through the abstraction (optional, for the command-line curious)
 ========================================================================================
