@@ -131,6 +131,10 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 
 </div>
 
+> [!Disclaimer]
+> This lab is meant to be educational and not to provide instructions on how to configure a production environment for a 'bank', most decisions made are with the limitations and purpose of this environment.
+
+
 🔐 Your Architect Credentials
 =============================
 
