@@ -256,14 +256,14 @@ Now if we click on the cluster name, it will direct us to the SUSE Virtualizatio
 
 
 
-⌨️ Task 3: Test your administrative terminal access 
+⌨️ Task 3: Test your administrative terminal access
 ===================================================
 
 You will spend most of this mission in the UI, but an architect always verifies their emergency access. Click on the [button label="Cluster Terminal" variant="success"](tab-1) tab and run one command to validate that your connection to the underlying Kubernetes engine is active:
 
 
 ```bash,run
-kubectl  --kubeconfig .kube/harvester.yaml get VirtualMachine -A
+kubectl --kubeconfig .kube/harvester.yaml get VirtualMachine -A
 ```
 
 You should see the list of Virtual Machines present in every namespace.
@@ -351,4 +351,4 @@ Click **Check** to descend into the datacenter. 🛗
 - [SUSE Virtualization — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Hardware and Network Requirements](https://documentation.suse.com/cloudnative/virtualization/latest/en/installation-setup/requirements.html)
 - [Kubernetes concepts] https://kubernetes.io/docs/concepts/overview/
-- 
+-
