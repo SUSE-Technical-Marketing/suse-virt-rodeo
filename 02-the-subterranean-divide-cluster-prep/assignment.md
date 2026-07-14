@@ -69,21 +69,6 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
-🔐 Login Credentials
-====================
-
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
-
-Username:
-```txt
-admin
-```
-
-Password:
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
-```
-
 <img class="logos" alt="Welcome!" src="../assets/02-chapter-img.png"/>
 
 <div class="storybox">
@@ -122,6 +107,22 @@ To prove the architecture is sound, you must prepare the environment to host the
 5. Reserve address space for customer-facing services
 
 </div>
+
+🔐 Login Credentials
+====================
+
+The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+
+Username:
+```txt
+admin
+```
+
+Password:
+```txt
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
+```
+
 
 🖥️ Task 1: Inspect the physical node topology
 =============================================
@@ -200,7 +201,6 @@ Now build a VM network on top of it:
 Two lanes now show as **Active** in the list: <b class="highlightcopy">vmnet</b> (production, on `mgmt`) and <b class="highlightcopy">devnet</b> (development, on the spare uplink). Two worlds, physically separated, zero switch tickets — the A-Team's future sandboxes will live here, safely away from the money.
 
 🏦 Task 5: Reserve address space for customer-facing services
->>>>>>> 18b572d (more changes)
 =============================================================
 
 <b class="virt">SUSE Virtualization</b> is not only a virtualization platform — it is designed to also run Kubernetes clusters on top. Those clusters need LoadBalancer IPs to expose their services. An **IP Pool** pre-allocates a range of addresses for exactly that.
