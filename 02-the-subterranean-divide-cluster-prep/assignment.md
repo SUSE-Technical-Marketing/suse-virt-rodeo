@@ -87,12 +87,11 @@ You walk between the two rows, feeling the distinct temperature differential. *"
 
 You explain the elegant architecture of <b class="virt">SUSE Virtualization</b>: by leveraging advanced open-source technologies on a **Kubernetes foundation**, the platform does not just *tolerate* virtual machines — it treats them as **native citizens of the container ecosystem**. The heavy virtual machines will run side-by-side with the nimble containers, managed by the exact same orchestration engine:
 
-| Virtualization silo | Container silo | Unified on SUSE Virtualization |
+| Virtualization world | Container World | Unified on SUSE Virtualization |
 |---------------------|----------------|-------------------------------|
 | Hypervisor hosts | Kubernetes nodes | **One set of nodes runs both** |
-| Hypervisor management console | Container tooling | **One platform underneath** — SUSE Virtualization runs the VMs, Rancher Prime commands the clusters and the containers |
+| Hypervisor management console | Container tooling | **One platform underneath**. SUSE Virtualization runs the VMs, Rancher Prime commands the clusters and the containers |
 | SAN storage arrays | CSI volumes | **Longhorn serves VMs and pods alike** |
-| Two on-call teams | | **One platform team** |
 
 To prove the architecture is sound, you must prepare the environment to host the bank's workloads.
 
@@ -129,32 +128,37 @@ Password:
 
 Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to the left-hand menu, and click on **Hosts**.
 
-1. Click on the name of the **first host** in the list
-2. Navigate to the **Storage** tab for that host
+1. Click on the name of **one of the hosts** in the list
+2. Navigate around the UI and check the different options to understand better how things work
 
 Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the Longhorn distributed storage pool that will hold the bank's ledgers.
 
 > [!NOTE]
-> **Banks grow — and so does this fabric.** Adding a node to <b class="virt">SUSE Virtualization</b> is refreshingly simple: boot the new machine with the cluster's **join token** and its network and hostname settings, and it enrolls itself — no manual cluster surgery. Combine that with **PXE network boot** and racking new capacity becomes a matter of minutes: power on, walk away, and watch the newcomer appear on this Hosts page. The [PXE Boot Installation guide](https://documentation.suse.com/cloudnative/virtualization/latest/en/installation-setup/methods/pxe-boot-install.html) has the details.
+> **Banks grow and so does this fabric.** Adding a node to <b class="virt">SUSE Virtualization</b> is refreshingly simple: boot the new machine with the cluster's **join token** and its network and hostname settings, and it enrolls itself with no manual cluster surgery. Combine that with **PXE network boot** and racking new capacity becomes a matter of minutes: power on, walk away, and watch the newcomer appear on this Hosts page. The [PXE Boot Installation guide](https://documentation.suse.com/cloudnative/virtualization/latest/en/installation-setup/methods/pxe-boot-install.html) has the details.
 
 🏗️ Task 2: Prepare a dedicated workspace for the bank
 =====================================================
 
-The platform isolates workloads in **namespaces** — separate, governable workspaces on the same cluster. The bank's financial workloads deserve their own.
+The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster. The bank's financial workloads deserve their own. We will create a namespace for production workloads and another for development.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 1. Select **Namespaces** from the left-hand menu
-2. Click **Create**
-3. Set the **Name** to <b class="highlightcopy">vertex-trust-prod</b>
-4. Click **Create**
+2. Set the **Name** to <b class="highlightcopy">vertex-trust-prod</b>
+3. Click **Create**
+
+Repeat now for the development namespace:
+1. Select **Namespaces** from the left-hand menu
+2. Set the **Name** to <b class="highlightcopy">vertex-trust-dev</b>
+3. Click **Create**
+
 
 The new workspace appears in the list, ready to hold the bank's production systems with its own quotas, policies, and access controls.
 
 🌐 Task 3: Build the bank's production VM network
 =================================================
 
-Before a single ledger VM can boot, it needs a network to live on — one that lets the bank's virtual machines talk to each other and to the outside world.
+Before a single ledger VM can boot, it needs a network to live on. this network need to allow the bank's virtual machines talk to each other and to the outside world.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
@@ -163,11 +167,12 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 ![02-create_vm_network.gif](../assets/02-create_vm_network.gif)
 
-3. Fill in:
+3. Select the recently created namespace **vertex-trust-prod** from the Namespace drop-down menu in the top left.
+4. Fill in:
    - **Name:** <b class="highlightcopy">vmnet</b>
    - **Type:** `UntaggedNetwork`
    - **Cluster Network:** `mgmt`
-4. Click **Create**
+5. Click **Create**
 
 ![03-create_vm_network.gif](../assets/03-create_vm_network.gif)
 
@@ -182,21 +187,22 @@ Production traffic should never share a lane with experiments. Every node in the
 
 First, define the cluster-wide network on the spare uplink. In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-1. Go to **Networks > Cluster Networks/Configs** and click **Create**
+1. Go to **Networks > Cluster Network Configuration** and click **Create a Cluster Network** on the top right corner
 2. Set the **Name** to <b class="highlightcopy">dev</b> and click **Create**
-3. Back in the list, find the new <b class="highlightcopy">dev</b> cluster network and click **Create Network Config** on its row
+3. Back in the list, find the new <b class="highlightcopy">dev</b> cluster network and click **Create Network Configuration** 
 4. Set the **Name** to <b class="highlightcopy">dev-uplink</b>
-5. Under **Uplink**, select NIC <b class="highlightcopy">eth4</b> (leave the node selector empty so the config applies to every node)
+5. Under **Uplink**, select NIC <b class="highlightcopy">ens5</b> (leave the node selector empty so the config applies to every node)
 6. Click **Create** and wait for the config to show as **Active** on all nodes
 
 Now build a VM network on top of it:
 
 7. Go to **Networks > Virtual Machine Networks** and click **Create**
-8. Fill in:
+8. Select namespace "vertex-trust-dev" from the Namespace drop-down menu to deploy the new devnet network
+9. Fill in:
    - **Name:** <b class="highlightcopy">devnet</b>
    - **Type:** `UntaggedNetwork`
    - **Cluster Network:** `dev`
-9. Click **Create**
+10. Click **Create**
 
 Two lanes now show as **Active** in the list: <b class="highlightcopy">vmnet</b> (production, on `mgmt`) and <b class="highlightcopy">devnet</b> (development, on the spare uplink). Two worlds, physically separated, zero switch tickets — the A-Team's future sandboxes will live here, safely away from the money.
 
@@ -212,10 +218,11 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 1. Go to **Networks > IP Pools** > **Create**
 2. Set the name to <b class="highlightcopy">vertex-ippool</b>
 3. On the **Range** tab, add the range `192.168.122.200` to `192.168.122.220`
-4. On the **Selector** tab:
-   - **VM Network:** `default/vmnet`
-   - **Namespace:** `default`
-5. Click **Create**
+4. On the **Subnet** tab, add `192.168.122.0/24`
+5. On the **Selector** tab:
+   - **VM Network:** `vertex-trust-prod/vmnet`
+   - **Namespace:** `vertex-trust-prod`
+6. Click **Create**
 
 <b class="highlightcopy">vertex-ippool</b> now appears in the list. The bank's address reserve is funded.
 
@@ -239,10 +246,10 @@ kubectl --kubeconfig .kube/harvester.yaml get pods -n harvester-system | grep vi
 - **See your UI handiwork as API objects** — the workspace, both networks, and the address reserve:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get namespace vertex-trust-prod; kubectl get clusternetworks.network.harvesterhci.io; kubectl get network-attachment-definitions -n default; kubectl get ippools.network.harvesterhci.io -n default
+kubectl --kubeconfig .kube/harvester.yaml get namespace vertex-trust-prod; kubectl --kubeconfig .kube/harvester.yaml get clusternetworks.network.harvesterhci.io; kubectl --kubeconfig .kube/harvester.yaml get network-attachment-definitions -n vertex-trust-prod; kubectl --kubeconfig .kube/harvester.yaml get ippools.network.harvesterhci.io -n vertex-trust-prod;
 ```
 
-- **Confirm the cluster is a blank canvas** — no bank VMs exist yet anywhere:
+- **Confirm the cluster is ready for VMs**, and only one VM exists in the cluster (the VM is for one of the challenges):
 
 ```bash,run
 kubectl --kubeconfig .kube/harvester.yaml get vm -A
@@ -257,10 +264,10 @@ kubectl --kubeconfig .kube/harvester.yaml label namespace vertex-trust-prod stag
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================
 
-- **The silos disappear.** VMs and containers share nodes, storage, networking, and one operations team — the datacenter's "temperature divide" is gone.
-- **No retraining cliff.** The container team's Kubernetes skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by the same API.
+- **The silos disappear.** VMs and containers share nodes, storage, networking, and one operations team, the datacenter's "temperature divide" is gone.
+- **No retraining cliff.** The container team's Kubernetes skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by Kubernetes API.
 - **Namespaces bring governance.** Financial workloads live in `vertex-trust-prod` with their own quotas, policies, and access controls — auditors will love it.
-- **Networking is self-service.** A production VM network, a physically separate development network on a spare NIC, and a LoadBalancer address reserve took minutes to define — no switch tickets, no waiting on the network team.
+- **Networking is self-service.** A production VM network, a physically separate development network on a spare NIC, and a LoadBalancer address reserve takes minutes to define, no switch tickets, no waiting on the network team.
 
 <div class="storybox">
 
