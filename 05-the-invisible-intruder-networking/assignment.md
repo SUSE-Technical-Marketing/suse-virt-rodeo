@@ -86,21 +86,6 @@ enhanced_loading: null
   }
 </style>
 
-🔐 Login Credentials
-====================
-
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
-
-Username:
-```txt
-admin
-```
-
-Password:
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
-```
-
 <img class="logos" alt="Welcome!" src="../assets/05-chapter-img.png"/>
 
 <div class="storybox">
@@ -133,6 +118,23 @@ You don't need physical cables. You have the power of **software-defined network
 3. Prove the lateral attack vector is severed
 
 </div>
+
+🔐 Login Credentials
+====================
+
+The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+
+Username:
+```txt
+admin
+```
+
+Password:
+```txt
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
+```
+
+
 
 🧱 Task 1: Construct the virtual vault network
 ==============================================

@@ -70,21 +70,6 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
-🔐 Login Credentials
-====================
-
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
-
-Username:
-```txt
-admin
-```
-
-Password:
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
-```
-
 <img class="logos" alt="Welcome!" src="../assets/06-chapter-img.png"/>
 
 <div class="storybox">
@@ -119,6 +104,23 @@ You step up to his terminal. It is time to turn back the clock. But you must be 
 8. Put backups on a schedule
 
 </div>
+
+🔐 Login Credentials
+====================
+
+The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+
+Username:
+```txt
+admin
+```
+
+Password:
+```txt
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
+```
+
+
 
 💥 Task 1: Simulate the creation and destruction of the record
 ==============================================================

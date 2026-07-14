@@ -69,21 +69,6 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
-🔐 Login Credentials
-====================
-
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
-
-Username:
-```txt
-admin
-```
-
-Password:
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
-```
-
 <img class="logos" alt="Welcome!" src="../assets/08-chapter-img.png"/>
 
 <div class="storybox">
@@ -114,6 +99,23 @@ Sarah looks at you, stunned. *"If we turn that cluster off, the bank dies."*
 4. Enable advanced telemetry
 
 </div>
+
+🔐 Login Credentials
+====================
+
+The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+
+Username:
+```txt
+admin
+```
+
+Password:
+```txt
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
+```
+
+
 
 🌉 Task 1: Establish the migration bridge
 =========================================

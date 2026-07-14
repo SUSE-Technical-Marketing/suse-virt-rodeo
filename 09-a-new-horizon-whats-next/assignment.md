@@ -68,21 +68,6 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
-🔐 Login Credentials
-====================
-
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
-
-Username:
-```txt
-admin
-```
-
-Password:
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
-```
-
 <img class="logos" alt="Welcome!" src="../assets/09-chapter-img.png"/>
 
 <div class="storybox">
@@ -113,6 +98,23 @@ You conquered incredible odds during your time here:
 | ⚔️ The Final Showdown | A vendor holding the bank hostage | Live extraction from the ISAware cluster and guest telemetry |
 
 Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digital frontier is vast and constantly evolving. There are always new architectures to design and new systems to modernize.
+
+🔐 Login Credentials
+====================
+
+The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+
+Username:
+```txt
+admin
+```
+
+Password:
+```txt
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
+```
+
+
 
 🧭 Victory lap — the lab is still yours
 =======================================

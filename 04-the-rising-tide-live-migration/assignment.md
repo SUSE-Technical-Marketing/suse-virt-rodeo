@@ -70,21 +70,6 @@ enhanced_loading: null
   img.logos { border-radius: 10px; }
 </style>
 
-🔐 Login Credentials
-====================
-
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
-
-Username:
-```txt
-admin
-```
-
-Password:
-```txt
-[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
-```
-
 <img class="logos" alt="Welcome!" src="../assets/04-chapter-img.png"/>
 
 <div class="storybox">
@@ -113,6 +98,23 @@ But first, to ensure maximum bandwidth is available for the emergency migration,
 6. Hand the damaged rack to the repair crew
 
 </div>
+
+🔐 Login Credentials
+====================
+
+The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+
+Username:
+```txt
+admin
+```
+
+Password:
+```txt
+[[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
+```
+
+
 
 ⏸️ Task 1: Suspend non-critical workloads to free resources
 ===========================================================
