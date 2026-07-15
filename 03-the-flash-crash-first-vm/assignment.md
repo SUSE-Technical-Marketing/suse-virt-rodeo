@@ -177,7 +177,7 @@ Navigate to **Virtual Machines** and click the **Create** button.
 Configure the engine exactly as the quants need it:
 
 - **Name**: <b class="highlightcopy">algo-trader-01</b>
-- **Namespace**: <b class="highlightcopy">vertex-trust-prod</b>
+- **Namespace**: <b class="highlightcopy">prod</b>
 
   If the namespace doesn't exists create a new one.
 
@@ -320,19 +320,19 @@ kubectl --kubeconfig .kube/harvester.yaml get virtualmachineimages -A
 - **The VM is a Kubernetes resource:**
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachines -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachines -n prod
 ```
 
 - **The running instance, with its node and IP** (the same IP you used for SSH):
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vmi -n vertex-trust-prod -o wide
+kubectl --kubeconfig .kube/harvester.yaml get vmi -n prod -o wide
 ```
 
 - **The disks are ordinary PersistentVolumeClaims backed by Longhorn:**
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get pvc -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get pvc -n prod
 ```
 
 You should recognize `market-data-vol` in the list — a banking data drive, expressed as cloud-native storage.

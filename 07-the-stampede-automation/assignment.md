@@ -122,14 +122,14 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigat
 | Setting | Value |
 |--------:|:------|
 | **Name** | <b class="highlightcopy">stress-test-template</b> |
-| **Namespace** | <b class="highlightcopy">vertex-trust-prod</b> |
+| **Namespace** | <b class="highlightcopy">prod</b> |
 | **CPU** | <b class="highlightcopy">1</b> |
 | **Memory** | <b class="highlightcopy">2 GiB</b> |
 
 Then:
 
 1. Under the **Volumes** tab, select the **openSUSE-Leap-15.5** image as the boot disk
-2. Under the **Networks** tab, attach the interface to <b class="highlightcopy">default/vmnet</b>
+2. Under the **Networks** tab, attach the interface to <b class="highlightcopy">prod/vmnet</b>
 3. Under **Advanced Options > Cloud Config**, paste the same credential bootstrap you used during the Flash Crash into **User Data**:
 
 ```yaml
@@ -155,7 +155,7 @@ Navigate to **Virtual Machines** and click **Create**:
 2. Set the **VM Name Prefix** to <b class="highlightcopy">stress-test</b>
 3. Set the **Count** to <b class="highlightcopy">3</b>
 4. Tick **Use VM Template** and select <b class="highlightcopy">stress-test-template</b> (default version)
-5. Make sure the **Namespace** is <b class="highlightcopy">vertex-trust-prod</b>
+5. Make sure the **Namespace** is <b class="highlightcopy">prod</b>
 6. Click **Create**
 
 Watch as <b class="highlightcopy">stress-test-01</b>, <b class="highlightcopy">stress-test-02</b>, and <b class="highlightcopy">stress-test-03</b> materialize in the list and boot in parallel.
@@ -202,13 +202,13 @@ New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label=
 - **Count the fleet from the command line** (run this between Task 3 and Task 4 to see all five):
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vm -n vertex-trust-prod | grep stress-test
+kubectl --kubeconfig .kube/harvester.yaml get vm -n prod | grep stress-test
 ```
 
 - **Inspect the blueprint as an API object** — templates and their versions are resources too:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplates,virtualmachinetemplateversions -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplates,virtualmachinetemplateversions -n prod
 ```
 
 💼 Why does this matter for Vertex Trust Bank?

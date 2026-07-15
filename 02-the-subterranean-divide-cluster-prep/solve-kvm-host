@@ -4,11 +4,11 @@
 # nothing to create for it.
 #
 # Creates, in order:
-#   Task 2 - namespaces vertex-trust-prod, vertex-trust-dev
-#   Task 3 - NetworkAttachmentDefinition vmnet   (ns vertex-trust-prod, on ClusterNetwork mgmt)
+#   Task 2 - namespaces prod, dev
+#   Task 3 - NetworkAttachmentDefinition vmnet   (ns prod, on ClusterNetwork mgmt)
 #   Task 4 - ClusterNetwork dev + VlanConfig dev-uplink (uplink ens5, all nodes)
-#            + NetworkAttachmentDefinition devnet (ns vertex-trust-dev, on ClusterNetwork dev)
-#   Task 5 - IPPool vertex-ippool (ns vertex-trust-prod, range .200-.220, subnet /24)
+#            + NetworkAttachmentDefinition devnet (ns dev, on ClusterNetwork dev)
+#   Task 5 - IPPool vertex-ippool (ns prod, range .200-.220, subnet /24)
 #
 # Idempotent (kubectl apply). Fails loudly (set -e) — unlike the track/chapter
 # setup scripts, a solve script is expected to either fully succeed or report
@@ -43,24 +43,27 @@ export KUBECONFIG=/root/.kube/harvester.yaml
 log(){ echo ">>> [ch2-solve] $*"; }
 
 # --- Task 2: namespaces ---------------------------------------------------
-log "creating namespaces vertex-trust-prod, vertex-trust-dev ..."
-kubectl create namespace vertex-trust-prod --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace vertex-trust-dev  --dry-run=client -o yaml | kubectl apply -f -
+# prod is pre-baked into the cluster image (18d old, confirmed live) along
+# with prod/service (NAD) and prod/default (KeyPair) — kubectl apply is a
+# safe no-op against it. dev is genuinely new.
+log "creating namespaces prod, dev ..."
+kubectl create namespace prod --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace dev  --dry-run=client -o yaml | kubectl apply -f -
 
 # --- Task 3: production VM network on the mgmt cluster network -----------
-log "creating NetworkAttachmentDefinition vmnet (vertex-trust-prod, on mgmt) ..."
+log "creating NetworkAttachmentDefinition vmnet (prod, on mgmt) ..."
 cat <<EOF | kubectl apply -f -
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
   name: vmnet
-  namespace: vertex-trust-prod
+  namespace: prod
   annotations:
     network.harvesterhci.io/type: UntaggedNetwork
     network.harvesterhci.io/clusternetwork: mgmt
     network.harvesterhci.io/route: '{"mode":"auto","serverIPAddr":"","cidr":"","gateway":""}'
 spec:
-  config: '{"cniVersion":"0.3.1","name":"vertex-trust-prod-vmnet","type":"bridge","bridge":"mgmt-br","promiscMode":true,"vlan":0,"ipam":{}}'
+  config: '{"cniVersion":"0.3.1","name":"prod-vmnet","type":"bridge","bridge":"mgmt-br","promiscMode":true,"vlan":0,"ipam":{}}'
 EOF
 
 # --- Task 4: dev ClusterNetwork + uplink + devnet VM network --------------
@@ -87,19 +90,19 @@ spec:
       mode: active-backup
 EOF
 
-log "creating NetworkAttachmentDefinition devnet (vertex-trust-dev, on dev) ..."
+log "creating NetworkAttachmentDefinition devnet (dev, on dev) ..."
 cat <<EOF | kubectl apply -f -
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
   name: devnet
-  namespace: vertex-trust-dev
+  namespace: dev
   annotations:
     network.harvesterhci.io/type: UntaggedNetwork
     network.harvesterhci.io/clusternetwork: dev
     network.harvesterhci.io/route: '{"mode":"auto","serverIPAddr":"","cidr":"","gateway":""}'
 spec:
-  config: '{"cniVersion":"0.3.1","name":"vertex-trust-dev-devnet","type":"bridge","bridge":"dev-br","promiscMode":true,"vlan":0,"ipam":{}}'
+  config: '{"cniVersion":"0.3.1","name":"dev-devnet","type":"bridge","bridge":"dev-br","promiscMode":true,"vlan":0,"ipam":{}}'
 EOF
 
 log "waiting for dev-uplink VlanConfig to match all nodes ..."
@@ -118,7 +121,7 @@ done
 [ "${MATCHED_COUNT:-0}" -ge "${NODE_COUNT}" ] || log "warn: dev-uplink has not matched all ${NODE_COUNT} nodes yet (found: ${MATCHED:-none}) — check Networks > Cluster Network Configuration in the UI."
 
 # --- Task 5: IPPool for LoadBalancer services -----------------------------
-log "creating IPPool vertex-ippool (vertex-trust-prod, .200-.220) ..."
+log "creating IPPool vertex-ippool (prod, .200-.220) ..."
 cat <<EOF | kubectl apply -f -
 apiVersion: loadbalancer.harvesterhci.io/v1beta1
 kind: IPPool
@@ -131,14 +134,14 @@ spec:
       rangeStart: 192.168.122.200
       rangeEnd: 192.168.122.220
   selector:
-    network: vertex-trust-prod/vmnet
+    network: prod/vmnet
     priority: 0
     scope:
-      - namespace: vertex-trust-prod
+      - namespace: prod
 EOF
 
 log "verifying vmnet and devnet show Active ..."
-for net in vertex-trust-prod/vmnet vertex-trust-dev/devnet; do
+for net in prod/vmnet dev/devnet; do
   ns="${net%/*}"; name="${net#*/}"
   for _ in $(seq 1 30); do
     kubectl get network-attachment-definitions.k8s.cni.cncf.io -n "${ns}" "${name}" &>/dev/null && break

@@ -13,17 +13,17 @@ FAIL=0
 fail(){ echo "FAIL: $*"; FAIL=1; }
 
 # --- Task 2: namespaces ---------------------------------------------------
-for ns in vertex-trust-prod vertex-trust-dev; do
+for ns in prod dev; do
   kubectl get namespace "${ns}" &>/dev/null || fail "namespace ${ns} not found."
 done
 
 # --- Task 3: production VM network ----------------------------------------
-if kubectl get network-attachment-definitions.k8s.cni.cncf.io -n vertex-trust-prod vmnet &>/dev/null; then
-  CN="$(kubectl get network-attachment-definitions.k8s.cni.cncf.io -n vertex-trust-prod vmnet \
+if kubectl get network-attachment-definitions.k8s.cni.cncf.io -n prod vmnet &>/dev/null; then
+  CN="$(kubectl get network-attachment-definitions.k8s.cni.cncf.io -n prod vmnet \
     -o jsonpath='{.metadata.annotations.network\.harvesterhci\.io/clusternetwork}' 2>/dev/null)"
   [ "${CN}" = "mgmt" ] || fail "vmnet exists but is not on ClusterNetwork 'mgmt' (found '${CN}')."
 else
-  fail "NetworkAttachmentDefinition vmnet not found in vertex-trust-prod."
+  fail "NetworkAttachmentDefinition vmnet not found in prod."
 fi
 
 # --- Task 4: dev ClusterNetwork + uplink + devnet -------------------------
@@ -42,12 +42,12 @@ else
   fail "VlanConfig dev-uplink not found."
 fi
 
-if kubectl get network-attachment-definitions.k8s.cni.cncf.io -n vertex-trust-dev devnet &>/dev/null; then
-  CN="$(kubectl get network-attachment-definitions.k8s.cni.cncf.io -n vertex-trust-dev devnet \
+if kubectl get network-attachment-definitions.k8s.cni.cncf.io -n dev devnet &>/dev/null; then
+  CN="$(kubectl get network-attachment-definitions.k8s.cni.cncf.io -n dev devnet \
     -o jsonpath='{.metadata.annotations.network\.harvesterhci\.io/clusternetwork}' 2>/dev/null)"
   [ "${CN}" = "dev" ] || fail "devnet exists but is not on ClusterNetwork 'dev' (found '${CN}')."
 else
-  fail "NetworkAttachmentDefinition devnet not found in vertex-trust-dev."
+  fail "NetworkAttachmentDefinition devnet not found in dev."
 fi
 
 # --- Task 5: IPPool --------------------------------------------------------

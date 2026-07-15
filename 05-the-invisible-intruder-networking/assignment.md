@@ -212,7 +212,7 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: default-deny-all
-  namespace: vertex-trust-prod
+  namespace: prod
 spec:
   podSelector: {}
   policyTypes:
@@ -223,7 +223,7 @@ EOF
 Confirm the policy is enforced:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get networkpolicy -n vertex-trust-prod
+kubectl --kubeconfig .kube/harvester.yaml get networkpolicy -n prod
 ```
 
 **Drill 2 — build air-gapped containment zones.** VLANs segment the physical network — but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:

@@ -139,21 +139,16 @@ Observe how raw block devices are provisioned for virtual machine disks. Each di
 🏗️ Task 2: Prepare a dedicated workspace for the bank
 =====================================================
 
-The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster. The bank's financial workloads deserve their own. We will create a namespace for production workloads and another for development.
+The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster. The bank's financial workloads deserve their own.
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), select **Namespaces** from the left-hand menu. You will notice <b class="highlightcopy">prod</b> already sitting in the list — the platform team provisioned it before you arrived, and it is where the bank's production workloads will live.
 
+Now create its counterpart for development:
 1. Select **Namespaces** from the left-hand menu
-2. Set the **Name** to <b class="highlightcopy">vertex-trust-prod</b>
+2. Set the **Name** to <b class="highlightcopy">dev</b>
 3. Click **Create**
 
-Repeat now for the development namespace:
-1. Select **Namespaces** from the left-hand menu
-2. Set the **Name** to <b class="highlightcopy">vertex-trust-dev</b>
-3. Click **Create**
-
-
-The new workspace appears in the list, ready to hold the bank's production systems with its own quotas, policies, and access controls.
+Two workspaces now stand ready: <b class="highlightcopy">prod</b>, already provisioned, and <b class="highlightcopy">dev</b>, freshly created — each with its own quotas, policies, and access controls.
 
 🌐 Task 3: Build the bank's production VM network
 =================================================
@@ -167,7 +162,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 ![02-create_vm_network.gif](../assets/02-create_vm_network.gif)
 
-3. Select the recently created namespace **vertex-trust-prod** from the Namespace drop-down menu in the top left.
+3. Select the namespace **prod** from the Namespace drop-down menu in the top left.
 4. Fill in:
    - **Name:** <b class="highlightcopy">vmnet</b>
    - **Type:** `UntaggedNetwork`
@@ -197,7 +192,7 @@ First, define the cluster-wide network on the spare uplink. In the [button label
 Now build a VM network on top of it:
 
 7. Go to **Networks > Virtual Machine Networks** and click **Create**
-8. Select namespace "vertex-trust-dev" from the Namespace drop-down menu to deploy the new devnet network
+8. Select namespace "dev" from the Namespace drop-down menu to deploy the new devnet network
 9. Fill in:
    - **Name:** <b class="highlightcopy">devnet</b>
    - **Type:** `UntaggedNetwork`
@@ -220,8 +215,8 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 3. On the **Range** tab, add the range `192.168.122.200` to `192.168.122.220`
 4. On the **Subnet** tab, add `192.168.122.0/24`
 5. On the **Selector** tab:
-   - **VM Network:** `vertex-trust-prod/vmnet`
-   - **Namespace:** `vertex-trust-prod`
+   - **VM Network:** `prod/vmnet`
+   - **Namespace:** `prod`
 6. Click **Create**
 
 <b class="highlightcopy">vertex-ippool</b> now appears in the list. The bank's address reserve is funded.
@@ -246,7 +241,7 @@ kubectl --kubeconfig .kube/harvester.yaml get pods -n harvester-system | grep vi
 - **See your UI handiwork as API objects** — the workspace, both networks, and the address reserve:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get namespace vertex-trust-prod; kubectl --kubeconfig .kube/harvester.yaml get clusternetworks.network.harvesterhci.io; kubectl --kubeconfig .kube/harvester.yaml get network-attachment-definitions -n vertex-trust-prod; kubectl --kubeconfig .kube/harvester.yaml get ippools.network.harvesterhci.io -n vertex-trust-prod;
+kubectl --kubeconfig .kube/harvester.yaml get namespace prod; kubectl --kubeconfig .kube/harvester.yaml get clusternetworks.network.harvesterhci.io; kubectl --kubeconfig .kube/harvester.yaml get network-attachment-definitions -n prod; kubectl --kubeconfig .kube/harvester.yaml get ippools.network.harvesterhci.io -n prod;
 ```
 
 - **Confirm the cluster is ready for VMs**, and only one VM exists in the cluster (the VM is for one of the challenges):
@@ -258,7 +253,7 @@ kubectl --kubeconfig .kube/harvester.yaml get vm -A
 - **Label the new workspace** so future automation can target production financial workloads:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml label namespace vertex-trust-prod stage=prod owner=vertex-trust
+kubectl --kubeconfig .kube/harvester.yaml label namespace prod stage=prod owner=vertex-trust
 ```
 
 💼 Why does this matter for Vertex Trust Bank?
@@ -266,7 +261,7 @@ kubectl --kubeconfig .kube/harvester.yaml label namespace vertex-trust-prod stag
 
 - **The silos disappear.** VMs and containers share nodes, storage, networking, and one operations team, the datacenter's "temperature divide" is gone.
 - **No retraining cliff.** The container team's Kubernetes skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by Kubernetes API.
-- **Namespaces bring governance.** Financial workloads live in `vertex-trust-prod` with their own quotas, policies, and access controls — auditors will love it.
+- **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls — auditors will love it.
 - **Networking is self-service.** A production VM network, a physically separate development network on a spare NIC, and a LoadBalancer address reserve takes minutes to define, no switch tickets, no waiting on the network team.
 
 <div class="storybox">

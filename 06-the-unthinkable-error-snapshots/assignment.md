@@ -239,7 +239,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to *
 
 | Setting | Value |
 |--------:|:------|
-| **Namespace** | <b class="highlightcopy">vertex-trust-prod</b> |
+| **Namespace** | <b class="highlightcopy">dev</b> |
 | **Name** | <b class="highlightcopy">compatibility-tests</b> |
 | **CPU** | <b class="highlightcopy">1</b> |
 | **Memory** | <b class="highlightcopy">2 GiB</b> |
@@ -247,7 +247,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to *
 Then walk the tabs:
 
 1. **Volumes** — select the **openSUSE-Leap-15.5** image as the boot disk. Then click **Add Volume**: name it <b class="highlightcopy">scratch-vol</b>, size **5 GiB**, and set its **Storage Class** to <b class="highlightcopy">harvester-longhorn-2rep</b> — test data does not need three copies
-2. **Networks** — attach the interface to <b class="highlightcopy">default/devnet</b>, the development lane on the spare uplink
+2. **Networks** — attach the interface to <b class="highlightcopy">dev/devnet</b>, the development lane on the spare uplink
 3. **Labels** — add the key <b class="highlightcopy">stage</b> with the value <b class="highlightcopy">dev</b>, so tooling and policies can tell sandboxes from production at a glance
 4. **Advanced Options** — set **Run Strategy** to <b class="highlightcopy">Manual</b>
 5. Click **Create**
@@ -277,7 +277,7 @@ Ad-hoc snapshots saved the day once; policy keeps the bank safe every day after.
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 1. Go to **Backup & Snapshot > Virtual Machine Schedules** and click **Create schedule**
-2. Set the **Namespace** to <b class="highlightcopy">vertex-trust-prod</b> and the **Virtual Machine Name** to <b class="highlightcopy">compatibility-tests</b>
+2. Set the **Namespace** to <b class="highlightcopy">dev</b> and the **Virtual Machine Name** to <b class="highlightcopy">compatibility-tests</b>
 3. On the **Basics** tab, fill in:
    - **Cron Schedule:** <b class="highlightcopy">0 */5 * * *</b> — at minute 00, every 5 hours
    - **Retain:** <b class="highlightcopy">5</b>

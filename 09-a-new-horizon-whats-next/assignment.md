@@ -165,7 +165,7 @@ When **Rancher Prime** manages <b class="virt">SUSE Virtualization</b>, it treat
 1. Go to **Cluster Management** > **Create** and select **RKE2/K3s**
 2. Under **Infrastructure**, select **Harvester**
 3. Set **Cluster Name** to <b class="highlightcopy">vertex-mobile</b>, pick the latest K3s version, and choose the `vertex-harvester` credential
-4. Configure the node pool: **1** machine, namespace `default`, the openSUSE Leap image from your **Images** page, `2` CPU / `4 GiB` memory / `40 GiB` disk, network `default/vmnet`, SSH user `opensuse`
+4. Configure the node pool: **1** machine, namespace `prod`, the openSUSE Leap image from your **Images** page, `2` CPU / `4 GiB` memory / `40 GiB` disk, network `prod/vmnet`, SSH user `opensuse`
 5. Under the cluster add-ons, enable the **Harvester CSI Driver** (Longhorn-backed persistent volumes) and the **Harvester Cloud Provider** (LoadBalancer services from your IP pool)
 6. Click **Create**
 
@@ -175,18 +175,18 @@ Watch the platform build a cluster inside itself: stay on Rancher's **Cluster Ma
 
 **Step 4 — Light up the ops dashboard (advanced — for the Kubernetes-curious).** This final flourish deploys a small containerized app onto the new cluster. Note who is in charge here: the container work happens entirely through **Rancher**, not the SUSE Virtualization UI — running containers is Rancher's job. Skip freely; your mission is already complete.
 
-Once `vertex-mobile` is Active, open it in Rancher's **Cluster Explorer** and launch the built-in **Kubectl Shell** (`>_` icon, top right). Deploy the bank's ops dashboard — a tiny Node.js app that reads the cluster API and renders live vitals:
+Once `vertex-mobile` is Active, open it in Rancher's **Cluster Explorer** and launch the built-in **Kubectl Shell** (`>_` icon, top right). This shell is already authenticated straight to `vertex-mobile` — no kubeconfig flag needed, unlike every other terminal command in this workshop. Deploy the bank's ops dashboard — a tiny Node.js app that reads the cluster API and renders live vitals:
 
 ```bash
-kubectl --kubeconfig .kube/harvester.yaml create namespace vertex-ops
-kubectl --kubeconfig .kube/harvester.yaml create serviceaccount geeko-dash -n vertex-ops
-kubectl --kubeconfig .kube/harvester.yaml create clusterrole geeko-dash-reader --verb=get,list --resource=nodes
-kubectl --kubeconfig .kube/harvester.yaml create clusterrolebinding geeko-dash-reader --clusterrole=geeko-dash-reader --serviceaccount=vertex-ops:geeko-dash
-kubectl --kubeconfig .kube/harvester.yaml create configmap geeko-dash-config -n vertex-ops --from-literal=CLUSTER_NAME=VERTEX-TRUST-MOBILE-01
+kubectl create namespace vertex-ops
+kubectl create serviceaccount geeko-dash -n vertex-ops
+kubectl create clusterrole geeko-dash-reader --verb=get,list --resource=nodes
+kubectl create clusterrolebinding geeko-dash-reader --clusterrole=geeko-dash-reader --serviceaccount=vertex-ops:geeko-dash
+kubectl create configmap geeko-dash-config -n vertex-ops --from-literal=CLUSTER_NAME=VERTEX-TRUST-MOBILE-01
 ```
 
 ```bash
-kubectl --kubeconfig .kube/harvester.yaml apply -f - << 'EOF'
+kubectl apply -f - << 'EOF'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
