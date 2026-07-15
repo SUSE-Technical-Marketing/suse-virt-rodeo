@@ -1,0 +1,152 @@
+#!/bin/bash
+# Challenge 2 solve — reproduces tasks 2-5 of the-subterranean-divide via the
+# Harvester/Kubernetes API instead of the UI. Task 1 is pure UI exploration,
+# nothing to create for it.
+#
+# Creates, in order:
+#   Task 2 - namespaces vertex-trust-prod, vertex-trust-dev
+#   Task 3 - NetworkAttachmentDefinition vmnet   (ns vertex-trust-prod, on ClusterNetwork mgmt)
+#   Task 4 - ClusterNetwork dev + VlanConfig dev-uplink (uplink ens5, all nodes)
+#            + NetworkAttachmentDefinition devnet (ns vertex-trust-dev, on ClusterNetwork dev)
+#   Task 5 - IPPool vertex-ippool (ns vertex-trust-prod, range .200-.220, subnet /24)
+#
+# Idempotent (kubectl apply). Fails loudly (set -e) — unlike the track/chapter
+# setup scripts, a solve script is expected to either fully succeed or report
+# why it didn't.
+#
+# Live-verified against the geekohive dev cluster on 2026-07-15:
+#   - VlanConfig (network.harvesterhci.io/v1beta1): spec.clusterNetwork,
+#     spec.uplink.nics and spec.uplink.bondOptions are accepted;
+#     spec.uplink.linkAttrs is NOT (strict decoding rejects it) — removed.
+#     No status.conditions on this CRD; readiness is read from the
+#     network.harvesterhci.io/matched-nodes annotation instead.
+#   - IPPool is loadbalancer.harvesterhci.io/v1beta1, cluster-scoped (not
+#     network.harvesterhci.io, not namespaced). Confirmed via
+#     `kubectl get crd ippools.loadbalancer.harvesterhci.io -o yaml`. Real
+#     spec shape: spec.ranges[] (each with subnet/gateway/rangeStart/rangeEnd,
+#     subnet required), spec.selector.network, spec.selector.scope[] (each
+#     with namespace/project/guestCluster only — no nested "selector" key,
+#     no "network" per scope item). Fixed below.
+#
+# Still unverified — flag if something breaks here next:
+#   - NetworkAttachmentDefinition annotation keys/values for Harvester
+#     UntaggedNetwork (network.harvesterhci.io/type, /clusternetwork, /route)
+#     and the embedded CNI config JSON.
+#   - assignment.md text says the spare NIC is `eth4` (task 4 intro) but the
+#     step-by-step instructs selecting `ens5` (task 4 step 5) — used `ens5`
+#     here since that's the literal UI field value the student is told to
+#     pick. Worth reconciling the copy if it's actually a typo.
+
+set -euo pipefail
+export KUBECONFIG=/root/.kube/harvester.yaml
+
+log(){ echo ">>> [ch2-solve] $*"; }
+
+# --- Task 2: namespaces ---------------------------------------------------
+log "creating namespaces vertex-trust-prod, vertex-trust-dev ..."
+kubectl create namespace vertex-trust-prod --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace vertex-trust-dev  --dry-run=client -o yaml | kubectl apply -f -
+
+# --- Task 3: production VM network on the mgmt cluster network -----------
+log "creating NetworkAttachmentDefinition vmnet (vertex-trust-prod, on mgmt) ..."
+cat <<EOF | kubectl apply -f -
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: vmnet
+  namespace: vertex-trust-prod
+  annotations:
+    network.harvesterhci.io/type: UntaggedNetwork
+    network.harvesterhci.io/clusternetwork: mgmt
+    network.harvesterhci.io/route: '{"mode":"auto","serverIPAddr":"","cidr":"","gateway":""}'
+spec:
+  config: '{"cniVersion":"0.3.1","name":"vertex-trust-prod-vmnet","type":"bridge","bridge":"mgmt-br","promiscMode":true,"vlan":0,"ipam":{}}'
+EOF
+
+# --- Task 4: dev ClusterNetwork + uplink + devnet VM network --------------
+log "creating ClusterNetwork dev ..."
+cat <<EOF | kubectl apply -f -
+apiVersion: network.harvesterhci.io/v1beta1
+kind: ClusterNetwork
+metadata:
+  name: dev
+EOF
+
+log "creating VlanConfig dev-uplink (uplink ens5, no node selector) ..."
+cat <<EOF | kubectl apply -f -
+apiVersion: network.harvesterhci.io/v1beta1
+kind: VlanConfig
+metadata:
+  name: dev-uplink
+spec:
+  clusterNetwork: dev
+  uplink:
+    nics:
+      - ens5
+    bondOptions:
+      mode: active-backup
+EOF
+
+log "creating NetworkAttachmentDefinition devnet (vertex-trust-dev, on dev) ..."
+cat <<EOF | kubectl apply -f -
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: devnet
+  namespace: vertex-trust-dev
+  annotations:
+    network.harvesterhci.io/type: UntaggedNetwork
+    network.harvesterhci.io/clusternetwork: dev
+    network.harvesterhci.io/route: '{"mode":"auto","serverIPAddr":"","cidr":"","gateway":""}'
+spec:
+  config: '{"cniVersion":"0.3.1","name":"vertex-trust-dev-devnet","type":"bridge","bridge":"dev-br","promiscMode":true,"vlan":0,"ipam":{}}'
+EOF
+
+log "waiting for dev-uplink VlanConfig to match all nodes ..."
+# VlanConfig has no status.conditions in this cluster's CRD version (confirmed
+# 2026-07-15: `kubectl get vlanconfig dev-uplink -o yaml` returns no .status at
+# all). The real completion signal is the network.harvesterhci.io/matched-nodes
+# annotation, which the controller populates as soon as the uplink is wired.
+NODE_COUNT="$(kubectl get nodes --no-headers 2>/dev/null | wc -l | tr -d ' ')"
+for _ in $(seq 1 12); do
+  MATCHED="$(kubectl get vlanconfig dev-uplink -o jsonpath='{.metadata.annotations.network\.harvesterhci\.io/matched-nodes}' 2>/dev/null || true)"
+  MATCHED_COUNT="$(echo "${MATCHED}" | grep -o '"' | wc -l)"
+  MATCHED_COUNT=$((MATCHED_COUNT / 2))
+  [ "${MATCHED_COUNT}" -ge "${NODE_COUNT}" ] && [ "${NODE_COUNT}" -gt 0 ] && { log "dev-uplink matched-nodes: ${MATCHED}"; break; }
+  sleep 5
+done
+[ "${MATCHED_COUNT:-0}" -ge "${NODE_COUNT}" ] || log "warn: dev-uplink has not matched all ${NODE_COUNT} nodes yet (found: ${MATCHED:-none}) — check Networks > Cluster Network Configuration in the UI."
+
+# --- Task 5: IPPool for LoadBalancer services -----------------------------
+log "creating IPPool vertex-ippool (vertex-trust-prod, .200-.220) ..."
+cat <<EOF | kubectl apply -f -
+apiVersion: loadbalancer.harvesterhci.io/v1beta1
+kind: IPPool
+metadata:
+  name: vertex-ippool
+spec:
+  ranges:
+    - subnet: 192.168.122.0/24
+      gateway: 192.168.122.1
+      rangeStart: 192.168.122.200
+      rangeEnd: 192.168.122.220
+  selector:
+    network: vertex-trust-prod/vmnet
+    priority: 0
+    scope:
+      - namespace: vertex-trust-prod
+EOF
+
+log "verifying vmnet and devnet show Active ..."
+for net in vertex-trust-prod/vmnet vertex-trust-dev/devnet; do
+  ns="${net%/*}"; name="${net#*/}"
+  for _ in $(seq 1 30); do
+    kubectl get network-attachment-definitions.k8s.cni.cncf.io -n "${ns}" "${name}" &>/dev/null && break
+    sleep 5
+  done
+  kubectl get network-attachment-definitions.k8s.cni.cncf.io -n "${ns}" "${name}" &>/dev/null \
+    && log "${net}: present" \
+    || log "warn: ${net} not found."
+done
+
+echo "PASS: Chapter 2 objectives created (namespaces, vmnet, dev ClusterNetwork + devnet, vertex-ippool)"
