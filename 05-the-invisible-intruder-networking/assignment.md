@@ -206,7 +206,7 @@ Go to 'Virtual Private Cloud', then on the tab of 'ovn-cluster' Virtual Private 
   - Dynamic Host Configuration Protocol (DHCP): Enabled
   - Private Subnet: Enabled
 - Click on 'Create'
-  
+
 
 Now we can assign the network "dev/secure-loop-dev" to any VM and it will only be able to communicate within the VMs in the same network.
 
@@ -238,9 +238,9 @@ Now the VM will boot connected to the new network.
 🏋️ Bonus Drills — for the command-line curious (optional)
 ==========================================================
 
-New to Kubernetes? **Skip ahead freely** — the vault is already sealed. These optional drills add extra walls with pure Kubernetes tooling.
+New to Kubernetes? **Skip ahead freely** — we have the isolated networks already created. These optional drills add an extra isolated network with pure Kubernetes tooling.
 
-**Drill 1 — a second wall: Kubernetes network policies.** One wall is good. Two walls are banking-grade. For **defense-in-depth**, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
+**Drill 1 — an extra isolated network is needed for QA: Kubernetes network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .kube/harvester.yaml apply -f -

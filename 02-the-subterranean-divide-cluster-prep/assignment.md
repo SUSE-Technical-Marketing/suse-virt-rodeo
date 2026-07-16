@@ -168,10 +168,19 @@ The development team does not need banking-grade replication for their sandboxes
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), under **Advanced > Storage Classes**:
 
+<<<<<<< HEAD
 1. Click **Create**
 2. Set the **Name** to <b class="highlightcopy">harvester-longhorn-1rep</b>
 3. Set **Number Of Replicas** to <b class="highlightcopy">1</b>
 4. Click **Create**
+=======
+1. Go to **Networks > Cluster Network Configuration** and click **Create a Cluster Network** on the top right corner
+2. Set the **Name** to <b class="highlightcopy">dev</b> and click **Create**
+3. Back in the list, find the new <b class="highlightcopy">dev</b> cluster network and click **Create Network Configuration**
+4. Set the **Name** to <b class="highlightcopy">dev-uplink</b>
+5. Under **Uplink**, select NIC <b class="highlightcopy">ens5</b> (leave the node selector empty so the config applies to every node)
+6. Click **Create** and wait for the config to show as **Active** on all nodes
+>>>>>>> ef0a847 (changed exercises for 07 to be more automation useful)
 
 Two policies now sit side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica — dev sandboxes, at a third of the disk cost). The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.
 

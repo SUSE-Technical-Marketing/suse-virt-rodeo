@@ -117,63 +117,200 @@ Password:
 📜 Task 1: Forge the golden template
 ====================================
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Advanced > Templates** and click **Create**. Define the blueprint for the calculation engines:
 
-| Setting | Value |
-|--------:|:------|
-| **Name** | <b class="highlightcopy">stress-test-template</b> |
-| **Namespace** | <b class="highlightcopy">prod</b> |
-| **CPU** | <b class="highlightcopy">1</b> |
-| **Memory** | <b class="highlightcopy">2 GiB</b> |
 
-Then:
+We need to create a template to speed up the deployment of Virtual Machines and standardize, we are going to navigate to **Advanced > Templates** and click **Create**.
 
-1. Under the **Volumes** tab, select the **openSUSE-Leap-15.5** image as the boot disk
-2. Under the **Networks** tab, attach the interface to <b class="highlightcopy">prod/vmnet</b>
-3. Under **Advanced Options > Cloud Config**, paste the same credential bootstrap you used during the Flash Crash into **User Data**:
+Please fill in the following details:
 
-```yaml
-#cloud-config
-password: password123
-chpasswd: { expire: False }
-ssh_pwauth: True
-```
+- Namespace: harvester-public
+- Template Name: prod-basic
 
-4. Click **Create**
+We need to minimize resource usage and all the VMs should be available by using the production SSH Key which is securely guarded.
 
-The blueprint is forged. Every engine born from it will be configured identically — down to the last byte.
+- Basics:
+  - CPU: '1'
+  - Memory: '1'
+  - SSHKey: 'prod/default'
+
+Our default base OS is SLES 16
+
+- Volumes:
+  - Image: 'official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2'
+
+We want production servers to be offering their services on the production service network.
+
+- Networks:
+  - Network: 'prod/service'
+
+All production VMs should run only on production ready hosts
+
+- Node Scheduling:
+  - Run virtual machine on node(s) matching scheduling rules
+    - Click on 'Add Node Selector' --> click on 'Add Rule'
+      - Key: stage
+      - Value: prod
+
+We want the VMs to be properly labeled:
+
+- Labels:
+  - Click 'Add Label'
+    - Key: 'stage'
+    - Value: 'prod'
+ 
+Finally, we want all production machines to be standardized on a set of packages and settings
+
+- Advanced Options:
+  - User Data Template: 'prod/prod'
+
+To finalize just click on 'Create'
+
+Can you imagine filling up all this details everytime? People would give up and then the environment will be filled up with inconsistency. Inconsistency makes further automation even more difficult.
+
 
 > [!NOTE]
 > Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage — a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
 
-🏭 Task 2: Stamp out the initial fleet
-======================================
+🏭 Task 2: Doing the same but without mouse
+===========================================
 
-Navigate to **Virtual Machines** and click **Create**:
+As we mentioned earlier SUSE Virtualization runs on Kubernetes, in Kubernetes *everything* is a defined resource, you may have noticed already many of the menus have an 'Edit as YAML' bottom next to 'Create', what you see there is the YAML formatted definition of the object you are creating with the UI and is what we can pass to kubectl and other tools to automate the management of different resources in the Kubernetes cluster, this includes Virtual machines, templates, etc...
 
-1. Select **Multiple Instance** at the top of the form
-2. Set the **VM Name Prefix** to <b class="highlightcopy">stress-test</b>
-3. Set the **Count** to <b class="highlightcopy">3</b>
-4. Tick **Use VM Template** and select <b class="highlightcopy">stress-test-template</b> (default version)
-5. Make sure the **Namespace** is <b class="highlightcopy">prod</b>
-6. Click **Create**
 
-Watch as <b class="highlightcopy">stress-test-01</b>, <b class="highlightcopy">stress-test-02</b>, and <b class="highlightcopy">stress-test-03</b> materialize in the list and boot in parallel.
+Since everything can be defined with a text file it is easy to keep track of changes and to automate operations, no need to click-click everytime although for certain tasks the UI makes them much simpler, this is the case of the Virtual Machine Templates, but we are going to see an example of how to create the same template we created from the command line.
 
-Three identical engines, born from one blueprint. No tickets. No checklists. No slipped cursors.
+Let's first delete the template we created. Go to 'Advanced' --> 'Templates', and on the first line where you see 'prod/prod-basic' click on the ... and select 'Delete'.
+
+
+Now lets recreate it again.
+
+
+For clarity we are going to first create a file with the resource definition formatted in YAML, run the following command on the [button label="Cluster Terminal" variant="success"](tab-1) 
+
+
+```bash,run
+cat > virtualMachineTemplate_prod-basic.yaml <<'EOF'
+---
+apiVersion: harvesterhci.io/v1beta1
+kind: VirtualMachineTemplate
+metadata:
+  name: prod-basic
+  namespace: prod
+---
+
+apiVersion: harvesterhci.io/v1beta1
+kind: VirtualMachineTemplateVersion
+metadata:
+  labels:
+    stage: prod
+  name: prod-basic
+  namespace: prod
+spec:
+  templateId: prod/prod-basic
+  vm:
+    metadata:
+      annotations:
+        harvesterhci.io/volumeClaimTemplates: '[{"metadata":{"name":"-disk-0-thsxi","annotations":{"harvesterhci.io/imageId":"official-images/image-v62vf"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"10Gi"}},"volumeMode":"Block","storageClassName":"lh-3311febd-12d9-4ebc-82bc-728e5ccbfbe6"}}]'
+      labels:
+        harvesterhci.io/os: linux
+        stage: prod
+    spec:
+      runStrategy: RerunOnFailure
+      template:
+        metadata:
+          annotations:
+            harvesterhci.io/sshNames: '["prod/default"]'
+        spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: stage
+                    operator: In
+                    values:
+                    - prod
+          domain:
+            cpu:
+              cores: 1
+              sockets: 1
+              threads: 1
+            devices:
+              disks:
+              - bootOrder: 1
+                disk:
+                  bus: virtio
+                name: disk-0
+              - disk:
+                  bus: virtio
+                name: cloudinitdisk
+              inputs:
+              - bus: usb
+                name: tablet
+                type: tablet
+              interfaces:
+              - bridge: {}
+                model: virtio
+                name: default
+            features:
+              acpi:
+                enabled: true
+            machine:
+              type: q35
+            resources:
+              limits:
+                cpu: "1"
+                memory: 1Gi
+          evictionStrategy: LiveMigrateIfPossible
+          networks:
+          - multus:
+              networkName: prod/service
+            name: default
+          terminationGracePeriodSeconds: 120
+          volumes:
+          - name: disk-0
+            persistentVolumeClaim:
+              claimName: -disk-0-thsxi
+          - cloudInitNoCloud:
+              networkDataSecretRef:
+                name: prod-basic-xcezl
+              secretRef:
+                name: prod-basic-xcezl
+            name: cloudinitdisk
+EOF
+```
+
+This could be stored in a GIT repository to keep track of changes and also to incorporate it into a CI/CD process to automatically apply changes made to it.
+
+
+Now on the next step we are going to create the resource, run the following command:
+
+```bash,run
+kubectl apply -f virtualMachineTemplate_prod-basic.yaml
+```
+
+It should have created the two resources needed to setup the template.
+
+
+Navigate again to the Templates list and see if it's there and has all the same details.
+
+
 
 📈 Task 3: Scale the fleet under pressure
 =========================================
 
-The Head of Quant needs **five** engines, not three. Because the blueprint already exists, scaling out is the same three clicks — click **Create** again:
+Now because the template already exists, deploying multiple servers is just a few clicks process:
 
-1. Select **Multiple Instance**
-2. Set the **VM Name Prefix** to <b class="highlightcopy">stress-test-surge</b>
-3. Set the **Count** to <b class="highlightcopy">2</b>
-4. Tick **Use VM Template** and select <b class="highlightcopy">stress-test-template</b> again
-5. Click **Create**
+Go to Virtual Machines and click **Create** and fill in the following details:
 
-<b class="highlightcopy">stress-test-surge-01</b> and <b class="highlightcopy">stress-test-surge-02</b> boot up and join the fleet — bit-for-bit identical to the first three, because they come from the exact same versioned blueprint.
+- Select **Multiple Instance**
+- **Namespace**: 'prod'
+- **Name Prefix**: <b class="highlightcopy">appcluster</b>
+- **Count**: <b class="highlightcopy">2</b>
+- Tick **Use VM Template**
+- **Template**: <b class="highlightcopy">prod/prod-basic</b>
+- click on 'Create'
+
 
 <div class="storybox">
 
@@ -181,35 +318,54 @@ The risk analysis team begins feeding data into the expanded fleet, stabilizing 
 
 </div>
 
-> [!NOTE]
-> Everything you just clicked is also available through the platform's API — which means fleet operations like this can be fully automated and code-reviewed like any other change. Choosing the bank's automation toolchain is a story for another sprint.
 
 🧹 Task 4: Stand the fleet down
 ===============================
 
-Once the market surge subsides, return the capacity to the pool. In **Virtual Machines**:
+<div class="storybox">
 
-1. Tick the **checkboxes** next to all five `stress-test*` machines
-2. Click **Delete** and confirm
+The market surge subsides, the virtual machines sit idle waiting for the next wave, but, will it be today? tomorrow? next month? waiting is more painful for this noble servers than doing all the number crunching
 
-Five machines summoned, used, and returned — and the only artifact left behind is the golden template, versioned and waiting for the next flash crash.
+</div>
+
+We no longer need so many virtual machines, let's delete them at once, don't worry if they are still starting..
+
+Inside the 'Virtual Machines' section:
+
+1. Tick the **checkboxes** next to all the new virtual machines we have created.
+2. Click **Delete**, tick 'Delete All' and then click 'Delete'
+
+
+<div class="storybox">
+
+The suffering of this noble virtual machines has stopped, you see the flames my child? now they rest in valhala.
+
+</div>
+
+
+
 
 🏋️ Bonus Drills — for the command-line curious (optional)
 ==========================================================
 
 New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label="Cluster Terminal" variant="success"](tab-1) that the UI, the fleet, and the API all agree:
 
-- **Count the fleet from the command line** (run this between Task 3 and Task 4 to see all five):
-
-```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vm -n prod | grep stress-test
-```
-
-- **Inspect the blueprint as an API object** — templates and their versions are resources too:
+- **Inspect the template as an API object** — templates and their versions are resources too:
 
 ```bash,run
 kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplates,virtualmachinetemplateversions -n prod
 ```
+
+- **Retrieve the template definition in yaml format**:
+
+```bash,run
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplates -n prod prod-basic > template_prod-basic.yaml
+kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplatesversions -n prod prod-basic >> template_prod-basic.yaml
+```
+
+You can examing the file 'template_prod-basic.yaml, it contains a similar output of what used to generate them in task 2.
+
+
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================
