@@ -1,6 +1,10 @@
 #!/bin/bash
-# Challenge 4 setup — pre-provisions the "already running in production" VM
-# this chapter's story assumes exists before the student arrives:
+# Challenge 4 setup.
+#
+# First deletes chapter 3's algo-trader-01 (self-contained to that chapter,
+# nothing later needs it) to free resources on this resource-constrained host,
+# before pre-provisioning the "already running in production" VM this
+# chapter's story assumes exists before the student arrives:
 #   daily-batch-processor   (the VM that gets paused/unpaused)
 #
 # payment-gateway-prod (the VM that gets live-migrated) is already baked into
@@ -55,6 +59,15 @@ NET="${NS}/service"
 IMAGE_NS="official-images"
 
 log(){ echo ">>> [ch4-setup] $*"; }
+
+log "freeing resources: deleting algo-trader-01 from chapter 3 (self-contained, nothing later needs it) ..."
+if kubectl get vm -n "${NS}" algo-trader-01 &>/dev/null; then
+  kubectl delete vm -n "${NS}" algo-trader-01 --wait=false 2>/dev/null || true
+  kubectl delete pvc -n "${NS}" algo-trader-01-disk-0 algo-trader-01-market-data-vol --ignore-not-found --wait=false 2>/dev/null || true
+  log "algo-trader-01 delete requested (non-blocking)."
+else
+  log "algo-trader-01 not present, nothing to clean up."
+fi
 
 log "sanity-checking pre-existing production VM (webserver-prod, aka payment-gateway-prod in the story) ..."
 if kubectl get vm -n "${NS}" webserver-prod &>/dev/null; then
