@@ -1,10 +1,7 @@
 #!/bin/bash
-# Challenge 2 check — verifies tasks 2-5 of the-subterranean-divide. Task 1 is
-# pure UI exploration, nothing to check for it.
-#
-# Hard-fails (blocks Check) on: resource existence and the spec fields the
-# student was told to set (namespaces, NAD clusternetwork annotations, IPPool
-# range/subnet, VlanConfig matched-nodes count).
+# Challenge 2 check — verifies tasks 2 and 4 of the-subterranean-divide.
+# Task 1 is pure UI exploration, task 3 is pure inspection of the pre-existing
+# harvester-longhorn StorageClass — nothing to check for either.
 
 set -uo pipefail
 export KUBECONFIG=/root/.kube/harvester.yaml
@@ -17,53 +14,16 @@ for ns in prod dev; do
   kubectl get namespace "${ns}" &>/dev/null || fail "namespace ${ns} not found."
 done
 
-# --- Task 3: production VM network ----------------------------------------
-if kubectl get network-attachment-definitions.k8s.cni.cncf.io -n prod vmnet &>/dev/null; then
-  CN="$(kubectl get network-attachment-definitions.k8s.cni.cncf.io -n prod vmnet \
-    -o jsonpath='{.metadata.annotations.network\.harvesterhci\.io/clusternetwork}' 2>/dev/null)"
-  [ "${CN}" = "mgmt" ] || fail "vmnet exists but is not on ClusterNetwork 'mgmt' (found '${CN}')."
+# --- Task 4: dev cost-tier StorageClass ------------------------------------
+if kubectl get storageclass harvester-longhorn-1rep &>/dev/null; then
+  REPLICAS="$(kubectl get storageclass harvester-longhorn-1rep -o jsonpath='{.parameters.numberOfReplicas}' 2>/dev/null)"
+  [ "${REPLICAS}" = "1" ] || fail "harvester-longhorn-1rep numberOfReplicas is '${REPLICAS:-empty}', expected 1."
 else
-  fail "NetworkAttachmentDefinition vmnet not found in prod."
-fi
-
-# --- Task 4: dev ClusterNetwork + uplink + devnet -------------------------
-kubectl get clusternetworks.network.harvesterhci.io dev &>/dev/null || fail "ClusterNetwork 'dev' not found."
-
-if kubectl get vlanconfig dev-uplink &>/dev/null; then
-  # No status.conditions on this CRD (confirmed live 2026-07-15) — the
-  # matched-nodes annotation is the real completion signal.
-  NODE_COUNT="$(kubectl get nodes --no-headers 2>/dev/null | wc -l | tr -d ' ')"
-  MATCHED="$(kubectl get vlanconfig dev-uplink -o jsonpath='{.metadata.annotations.network\.harvesterhci\.io/matched-nodes}' 2>/dev/null)"
-  MATCHED_COUNT="$(echo "${MATCHED}" | grep -o '"' | wc -l)"
-  MATCHED_COUNT=$((MATCHED_COUNT / 2))
-  [ "${MATCHED_COUNT}" -ge "${NODE_COUNT}" ] && [ "${NODE_COUNT}" -gt 0 ] \
-    || fail "VlanConfig dev-uplink has matched ${MATCHED_COUNT} of ${NODE_COUNT} nodes (found: ${MATCHED:-none})."
-else
-  fail "VlanConfig dev-uplink not found."
-fi
-
-if kubectl get network-attachment-definitions.k8s.cni.cncf.io -n dev devnet &>/dev/null; then
-  CN="$(kubectl get network-attachment-definitions.k8s.cni.cncf.io -n dev devnet \
-    -o jsonpath='{.metadata.annotations.network\.harvesterhci\.io/clusternetwork}' 2>/dev/null)"
-  [ "${CN}" = "dev" ] || fail "devnet exists but is not on ClusterNetwork 'dev' (found '${CN}')."
-else
-  fail "NetworkAttachmentDefinition devnet not found in dev."
-fi
-
-# --- Task 5: IPPool --------------------------------------------------------
-if kubectl get ippools.loadbalancer.harvesterhci.io vertex-ippool &>/dev/null; then
-  START="$(kubectl get ippools.loadbalancer.harvesterhci.io vertex-ippool -o jsonpath='{.spec.ranges[0].rangeStart}' 2>/dev/null)"
-  END="$(kubectl get ippools.loadbalancer.harvesterhci.io vertex-ippool -o jsonpath='{.spec.ranges[0].rangeEnd}' 2>/dev/null)"
-  CIDR="$(kubectl get ippools.loadbalancer.harvesterhci.io vertex-ippool -o jsonpath='{.spec.ranges[0].subnet}' 2>/dev/null)"
-  [ "${START}" = "192.168.122.200" ] || fail "vertex-ippool range start is '${START:-empty}', expected 192.168.122.200."
-  [ "${END}" = "192.168.122.220" ]   || fail "vertex-ippool range end is '${END:-empty}', expected 192.168.122.220."
-  [ "${CIDR}" = "192.168.122.0/24" ] || fail "vertex-ippool subnet is '${CIDR:-empty}', expected 192.168.122.0/24."
-else
-  fail "IPPool vertex-ippool not found."
+  fail "StorageClass harvester-longhorn-1rep not found."
 fi
 
 if [[ "${FAIL}" -eq 1 ]]; then
   exit 1
 fi
 
-echo "PASS: Chapter 2 objectives verified (namespaces, vmnet, dev ClusterNetwork + devnet, vertex-ippool)"
+echo "PASS: Chapter 2 objectives verified (namespaces prod/dev, harvester-longhorn-1rep StorageClass)"

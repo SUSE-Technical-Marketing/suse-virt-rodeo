@@ -4,7 +4,7 @@ id: tmmoesxdhg4b
 type: challenge
 title: "\U0001F6D7 Chapter 2 — The Subterranean Divide"
 teaser: Two hardware silos, two teams that barely speak. Descend into the datacenter,
-  map the node topology, and prepare a unified home for the bank's workloads.
+  map the node topology, and give every disk in the fabric a price tag the bank can live with.
 tabs:
 - id: gix6w5fqkxd6
   title: SUSE Virtualization UI
@@ -93,7 +93,7 @@ You explain the elegant architecture of <b class="virt">SUSE Virtualization</b>:
 | Hypervisor management console | Container tooling | **One platform underneath**. SUSE Virtualization runs the VMs, Rancher Prime commands the clusters and the containers |
 | SAN storage arrays | CSI volumes | **Longhorn serves VMs and pods alike** |
 
-To prove the architecture is sound, you must prepare the environment to host the bank's workloads.
+That last row is where you start. Every VM disk, every container's persistent volume, all of it rides on the same distributed storage fabric — and not every workload deserves the same price tag.
 
 <div class="missionbox">
 
@@ -101,9 +101,8 @@ To prove the architecture is sound, you must prepare the environment to host the
 
 1. Inspect the physical node topology
 2. Prepare a dedicated workspace for the bank
-3. Build the bank's production VM network
-4. Carve out a development network on the spare uplink
-5. Reserve address space for customer-facing services
+3. Understand how Longhorn replicates your data
+4. Build a cost-tier storage class for the development team
 
 </div>
 
@@ -134,7 +133,7 @@ Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navi
 Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the Longhorn distributed storage pool that will hold the bank's ledgers.
 
 > [!NOTE]
-> **Banks grow and so does this fabric.** Adding a node to <b class="virt">SUSE Virtualization</b> is refreshingly simple: boot the new machine with the cluster's **join token** and its network and hostname settings, and it enrolls itself with no manual cluster surgery. Combine that with **PXE network boot** and racking new capacity becomes a matter of minutes: power on, walk away, and watch the newcomer appear on this Hosts page. The [PXE Boot Installation guide](https://documentation.suse.com/cloudnative/virtualization/latest/en/installation-setup/methods/pxe-boot-install.html) has the details.
+> **Banks grow — and so does this fabric.** Running low on space is not a forklift upgrade anymore. Rack a new node, add its raw disks to the pool, and Longhorn rebalances replicas across the expanded fabric automatically — no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
 
 🏗️ Task 2: Prepare a dedicated workspace for the bank
 =====================================================
@@ -150,76 +149,34 @@ Now create its counterpart for development:
 
 Two workspaces now stand ready: <b class="highlightcopy">prod</b>, already provisioned, and <b class="highlightcopy">dev</b>, freshly created — each with its own quotas, policies, and access controls.
 
-🌐 Task 3: Build the bank's production VM network
-=================================================
+💾 Task 3: Understand how Longhorn replicates your data
+========================================================
 
-Before a single ledger VM can boot, it needs a network to live on. this network need to allow the bank's virtual machines talk to each other and to the outside world.
+Back in Chapter 1 you confirmed the storage backend was healthy. Now look at *how* it stays that way. Every disk <b class="virt">SUSE Virtualization</b> hands to a VM or a pod is a **Longhorn volume**, and every Longhorn volume is created from a **StorageClass** — a policy that decides, among other things, how many copies of your data exist at once.
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Advanced > Storage Classes** and click on <b class="highlightcopy">harvester-longhorn</b>.
 
-1. Select **Networks** from the left-hand menu, then **Virtual Machine Networks**
-2. Click **Create**
-
-![02-create_vm_network.gif](../assets/02-create_vm_network.gif)
-
-3. Select the namespace **prod** from the Namespace drop-down menu in the top left.
-4. Fill in:
-   - **Name:** <b class="highlightcopy">vmnet</b>
-   - **Type:** `UntaggedNetwork`
-   - **Cluster Network:** `mgmt`
-5. Click **Create**
-
-![03-create_vm_network.gif](../assets/03-create_vm_network.gif)
-
-Back in the list, <b class="highlightcopy">vmnet</b> should show as **Active**. Every bank workload you deploy in the coming chapters attaches to this network.
+Note the **Number Of Replicas** field: it is set to **3**. Every volume created from this class gets three full copies, spread across three different nodes. That is exactly right for the transaction ledgers — lose a node, even lose a disk mid-write, and the data survives untouched.
 
 > [!NOTE]
-> On production hardware with more physical NICs, best practice is to split responsibilities across dedicated networks — management, storage replication, live migration, and VM workload traffic each on their own uplink. In this lab, production traffic rides the `mgmt` cluster network — and in the next task you will put a spare NIC to work for development traffic. SUSE Virtualization also supports VLAN tagging, load-balancer configurations, and other software-defined networking services — you will build a tagged VLAN yourself in a later chapter.
+> Three replicas means three times the disk footprint. That is the correct trade for production money. It is wasteful for a quant's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics — and policies can be tuned per workload.
 
-🧪 Task 4: Carve out a development network on the spare uplink
+🧅 Task 4: Build a cost-tier storage class for the development team
+=====================================================================
 
-Production traffic should never share a lane with experiments. Every node in the bank's new fabric happens to have a **spare physical network interface** — `eth4` — carrying no traffic at all. You will turn it into a dedicated development network, physically separated from the production path. On legacy hardware this meant switch tickets and a week of waiting; here it is a two-minute job.
+The development team does not need banking-grade replication for their sandboxes — they need cheap, fast iteration. You will give them their own storage tier, priced for what it actually is: disposable.
 
-First, define the cluster-wide network on the spare uplink. In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), under **Advanced > Storage Classes**:
 
-1. Go to **Networks > Cluster Network Configuration** and click **Create a Cluster Network** on the top right corner
-2. Set the **Name** to <b class="highlightcopy">dev</b> and click **Create**
-3. Back in the list, find the new <b class="highlightcopy">dev</b> cluster network and click **Create Network Configuration** 
-4. Set the **Name** to <b class="highlightcopy">dev-uplink</b>
-5. Under **Uplink**, select NIC <b class="highlightcopy">ens5</b> (leave the node selector empty so the config applies to every node)
-6. Click **Create** and wait for the config to show as **Active** on all nodes
+1. Click **Create**
+2. Set the **Name** to <b class="highlightcopy">harvester-longhorn-1rep</b>
+3. Set **Number Of Replicas** to <b class="highlightcopy">1</b>
+4. Click **Create**
 
-Now build a VM network on top of it:
+Two policies now sit side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica — dev sandboxes, at a third of the disk cost). The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.
 
-7. Go to **Networks > Virtual Machine Networks** and click **Create**
-8. Select namespace "dev" from the Namespace drop-down menu to deploy the new devnet network
-9. Fill in:
-   - **Name:** <b class="highlightcopy">devnet</b>
-   - **Type:** `UntaggedNetwork`
-   - **Cluster Network:** `dev`
-10. Click **Create**
-
-Two lanes now show as **Active** in the list: <b class="highlightcopy">vmnet</b> (production, on `mgmt`) and <b class="highlightcopy">devnet</b> (development, on the spare uplink). Two worlds, physically separated, zero switch tickets — the A-Team's future sandboxes will live here, safely away from the money.
-
-🏦 Task 5: Reserve address space for customer-facing services
-=============================================================
-
-<b class="virt">SUSE Virtualization</b> is not only a virtualization platform — it is designed to also run Kubernetes clusters on top. Those clusters need LoadBalancer IPs to expose their services. An **IP Pool** pre-allocates a range of addresses for exactly that.
-
-The bank will need this soon: the mobile banking portal, the ops dashboard, and every customer-facing service will pull its address from this reserve.
-
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
-
-1. Go to **Networks > IP Pools** > **Create**
-2. Set the name to <b class="highlightcopy">vertex-ippool</b>
-3. On the **Range** tab, add the range `192.168.122.200` to `192.168.122.220`
-4. On the **Subnet** tab, add `192.168.122.0/24`
-5. On the **Selector** tab:
-   - **VM Network:** `prod/vmnet`
-   - **Namespace:** `prod`
-6. Click **Create**
-
-<b class="highlightcopy">vertex-ippool</b> now appears in the list. The bank's address reserve is funded.
+> [!NOTE]
+> One replica means **zero redundancy** — lose that single node and the volume is gone. That is an acceptable risk for a sandbox nobody depends on overnight, and a very deliberate trade-off you are making on the record, not an accident. Storage classes can also encode disk tags to steer workloads to specific hardware — production on fast NVMe, development on cheaper spindles — a refinement for another sprint.
 
 🏋️ Bonus Drills — for the command-line curious (optional)
 ==========================================================
@@ -238,10 +195,10 @@ kubectl --kubeconfig .kube/harvester.yaml get nodes -o wide
 kubectl --kubeconfig .kube/harvester.yaml get pods -n harvester-system | grep virt
 ```
 
-- **See your UI handiwork as API objects** — the workspace, both networks, and the address reserve:
+- **See your UI handiwork as API objects** — the workspace and both storage tiers:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get namespace prod; kubectl --kubeconfig .kube/harvester.yaml get clusternetworks.network.harvesterhci.io; kubectl --kubeconfig .kube/harvester.yaml get network-attachment-definitions -n prod; kubectl --kubeconfig .kube/harvester.yaml get ippools.network.harvesterhci.io -n prod;
+kubectl --kubeconfig .kube/harvester.yaml get namespace prod dev; kubectl --kubeconfig .kube/harvester.yaml get storageclasses;
 ```
 
 - **Confirm the cluster is ready for VMs**, and only one VM exists in the cluster (the VM is for one of the challenges):
@@ -259,14 +216,14 @@ kubectl --kubeconfig .kube/harvester.yaml label namespace prod stage=prod owner=
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================
 
-- **The silos disappear.** VMs and containers share nodes, storage, networking, and one operations team, the datacenter's "temperature divide" is gone.
+- **The silos disappear.** VMs and containers share nodes, storage, and one operations team — the datacenter's "temperature divide" is gone.
 - **No retraining cliff.** The container team's Kubernetes skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by Kubernetes API.
 - **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls — auditors will love it.
-- **Networking is self-service.** A production VM network, a physically separate development network on a spare NIC, and a LoadBalancer address reserve takes minutes to define, no switch tickets, no waiting on the network team.
+- **Storage has a price list now.** Replication is a dial, not a default. Production data gets three copies because it must; disposable sandboxes get one because they should not cost more than they need to.
 
 <div class="storybox">
 
-Sarah watches over your shoulder as the new workspace, the production network, and the address reserve appear on the dashboard, one after another. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*
+Sarah watches over your shoulder as the new workspace and the two storage tiers appear on the dashboard, one after another. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*
 
 </div>
 
@@ -276,4 +233,4 @@ Click **Check** to continue. ⚡
 ===================
 
 - [SUSE Virtualization — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
-- [Hardware and Network Requirements](https://documentation.suse.com/cloudnative/virtualization/latest/en/installation-setup/requirements.html)
+- [Storage — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/storage/overview.html)

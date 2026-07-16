@@ -1,41 +1,30 @@
 #!/bin/bash
-# Challenge 2 solve — reproduces tasks 2-5 of the-subterranean-divide via the
+# Challenge 2 solve — reproduces tasks 2-4 of the-subterranean-divide via the
 # Harvester/Kubernetes API instead of the UI. Task 1 is pure UI exploration,
-# nothing to create for it.
+# task 3 is pure inspection (harvester-longhorn already exists) — nothing to
+# create for either.
 #
 # Creates, in order:
 #   Task 2 - namespaces prod, dev
-#   Task 3 - NetworkAttachmentDefinition vmnet   (ns prod, on ClusterNetwork mgmt)
-#   Task 4 - ClusterNetwork dev + VlanConfig dev-uplink (uplink ens5, all nodes)
-#            + NetworkAttachmentDefinition devnet (ns dev, on ClusterNetwork dev)
-#   Task 5 - IPPool vertex-ippool (ns prod, range .200-.220, subnet /24)
+#   Task 4 - StorageClass harvester-longhorn-1rep (1 replica, dev cost tier)
 #
-# Idempotent (kubectl apply). Fails loudly (set -e) — unlike the track/chapter
-# setup scripts, a solve script is expected to either fully succeed or report
-# why it didn't.
+# Idempotent (kubectl apply). Fails loudly (set -e).
 #
-# Live-verified against the geekohive dev cluster on 2026-07-15:
-#   - VlanConfig (network.harvesterhci.io/v1beta1): spec.clusterNetwork,
-#     spec.uplink.nics and spec.uplink.bondOptions are accepted;
-#     spec.uplink.linkAttrs is NOT (strict decoding rejects it) — removed.
-#     No status.conditions on this CRD; readiness is read from the
-#     network.harvesterhci.io/matched-nodes annotation instead.
-#   - IPPool is loadbalancer.harvesterhci.io/v1beta1, cluster-scoped (not
-#     network.harvesterhci.io, not namespaced). Confirmed via
-#     `kubectl get crd ippools.loadbalancer.harvesterhci.io -o yaml`. Real
-#     spec shape: spec.ranges[] (each with subnet/gateway/rangeStart/rangeEnd,
-#     subnet required), spec.selector.network, spec.selector.scope[] (each
-#     with namespace/project/guestCluster only — no nested "selector" key,
-#     no "network" per scope item). Fixed below.
+# NOTE (2026-07-16): this chapter used to also build the bank's production/dev
+# VM networks and an IP Pool (tasks 3-5 in an earlier version). Networking
+# moved entirely to chapter 5 — see that chapter for the live-verified
+# VlanConfig/NetworkAttachmentDefinition/IPPool shapes if you need them
+# ([[reference-harvester-crd-schemas]]).
 #
-# Still unverified — flag if something breaks here next:
-#   - NetworkAttachmentDefinition annotation keys/values for Harvester
-#     UntaggedNetwork (network.harvesterhci.io/type, /clusternetwork, /route)
-#     and the embedded CNI config JSON.
-#   - assignment.md text says the spare NIC is `eth4` (task 4 intro) but the
-#     step-by-step instructs selecting `ens5` (task 4 step 5) — used `ens5`
-#     here since that's the literal UI field value the student is told to
-#     pick. Worth reconciling the copy if it's actually a typo.
+# KNOWN RISK — not yet live-tested:
+#   The StorageClass shape below (provisioner driver.longhorn.io, parameters
+#   numberOfReplicas/staleReplicaTimeout/migratable) follows Longhorn's
+#   well-documented convention and matches the storageClassParameters block
+#   Harvester itself sets on every per-image StorageClass (confirmed live via
+#   VirtualMachineImage objects — see chapter 3's original solve-kvm-host
+#   header, since removed, or the CRD reference memory). Plain StorageClass is
+#   a stable core Kubernetes API though, so this is lower-risk than the
+#   Harvester-specific CRDs that needed several rounds to get right.
 
 set -euo pipefail
 export KUBECONFIG=/root/.kube/harvester.yaml
@@ -43,113 +32,33 @@ export KUBECONFIG=/root/.kube/harvester.yaml
 log(){ echo ">>> [ch2-solve] $*"; }
 
 # --- Task 2: namespaces ---------------------------------------------------
-# prod is pre-baked into the cluster image (18d old, confirmed live) along
-# with prod/service (NAD) and prod/default (KeyPair) — kubectl apply is a
-# safe no-op against it. dev is genuinely new.
+# prod is pre-baked into the cluster image (confirmed live) along with
+# prod/service (NAD) and prod/default (KeyPair) — kubectl apply is a safe
+# no-op against it. dev is genuinely new.
 log "creating namespaces prod, dev ..."
 kubectl create namespace prod --dry-run=client -o yaml | kubectl apply -f -
 kubectl create namespace dev  --dry-run=client -o yaml | kubectl apply -f -
 
-# --- Task 3: production VM network on the mgmt cluster network -----------
-log "creating NetworkAttachmentDefinition vmnet (prod, on mgmt) ..."
+# --- Task 4: dev cost-tier StorageClass -----------------------------------
+log "creating StorageClass harvester-longhorn-1rep (1 replica) ..."
 cat <<EOF | kubectl apply -f -
-apiVersion: k8s.cni.cncf.io/v1
-kind: NetworkAttachmentDefinition
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
-  name: vmnet
-  namespace: prod
-  annotations:
-    network.harvesterhci.io/type: UntaggedNetwork
-    network.harvesterhci.io/clusternetwork: mgmt
-    network.harvesterhci.io/route: '{"mode":"auto","serverIPAddr":"","cidr":"","gateway":""}'
-spec:
-  config: '{"cniVersion":"0.3.1","name":"prod-vmnet","type":"bridge","bridge":"mgmt-br","promiscMode":true,"vlan":0,"ipam":{}}'
+  name: harvester-longhorn-1rep
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "1"
+  staleReplicaTimeout: "30"
+  migratable: "true"
 EOF
 
-# --- Task 4: dev ClusterNetwork + uplink + devnet VM network --------------
-log "creating ClusterNetwork dev ..."
-cat <<EOF | kubectl apply -f -
-apiVersion: network.harvesterhci.io/v1beta1
-kind: ClusterNetwork
-metadata:
-  name: dev
-EOF
+log "verifying harvester-longhorn-1rep exists ..."
+kubectl get storageclass harvester-longhorn-1rep &>/dev/null \
+  && log "harvester-longhorn-1rep: present" \
+  || { echo "ERROR: harvester-longhorn-1rep not found after apply."; exit 1; }
 
-log "creating VlanConfig dev-uplink (uplink ens5, no node selector) ..."
-cat <<EOF | kubectl apply -f -
-apiVersion: network.harvesterhci.io/v1beta1
-kind: VlanConfig
-metadata:
-  name: dev-uplink
-spec:
-  clusterNetwork: dev
-  uplink:
-    nics:
-      - ens5
-    bondOptions:
-      mode: active-backup
-EOF
-
-log "creating NetworkAttachmentDefinition devnet (dev, on dev) ..."
-cat <<EOF | kubectl apply -f -
-apiVersion: k8s.cni.cncf.io/v1
-kind: NetworkAttachmentDefinition
-metadata:
-  name: devnet
-  namespace: dev
-  annotations:
-    network.harvesterhci.io/type: UntaggedNetwork
-    network.harvesterhci.io/clusternetwork: dev
-    network.harvesterhci.io/route: '{"mode":"auto","serverIPAddr":"","cidr":"","gateway":""}'
-spec:
-  config: '{"cniVersion":"0.3.1","name":"dev-devnet","type":"bridge","bridge":"dev-br","promiscMode":true,"vlan":0,"ipam":{}}'
-EOF
-
-log "waiting for dev-uplink VlanConfig to match all nodes ..."
-# VlanConfig has no status.conditions in this cluster's CRD version (confirmed
-# 2026-07-15: `kubectl get vlanconfig dev-uplink -o yaml` returns no .status at
-# all). The real completion signal is the network.harvesterhci.io/matched-nodes
-# annotation, which the controller populates as soon as the uplink is wired.
-NODE_COUNT="$(kubectl get nodes --no-headers 2>/dev/null | wc -l | tr -d ' ')"
-for _ in $(seq 1 12); do
-  MATCHED="$(kubectl get vlanconfig dev-uplink -o jsonpath='{.metadata.annotations.network\.harvesterhci\.io/matched-nodes}' 2>/dev/null || true)"
-  MATCHED_COUNT="$(echo "${MATCHED}" | grep -o '"' | wc -l)"
-  MATCHED_COUNT=$((MATCHED_COUNT / 2))
-  [ "${MATCHED_COUNT}" -ge "${NODE_COUNT}" ] && [ "${NODE_COUNT}" -gt 0 ] && { log "dev-uplink matched-nodes: ${MATCHED}"; break; }
-  sleep 5
-done
-[ "${MATCHED_COUNT:-0}" -ge "${NODE_COUNT}" ] || log "warn: dev-uplink has not matched all ${NODE_COUNT} nodes yet (found: ${MATCHED:-none}) — check Networks > Cluster Network Configuration in the UI."
-
-# --- Task 5: IPPool for LoadBalancer services -----------------------------
-log "creating IPPool vertex-ippool (prod, .200-.220) ..."
-cat <<EOF | kubectl apply -f -
-apiVersion: loadbalancer.harvesterhci.io/v1beta1
-kind: IPPool
-metadata:
-  name: vertex-ippool
-spec:
-  ranges:
-    - subnet: 192.168.122.0/24
-      gateway: 192.168.122.1
-      rangeStart: 192.168.122.200
-      rangeEnd: 192.168.122.220
-  selector:
-    network: prod/vmnet
-    priority: 0
-    scope:
-      - namespace: prod
-EOF
-
-log "verifying vmnet and devnet show Active ..."
-for net in prod/vmnet dev/devnet; do
-  ns="${net%/*}"; name="${net#*/}"
-  for _ in $(seq 1 30); do
-    kubectl get network-attachment-definitions.k8s.cni.cncf.io -n "${ns}" "${name}" &>/dev/null && break
-    sleep 5
-  done
-  kubectl get network-attachment-definitions.k8s.cni.cncf.io -n "${ns}" "${name}" &>/dev/null \
-    && log "${net}: present" \
-    || log "warn: ${net} not found."
-done
-
-echo "PASS: Chapter 2 objectives created (namespaces, vmnet, dev ClusterNetwork + devnet, vertex-ippool)"
+echo "PASS: Chapter 2 objectives created (namespaces prod/dev, harvester-longhorn-1rep StorageClass)"
