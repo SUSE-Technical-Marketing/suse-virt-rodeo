@@ -157,7 +157,7 @@ We want the VMs to be properly labeled:
   - Click 'Add Label'
     - Key: 'stage'
     - Value: 'prod'
- 
+
 Finally, we want all production machines to be standardized on a set of packages and settings
 
 - Advanced Options:
@@ -185,7 +185,7 @@ Let's first delete the template we created. Go to 'Advanced' --> 'Templates', an
 Now lets recreate it again.
 
 
-For clarity we are going to first create a file with the resource definition formatted in YAML, run the following command on the [button label="Cluster Terminal" variant="success"](tab-1) 
+For clarity we are going to first create a file with the resource definition formatted in YAML, run the following command on the [button label="Cluster Terminal" variant="success"](tab-1)
 
 
 ```bash,run
@@ -286,7 +286,7 @@ This could be stored in a GIT repository to keep track of changes and also to in
 Now on the next step we are going to create the resource, run the following command:
 
 ```bash,run
-kubectl apply -f virtualMachineTemplate_prod-basic.yaml
+kubectl  --kubeconfig .kube/harvester.yaml apply -f virtualMachineTemplate_prod-basic.yaml
 ```
 
 It should have created the two resources needed to setup the template.

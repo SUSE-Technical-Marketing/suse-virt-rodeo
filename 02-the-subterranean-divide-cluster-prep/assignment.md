@@ -4,7 +4,8 @@ id: tmmoesxdhg4b
 type: challenge
 title: "\U0001F6D7 Chapter 2 — The Subterranean Divide"
 teaser: Two hardware silos, two teams that barely speak. Descend into the datacenter,
-  map the node topology, and give every disk in the fabric a price tag the bank can live with.
+  map the node topology, and give every disk in the fabric a price tag the bank can
+  live with.
 tabs:
 - id: gix6w5fqkxd6
   title: SUSE Virtualization UI
