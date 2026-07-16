@@ -136,17 +136,36 @@ Password:
 
 
 
-🧱 Task 1: Construct the virtual vault network
-==============================================
+🧱 Task 1: Connect a closed loop physical network
+=================================================
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Networks** in the left menu, then select **Virtual Machine Networks**. Click **Create** to define a new secure perimeter:
+Our team has setup SUSE Virtualizations nodes with an extra dedicated NIC that is connected in a physically closed loop, let's use it for our most precious traffic and create an isolated production network.
 
-| Setting | Value |
-|--------:|:------|
-| **Name** | <b class="highlightcopy">secure-vault-vlan</b> |
-| **Type** | `L2VlanNetwork` |
-| **Cluster Network** | `mgmt` |
-| **VLAN ID** | <b class="highlightcopy">100</b> |
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Networks** in the left menu, then select 'Cluster Network Configuration'
+
+
+- Click on 'Create a Cluster Network'
+- Fill in the following details:
+  - Name: closed-loop
+- Click on 'Create'
+
+Now we can see the new Cluster Network on the list, let's assign physical interfaces, please click on 'Create Network Configuration' on the same row as 'closed-loop' cluster network.
+
+We will fill in the following details:
+- Name: closed-loop
+- Uplink:
+  - NICs: ens5
+- Click on 'Create'
+
+Now we can confidently proceed with the next steps:
+
+Select **Virtual Machine Networks**. Click **Create** to define a new secure perimeter:
+
+- **Name**: <b class="highlightcopy">secure-loop-prod</b>
+- **Namespace**: `prod`
+- Basics:
+  - **Type**: `UntaggedNetwork`
+  - **Cluster Network**: `closed-loop`
 
 Click **Create**.
 
@@ -154,50 +173,67 @@ Click **Create**.
   <img class="animatedgif" src="../assets/02-create_vm_network.gif"/>
 </div>
 
-Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-vault-vlan</b> appears with **VLAN ID 100** and an **Active** status — traffic on this network is tagged separately from the untagged `vmnet` you built earlier.
+Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-loop-vlan</b> appears with **Active** status.
 
-> [!NOTE]
-> In a physical deployment, the upstream switch ports connected to the cluster nodes must have VLAN 100 trunked. In this lab the fabric is virtual, so the tag is honored end to end automatically.
 
-🔒 Task 2: Isolate the database into the vault
-==============================================
 
-Return to the **Virtual Machines** dashboard. Locate and edit the <b class="highlightcopy">insider-threat-db</b> virtual machine.
 
-> [!IMPORTANT]
-> If it is currently running, you must **stop it first** to modify its hardware configuration.
+🔒 Task 2: Create a closed loop SDN
+===================================
 
-1. Navigate to the **Networks** tab within the virtual machine configuration
-2. **Remove** the default unsegmented network adapter
-3. **Add** a new network interface and assign it explicitly to the <b class="highlightcopy">secure-vault-vlan</b> you just created
-4. **Save** the configuration and power the virtual machine back on
+Now we are going to create a the same type of network but for our development environment, because adding new NICs and cabling is expensive and we don't need high performance we are going to use a Software Defined Network.
 
-The database now lives inside the vault. Anything outside VLAN 100 simply cannot see it at layer 2.
 
-🎯 Task 3: Prove the lateral attack vector is severed
+Let's go to "Networks", then "Virtual Machine Networks" and click on "Create":
+
+Fill in the following details:
+- Namespace: 'dev'
+- Name: 'secure-loop-dev'
+- Basics:
+  - Type: OverlayNetwork
+
+Then click on 'Create'
+
+
+Now let's create the SDN.
+Go to 'Virtual Private Cloud', then on the tab of 'ovn-cluster' Virtual Private Cloud click on 'Create Subnet' and fill in the following details:
+
+- name: secure-vpc-dev
+- Basic:
+  - CIDR: 192.168.32.0/24
+  - Provider: dev/secure-loop-dev
+  - Gateway IP: 192.168.32.1
+  - Dynamic Host Configuration Protocol (DHCP): Enabled
+  - Private Subnet: Enabled
+- Click on 'Create'
+  
+
+Now we can assign the network "dev/secure-loop-dev" to any VM and it will only be able to communicate within the VMs in the same network.
+
+
+🎯 Task 3: Configure VMs with the new networks
 =====================================================
 
-Trust nothing you have not tested. Retrieve the IP addresses for both the <b class="highlightcopy">web-frontend</b> and the <b class="highlightcopy">insider-threat-db</b> from the UI.
 
-Simulate the attacker's position: log into the public perimeter by accessing the web server from your terminal (replace `WEB_FRONTEND_IP`):
+We have two new isolated networks, now it's time to show our peers how to add them to their VMs, we are not going to make the change ourselves but show how to do it:
 
-```bash
-ssh opensuse@WEB_FRONTEND_IP
-```
+Return to the **Virtual Machines** dashboard. Locate the target virtual machine.
 
-From **inside** the web server, attempt to reach the internal database (replace `INSIDER_THREAT_DB_IP`):
+- Click on the ... <replace with icon> and select 'Edit Config'
+  - Go to 'Networks'
+    - Select network 'prod/secure-vault-prod' for production systems or 'dev/secure-loop-dev' for development systems
+- Click on 'Save'
 
-```bash
-ping INSIDER_THREAT_DB_IP
-```
+- Click again on the ... and select 'Restart'
 
-<div class="storybox">
+Now the VM will boot connected to the new network.
 
-The terminal hangs. The packets simply vanish into the void. The software-defined network boundary is holding firm. The database is **entirely invisible** to the outside world.
 
-</div>
 
-Press `Ctrl+C` to cancel the ping, and type `exit` to return to your Cluster Terminal. You finally allow yourself a sip of the cold coffee. ☕
+> [!IMPORTANT]
+> For most cases if a VM is currently running, you must **stop it first** to activate the hardware modification.
+
+
 
 🏋️ Bonus Drills — for the command-line curious (optional)
 ==========================================================
