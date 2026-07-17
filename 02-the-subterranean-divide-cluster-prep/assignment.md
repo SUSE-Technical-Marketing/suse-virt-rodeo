@@ -129,12 +129,26 @@ Password:
 Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to the left-hand menu, and click on **Hosts**.
 
 1. Click on the name of **one of the hosts** in the list
-2. Navigate around the UI and check the different options to understand better how things work
-
-Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the Longhorn distributed storage pool that will hold the bank's ledgers.
+2. Navigate around the UI and check the different options to understand better how things work. Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the Longhorn distributed storage pool that will hold the bank's ledgers.
+3. Let's do some research on how longhorn works. First got to the [button label=">_ Cluster Terminal" variant="success"](tab-1), and ssh on one of the SUSE Virtualization hosts
+```bash,run
+rodeo ssh harvester1
+```
+4. Now let's check the longhorn folder in harvester1 node. You'll see some folder and files. 
+```bash,run
+ls /var/lib/harvester/defaultdisk
+```
+5. In the replicas folder, we can find the different pvc folder that uses to replicate the storage.
+```bash,run
+ls /var/lib/harvester/defaultdisk/replicas/
+```
+6. Exit from the host by just typing exit.
+```bash,run
+exit
+```
 
 > [!NOTE]
-> **Banks grow — and so does this fabric.** Running low on space is not a forklift upgrade anymore. Rack a new node, add its raw disks to the pool, and Longhorn rebalances replicas across the expanded fabric automatically — no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
+> **Banks grow, and so does this fabric.** Running low on space is not a forklift upgrade anymore. Rack a new node, add its raw disks to the pool, and Longhorn rebalances replicas across the expanded fabric automatically — no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
 
 🏗️ Task 2: Prepare a dedicated workspace for the bank
 =====================================================
