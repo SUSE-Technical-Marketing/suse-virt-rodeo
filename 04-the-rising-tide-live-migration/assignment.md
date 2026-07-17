@@ -133,7 +133,7 @@ This halts its CPU cycles, dedicating maximum hardware resources to your emergen
 
 Switch to the [button label="Cluster Terminal" variant="success"](tab-1). You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.
 
-Locate the IP address for <b class="highlightcopy">payment-gateway-prod</b> in the UI, then start the heartbeat (replace `PAYMENT_GATEWAY_IP` with the actual address):
+Locate the IP address for <b class="highlightcopy">webserver-prod</b> in the UI, then start the heartbeat (replace `PAYMENT_GATEWAY_IP` with the actual address):
 
 ```bash
 ping PAYMENT_GATEWAY_IP
@@ -145,7 +145,7 @@ ping PAYMENT_GATEWAY_IP
 🚚 Task 3: Execute the Live Migration
 =====================================
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the <b class="highlightcopy">payment-gateway-prod</b> instance:
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the <b class="highlightcopy">webserver-prod</b> instance:
 
 1. Read the **Node** column and **write down** which node the gateway is running on — you will want proof it moved
 2. Click the **three vertical dots** on the far right side of its row
@@ -170,7 +170,7 @@ Press `Ctrl+C` to terminate the ping. You exhale sharply. **The transaction flow
 
 Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node — a micro-interruption measured in milliseconds. On a properly sized network it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization, the most you might have spotted is a single ping answering a touch slower than its siblings.
 
-Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">payment-gateway-prod</b> now shows a **different node** than the one you wrote down — the gateway physically moved while its customers never noticed.
+Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down — the gateway physically moved while its customers never noticed.
 
 Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running (replace `PAYMENT_GATEWAY_IP`):
 
@@ -192,7 +192,7 @@ The gateway is safe — but the water-damaged node is still dripping, and smalle
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Hosts**:
 
-1. Find the node that <b class="highlightcopy">payment-gateway-prod</b> was running on **before** the migration — the one you wrote down. That is the water-damaged machine
+1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration — the one you wrote down. That is the water-damaged machine
 2. Click the **three dots** on its row and select **Enable Maintenance Mode**, then confirm
 
 Now watch the **Virtual Machines** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty — no spreadsheets, no manual target-picking, no forgotten VM.

@@ -42,13 +42,9 @@
 #     derivable from the image name — the original `longhorn-${IMAGE_NAME}`
 #     guess was wrong).
 #
-# STILL OPEN — not fixed in this pass, needs follow-up: the pre-baked
-# production VM this chapter's story calls "payment-gateway-prod" is actually
-# named `webserver-prod` on the live cluster (confirmed via `kubectl get vm
-# webserver-prod -n prod -o yaml`), and it is currently Stopped, not Running.
-# Both this script's sanity check below and 04-.../assignment.md's task text
-# still reference the wrong name / assume it's already running — needs a
-# dedicated fix (rename + explicit Start), not folded into this edit.
+# FIXED 2026-07-17: assignment.md now calls this VM webserver-prod throughout
+# (matches the real cluster object), and the sanity check below explicitly
+# starts it if it's Stopped, since the story requires it Running on arrival.
 #
 # KNOWN RISK — still not live-tested:
 #   Whether the openSUSE Leap Micro "Default-qcow" appliance actually honors
@@ -75,9 +71,20 @@ else
   log "algo-trader-01 not present, nothing to clean up."
 fi
 
-log "sanity-checking pre-existing production VM (webserver-prod, aka payment-gateway-prod in the story) ..."
+log "sanity-checking pre-existing production VM webserver-prod ..."
 if kubectl get vm -n "${NS}" webserver-prod &>/dev/null; then
-  log "webserver-prod found in ${NS}, leaving it alone (still needs a rename/Start fix — see header)."
+  RUN_STRATEGY="$(kubectl get vm -n "${NS}" webserver-prod -o jsonpath='{.spec.runStrategy}' 2>/dev/null)"
+  if [ "${RUN_STRATEGY}" != "Always" ]; then
+    log "webserver-prod runStrategy is '${RUN_STRATEGY:-unset}', starting it (story requires it Running on arrival) ..."
+    kubectl patch vm -n "${NS}" webserver-prod --type merge -p '{"spec":{"runStrategy":"Always"}}' || log "warn: failed to start webserver-prod."
+  fi
+  log "waiting for webserver-prod to reach Running phase ..."
+  for _ in $(seq 1 60); do
+    WP_PHASE="$(kubectl get vmi -n "${NS}" webserver-prod -o jsonpath='{.status.phase}' 2>/dev/null)"
+    [ "${WP_PHASE}" = "Running" ] && { log "webserver-prod: Running"; break; }
+    sleep 10
+  done
+  [ "${WP_PHASE:-}" = "Running" ] || log "warn: webserver-prod not Running yet (non-fatal, check the UI)."
 else
   log "warn: webserver-prod NOT found in ${NS} — chapter 4 task 3 will have nothing to migrate."
 fi
