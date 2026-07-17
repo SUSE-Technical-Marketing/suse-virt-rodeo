@@ -123,6 +123,13 @@ Password:
 ```
 
 
+☁️ What is Longhorn?
+====================
+
+<b class="highlightcopy">Longhorn</b> is the distributed storage system built into SUSE Virtualization. It pools the raw disks sitting on every node and turns them into one shared storage fabric.
+
+Every volume it creates is replicated across multiple nodes, so a disk failure or a node reboot never touches the data. No SAN, no separate storage team, one system for VMs and containers alike.
+
 🖥️ Task 1: Inspect the physical node topology
 =============================================
 
