@@ -19,7 +19,7 @@ FAIL=0
 fail(){ echo "FAIL: $*"; FAIL=1; }
 
 # --- Task 1: openSUSE Leap Micro image -------------------------------------
-LEAP_URL="https://pkg.adfinis.com/opensuse/distribution/leap-micro/6.2/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+LEAP_URL="http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
 LEAP_IMAGE_NAME="$(kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" \
   -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.url}{"\n"}{end}' 2>/dev/null \
   | grep -F "${LEAP_URL}" | awk '{print $1}' | head -n1)"

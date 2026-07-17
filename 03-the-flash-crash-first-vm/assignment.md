@@ -154,7 +154,7 @@ For example, lets add a new image:
   - Namespace: 'official-images'
   - Name: ''will be automatically filled''
   - Basics
-    - URL: "https://pkg.adfinis.com/opensuse/distribution/leap-micro/6.2/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+    - URL: "http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
 - Click on 'Create'
 
 We will see the image we just created will appear in the list of images with the state 'Downloading', we can see the progress on the progress column.
@@ -163,7 +163,7 @@ Let's move to the next task, once it has completed we will see an alert in the n
 
 
 > [!NOTE]
-> The download runs server-side and takes a couple of minutes — the image becomes **Active** once Longhorn has it replicated.
+> The download runs server-side, from a local mirror on this lab's own network, so it lands in seconds — the image becomes **Active** once Longhorn has it replicated.
 
 
 🚀 Task 2: Provision the calculation engine

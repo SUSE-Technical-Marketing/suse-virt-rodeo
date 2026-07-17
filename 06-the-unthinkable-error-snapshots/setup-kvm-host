@@ -75,7 +75,7 @@ else
   SSH_PUBKEY="$(cat "${SSH_PUBKEY_FILE}")"
 fi
 
-IMAGE_URL="https://pkg.adfinis.com/opensuse/distribution/leap-micro/6.2/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+IMAGE_URL="http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
 IMAGE_DISPLAY_NAME="openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
 
 find_image() {
