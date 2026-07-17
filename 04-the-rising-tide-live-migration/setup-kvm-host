@@ -11,11 +11,18 @@
 # the cluster/image — this script does not touch it, only sanity-checks it's
 # there.
 #
-# daily-batch-processor boots from the openSUSE Leap Micro image the student
-# adds in chapter 3, task 1 (official-images/openSUSE-Leap-Micro...) — that
-# image is never used by algo-trader-01, it exists for this VM (and presumably
-# was also how payment-gateway-prod was provisioned). SSH user is `opensuse`
-# to match that image's convention.
+# daily-batch-processor boots from the openSUSE Leap Micro image chapter 3,
+# task 1 walks the student through adding (official-images/openSUSE-Leap-
+# Micro...) — that image is never used by algo-trader-01, it exists for this
+# VM (and presumably was also how payment-gateway-prod was provisioned). SSH
+# user is `opensuse` to match that image's convention.
+#
+# FIXED 2026-07-17: this script used to just wait up to 10 minutes for that
+# image to exist and silently skip VM creation if it never showed up — which
+# is exactly what happens if a chapter (or a presenter running a live
+# workshop) skips straight to chapter 4 without chapter 3 ever running. Now
+# it self-provisions the same image (matched by URL, not by name) if it's
+# missing, so chapter 4 works standalone regardless of chapter 3.
 #
 # Idempotent (kubectl apply) and non-fatal: a failure here should never block
 # the track, but the chapter will be unworkable until this succeeds at least
@@ -114,12 +121,39 @@ else
   SSH_PUBKEY="$(cat "${SSH_PUBKEY_FILE}")"
 fi
 
-log "waiting for openSUSE Leap Micro image in ${IMAGE_NS} to become Active ..."
-IMAGE_NAME=""
-for _ in $(seq 1 60); do
-  IMAGE_NAME="$(kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" \
+IMAGE_URL="https://pkg.adfinis.com/opensuse/distribution/leap-micro/6.2/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+IMAGE_DISPLAY_NAME="openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+
+find_image() {
+  kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" \
     -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.url}{"\n"}{end}' 2>/dev/null \
-    | grep -i 'openSUSE-Leap-Micro' | awk '{print $1}' | head -n1)"
+    | grep -F "${IMAGE_URL}" | awk '{print $1}' | head -n1
+}
+
+log "checking for openSUSE Leap Micro image in ${IMAGE_NS} ..."
+IMAGE_NAME="$(find_image)"
+
+if [ -z "${IMAGE_NAME}" ]; then
+  log "not found (chapter 3 task 1 likely skipped) — creating it directly ..."
+  cat <<EOF | kubectl apply -f -
+apiVersion: harvesterhci.io/v1beta1
+kind: VirtualMachineImage
+metadata:
+  generateName: image-
+  namespace: ${IMAGE_NS}
+spec:
+  sourceType: download
+  displayName: ${IMAGE_DISPLAY_NAME}
+  url: ${IMAGE_URL}
+EOF
+  sleep 5
+  IMAGE_NAME="$(find_image)"
+fi
+
+log "waiting for image ${IMAGE_NS}/${IMAGE_NAME:-<pending>} to become Active (up to 10 minutes) ..."
+READY=""
+for _ in $(seq 1 60); do
+  [ -z "${IMAGE_NAME}" ] && IMAGE_NAME="$(find_image)"
   if [ -n "${IMAGE_NAME}" ]; then
     READY="$(kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" "${IMAGE_NAME}" \
       -o jsonpath='{.status.progress}' 2>/dev/null)"
@@ -128,9 +162,9 @@ for _ in $(seq 1 60); do
   sleep 10
 done
 
-if [ -z "${IMAGE_NAME}" ]; then
-  log "warn: openSUSE Leap Micro image not found yet (student may not have reached chapter 3 task 1). Skipping VM creation."
-  echo ">>> Challenge 4 setup complete (daily-batch-processor NOT created — image missing)."
+if [ -z "${IMAGE_NAME}" ] || [ "${READY:-}" != "100" ]; then
+  log "warn: image still not Active after waiting. Skipping VM creation."
+  echo ">>> Challenge 4 setup complete (daily-batch-processor NOT created — image not ready)."
   exit 0
 fi
 log "using image ${IMAGE_NS}/${IMAGE_NAME}"
