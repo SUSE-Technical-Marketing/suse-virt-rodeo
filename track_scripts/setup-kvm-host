@@ -19,22 +19,6 @@ echo ">>> Harvester VIP up."
 echo ">>> Waiting for Harvester nodes (up to 90 minutes)..."
 export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
-ELAPSED=0
-MAX_WAIT=5400
-until [ "$(kubectl get nodes --no-headers 2>/dev/null | grep ' Ready' | wc -l)" -ge 3 ]; do
-  sleep 20
-  ELAPSED=$((ELAPSED + 20))
-  if [[ $ELAPSED -ge $MAX_WAIT ]]; then
-    echo "ERROR: Timed out waiting for Harvester nodes"
-    virsh list --all || true
-    exit 1
-  fi
-  if [[ $((ELAPSED % 120)) -eq 0 ]]; then
-    READY=$(kubectl get nodes --no-headers 2>/dev/null | grep ' Ready' | wc -l | tr -d ' ')
-    echo ">>> ${ELAPSED}s elapsed: ${READY}/3 nodes Ready"
-  fi
-done
-echo ">>> All 3 Harvester nodes Ready"
 
 # Set static variables now, no need for Rancher to be up yet.
 # RANCHER_TOKEN and the server-url update are deferred to a later chapter's setup
