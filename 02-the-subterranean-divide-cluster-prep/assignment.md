@@ -137,22 +137,6 @@ Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navi
 
 1. Click on the name of **one of the hosts** in the list
 2. Navigate around the UI and check the different options to understand better how things work. Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the Longhorn distributed storage pool that will hold the bank's ledgers.
-3. Let's do some research on how longhorn works. First got to the [button label=">_ Cluster Terminal" variant="success"](tab-1), and ssh on one of the SUSE Virtualization hosts
-```bash,run
-rodeo ssh harvester1
-```
-4. Now let's check the longhorn folder in harvester1 node. You'll see some folder and files. 
-```bash,run
-ls /var/lib/harvester/defaultdisk
-```
-5. In the replicas folder, we can find the different pvc folder that uses to replicate the storage.
-```bash,run
-ls /var/lib/harvester/defaultdisk/replicas/
-```
-6. Exit from the host by just typing exit.
-```bash,run
-exit
-```
 
 > [!NOTE]
 > **Banks grow, and so does this fabric.** Running low on space is not a forklift upgrade anymore. Rack a new node, add its raw disks to the pool, and Longhorn rebalances replicas across the expanded fabric automatically — no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
@@ -180,6 +164,25 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to *
 
 Note the **Number Of Replicas** field: it is set to **3**. Every volume created from this class gets three full copies, spread across three different nodes. That is exactly right for the transaction ledgers — lose a node, even lose a disk mid-write, and the data survives untouched.
 
+Let's do some research on how longhorn works:
+
+1. Go to the [button label=">_ Cluster Terminal" variant="success"](tab-1), and ssh on one of the SUSE Virtualization hosts
+```bash,run
+rodeo ssh harvester1
+```
+2. Now let's check the longhorn folder in harvester1 node. You'll see some folder and files. 
+```bash,run
+ls /var/lib/harvester/defaultdisk
+```
+3. In the replicas folder, we can find the different pvc folder that uses to replicate the storage.
+```bash,run
+ls /var/lib/harvester/defaultdisk/replicas/
+```
+4. Exit from the host by just typing exit.
+```bash,run
+exit
+```
+
 > [!NOTE]
 > Three replicas means three times the disk footprint. That is the correct trade for production money. It is wasteful for a quant's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics — and policies can be tuned per workload.
 
@@ -195,10 +198,10 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), under *
 3. Set **Number Of Replicas** to <b class="highlightcopy">1</b>
 4. Click **Create**
 
-Two policies now sit side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica — dev sandboxes, at a third of the disk cost). The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.
+Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.
 
 > [!NOTE]
-> One replica means **zero redundancy** — lose that single node and the volume is gone. That is an acceptable risk for a sandbox nobody depends on overnight, and a very deliberate trade-off you are making on the record, not an accident. Storage classes can also encode disk tags to steer workloads to specific hardware — production on fast NVMe, development on cheaper spindles — a refinement for another sprint.
+> One replica means **zero redundancy**, lose that single node and the volume is gone. That is an acceptable risk for a sandbox nobody depends on overnight, and a very deliberate trade-off you are making on the record, not an accident. Storage classes can also encode disk tags to steer workloads to specific hardware, production on fast NVMe, development on cheaper spindles.
 
 🏋️ Bonus Drills — for the command-line curious (optional)
 ==========================================================
