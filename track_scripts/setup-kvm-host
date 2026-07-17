@@ -2,9 +2,11 @@
 
 set -euo pipefail
 
-# The suse/suse-virt-rodeo-rc image autostarts the nested VMs (harvester1-3 +
+# The kvm-host image (config.yml) autostarts the nested VMs (harvester1-3 +
 # rancher) via libvirt on boot. This script does not start them; it only waits
 # for the cluster to come up and exports the agent variables the chapters use.
+# Every wait below is a real bounded loop, not a fixed sleep — a new/untested
+# image can boot at a different pace than the one this was last tuned for.
 
 until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
   sleep 2
@@ -19,10 +21,37 @@ echo ">>> Harvester VIP up."
 echo ">>> Waiting for Harvester nodes (up to 90 minutes)..."
 export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
+ELAPSED=0
+MAX_WAIT=5400
+while true; do
+  READY="$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || true)"
+  [ "${READY:-0}" -ge 3 ] && break
+  if [ "${ELAPSED}" -ge "${MAX_WAIT}" ]; then
+    echo "ERROR: timed out waiting for Harvester nodes (${READY:-0}/3 Ready)"
+    kubectl get nodes 2>&1 || true
+    virsh list --all || true
+    exit 1
+  fi
+  if [ $((ELAPSED % 120)) -eq 0 ]; then
+    echo ">>> ${ELAPSED}s elapsed: ${READY:-0}/3 nodes Ready"
+  fi
+  sleep 20
+  ELAPSED=$((ELAPSED + 20))
+done
+echo ">>> All 3 Harvester nodes Ready."
 
 # Set static variables now, no need for Rancher to be up yet.
 # RANCHER_TOKEN and the server-url update are deferred to a later chapter's setup
 # so the Rancher wait (7-10 min) does not hit the track-level agent timeout.
+echo ">>> Waiting for /root/rancher-password (up to 15 minutes)..."
+for _ in $(seq 1 90); do
+  [ -s /root/rancher-password ] && break
+  sleep 10
+done
+if [ ! -s /root/rancher-password ]; then
+  echo "ERROR: /root/rancher-password never appeared."
+  exit 1
+fi
 RANCHER_PASS=$(cat /root/rancher-password)
 agent variable set RANCHER_PASSWORD   "$RANCHER_PASS"
 agent variable set RANCHER_URL        "https://192.168.122.9:30002"
