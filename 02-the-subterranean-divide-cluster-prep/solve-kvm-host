@@ -27,7 +27,7 @@
 #   Harvester-specific CRDs that needed several rounds to get right.
 
 set -euo pipefail
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 log(){ echo ">>> [ch2-solve] $*"; }
 

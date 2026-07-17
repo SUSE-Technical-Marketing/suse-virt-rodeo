@@ -211,31 +211,31 @@ New to Kubernetes? **Skip ahead freely.** If you are curious, everything you jus
 - **Map the nodes from the command line** — same machines, same IPs, same OS image as the **Hosts** page; the UI and the API are two views of one single source of truth:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get nodes -o wide
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get nodes -o wide
 ```
 
 - **Expose the hidden engine** that runs every VM as a container-native process. You should see components like `virt-api`, `virt-controller`, and `virt-handler` — this is **KubeVirt**, the bridge between Kubernetes and KVM:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get pods -n harvester-system | grep virt
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get pods -n harvester-system | grep virt
 ```
 
 - **See your UI handiwork as API objects** — the workspace and both storage tiers:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get namespace prod dev; kubectl --kubeconfig .kube/harvester.yaml get storageclasses;
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace prod dev; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;
 ```
 
 - **Confirm the cluster is ready for VMs**, and only one VM exists in the cluster (the VM is for one of the challenges):
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vm -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A
 ```
 
 - **Label the new workspace** so future automation can target production financial workloads:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml label namespace prod stage=prod owner=vertex-trust
+kubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace prod stage=prod owner=vertex-trust
 ```
 
 💼 Why does this matter for Vertex Trust Bank?

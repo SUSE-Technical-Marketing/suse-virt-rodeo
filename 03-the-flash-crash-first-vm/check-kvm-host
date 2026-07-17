@@ -8,7 +8,7 @@
 # chapters 1 and 2's check scripts.
 
 set -uo pipefail
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 NS="prod"
 IMAGE_NS="official-images"

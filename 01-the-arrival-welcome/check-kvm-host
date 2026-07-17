@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 # All 3 Harvester nodes must be Ready
 READY=$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo 0)

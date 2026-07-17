@@ -4,7 +4,7 @@
 # harvester-longhorn StorageClass — nothing to check for either.
 
 set -uo pipefail
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 FAIL=0
 fail(){ echo "FAIL: $*"; FAIL=1; }

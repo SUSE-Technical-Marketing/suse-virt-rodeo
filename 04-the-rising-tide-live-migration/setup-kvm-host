@@ -53,7 +53,7 @@
 #   comes up but the static IP doesn't take, this is the first thing to check.
 
 set -uo pipefail
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 NS="prod"
 NET="${NS}/service"

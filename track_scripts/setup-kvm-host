@@ -17,7 +17,7 @@ done
 echo ">>> Harvester VIP up."
 
 echo ">>> Waiting for Harvester nodes (up to 90 minutes)..."
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 ELAPSED=0
 MAX_WAIT=5400

@@ -267,7 +267,7 @@ You will spend most of this mission in the UI, but an architect always verifies 
 
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get VirtualMachine -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachine -A
 ```
 
 You should see the list of Virtual Machines present in every namespace.
@@ -306,19 +306,19 @@ New to Kubernetes? **Skip ahead freely** — everything that matters is in the U
 See the Kubernetes control plane and CoreDNS endpoints:
 
 ```bash,run
-kubectl cluster-info --kubeconfig .kube/harvester.yaml
+kubectl cluster-info --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
 - **Check cluster component health** — query the control plane's health endpoint; every check (etcd, informers, shutdown hooks) should report `ok`:
 
 ```bash,run
-kubectl get --raw='/readyz?verbose' --kubeconfig .kube/harvester.yaml
+kubectl get --raw='/readyz?verbose' --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
 - **Confirm every node in the fabric is ready:**
 
 ```bash,run
-kubectl get nodes --kubeconfig .kube/harvester.yaml
+kubectl get nodes --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
   All nodes should show `Ready`.
@@ -326,7 +326,7 @@ kubectl get nodes --kubeconfig .kube/harvester.yaml
 - **Verify the core virtualization services are running:**
 
 ```bash,run
-kubectl get pods -n harvester-system --kubeconfig .kube/harvester.yaml | grep -v Completed
+kubectl get pods -n harvester-system --kubeconfig .rodeo/harvester-kubeconfig | grep -v Completed
 ```
 
   All pods should be `Running`.
@@ -334,7 +334,7 @@ kubectl get pods -n harvester-system --kubeconfig .kube/harvester.yaml | grep -v
 - **Confirm the exact platform version the bank is running:**
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get settings.harvesterhci.io server-version
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get settings.harvesterhci.io server-version
 ```
 
 💼 Why does this matter for Vertex Trust Bank?

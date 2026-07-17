@@ -250,7 +250,7 @@ From now on the platform backs the ledger up to the NFS vault every five hours, 
 - **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object — as is your new backup schedule:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vmsnapshots -A; kubectl --kubeconfig .kube/harvester.yaml get volumesnapshots -A; kubectl --kubeconfig .kube/harvester.yaml get schedulevmbackups -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmsnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
 ```
 
 - **Clean up the sandbox.** The staging clone did its job; delete <b class="highlightcopy">ledger-staging-verify</b> from the **Virtual Machines** page to return its resources to the pool.

@@ -286,7 +286,7 @@ This could be stored in a GIT repository to keep track of changes and also to in
 Now on the next step we are going to create the resource, run the following command:
 
 ```bash,run
-kubectl  --kubeconfig .kube/harvester.yaml apply -f virtualMachineTemplate_prod-basic.yaml
+kubectl  --kubeconfig .rodeo/harvester-kubeconfig apply -f virtualMachineTemplate_prod-basic.yaml
 ```
 
 It should have created the two resources needed to setup the template.
@@ -353,14 +353,14 @@ New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label=
 - **Inspect the template as an API object** — templates and their versions are resources too:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplates,virtualmachinetemplateversions -n prod
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod
 ```
 
 - **Retrieve the template definition in yaml format**:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplates -n prod prod-basic > template_prod-basic.yaml
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachinetemplatesversions -n prod prod-basic >> template_prod-basic.yaml
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic > template_prod-basic.yaml
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplatesversions -n prod prod-basic >> template_prod-basic.yaml
 ```
 
 You can examing the file 'template_prod-basic.yaml, it contains a similar output of what used to generate them in task 2.

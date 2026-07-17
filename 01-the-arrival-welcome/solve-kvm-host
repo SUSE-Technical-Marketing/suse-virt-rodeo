@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 # Nothing to create — this chapter is about exploring the UI and running read-only commands.
 # Verify the cluster is healthy so Check passes immediately after Solve.

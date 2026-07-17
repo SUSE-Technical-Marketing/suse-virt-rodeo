@@ -243,7 +243,7 @@ New to Kubernetes? **Skip ahead freely** — we have the isolated networks alrea
 **Drill 1 — an extra isolated network is needed for QA: Kubernetes network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
 
 ```bash,run
-cat << EOF | kubectl --kubeconfig .kube/harvester.yaml apply -f -
+cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -259,13 +259,13 @@ EOF
 Confirm the policy is enforced:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get networkpolicy -n prod
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get networkpolicy -n prod
 ```
 
 **Drill 2 — build air-gapped containment zones.** VLANs segment the physical network — but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:
 
 ```bash,run
-cat << EOF | kubectl --kubeconfig .kube/harvester.yaml apply -f -
+cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
 apiVersion: kubeovn.io/v1
 kind: Subnet
 metadata:
@@ -284,7 +284,7 @@ EOF
 Now prove the most counterintuitive capability of the SDN layer: **overlapping address space**. Create a second, completely independent zone for the forensics team — using the *exact same CIDR*:
 
 ```bash,run
-cat << EOF | kubectl --kubeconfig .kube/harvester.yaml apply -f -
+cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
 apiVersion: kubeovn.io/v1
 kind: Subnet
 metadata:
@@ -306,7 +306,7 @@ EOF
 Verify both zones exist with `natOutgoing: false` — no path out, no path in:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
 ```
 
 Two vaults, same IP space, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else** — micro-segmentation without a proprietary SDN license, and without ever running out of address space.

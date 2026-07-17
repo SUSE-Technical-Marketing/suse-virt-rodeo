@@ -82,7 +82,7 @@ The adrenaline from the trading floor incident has barely faded from your system
 
 </div>
 
-You cannot shut the machine down to move it; the transaction stream is too critical, processing thousands of requests a second. You must execute a **live migration** — moving a running VM, memory and all, to a different physical node with **zero downtime**.
+You cannot shut the machine down to move it; the transaction stream is too critical, processing thousands of requests a second. You must execute a **live migration**, moving a running VM, memory and all, to a different physical node with **zero downtime**.
 
 But first, to ensure maximum bandwidth is available for the emergency migration, you decide to suspend a nearby non-critical batch processing server.
 
@@ -214,19 +214,19 @@ New to Kubernetes? **Skip ahead freely.** Otherwise: every migration is itself a
 - **Review the migration record** (who moved, when, from where to where):
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachineinstancemigrations -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A
 ```
 
 - **Inspect the details of the completed migration:**
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
+kubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
 ```
 
 - **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy — SUSE Virtualization can reschedule VMs from a failed host automatically:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
 ```
 
 > [!NOTE]

@@ -130,7 +130,7 @@ The lab environment will remain active until your timer expires. Feel free to ex
 - **For the command-line curious (optional):** the same inventory, through the API:
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vm -A && kubectl  --kubeconfig .kube/harvester.yaml get network-attachment-definitions -A && kubectl --kubeconfig .kube/harvester.yaml get vmsnapshots -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmsnapshots -A
 ```
 
 🏗️ Epilogue Quest — Sarah's last request (optional)
@@ -171,7 +171,7 @@ When **Rancher Prime** manages <b class="virt">SUSE Virtualization</b>, it treat
 
 Watch the platform build a cluster inside itself: stay on Rancher's **Cluster Management** page and watch <b class="highlightcopy">vertex-mobile</b> progress through the provisioning states — VMs appear on the **Virtual Machines** page of the [button label="SUSE Virtualization UI" variant="success"](tab-0) as Rancher creates them. This takes 5–10 minutes; wait for the state **Active**.
 
-> For the command-line curious, the same show plays in the [button label="Cluster Terminal" variant="success"](tab-1): `watch kubectl --kubeconfig .kube/harvester.yaml get clusters.provisioning.cattle.io -A` (press `Ctrl+C` once it reports `Active`).
+> For the command-line curious, the same show plays in the [button label="Cluster Terminal" variant="success"](tab-1): `watch kubectl --kubeconfig .rodeo/harvester-kubeconfig get clusters.provisioning.cattle.io -A` (press `Ctrl+C` once it reports `Active`).
 
 **Step 4 — Light up the ops dashboard (advanced — for the Kubernetes-curious).** This final flourish deploys a small containerized app onto the new cluster. Note who is in charge here: the container work happens entirely through **Rancher**, not the SUSE Virtualization UI — running containers is Rancher's job. Skip freely; your mission is already complete.
 
@@ -240,8 +240,8 @@ EOF
 ```
 
 ```bash
-kubectl --kubeconfig .kube/harvester.yaml  rollout status deployment/geeko-dash -n vertex-ops
-kubectl --kubeconfig .kube/harvester.yaml get svc geeko-dash -n vertex-ops
+kubectl --kubeconfig .rodeo/harvester-kubeconfig  rollout status deployment/geeko-dash -n vertex-ops
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get svc geeko-dash -n vertex-ops
 ```
 
 The `EXTERNAL-IP` comes straight out of <b class="highlightcopy">vertex-ippool</b> (`192.168.122.200–220`) — the address reserve you funded back in Chapter 2. The loop is closed. Verify the dashboard answers, from the [button label="Cluster Terminal" variant="success"](tab-1) (replace with the external IP you saw):

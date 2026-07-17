@@ -33,7 +33,7 @@
 #     verified since transaction-ledger never existed on the cluster before.
 
 set -uo pipefail
-export KUBECONFIG=/root/.kube/harvester.yaml
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 NS="prod"
 NET="${NS}/service"

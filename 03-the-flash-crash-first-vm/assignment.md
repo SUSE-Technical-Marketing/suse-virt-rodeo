@@ -314,25 +314,25 @@ New to Kubernetes? **Skip ahead freely.** Otherwise, back in the [button label="
 - **The golden images are API objects too:**
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachineimages -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -A
 ```
 
 - **The VM is a Kubernetes resource:**
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get virtualmachines -n prod
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachines -n prod
 ```
 
 - **The running instance, with its node and IP** (the same IP you used for SSH):
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get vmi -n prod -o wide
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide
 ```
 
 - **The disks are ordinary PersistentVolumeClaims backed by Longhorn:**
 
 ```bash,run
-kubectl --kubeconfig .kube/harvester.yaml get pvc -n prod
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod
 ```
 
 You should recognize `market-data-vol` in the list — a banking data drive, expressed as cloud-native storage.
