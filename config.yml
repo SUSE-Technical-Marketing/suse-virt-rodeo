@@ -1,7 +1,7 @@
 version: "3"
 virtualmachines:
 - name: kvm-host
-  image: suse/harv-rodeo-183-test
+  image: suse/suse-virt-rodeo-rc1
   memory: 92160
   cpus: 38
   allow_external_ingress:
