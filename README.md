@@ -95,7 +95,7 @@ detail) see the rodeo-cli
 The same stack backs the public self-serve
 **[suse-virt-workshop](https://github.com/avaleror/suse-virt-workshop)**.
 
-> **The image.** The published Instruqt image (`suse/suse-virt-rodeo-rc`, see
+> **The image.** The published Instruqt image (`suse/suse-virt-rodeo-rc1`, see
 > `config.yml`) was produced with rodeo-cli plus some manual tweaking, then saved as a
 > reusable image. Rebuilding or refreshing that image is a rodeo-cli task, not a task
 > in this repo.
@@ -158,7 +158,7 @@ instruqt track start suse-virt-rodeo
 
 `.github/workflows/publish.yml` validates and pushes the track automatically on every
 push to `main`, and can be triggered manually with `workflow_dispatch`. It needs
-`INSTRUQT_TOKEN` in the repo secrets and the `suse/suse-virt-rodeo-rc` image published
+`INSTRUQT_TOKEN` in the repo secrets and the `suse/suse-virt-rodeo-rc1` image published
 in the Instruqt org.
 
 ### Credentials
