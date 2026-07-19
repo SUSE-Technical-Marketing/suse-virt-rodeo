@@ -60,14 +60,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -76,12 +76,40 @@ enhanced_loading: null
   }
   .highlightcopy { color: white; font-weight: bold; padding: 0 10px; }
   img.logos { border-radius: 10px; }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/01-chapter-img.png"/>
 
 
-<div class="storybox">
+<div id="101" class="story">
 
 The rain lashed against the floor-to-ceiling windows of <b class="bank">Vertex Trust Bank</b> headquarters, distorting the city skyline into a gray, watery blur. Inside the glass-walled executive boardroom, the atmosphere was equally turbulent. **Sarah**, the Chief Technology Officer, paced the length of the room, her eyes fixed on a massive overhead monitor projecting a sea of <span class="danger">red alerts</span> and performance warnings.
 
@@ -104,8 +132,6 @@ Your journey begins right now. Before you can begin dismantling the old world, y
 - **Software-defined networking** — VLANs and isolated overlay networks without touching a cable
 - **One open-source bill** — no per-socket hypervisor tax
 - **Support that actually listens** — SUSE customers consistently rate **SUSE Support** among the best in the industry, and their feedback directly shapes where the products go next. Try asking a closed-source vendor for a seat at that table
-
-Because the platform runs *on* Kubernetes, containerized workloads can run on the very same cluster. Keep the division of labor straight from day one: the <b class="virt">SUSE Virtualization</b> UI manages **virtual machines** — managing containers (and managing whole fleets of clusters) is the job of **Rancher Prime**, which you will meet in a moment.
 
 Because the platform runs *on* Kubernetes, containerized workloads can run on the very same cluster. Keep the division of labor straight from day one: the <b class="virt">SUSE Virtualization</b> UI manages **virtual machines** — managing containers (and managing whole fleets of clusters) is the job of **Rancher Prime**, which you will meet in a moment.
 
@@ -141,14 +167,24 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 For your records, your Architect Credentials are as follows:
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 > [!NOTE]
 > The UIs use self-signed certificates. Accept the browser security warning when it appears. If a page does not load right away, the lab environment may still be booting — wait a minute and refresh the tab.
@@ -168,50 +204,47 @@ Take a moment to examine the main **Dashboard** — this is your command center 
 
 
 > [!NOTE]
-> Don't make any change yet as we are just getting familiar with the environment
+> Don't make any changes yet — we are just getting familiar with the environment.
 
 
 - The first section contains the overall numbers:
-  - Hosts the cluster is made of
-  - Virtual Machines (running and stopped).
-  - Images available to deploy new VMs.
-  - Disk Volumes used
-  - Disks available
+  - **Hosts** the cluster is made of
+  - **Virtual Machines** (running and stopped)
+  - **Images** available to deploy new VMs
+  - **Volumes** in use
+  - **Disks** available
 
-Clicking on each of them will direct you to dedicated sections that contain further information, let's click on hosts:
+Clicking on each of them takes you to a dedicated section with further information. Click on **Hosts**:
 
-We can see a detailed view of the each host reserved and used resrouces, as well as host's IP addresses and other details.
+You see a detailed view of each host's reserved and used resources, as well as the host's IP addresses and other details.
 
-You may have noticed the <3 dot image here>, if you click on it a menu will popup where you can do different activities
+Notice the **three dots** at the end of each row — clicking them opens a menu with different actions for that host.
 
-Let's go back to the dashboard and see what else is there:
+Go back to the **Dashboard** and look at what else is there:
 
-- The second section 'Capacity' lists the current resources reserved and available in the cluster.
+- The second section, **Capacity**, lists the resources currently reserved and available in the cluster.
 
-- Below we have a section with two tabs:
+- Below it sits a section with two tabs:
 
-  - Cluster Metrics:
-    Contains real time metrics about the cluster, this will come in hand when having to troubleshoot performance issues.
+  - **Cluster Metrics** — real-time metrics about the cluster; these come in handy when troubleshooting performance issues.
 
-  - Virtual Machine Metrics:
-    Contains real time metrics for Virtual Machines, notice if no VM is running there won't be data available.
+  - **Virtual Machine Metrics** — real-time metrics for virtual machines; note that if no VM is running there is no data to show.
 
+- At the bottom, the last section, **Events**, shows the latest events happening in the cluster.
 
-- At the bottom we have the last section, 'Events', that shows the latest events happening.
+Now look further around the UI. At the top right there is a drop-down menu with **All Namespaces** selected — it lets you focus on specific namespaces. Namespaces here are Kubernetes namespaces: a way to organize resources and assign dedicated permissions to everything inside them, a concept similar to a "group". At the bottom of this chapter you will find links with more information — many of the concepts you find in Kubernetes apply directly to SUSE Virtualization.
 
+The **bell** holds notifications and alerts, and further right the **user icon** leads you to user settings and keys for automated access.
 
-Now let's look further at the UI, on the top right we can see a drop-down menu with 'All Namespaces' selected, this allows you to focus on especific namespaces, here namespaces are kubernetes namespaces, a way to organize resources and assign dedicated permissions to all the resources in the namespace, similar concept of a 'group', at the bottom of this chapter you will find links with more information. Many of the concepts you will find in Kubernetes apply to SUSE virtualization.
-The bell will have notifications and alerts, and further right you will see the icon of the user wich will lead you to user settings and keys for automated accessThe bell will have notifications and alerts, and further right you will see the icon of the user wich will lead you to user settings and keys for automated access.
+On the left side there is a column with different sections. We are not going through all of them now — you will examine many in the coming chapters. Note that these sections change depending on which plugins are enabled or disabled.
 
-On the left side we have a column with different sections, we are not going to go through all as we will examine many of them in the next chapters, note these sections will change depending on the plugins you have enabled/disabled.
+Finally, in the bottom-left corner, click on **Support**.
+It takes you to a page with links to documentation and other support resources, plus two important sections:
 
-Finally at the bottom-left corner we have 'Support', please click on it.
-It will redirect you to a page which has some links to documentation and other support resources, and two important sections:
+- **Generate a Support Bundle** — produces a file that helps SUSE Support troubleshoot your environment without having to access it directly.
+- **Download KubeConfig** — gives you the kubeconfig file you can use to manage this cluster with kubectl and other tools from a console.
 
-- Generate a Support Bundle: this is used to generate a file that can help SUSE support to troubleshoot your environment without having to access it directly.
-- Download KubeConfig: this will give you the kubeconfig file that can be used to manage your cluster using kubectl and other tools from the console.
-
-If you still have time please familiarize yourself with the sections before going into the next task.
+If you still have time, familiarize yourself with the sections before moving on to the next task.
 
 
 > [!NOTE]
@@ -227,31 +260,30 @@ The platform can also be connected to **Rancher Prime** — and it is important 
 - <b class="virt">SUSE Virtualization</b> manages the **virtual machines** on this cluster.
 - **Rancher Prime** manages **many clusters at once** — every SUSE Virtualization cluster in every branch datacenter — plus centralized **users, roles, and access control (RBAC)**, and the **container workloads** the bank will run alongside its VMs.
 
-Let's see what is inside rancher.
+Let's see what is inside Rancher.
 
-Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** <ICON HERE> from the left menu.
+Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** from the left menu.
 
-From here we can manage multiple SUSE Virtualization clusters, lets import our existing cluster:
+From here you can manage multiple SUSE Virtualization clusters. Import the existing one:
 
-- Click on 'Import Existing'
-- Fill in the following details:
-  - Cluster Name: 'mysusevirt1'
-- Click on 'Create'
+1. Click **Import Existing**
+2. Set the **Cluster Name** to <b class="highlightcopy">mysusevirt1</b>
+3. Click **Create**
 
-Another screen will appear, notice the state next to the cluster name 'Pending', it is now waiting for the cluster to register.
-Below you can see the registration instructions, follow them and remember to select 'Insecure Skip TLS Verify' when editing the "cluster-registration-url".
-<screenshoot>
+A new screen appears. Notice the state next to the cluster name: **Pending** — it is waiting for the cluster to register.
+Below it you can see the registration instructions. Follow them, and remember to select **Insecure Skip TLS Verify** when editing the <b class="highlightcopy">cluster-registration-url</b> setting.
 
-Remain in the Rancher UI, we will see it changing from 'Pending' to 'Waiting' then finally to 'Active'.
+Remain in the Rancher UI and watch the state change from **Pending** to **Waiting**, then finally to **Active**.
 
-Now go back to 'Harvester Clusters', we can see it is in the list of clusters now.
+Now go back to **Harvester Clusters** — the cluster appears in the list.
 
-Lets see what else can we do, click on the ... , you will see a drop down with some options:
-- Kubectl Shell: This will open a shell connected to the cluster where you can run kubectl commands on the cluster.
-- Download KubeConfig: Same as what we already saw in the SUSE Virtualization UI.
-- Download YAML, this will download the cluster definition in YAML format, you can use this to create a template to import new clusters in an automated fashion, it will need also another step in the cluster UI.
+Let's see what else you can do here. Click the **three dots** at the end of the cluster's row; a menu drops down with some options:
 
-Now if we click on the cluster name, it will direct us to the SUSE Virtualization UI embedded within Rancher UI, so we can easily operate multiple clusters.
+- **Kubectl Shell** — opens a shell connected to the cluster, where you can run kubectl commands against it.
+- **Download KubeConfig** — same as what you already saw in the SUSE Virtualization UI.
+- **Download YAML** — downloads the cluster definition in YAML format; you can use it as a template to import new clusters in an automated fashion (it also needs one extra step in the cluster UI).
+
+Finally, click on the cluster name itself: it takes you to the SUSE Virtualization UI embedded within the Rancher UI, so you can easily operate multiple clusters from one place.
 
 
 
@@ -274,36 +306,36 @@ You should see the list of Virtual Machines present in every namespace.
 
 
 
-💾 Bonus Drill: Validate the distributed storage fabric (optional)
-=============================================================
+💾 Bonus Drill — validate the distributed storage fabric (optional)
+====================================================================
 
 A healthy storage backend is critical for banking operations. <b class="virt">SUSE Virtualization</b> uses **Longhorn** to replicate every volume across the cluster.
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0) we can see already information about the storage health, but it is also possible to access the longhorn dashboard by enabling "Extension developer features":
+The [button label="SUSE Virtualization UI" variant="success"](tab-0) already shows information about the storage health, but it is also possible to access the Longhorn dashboard by enabling the **Extension developer features**:
 
-1. Click on your user icon in the top-right corner.
-2. Select 'Preferences'
-3. Tick 'Enable Extension developer features'
+1. Click on your **user icon** in the top-right corner
+2. Select **Preferences**
+3. Tick **Enable Extension developer features**
 
+Go back to **Home**, and in the bottom-left corner click on **Support**.
 
-Go back to Home, and in the bottom-left corner, click on 'Support'
+You will now see two new sections:
 
-Now you will see two new sections:
-- Access Embedded Rancher UI
-- Access Embedded Longhorn UI
-Click on the Longhorn UI section.
+- **Access Embedded Rancher UI**
+- **Access Embedded Longhorn UI**
+
+Click on the **Longhorn UI** section.
 
 It will take you to the Longhorn Dashboard, all should be green.
 If a node were unschedulable or a volume degraded, Longhorn would already be rebuilding replicas elsewhere — but you always confirm your ground truth.
 
 
-🏋️ Bonus Drill: for the command-line curious (optional)
+🏋️ Bonus Drills — for the command-line curious (optional)
 ==========================================================
 
 New to Kubernetes? **Skip ahead freely** — everything that matters is in the UI. If you want to peek at the machinery, run these extra checks in the [button label="Cluster Terminal" variant="success"](tab-1):
 
-
-See the Kubernetes control plane and CoreDNS endpoints:
+- **See the Kubernetes control plane and CoreDNS endpoints:**
 
 ```bash,run
 kubectl cluster-info --kubeconfig .rodeo/harvester-kubeconfig
@@ -354,5 +386,4 @@ Click **Check** to descend into the datacenter. 🛗
 
 - [SUSE Virtualization — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Hardware and Network Requirements](https://documentation.suse.com/cloudnative/virtualization/latest/en/installation-setup/requirements.html)
-- [Kubernetes concepts] https://kubernetes.io/docs/concepts/overview/
--
+- [Kubernetes concepts](https://kubernetes.io/docs/concepts/overview/)

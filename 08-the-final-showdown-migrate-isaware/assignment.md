@@ -51,14 +51,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -67,11 +67,39 @@ enhanced_loading: null
   }
   .highlightcopy { color: white; font-weight: bold; padding: 0 10px; }
   img.logos { border-radius: 10px; }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/08-chapter-img.png"/>
 
-<div class="storybox">
+<div id="801" class="story">
 
 The week of relentless crises has finally stabilized, but one massive shadow still looms over the datacenter.
 
@@ -106,14 +134,24 @@ Sarah looks at you, stunned. *"If we turn that cluster off, the bank dies."*
 The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 
 
@@ -140,7 +178,7 @@ Navigate back to the main **Migrations** page and click **Create**. Configure th
 
 Click **Create** and watch the progress bar closely.
 
-<div class="storybox">
+<div id="802" class="story">
 
 Behind the scenes, the new cluster is reaching into the legacy storage array, copying the raw disk blocks, converting them into cloud-native volumes, and wrapping them in modern descriptors. The old hypervisor doesn't even know the ledger is leaving.
 
@@ -203,7 +241,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A | grep legacy-ledger
 - **Migration without a rewrite.** The ledger moved with its disks and OS intact — no application changes, no big-bang cutover weekend.
 - **Day-one operational parity.** Snapshots, live migration, and telemetry apply to the migrated VM immediately — it doesn't just survive on the new platform, it gains capabilities.
 
-<div class="storybox">
+<div id="803" class="story">
 
 Across the room, the legacy cluster fans spin down into a quiet, defeated hum. The vendor lock-in is broken forever. **You have won.**
 

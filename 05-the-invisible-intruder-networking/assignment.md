@@ -52,14 +52,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -84,11 +84,39 @@ enhanced_loading: null
   img.animatedgif:hover {
     background-size: 51% 51%;
   }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/05-chapter-img.png"/>
 
-<div class="storybox">
+<div id="501" class="story">
 
 It is now two in the morning. The datacenter is quiet, save for the rhythmic humming of the cooling fans. You are drinking stale coffee and reviewing the daily telemetry logs when your screen flashes <span class="danger">red</span>. A critical, high-priority alert from the Security Operations Center overrides your dashboard.
 
@@ -113,9 +141,9 @@ You don't need physical cables. You have the power of **software-defined network
 
 ## 🎯 Your Quest Objectives
 
-1. Construct the virtual vault network
-2. Isolate the database into the vault
-3. Prove the lateral attack vector is severed
+1. Connect a closed-loop physical network for production
+2. Build an equally isolated SDN for development
+3. Learn how to move VMs into the new networks
 
 </div>
 
@@ -125,47 +153,51 @@ You don't need physical cables. You have the power of **software-defined network
 The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 
 
 🧱 Task 1: Connect a closed loop physical network
 =================================================
 
-Our team has setup SUSE Virtualizations nodes with an extra dedicated NIC that is connected in a physically closed loop, let's use it for our most precious traffic and create an isolated production network.
+Our team has set up the SUSE Virtualization nodes with an extra dedicated NIC that is connected in a physically closed loop. Let's use it for our most precious traffic and create an isolated production network.
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Networks** in the left menu, then select 'Cluster Network Configuration'
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Networks** in the left menu, then select **Cluster Network Configuration**:
 
+1. Click **Create a Cluster Network**
+2. Set the **Name** to <b class="highlightcopy">closed-loop</b>
+3. Click **Create**
 
-- Click on 'Create a Cluster Network'
-- Fill in the following details:
-  - Name: closed-loop
-- Click on 'Create'
+The new cluster network appears in the list. Now assign it a physical interface — click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
 
-Now we can see the new Cluster Network on the list, let's assign physical interfaces, please click on 'Create Network Configuration' on the same row as 'closed-loop' cluster network.
+1. Set the **Name** to <b class="highlightcopy">closed-loop</b>
+2. Under **Uplink**, set **NICs** to <b class="highlightcopy">ens5</b>
+3. Click **Create**
 
-We will fill in the following details:
-- Name: closed-loop
-- Uplink:
-  - NICs: ens5
-- Click on 'Create'
+Now define the VM-facing network on top of it. Select **Virtual Machine Networks** and click **Create** to define a new secure perimeter:
 
-Now we can confidently proceed with the next steps:
-
-Select **Virtual Machine Networks**. Click **Create** to define a new secure perimeter:
-
+- **Namespace**: <b class="highlightcopy">prod</b>
 - **Name**: <b class="highlightcopy">secure-loop-prod</b>
-- **Namespace**: `prod`
 - Basics:
-  - **Type**: `UntaggedNetwork`
-  - **Cluster Network**: `closed-loop`
+  - **Type**: <b class="highlightcopy">UntaggedNetwork</b>
+  - **Cluster Network**: <b class="highlightcopy">closed-loop</b>
 
 Click **Create**.
 
@@ -173,7 +205,7 @@ Click **Create**.
   <img class="animatedgif" src="../assets/02-create_vm_network.gif"/>
 </div>
 
-Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-loop-vlan</b> appears with **Active** status.
+Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-loop-prod</b> appears with **Active** status.
 
 
 
@@ -181,52 +213,47 @@ Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-l
 🔒 Task 2: Create a closed loop SDN
 ===================================
 
-Now we are going to create a the same type of network but for our development environment, because adding new NICs and cabling is expensive and we don't need high performance we are going to use a Software Defined Network.
+Now create the same type of isolation for the development environment. Adding new NICs and cabling is expensive, and dev does not need that performance — so this time you will use a **software-defined network**.
 
+Go to **Networks > Virtual Machine Networks** and click **Create**, then fill in the following details:
 
-Let's go to "Networks", then "Virtual Machine Networks" and click on "Create":
-
-Fill in the following details:
-- Namespace: 'dev'
-- Name: 'secure-loop-dev'
+- **Namespace**: <b class="highlightcopy">dev</b>
+- **Name**: <b class="highlightcopy">secure-loop-dev</b>
 - Basics:
-  - Type: OverlayNetwork
+  - **Type**: <b class="highlightcopy">OverlayNetwork</b>
 
-Then click on 'Create'
+Click **Create**.
 
+Now create the SDN subnet. Go to **Virtual Private Cloud**, and on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click **Create Subnet**, then fill in the following details:
 
-Now let's create the SDN.
-Go to 'Virtual Private Cloud', then on the tab of 'ovn-cluster' Virtual Private Cloud click on 'Create Subnet' and fill in the following details:
-
-- name: secure-vpc-dev
+- **Name**: <b class="highlightcopy">secure-vpc-dev</b>
 - Basic:
-  - CIDR: 192.168.32.0/24
-  - Provider: dev/secure-loop-dev
-  - Gateway IP: 192.168.32.1
-  - Dynamic Host Configuration Protocol (DHCP): Enabled
-  - Private Subnet: Enabled
-- Click on 'Create'
+  - **CIDR**: <b class="highlightcopy">192.168.32.0/24</b>
+  - **Provider**: <b class="highlightcopy">dev/secure-loop-dev</b>
+  - **Gateway IP**: <b class="highlightcopy">192.168.32.1</b>
+  - **Dynamic Host Configuration Protocol (DHCP)**: <b class="highlightcopy">Enabled</b>
+  - **Private Subnet**: <b class="highlightcopy">Enabled</b>
 
+Click **Create**.
 
-Now we can assign the network "dev/secure-loop-dev" to any VM and it will only be able to communicate within the VMs in the same network.
+Now you can assign the network <b class="highlightcopy">dev/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
 
 
 🎯 Task 3: Configure VMs with the new networks
 =====================================================
 
 
-We have two new isolated networks, now it's time to show our peers how to add them to their VMs, we are not going to make the change ourselves but show how to do it:
+You have two new isolated networks — now it is time to show your peers how to attach them to a VM. You are not making the change yourself, just walking through how it is done:
 
-Return to the **Virtual Machines** dashboard. Locate the target virtual machine.
+Return to the **Virtual Machines** dashboard and locate the target virtual machine:
 
-- Click on the ... <replace with icon> and select 'Edit Config'
-  - Go to 'Networks'
-    - Select network 'prod/secure-vault-prod' for production systems or 'dev/secure-loop-dev' for development systems
-- Click on 'Save'
+1. Click the **three dots** on its row and select **Edit Config**
+2. Go to the **Networks** tab
+3. Select the network <b class="highlightcopy">prod/secure-loop-prod</b> for production systems, or <b class="highlightcopy">dev/secure-loop-dev</b> for development systems
+4. Click **Save**
+5. Click the **three dots** again and select **Restart**
 
-- Click again on the ... and select 'Restart'
-
-Now the VM will boot connected to the new network.
+The VM boots connected to the new network.
 
 
 

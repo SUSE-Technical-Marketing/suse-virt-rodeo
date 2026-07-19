@@ -52,14 +52,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -68,11 +68,39 @@ enhanced_loading: null
   }
   .highlightcopy { color: white; font-weight: bold; padding: 0 10px; }
   img.logos { border-radius: 10px; }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/02-chapter-img.png"/>
 
-<div class="storybox">
+<div id="201" class="story">
 
 Sarah leads you out of the quiet executive suites, into a secure elevator, and down into the bank's subterranean datacenter. The ambient temperature drops sharply as the heavy steel biometric doors lock behind you. The room hums with the deafening, relentless roar of industrial cooling systems.
 
@@ -113,14 +141,24 @@ That last row is where you start. Every VM disk, every container's persistent vo
 The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 
 ☁️ What is Longhorn?
@@ -149,7 +187,8 @@ The platform isolates workloads in **namespaces**, separate, governable workspac
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), select **Namespaces** from the left-hand menu. You will notice <b class="highlightcopy">prod</b> already sitting in the list — the platform team provisioned it before you arrived, and it is where the bank's production workloads will live.
 
 Now create its counterpart for development:
-1. Select **Namespaces** from the left-hand menu
+
+1. Click **Create**
 2. Set the **Name** to <b class="highlightcopy">dev</b>
 3. Click **Create**
 
@@ -164,21 +203,21 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to *
 
 Note the **Number Of Replicas** field: it is set to **3**. Every volume created from this class gets three full copies, spread across three different nodes. That is exactly right for the transaction ledgers — lose a node, even lose a disk mid-write, and the data survives untouched.
 
-Let's do some research on how longhorn works:
+Let's look under the hood and see how Longhorn stores the data:
 
-1. Go to the [button label=">_ Cluster Terminal" variant="success"](tab-1), and ssh on one of the SUSE Virtualization hosts
+1. Go to the [button label="Cluster Terminal" variant="success"](tab-1) and SSH into one of the SUSE Virtualization hosts:
 ```bash,run
 rodeo ssh harvester1
 ```
-2. Now let's check the longhorn folder in harvester1 node. You'll see some folder and files. 
+2. Check the Longhorn folder on the harvester1 node — you will see some folders and files:
 ```bash,run
 ls /var/lib/harvester/defaultdisk
 ```
-3. In the replicas folder, we can find the different pvc folder that uses to replicate the storage.
+3. Inside the replicas folder, find one folder per volume replica this node holds:
 ```bash,run
 ls /var/lib/harvester/defaultdisk/replicas/
 ```
-4. Exit from the host by just typing exit.
+4. Leave the host by typing exit:
 ```bash,run
 exit
 ```
@@ -246,7 +285,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace prod stage=prod
 - **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls — auditors will love it.
 - **Storage has a price list now.** Replication is a dial, not a default. Production data gets three copies because it must; disposable sandboxes get one because they should not cost more than they need to.
 
-<div class="storybox">
+<div id="202" class="story">
 
 Sarah watches over your shoulder as the new workspace and the two storage tiers appear on the dashboard, one after another. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*
 

@@ -51,14 +51,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -83,11 +83,39 @@ enhanced_loading: null
   img.animatedgif:hover {
     background-size: 51% 51%;
   }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/03-chapter-img.png"/>
 
-<div class="storybox">
+<div id="301" class="story">
 
 You are sitting in a makeshift office just outside the datacenter, halfway through reviewing the network topologies, when the overhead emergency lights suddenly pulse a harsh yellow. Your radio crackles to life. It is the **Head of Quantitative Trading**, and he sounds panicked.
 
@@ -108,7 +136,7 @@ You bypass the legacy ticketing system entirely and prepare to deploy a fully co
 1. Verify the operating system image
 2. Provision the calculation engine
 3. Attach the volumes and the production network
-4. Inject security credentials and a fixed IP with cloud-init
+4. Customize the installation with cloud-init
 5. Choose where the engine is allowed to run
 6. Access the Web Console
 7. Validate via Secure Shell
@@ -121,14 +149,24 @@ You bypass the legacy ticketing system entirely and prepare to deploy a fully co
 The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 
 
@@ -136,7 +174,7 @@ Password:
 📀 Task 1: Verify the operating system image
 ============================================
 
-Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Images** on the left side panel, and confirm that the base **SLES-16.0-Minimal-VM.x86_64.gcow2** operating system image is present and marked as **Active**.
+Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Images** on the left side panel, and confirm that the base **SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2** operating system image is present and marked as **Active**.
 
 > [!NOTE]
 > Images in <b class="virt">SUSE Virtualization</b> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk — the image itself is never modified.
@@ -149,17 +187,18 @@ Images can be created from a URL, uploaded from your workstation, or exported fr
   <img class="animatedgif" src="../assets/04-create_vm_image.gif"/>
 </div>
 
-For example, lets add a new image:
-- go to 'Images' on the left panel, and click on 'Create'. Then fill in the following information:
-  - Namespace: 'official-images'
-  - Name: ''will be automatically filled''
-  - Basics
-    - URL: "http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
-- Click on 'Create'
+For example, let's add a new image:
 
-We will see the image we just created will appear in the list of images with the state 'Downloading', we can see the progress on the progress column.
+1. Go to **Images** on the left panel and click **Create**, then fill in the following details:
+   - **Namespace**: <b class="highlightcopy">official-images</b>
+   - **Name**: filled in automatically
+   - Basics:
+     - **URL**: <b class="highlightcopy">http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2</b>
+2. Click **Create**
 
-Let's move to the next task, once it has completed we will see an alert in the notification bell on the top right of the screen.
+The image you just created appears in the list with the state **Downloading** — you can follow it in the progress column.
+
+Move on to the next task; once the download completes, an alert shows up in the **notification bell** at the top right of the screen.
 
 
 > [!NOTE]
@@ -179,20 +218,19 @@ Configure the engine exactly as the quants need it:
 - **Name**: <b class="highlightcopy">algo-trader-01</b>
 - **Namespace**: <b class="highlightcopy">prod</b>
 
-  If the namespace doesn't exists create a new one.
+  If the namespace does not exist, create it.
 
 - **CPU**: <b class="highlightcopy">2</b>
 - **Memory**: <b class="highlightcopy">2 GiB</b>
 
+  Notice the very low resources — our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
 
-  Notice the very low resources, our future crew quants are highly skilled and their application is extremely optimized for low latency and low resources usage.
+- **SSHKey**: <b class="highlightcopy">prod/default</b>
 
-- SSHKey: Select "prod/default"
+Now assign it a label — go to the **Labels** tab and click **Add Label**:
 
-We are going to assing it some labels, go to 'Labels' and click 'Add Label':
-
-- Key: stage
-- Value: prod
+- **Key**: <b class="highlightcopy">stage</b>
+- **Value**: <b class="highlightcopy">prod</b>
 
 This will help us manage the VM with future automation.
 
@@ -202,19 +240,19 @@ Do **not** click Create yet — the trader also needs his data volume.
 💽 Task 3: Attach the volumes and the production network
 ========================================================
 
-Under the **Volumes** tab fill in the following:
+Under the **Volumes** tab, fill in the following details:
 
-- Image: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2
-- Size: 5 GiB
+- **Image**: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
+- **Size**: <b class="highlightcopy">5 GiB</b>
 
-Then add a new volume by clicking on **Add Volume** and fill up the following details:
+Then add a new volume by clicking **Add Volume**, and fill in the following details:
 
-- Name: 'market-data-vol'
-- Size: 1 GiB
+- **Name**: <b class="highlightcopy">market-data-vol</b>
+- **Size**: <b class="highlightcopy">1 GiB</b>
 
 Now wire the engine into the bank's network. Under the **Networks** tab:
 
-- Network: 'prod/service'
+- **Network**: <b class="highlightcopy">prod/service</b>
 
 
 This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated Longhorn volumes — the market data survives even if a physical disk dies mid-trade.
@@ -223,10 +261,9 @@ This fulfills the trader's request for a secondary high-speed data drive. Behind
 🔑 Task 4: Customize the installation
 ======================================
 
-Navigate to **Advanced Options**, then select **Cloud Configuration**. To ensure the trading system have all the required settings and packages installed.
+Navigate to **Advanced Options**, then select **Cloud Configuration**, to make sure the trading system comes up with all the required settings and packages installed.
 
-
-On 'User Data Template' select 'prod/prod'.
+In **User Data Template**, select <b class="highlightcopy">prod/prod</b>.
 
 
 The trading desk's firewall team has one more demand: the engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
@@ -247,26 +284,27 @@ Cloud-init applies both on first boot — <b class="highlightcopy">algo-trader-0
 
 > [!NOTE]
 > This is **cloud-init** — the same industry-standard mechanism used by every major public cloud.
-> In a real case scenario there will be more complete automation and dedicated templates for this server's purpose..
+> In a real-case scenario there would be more complete automation and dedicated templates for this server's purpose.
 
 
 📍 Task 5: Choose where the engine is allowed to run
 ====================================================
 
 
-Since this is a mixed environment cluster, lets make sure the VM runs only on production nodes.
+Since this is a mixed-environment cluster, let's make sure the VM runs only on production nodes.
 
-- Let's click on 'Node Scheduling', SUSE Virtualization offers three choices:
+Click on **Node Scheduling** — SUSE Virtualization offers three choices:
 
-  - **Any available node** — the Kubernetes scheduler choses where to place the VM, and **live migration stays enabled**
-  - **Specific node** — pin the VM to one node (no migration possible)
-  - **Scheduling rules** — affinity rules based on node labels (GPU capability, NUMA topology, network zone…)
+- **Any available node** — the Kubernetes scheduler chooses where to place the VM, and **live migration stays enabled**
+- **Specific node** — pin the VM to one node (no migration possible)
+- **Scheduling rules** — affinity rules based on node labels (GPU capability, NUMA topology, network zone…)
 
-- Select 'Run virtual machine on node(s) matching scheduling rules'
-- Click on 'Add Node Selector'
-- Click on 'Add Rule'
-  - Key: stage
-  - Value: prod
+Configure the production rule:
+
+1. Select **Run virtual machine on node(s) matching scheduling rules**
+2. Click **Add Node Selector**, then **Add Rule**:
+   - **Key**: <b class="highlightcopy">stage</b>
+   - **Value**: <b class="highlightcopy">prod</b>
 
 Click **Create** to initialize the deployment.
 
@@ -295,7 +333,7 @@ Thanks to the fixed address you injected, there is no hunting for IPs. Switch to
 until nc -zv -w 1 192.168.122.50 22 >/dev/null 2>&1; do echo "Waiting for the calculation engine..."; sleep 5; done; echo "Engine is on the network."
 ```
 
-Establish the secure connection and verify the secondary  data volume is successfully attached to the system::
+Establish the secure connection and verify the secondary data volume is successfully attached to the system:
 
 ```bash,run
 ssh -o StrictHostKeyChecking=accept-new  sles@192.168.122.50 lsblk
@@ -344,7 +382,7 @@ You should recognize `market-data-vol` in the list — a banking data drive, exp
 - **Consistency by construction.** Golden images plus cloud-init mean every engine the quants request boots identical, configured, and ready.
 - **No stranded storage.** Volumes are carved from the shared Longhorn pool on demand — no more waiting for SAN LUN allocations.
 
-<div class="storybox">
+<div id="302" class="story">
 
 You radio back to the trading floor. *"Your engine is online and the data volume is attached."* The crisis is averted — but the day is far from over.
 

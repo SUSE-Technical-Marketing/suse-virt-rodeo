@@ -52,14 +52,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -68,11 +68,39 @@ enhanced_loading: null
   }
   .highlightcopy { color: white; font-weight: bold; padding: 0 10px; }
   img.logos { border-radius: 10px; }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/06-chapter-img.png"/>
 
-<div class="storybox">
+<div id="601" class="story">
 
 The next morning, the exhausted silence of the night shift is abruptly broken by a muffled sob coming from the junior database administrator's desk.
 
@@ -109,14 +137,24 @@ You step up to his terminal. It is time to turn back the clock. But you must be 
 The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 
 
@@ -188,7 +226,7 @@ Verify the file's existence:
 cat /home/opensuse/ledger.txt
 ```
 
-<div class="storybox">
+<div id="602" class="story">
 
 `CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED`
 
@@ -245,7 +283,7 @@ From now on the platform backs the ledger up to the NFS vault every five hours, 
 🏋️ Bonus Drills — see the machinery behind the safety net (optional)
 ======================================================================
 
-- **See the replication with your own eyes.** Open the **Longhorn** dashboard (**Advanced > Longhorn**, as in Chapter 1), go to the **Volume** page, and click any volume. The diagram shows its replicas spread across different nodes — one node can burn down and the ledger keeps serving.
+- **See the replication with your own eyes.** Open the **Longhorn** dashboard (via **Support > Access Embedded Longhorn UI**, as in Chapter 1), go to the **Volume** page, and click any volume. The diagram shows its replicas spread across different nodes — one node can burn down and the ledger keeps serving.
 
 - **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object — as is your new backup schedule:
 

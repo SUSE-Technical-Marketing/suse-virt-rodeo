@@ -52,14 +52,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -68,11 +68,39 @@ enhanced_loading: null
   }
   .highlightcopy { color: white; font-weight: bold; padding: 0 10px; }
   img.logos { border-radius: 10px; }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/07-chapter-img.png"/>
 
-<div class="storybox">
+<div id="701" class="story">
 
 A sudden, aggressive shift in global interest rates sends the financial markets into a chaotic frenzy. <b class="bank">Vertex Trust Bank</b>'s risk analysis algorithms are screaming for more compute capacity to process the incoming flood of volatile market data.
 
@@ -91,7 +119,7 @@ You crack your knuckles. What the bank needs is a **golden blueprint**: define t
 ## 🎯 Your Quest Objectives
 
 1. Forge the golden template
-2. Stamp out the initial fleet
+2. Recreate the template from the command line
 3. Scale the fleet under pressure
 4. Stand the fleet down
 
@@ -103,14 +131,24 @@ You crack your knuckles. What the bank needs is a **golden blueprint**: define t
 The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 
 
@@ -119,73 +157,68 @@ Password:
 
 
 
-We need to create a template to speed up the deployment of Virtual Machines and standardize, we are going to navigate to **Advanced > Templates** and click **Create**.
+You need a template that speeds up the deployment of virtual machines and standardizes them. Navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
 
-Please fill in the following details:
+- **Namespace**: <b class="highlightcopy">prod</b>
+- **Template Name**: <b class="highlightcopy">prod-basic</b>
 
-- Namespace: harvester-public
-- Template Name: prod-basic
-
-We need to minimize resource usage and all the VMs should be available by using the production SSH Key which is securely guarded.
+We need to minimize resource usage, and all the VMs should be reachable using the production SSH key, which is securely guarded.
 
 - Basics:
-  - CPU: '1'
-  - Memory: '1'
-  - SSHKey: 'prod/default'
+  - **CPU**: <b class="highlightcopy">1</b>
+  - **Memory**: <b class="highlightcopy">1</b>
+  - **SSHKey**: <b class="highlightcopy">prod/default</b>
 
-Our default base OS is SLES 16
+Our default base OS is SLES 16.
 
 - Volumes:
-  - Image: 'official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2'
+  - **Image**: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
 
-We want production servers to be offering their services on the production service network.
+We want production servers to offer their services on the production service network.
 
 - Networks:
-  - Network: 'prod/service'
+  - **Network**: <b class="highlightcopy">prod/service</b>
 
-All production VMs should run only on production ready hosts
+All production VMs should run only on production-ready hosts.
 
 - Node Scheduling:
-  - Run virtual machine on node(s) matching scheduling rules
-    - Click on 'Add Node Selector' --> click on 'Add Rule'
-      - Key: stage
-      - Value: prod
+  1. Select **Run virtual machine on node(s) matching scheduling rules**
+  2. Click **Add Node Selector**, then **Add Rule**:
+     - **Key**: <b class="highlightcopy">stage</b>
+     - **Value**: <b class="highlightcopy">prod</b>
 
 We want the VMs to be properly labeled:
 
 - Labels:
-  - Click 'Add Label'
-    - Key: 'stage'
-    - Value: 'prod'
+  - Click **Add Label**:
+    - **Key**: <b class="highlightcopy">stage</b>
+    - **Value**: <b class="highlightcopy">prod</b>
 
-Finally, we want all production machines to be standardized on a set of packages and settings
+Finally, we want all production machines standardized on a set of packages and settings:
 
 - Advanced Options:
-  - User Data Template: 'prod/prod'
+  - **User Data Template**: <b class="highlightcopy">prod/prod</b>
 
-To finalize just click on 'Create'
+To finalize, click **Create**.
 
-Can you imagine filling up all this details everytime? People would give up and then the environment will be filled up with inconsistency. Inconsistency makes further automation even more difficult.
+Can you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency — and inconsistency makes further automation even more difficult.
 
 
 > [!NOTE]
 > Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage — a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
 
-🏭 Task 2: Doing the same but without mouse
-===========================================
+🏭 Task 2: Recreate the template from the command line
+=======================================================
 
-As we mentioned earlier SUSE Virtualization runs on Kubernetes, in Kubernetes *everything* is a defined resource, you may have noticed already many of the menus have an 'Edit as YAML' bottom next to 'Create', what you see there is the YAML formatted definition of the object you are creating with the UI and is what we can pass to kubectl and other tools to automate the management of different resources in the Kubernetes cluster, this includes Virtual machines, templates, etc...
+As mentioned earlier, SUSE Virtualization runs on Kubernetes, and in Kubernetes *everything* is a defined resource. You may have noticed that many of the menus have an **Edit as YAML** button next to **Create** — what you see there is the YAML-formatted definition of the object you are creating with the UI, and it is exactly what you can pass to kubectl and other tools to automate the management of resources in the Kubernetes cluster: virtual machines, templates, and more.
 
+Since everything can be defined in a text file, it is easy to keep track of changes and to automate operations — no need to click-click every time. For certain tasks the UI does make things much simpler (Virtual Machine Templates are one of them), but let's see how to create the very same template from the command line.
 
-Since everything can be defined with a text file it is easy to keep track of changes and to automate operations, no need to click-click everytime although for certain tasks the UI makes them much simpler, this is the case of the Virtual Machine Templates, but we are going to see an example of how to create the same template we created from the command line.
+First delete the template you just created. Go to **Advanced > Templates**, and on the row showing <b class="highlightcopy">prod/prod-basic</b> click the **three dots** and select **Delete**.
 
-Let's first delete the template we created. Go to 'Advanced' --> 'Templates', and on the first line where you see 'prod/prod-basic' click on the ... and select 'Delete'.
+Now let's recreate it.
 
-
-Now lets recreate it again.
-
-
-For clarity we are going to first create a file with the resource definition formatted in YAML, run the following command on the [button label="Cluster Terminal" variant="success"](tab-1)
+For clarity, first create a file with the resource definition formatted in YAML — run the following command in the [button label="Cluster Terminal" variant="success"](tab-1):
 
 
 ```bash,run
@@ -280,39 +313,36 @@ spec:
 EOF
 ```
 
-This could be stored in a GIT repository to keep track of changes and also to incorporate it into a CI/CD process to automatically apply changes made to it.
+This file could be stored in a Git repository to keep track of changes, and also to feed a CI/CD process that automatically applies changes made to it.
 
-
-Now on the next step we are going to create the resource, run the following command:
+Now create the resource — run the following command:
 
 ```bash,run
-kubectl  --kubeconfig .rodeo/harvester-kubeconfig apply -f virtualMachineTemplate_prod-basic.yaml
+kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f virtualMachineTemplate_prod-basic.yaml
 ```
 
-It should have created the two resources needed to setup the template.
+It creates the two resources needed to set up the template.
 
-
-Navigate again to the Templates list and see if it's there and has all the same details.
+Navigate back to the **Templates** list and check that the template is there, with all the same details.
 
 
 
 📈 Task 3: Scale the fleet under pressure
 =========================================
 
-Now because the template already exists, deploying multiple servers is just a few clicks process:
+Because the template already exists, deploying multiple servers takes just a few clicks.
 
-Go to Virtual Machines and click **Create** and fill in the following details:
+Go to **Virtual Machines** and click **Create**, then fill in the following details:
 
-- Select **Multiple Instance**
-- **Namespace**: 'prod'
-- **Name Prefix**: <b class="highlightcopy">appcluster</b>
-- **Count**: <b class="highlightcopy">2</b>
-- Tick **Use VM Template**
-- **Template**: <b class="highlightcopy">prod/prod-basic</b>
-- click on 'Create'
+1. Select **Multiple Instance**
+2. Set the **Namespace** to <b class="highlightcopy">prod</b>
+3. Set the **Name Prefix** to <b class="highlightcopy">appcluster</b>
+4. Set the **Count** to <b class="highlightcopy">2</b>
+5. Tick **Use VM Template** and set the **Template** to <b class="highlightcopy">prod/prod-basic</b>
+6. Click **Create**
 
 
-<div class="storybox">
+<div id="702" class="story">
 
 The risk analysis team begins feeding data into the expanded fleet, stabilizing the bank's market position just in time.
 
@@ -322,23 +352,23 @@ The risk analysis team begins feeding data into the expanded fleet, stabilizing 
 🧹 Task 4: Stand the fleet down
 ===============================
 
-<div class="storybox">
+<div id="703" class="story">
 
-The market surge subsides, the virtual machines sit idle waiting for the next wave, but, will it be today? tomorrow? next month? waiting is more painful for this noble servers than doing all the number crunching
+The market surge subsides. The virtual machines sit idle, waiting for the next wave — but will it come today? Tomorrow? Next month? For these noble servers, waiting is more painful than doing all the number crunching.
 
 </div>
 
-We no longer need so many virtual machines, let's delete them at once, don't worry if they are still starting..
+You no longer need so many virtual machines — delete them all at once (don't worry if they are still starting).
 
-Inside the 'Virtual Machines' section:
+In the **Virtual Machines** section:
 
-1. Tick the **checkboxes** next to all the new virtual machines we have created.
-2. Click **Delete**, tick 'Delete All' and then click 'Delete'
+1. Tick the **checkboxes** next to all the new virtual machines you created
+2. Click **Delete**, tick **Delete All**, and click **Delete**
 
 
-<div class="storybox">
+<div id="704" class="story">
 
-The suffering of this noble virtual machines has stopped, you see the flames my child? now they rest in valhala.
+The suffering of these noble virtual machines has stopped. You see the flames, my child? Now they rest in Valhalla.
 
 </div>
 
@@ -359,11 +389,11 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,vir
 - **Retrieve the template definition in yaml format**:
 
 ```bash,run
-kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic > template_prod-basic.yaml
-kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplatesversions -n prod prod-basic >> template_prod-basic.yaml
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic -o yaml > template_prod-basic.yaml
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplateversions -n prod prod-basic -o yaml >> template_prod-basic.yaml
 ```
 
-You can examing the file 'template_prod-basic.yaml, it contains a similar output of what used to generate them in task 2.
+You can examine the file `template_prod-basic.yaml` — it contains a definition similar to the one you used to create the template in Task 2.
 
 
 

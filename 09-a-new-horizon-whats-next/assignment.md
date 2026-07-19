@@ -50,14 +50,14 @@ enhanced_loading: null
     color: white;
     border-radius: 10px 25px 10px 25px;
   }
-  .storybox {
+  .story {
     border-left: 5px solid #d4af37;
     border-radius: 0 15px 15px 0;
     background: linear-gradient(135deg, rgba(48,186,120,.10), rgba(212,175,55,.10));
     padding: 15px 20px;
     margin: 15px 0;
   }
-  .storybox em { color: #d4af37; }
+  .story em { color: #d4af37; }
   .missionbox {
     border: 2px dashed #30ba78;
     border-radius: 15px;
@@ -66,11 +66,39 @@ enhanced_loading: null
   }
   .highlightcopy { color: white; font-weight: bold; padding: 0 10px; }
   img.logos { border-radius: 10px; }
+  /* compact credential boxes (scoped: only code blocks inside <div class="cred">) */
+  .cred > div { margin: 0; }
+  .cred .my-3 {
+    display: flex;
+    flex-direction: row-reverse;   /* put the copy bar on the right */
+    align-items: stretch;
+    width: fit-content;
+    min-width: 14em;
+    margin: 4px 0;
+    overflow: hidden;
+  }
+  .cred .my-3 > div:first-child {  /* the bar holding the copy button */
+    height: auto;
+    padding: 2px 8px;
+    border-bottom: none;
+    border-left: 1px solid rgba(255,255,255,.25);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+  .cred .my-3 > pre {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 2px !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+  }
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/09-chapter-img.png"/>
 
-<div class="storybox">
+<div id="901" class="story">
 
 The dust has finally settled. The datacenter is quiet, bathed in the soft green glow of the <b class="virt">SUSE Virtualization</b> nodes operating in perfect harmony.
 
@@ -105,14 +133,24 @@ Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digit
 The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
 
 Username:
+
+<div class="cred">
+
 ```txt
 admin
 ```
 
+</div>
+
 Password:
+
+<div class="cred">
+
 ```txt
 [[ Instruqt-Var key="RANCHER_PASSWORD" hostname="kvm-host" ]]
 ```
+
+</div>
 
 
 
@@ -136,7 +174,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 🏗️ Epilogue Quest — Sarah's last request (optional)
 ====================================================
 
-<div class="storybox">
+<div id="902" class="story">
 
 You are halfway to the elevator when Sarah catches up with you, tablet in hand. *"One more thing, Architect. The mobile banking team saw what you built. They want their own Kubernetes cluster for the new customer portal — and they want it running **on** this platform, not beside it. Can it do that?"*
 
@@ -240,11 +278,11 @@ EOF
 ```
 
 ```bash
-kubectl --kubeconfig .rodeo/harvester-kubeconfig  rollout status deployment/geeko-dash -n vertex-ops
-kubectl --kubeconfig .rodeo/harvester-kubeconfig get svc geeko-dash -n vertex-ops
+kubectl rollout status deployment/geeko-dash -n vertex-ops
+kubectl get svc geeko-dash -n vertex-ops
 ```
 
-The `EXTERNAL-IP` comes straight out of <b class="highlightcopy">vertex-ippool</b> (`192.168.122.200–220`) — the address reserve you funded back in Chapter 2. The loop is closed. Verify the dashboard answers, from the [button label="Cluster Terminal" variant="success"](tab-1) (replace with the external IP you saw):
+The `EXTERNAL-IP` comes straight out of <b class="highlightcopy">vertex-ippool</b> (`192.168.122.200–220`) — the address reserve set aside for the platform's load balancers. The loop is closed. Verify the dashboard answers, from the [button label="Cluster Terminal" variant="success"](tab-1) (replace with the external IP you saw):
 
 ```bash
 curl -s http://EXTERNAL_IP/health
@@ -274,7 +312,7 @@ Every layer open source. Every layer one bill. Sarah's mobile banking team gets 
 
 - 💬 Talk to your <b class="suse">SUSE</b> representative about what this story would look like with **your** legacy cluster in the darkest corner of the room.
 
-<div class="storybox">
+<div id="903" class="story">
 
 It has been an absolute honor working alongside you, **Architect**.
 
