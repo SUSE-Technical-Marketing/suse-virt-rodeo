@@ -167,8 +167,8 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 
 </div>
 
-> [!Disclaimer]
-> This lab is meant to be educational and not to provide instructions on how to configure a production environment for a 'bank', most decisions made are with the limitations and purpose of this environment.
+> [!NOTE]
+> Disclaimer: This lab is meant to be educational and not to provide instructions on how to configure a production environment for a 'bank', most decisions made are with the limitations and purpose of this environment.
 
 
 🔐 Your Architect Credentials
@@ -277,7 +277,15 @@ Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with
 From here you can manage multiple SUSE Virtualization clusters. Import the existing one:
 
 1. Click **Import Existing**
-2. Set the **Cluster Name** to <b class="highlightcopy">mysusevirt1</b>
+2. Set the **Cluster Name** to
+<div class="cred">
+
+```txt
+mysusevirt1
+```
+
+</div>
+
 3. Click **Create**
 
 A new screen appears. Notice the state next to the cluster name: **Pending** — it is waiting for the cluster to register.
