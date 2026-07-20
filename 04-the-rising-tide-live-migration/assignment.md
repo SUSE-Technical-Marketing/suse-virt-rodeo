@@ -87,6 +87,15 @@ enhanced_loading: null
     border-radius: 0;
     display: flex;
     align-items: center;
+    background-color: #30ba78;
+  }
+  .cred .my-3 > div:first-child,
+  .cred .my-3 > div:first-child * {
+    color: #fff !important;
+  }
+  .cred .my-3 > div:first-child:hover,
+  .cred .my-3 > div:first-child:hover * {
+    font-weight: bold;
   }
   .cred .my-3 > pre {
     flex: 1 1 auto;
