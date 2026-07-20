@@ -91,11 +91,21 @@ enhanced_loading: null
     height: auto;
     padding: 2px 8px;
     border-bottom: none;
-    border-left: 1px solid rgba(255,255,255,.25);
+    border-left: 1px solid white;
     border-radius: 0;
     display: flex;
     align-items: center;
+    background-color: #30ba78;   /* new: green copy-bar background */
   }
+  .cred .my-3 > div:first-child,
+  .cred .my-3 > div:first-child * {
+    color: #fff !important;
+  }
+  .cred .my-3 > div:first-child:hover,
+  .cred .my-3 > div:first-child:hover * {
+    font-weight: bold;
+  }
+
   .cred .my-3 > pre {
     flex: 1 1 auto;
     margin: 0 !important;
