@@ -102,6 +102,7 @@ enhanced_loading: null
     border-radius: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: #30ba78;
   }
   .cred .my-3 > div:first-child,
@@ -202,7 +203,15 @@ For example, let's add a new image:
    - **Namespace**: <b class="highlightcopy">official-images</b>
    - **Name**: filled in automatically
    - Basics:
-     - **URL**: <b class="highlightcopy">http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2</b>
+     - **URL**:
+<div class="cred">
+
+```txt
+http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2
+```
+
+</div>
+
 2. Click **Create**
 
 The image you just created appears in the list with the state **Downloading** — you can follow it in the progress column.
@@ -224,13 +233,46 @@ Navigate to **Virtual Machines** and click the **Create** button.
 
 Configure the engine exactly as the quants need it:
 
-- **Name**: <b class="highlightcopy">algo-trader-01</b>
-- **Namespace**: <b class="highlightcopy">prod</b>
+- **Name**:
+<div class="cred">
+
+```txt
+algo-trader-01
+```
+
+</div>
+
+- **Namespace**:
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
+
 
   If the namespace does not exist, create it.
 
-- **CPU**: <b class="highlightcopy">2</b>
-- **Memory**: <b class="highlightcopy">2 GiB</b>
+- **CPU**:
+<div class="cred">
+
+```txt
+2
+```
+
+</div>
+
+
+- **Memory**:
+<div class="cred">
+
+```txt
+2
+```
+
+</div>
+
 
   Notice the very low resources — our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
 
@@ -238,8 +280,22 @@ Configure the engine exactly as the quants need it:
 
 Now assign it a label — go to the **Labels** tab and click **Add Label**:
 
-- **Key**: <b class="highlightcopy">stage</b>
-- **Value**: <b class="highlightcopy">prod</b>
+- **Key**:
+<div class="cred">
+
+```txt
+stage
+```
+
+</div>
+- **Value**:
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
 
 This will help us manage the VM with future automation.
 
@@ -252,12 +308,34 @@ Do **not** click Create yet — the trader also needs his data volume.
 Under the **Volumes** tab, fill in the following details:
 
 - **Image**: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
-- **Size**: <b class="highlightcopy">5 GiB</b>
+- **Size**:
+<div class="cred">
+
+```txt
+5
+```
+
+</div>
 
 Then add a new volume by clicking **Add Volume**, and fill in the following details:
 
-- **Name**: <b class="highlightcopy">market-data-vol</b>
-- **Size**: <b class="highlightcopy">1 GiB</b>
+- **Name**:
+<div class="cred">
+
+```txt
+market-data-vol
+```
+
+</div>
+
+- **Size**:
+<div class="cred">
+
+```txt
+1
+```
+
+</div>
 
 Now wire the engine into the bank's network. Under the **Networks** tab:
 
@@ -312,8 +390,22 @@ Configure the production rule:
 
 1. Select **Run virtual machine on node(s) matching scheduling rules**
 2. Click **Add Node Selector**, then **Add Rule**:
-   - **Key**: <b class="highlightcopy">stage</b>
-   - **Value**: <b class="highlightcopy">prod</b>
+   - **Key**:
+<div class="cred">
+
+```txt
+stage
+```
+
+</div>
+   - **Value**:
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
 
 Click **Create** to initialize the deployment.
 

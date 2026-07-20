@@ -81,12 +81,13 @@ enhanced_loading: null
   }
   .cred .my-3 > div:first-child {  /* the bar holding the copy button */
     height: auto;
-    padding: 2px 8px;
+    padding: 4px 8px;
     border-bottom: none;
     border-left: 1px solid rgba(255,255,255,.25);
     border-radius: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: #30ba78;
   }
   .cred .my-3 > div:first-child,
