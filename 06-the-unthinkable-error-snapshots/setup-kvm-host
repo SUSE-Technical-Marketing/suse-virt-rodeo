@@ -37,6 +37,11 @@
 # 1) and silently skip VM creation if it never showed up, which breaks a
 # live workshop jumping straight to chapter 6+. Now self-provisions the same
 # image (matched by URL) if missing.
+#
+# FIXED 2026-07-20: same fix as chapter 4 — disk-0's PVC size was 5Gi, which
+# fails with "volume size should be larger than the backing image size". The
+# Leap Micro image's status.virtualSize is 34359738368 bytes (32Gi) despite
+# the actual downloaded file being ~1.5GB. Bumped to 40Gi.
 
 set -uo pipefail
 export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
@@ -141,7 +146,7 @@ metadata:
     stage: prod
   annotations:
     harvesterhci.io/volumeClaimTemplates: |-
-      [{"metadata":{"name":"${VM_NAME}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
+      [{"metadata":{"name":"${VM_NAME}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"40Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
 spec:
   runStrategy: Always
   template:

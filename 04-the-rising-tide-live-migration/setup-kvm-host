@@ -49,6 +49,13 @@
 #     derivable from the image name — the original `longhorn-${IMAGE_NAME}`
 #     guess was wrong).
 #
+# FIXED 2026-07-20: disk-0's PVC size was 5Gi, which failed with "volume size
+# should be larger than the backing image size" — the Leap Micro image's
+# status.virtualSize is 34359738368 bytes (exactly 32Gi) despite the actual
+# downloaded file being ~1.5GB, and Longhorn's admission webhook rejects any
+# PVC smaller than that. Bumped to 40Gi for headroom. Same fix applied to
+# chapter 6's setup-kvm-host (same image, same original 5Gi bug).
+#
 # FIXED 2026-07-17: assignment.md now calls this VM webserver-prod throughout
 # (matches the real cluster object), and the sanity check below explicitly
 # starts it if it's Stopped, since the story requires it Running on arrival.
@@ -69,26 +76,10 @@ SSH_PUBKEY_FILE="/root/.ssh/id_rsa.pub"
 
 log(){ echo ">>> [ch4-setup] $*"; }
 
-# webserver-prod (baked into the image) carries a nodeAffinity requiring
-# stage=prod, migration=yes, network.harvesterhci.io/service=true - live-
-# confirmed 2026-07-20 via the Unschedulable event in the UI. None of the 3
-# nodes carry these labels by default, so without this block the VM never
-# schedules at all.
-#
-# Deliberately label only harvester1 and harvester2, not harvester3: the
-# story needs exactly one non-candidate node so task 3's live migration has
-# a real "this node was never in the running" contrast, and so scheduling
-# isn't trivially "any node works". harvester3 gets stage=dev instead, to
-# mark it as the non-prod node. Idempotent (--overwrite).
-log "labeling harvester1 + harvester2 for webserver-prod's node affinity (harvester3 intentionally excluded) ..."
-for NODE in harvester1 harvester2; do
-  kubectl label node "${NODE}" stage=prod migration=yes network.harvesterhci.io/service=true storage=prod --overwrite \
-    || log "warn: failed to label ${NODE} (non-fatal, but webserver-prod will stay Unschedulable)."
-done
-
-log "labeling harvester3 as the non-prod node ..."
-kubectl label node harvester3 stage=dev storage=dev --overwrite \
-  || log "warn: failed to label harvester3."
+# Node labels for webserver-prod's nodeAffinity (stage=prod/harvester3
+# excluded/network.harvesterhci.io/service=true) now live in
+# track_scripts/setup-kvm-host, since webserver-prod is visible from chapter
+# 1 onward and needs them from the start of the lab, not just by chapter 4.
 
 log "freeing resources: deleting algo-trader-01 from chapter 3 (self-contained, nothing later needs it) ..."
 if kubectl get vm -n "${NS}" algo-trader-01 &>/dev/null; then
@@ -213,7 +204,7 @@ metadata:
     stage: prod
   annotations:
     harvesterhci.io/volumeClaimTemplates: |-
-      [{"metadata":{"name":"${name}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
+      [{"metadata":{"name":"${name}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"40Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
 spec:
   runStrategy: Always
   template:

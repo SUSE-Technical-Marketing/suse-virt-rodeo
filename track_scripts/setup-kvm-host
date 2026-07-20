@@ -74,6 +74,31 @@ while true; do
 done
 echo ">>> All 3 Harvester nodes Ready."
 
+# webserver-prod (pre-baked, visible from chapter 1 onward) and any VM the
+# student places on the prod/service network carry a nodeAffinity requiring
+# stage=prod and network.harvesterhci.io/service=true — the latter is
+# auto-injected by Harvester's own admission webhook onto any VM using that
+# network, not something the student or any script here asks for. None of
+# the 3 nodes carry these labels by default, so without this block
+# webserver-prod (and chapter 3's algo-trader-01) sit Unschedulable from the
+# very start of the lab. Live-confirmed 2026-07-20 via the Unschedulable
+# event in the UI.
+#
+# Deliberately label only harvester1 and harvester2, not harvester3: the
+# story needs exactly one non-candidate node so chapter 4 task 3's live
+# migration has a real "this node was never in the running" contrast, and so
+# scheduling isn't trivially "any node works". harvester3 gets stage=dev
+# instead, to mark it as the non-prod node. Idempotent (--overwrite).
+echo ">>> Labeling harvester1 + harvester2 for prod-network VM scheduling (harvester3 intentionally excluded) ..."
+for NODE in harvester1 harvester2; do
+  kubectl label node "${NODE}" stage=prod migration=yes network.harvesterhci.io/service=true storage=prod --overwrite \
+    || echo "WARN: failed to label ${NODE} (non-fatal, but prod-network VMs will stay Unschedulable)."
+done
+
+echo ">>> Labeling harvester3 as the non-prod node ..."
+kubectl label node harvester3 stage=dev storage=dev --overwrite \
+  || echo "WARN: failed to label harvester3."
+
 # Set static variables now, no need for Rancher to be up yet.
 # RANCHER_TOKEN and the server-url update are deferred to a later chapter's setup
 # so the Rancher wait (7-10 min) does not hit the track-level agent timeout.

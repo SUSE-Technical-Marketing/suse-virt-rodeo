@@ -1,15 +1,236 @@
 #!/bin/bash
-# Challenge 3 solve — intentionally a no-op.
+# Challenge 3 solve — auto-creates algo-trader-01, reproducing tasks 1-5 of
+# the-flash-crash-first-vm via the Harvester/Kubernetes API instead of the UI.
+# Tasks 6-7 (console watch, manual SSH) are pure UI/manual validation with
+# nothing to auto-create.
 #
-# algo-trader-01 is self-contained to this chapter: nothing in chapters 4-9
-# references it, and the host is short on resources, so it does not get
-# pre-provisioned or auto-solved. The student builds it by hand through
-# tasks 1-5 in the SUSE Virtualization UI; check-kvm-host verifies what they
-# built. There is nothing for a Solve button to auto-create here.
+# Field shapes below are live-confirmed 2026-07-20 from a real dump of an
+# algo-trader-01 built by hand through the UI:
+#   - The base OS image is the pre-baked SLES-16.0-Minimal-VM.x86_64-Cloud-GM
+#     image (official-images namespace), found by displayName - not something
+#     this script creates. storageClassName is read from its own
+#     status.storageClassName (per-image lh-<uuid> value, see
+#     [[reference-harvester-crd-schemas]]).
+#   - "User Data Template: prod/prod" (Task 4) is NOT a persisted object
+#     anywhere in the cluster - searched every harvesterhci.io CRD and every
+#     Secret in prod, nothing named prod/prod exists. Whatever the UI does
+#     with that field, it gets consumed directly into a per-VM secret. This
+#     script skips it entirely and embeds the same net cloud-init content
+#     inline instead (qemu-guest-agent install+enable, SSH key, static IP) -
+#     the same working pattern chapter 4/6 already use.
+#   - harvesterhci.io/sshNames annotation is a no-op with inline cloud-init
+#     (confirmed in chapter 4's header) - the KeyPair prod/default's real
+#     public key is read from its own spec.publicKey and embedded directly
+#     via ssh_authorized_keys. The annotation is still set to match what a
+#     UI-built VM looks like, for check-kvm-host's sake.
+#   - Node scheduling: Task 5 has the student add one rule (stage=prod), but
+#     the live object also carries a second, auto-injected rule
+#     (network.harvesterhci.io/service=true) that Harvester's own admission
+#     webhook adds to any VM on the prod/service network. Both are set
+#     explicitly here rather than relying on the webhook to add the second
+#     one for an API-created object.
+#   - resources.requests.memory on a UI-built VM is NOT 2Gi (Harvester
+#     applies its own overcommit ratio - live-confirmed 1365Mi against a UI
+#     VM with limits.memory=2Gi). This script sets requests=limits like
+#     chapter 4/6 do; check-kvm-host was fixed to verify limits.memory
+#     instead of requests.memory for the same reason.
+#   - market-data-vol's PVC gets a random suffix when created via the UI;
+#     this script uses a fixed name instead (still matches check-kvm-host's
+#     prefix-based lookup, which was fixed to tolerate either).
 #
-# algo-trader-01 gets deleted when chapter 4 starts (see
-# 04-the-rising-tide-live-migration/setup-kvm-host) to free the resources
-# chapter 4's own VMs need.
+# Node labels for prod-network scheduling (stage=prod on harvester1/2) live
+# in track_scripts/setup-kvm-host, since webserver-prod needs them from
+# chapter 1 onward — not duplicated here.
+#
+# Idempotent (kubectl create only for the image, kubectl apply for the VM,
+# both no-op if already present).
 
-echo ">>> Nothing to solve for chapter 3 — algo-trader-01 is built by hand via the UI (tasks 1-5)."
+set -uo pipefail
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
+
+NS="prod"
+IMAGE_NS="official-images"
+VM_NAME="algo-trader-01"
+VM_IP="192.168.122.50"
+
+log(){ echo ">>> [ch3-solve] $*"; }
+
+# --- Task 1: openSUSE Leap Micro image (needed by later chapters, not by
+#     algo-trader-01 itself - see chapter 4/6 headers) --------------------
+LEAP_URL="http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+LEAP_DISPLAY_NAME="openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+
+find_leap_image() {
+  kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" \
+    -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.url}{"\n"}{end}' 2>/dev/null \
+    | grep -F "${LEAP_URL}" | awk '{print $1}' | head -n1
+}
+
+log "checking for openSUSE Leap Micro image in ${IMAGE_NS} ..."
+LEAP_IMAGE_NAME="$(find_leap_image)"
+if [ -z "${LEAP_IMAGE_NAME}" ]; then
+  log "not found — creating it ..."
+  cat <<EOF | kubectl create -f -
+apiVersion: harvesterhci.io/v1beta1
+kind: VirtualMachineImage
+metadata:
+  generateName: image-
+  namespace: ${IMAGE_NS}
+spec:
+  sourceType: download
+  displayName: ${LEAP_DISPLAY_NAME}
+  url: ${LEAP_URL}
+EOF
+  sleep 5
+  LEAP_IMAGE_NAME="$(find_leap_image)"
+fi
+
+log "waiting for Leap Micro image ${IMAGE_NS}/${LEAP_IMAGE_NAME:-<pending>} to become Active (up to 10 minutes) ..."
+for _ in $(seq 1 60); do
+  [ -z "${LEAP_IMAGE_NAME}" ] && LEAP_IMAGE_NAME="$(find_leap_image)"
+  if [ -n "${LEAP_IMAGE_NAME}" ]; then
+    LEAP_READY="$(kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" "${LEAP_IMAGE_NAME}" \
+      -o jsonpath='{.status.progress}' 2>/dev/null)"
+    [ "${LEAP_READY}" = "100" ] && break
+  fi
+  sleep 10
+done
+[ "${LEAP_READY:-}" = "100" ] || log "warn: Leap Micro image not Active yet (non-fatal, chapters 4/6 self-provision it if still missing)."
+
+# --- Tasks 2-5: algo-trader-01 VM ------------------------------------------
+if kubectl get vm -n "${NS}" "${VM_NAME}" &>/dev/null; then
+  log "${VM_NAME} already exists, skipping."
+  echo ">>> Challenge 3 solve complete."
+  exit 0
+fi
+
+log "looking up the pre-baked SLES-16 image ..."
+SLES_IMAGE_NAME="$(kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" \
+  -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.displayName}{"\n"}{end}' 2>/dev/null \
+  | grep -F "SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2" | awk '{print $1}' | head -n1)"
+if [ -z "${SLES_IMAGE_NAME}" ]; then
+  log "ERROR: pre-baked SLES-16 image not found in ${IMAGE_NS} — cannot create ${VM_NAME}."
+  exit 0
+fi
+SLES_SC="$(kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" "${SLES_IMAGE_NAME}" \
+  -o jsonpath='{.status.storageClassName}' 2>/dev/null)"
+[ -n "${SLES_SC}" ] || log "warn: could not read storageClassName for ${IMAGE_NS}/${SLES_IMAGE_NAME}; VM creation will likely fail."
+log "using image ${IMAGE_NS}/${SLES_IMAGE_NAME} (storageClass ${SLES_SC:-<empty>})"
+
+log "reading KeyPair prod/default's public key ..."
+SSH_PUBKEY="$(kubectl get keypairs.harvesterhci.io -n "${NS}" default -o jsonpath='{.spec.publicKey}' 2>/dev/null)"
+[ -n "${SSH_PUBKEY}" ] || log "warn: could not read KeyPair prod/default; ${VM_NAME} will come up without student SSH access."
+
+log "creating ${VM_NAME} at ${VM_IP} ..."
+cat <<EOF | kubectl apply -f -
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: ${VM_NAME}
+  namespace: ${NS}
+  labels:
+    stage: prod
+  annotations:
+    harvesterhci.io/volumeClaimTemplates: |-
+      [{"metadata":{"name":"${VM_NAME}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${SLES_IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"${SLES_SC}"}},{"metadata":{"name":"${VM_NAME}-market-data-vol"},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"1Gi"}},"volumeMode":"Block","storageClassName":"harvester-longhorn"}}]
+spec:
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      labels:
+        harvesterhci.io/vmName: ${VM_NAME}
+      annotations:
+        harvesterhci.io/sshNames: '["prod/default"]'
+    spec:
+      hostname: ${VM_NAME}
+      evictionStrategy: LiveMigrateIfPossible
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: stage
+                operator: In
+                values:
+                - prod
+              - key: network.harvesterhci.io/service
+                operator: In
+                values:
+                - "true"
+      domain:
+        cpu:
+          cores: 2
+          sockets: 1
+          threads: 1
+        memory:
+          guest: 2Gi
+        resources:
+          requests:
+            cpu: "2"
+            memory: 2Gi
+          limits:
+            cpu: "2"
+            memory: 2Gi
+        machine:
+          type: q35
+        devices:
+          disks:
+          - name: disk-0
+            bootOrder: 1
+            disk:
+              bus: virtio
+          - name: market-data-vol
+            bootOrder: 2
+            disk:
+              bus: virtio
+          - name: cloudinitdisk
+            disk:
+              bus: virtio
+          interfaces:
+          - name: default
+            model: virtio
+            bridge: {}
+      networks:
+      - name: default
+        multus:
+          networkName: ${NS}/service
+      volumes:
+      - name: disk-0
+        persistentVolumeClaim:
+          claimName: ${VM_NAME}-disk-0
+      - name: market-data-vol
+        persistentVolumeClaim:
+          claimName: ${VM_NAME}-market-data-vol
+      - name: cloudinitdisk
+        cloudInitNoCloud:
+          userData: |
+            #cloud-config
+            package_update: true
+            packages:
+              - qemu-guest-agent
+            runcmd:
+              - [systemctl, enable, --now, qemu-guest-agent.service]
+            ssh_authorized_keys:
+              - ${SSH_PUBKEY}
+          networkData: |
+            version: 2
+            ethernets:
+              enp1s0:
+                addresses:
+                  - ${VM_IP}/24
+                gateway4: 192.168.122.1
+                nameservers:
+                  addresses:
+                    - 192.168.122.1
+EOF
+
+log "waiting for ${VM_NAME} to reach Running phase ..."
+for _ in $(seq 1 60); do
+  PHASE="$(kubectl get vmi -n "${NS}" "${VM_NAME}" -o jsonpath='{.status.phase}' 2>/dev/null)"
+  [ "${PHASE}" = "Running" ] && { log "${VM_NAME}: Running"; break; }
+  sleep 10
+done
+[ "${PHASE:-}" = "Running" ] || log "warn: ${VM_NAME} not Running yet (non-fatal, check the UI)."
+
+echo ">>> Challenge 3 solve complete."
 exit 0

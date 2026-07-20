@@ -38,8 +38,12 @@ else
   CORES="$(kubectl get vm -n "${NS}" "${VM_NAME}" -o jsonpath='{.spec.template.spec.domain.cpu.cores}' 2>/dev/null)"
   [ "${CORES}" = "2" ] || fail "${VM_NAME} has ${CORES:-?} CPU cores, expected 2."
 
-  MEM="$(kubectl get vm -n "${NS}" "${VM_NAME}" -o jsonpath='{.spec.template.spec.domain.resources.requests.memory}' 2>/dev/null)"
-  [ "${MEM}" = "2Gi" ] || fail "${VM_NAME} memory request is '${MEM:-empty}', expected 2Gi."
+  # requests.memory is NOT what the student typed - Harvester's UI applies its
+  # own overcommit ratio there (live-confirmed: a VM created with "Memory: 2
+  # GiB" in the UI ends up with requests.memory=1365Mi). limits.memory is the
+  # field that actually reflects the UI input.
+  MEM="$(kubectl get vm -n "${NS}" "${VM_NAME}" -o jsonpath='{.spec.template.spec.domain.resources.limits.memory}' 2>/dev/null)"
+  [ "${MEM}" = "2Gi" ] || fail "${VM_NAME} memory limit is '${MEM:-empty}', expected 2Gi."
 
   STAGE_LABEL="$(kubectl get vm -n "${NS}" "${VM_NAME}" -o jsonpath='{.metadata.labels.stage}' 2>/dev/null)"
   [ "${STAGE_LABEL}" = "prod" ] || fail "${VM_NAME} label stage='${STAGE_LABEL:-empty}', expected 'prod'."
@@ -59,7 +63,11 @@ else
   VOL_COUNT="$(kubectl get vm -n "${NS}" "${VM_NAME}" -o jsonpath='{.spec.template.spec.volumes}' 2>/dev/null | grep -o 'persistentVolumeClaim' | wc -l | tr -d ' ')"
   [ "${VOL_COUNT}" -ge 2 ] || fail "${VM_NAME} has ${VOL_COUNT} PVC-backed volumes, expected at least 2 (boot disk + market-data-vol)."
 
-  kubectl get pvc -n "${NS}" "${VM_NAME}-market-data-vol" &>/dev/null || fail "PVC ${VM_NAME}-market-data-vol not found."
+  # Harvester's UI always appends a random suffix to volume claim names
+  # (live-confirmed: algo-trader-01-market-data-vol-<random>) - an exact-name
+  # lookup can never match a UI-built VM, so match by prefix instead.
+  kubectl get pvc -n "${NS}" -o name | grep -q "^persistentvolumeclaim/${VM_NAME}-market-data-vol" \
+    || fail "No PVC matching ${VM_NAME}-market-data-vol* found."
 
   PHASE="$(kubectl get vmi -n "${NS}" "${VM_NAME}" -o jsonpath='{.status.phase}' 2>/dev/null)"
   [ "${PHASE}" = "Running" ] || fail "${VM_NAME} VMI phase is '${PHASE:-empty}', expected Running."
