@@ -75,15 +75,20 @@ log(){ echo ">>> [ch4-setup] $*"; }
 # nodes carry these labels by default, so without this block the VM never
 # schedules at all.
 #
-# Deliberately label only harvester1 and harvester3, not harvester2: the
+# Deliberately label only harvester1 and harvester2, not harvester3: the
 # story needs exactly one non-candidate node so task 3's live migration has
 # a real "this node was never in the running" contrast, and so scheduling
-# isn't trivially "any node works". Idempotent (--overwrite).
-log "labeling harvester1 + harvester3 for webserver-prod's node affinity (harvester2 intentionally excluded) ..."
-for NODE in harvester1 harvester3; do
+# isn't trivially "any node works". harvester3 gets stage=dev instead, to
+# mark it as the non-prod node. Idempotent (--overwrite).
+log "labeling harvester1 + harvester2 for webserver-prod's node affinity (harvester3 intentionally excluded) ..."
+for NODE in harvester1 harvester2; do
   kubectl label node "${NODE}" stage=prod migration=yes network.harvesterhci.io/service=true --overwrite \
     || log "warn: failed to label ${NODE} (non-fatal, but webserver-prod will stay Unschedulable)."
 done
+
+log "labeling harvester3 as the non-prod node ..."
+kubectl label node harvester3 stage=dev --overwrite \
+  || log "warn: failed to label harvester3."
 
 log "freeing resources: deleting algo-trader-01 from chapter 3 (self-contained, nothing later needs it) ..."
 if kubectl get vm -n "${NS}" algo-trader-01 &>/dev/null; then
