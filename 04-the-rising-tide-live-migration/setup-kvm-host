@@ -69,6 +69,22 @@ SSH_PUBKEY_FILE="/root/.ssh/id_rsa.pub"
 
 log(){ echo ">>> [ch4-setup] $*"; }
 
+# webserver-prod (baked into the image) carries a nodeAffinity requiring
+# stage=prod, migration=yes, network.harvesterhci.io/service=true - live-
+# confirmed 2026-07-20 via the Unschedulable event in the UI. None of the 3
+# nodes carry these labels by default, so without this block the VM never
+# schedules at all.
+#
+# Deliberately label only harvester1 and harvester3, not harvester2: the
+# story needs exactly one non-candidate node so task 3's live migration has
+# a real "this node was never in the running" contrast, and so scheduling
+# isn't trivially "any node works". Idempotent (--overwrite).
+log "labeling harvester1 + harvester3 for webserver-prod's node affinity (harvester2 intentionally excluded) ..."
+for NODE in harvester1 harvester3; do
+  kubectl label node "${NODE}" stage=prod migration=yes network.harvesterhci.io/service=true --overwrite \
+    || log "warn: failed to label ${NODE} (non-fatal, but webserver-prod will stay Unschedulable)."
+done
+
 log "freeing resources: deleting algo-trader-01 from chapter 3 (self-contained, nothing later needs it) ..."
 if kubectl get vm -n "${NS}" algo-trader-01 &>/dev/null; then
   kubectl delete vm -n "${NS}" algo-trader-01 --wait=false 2>/dev/null || true
