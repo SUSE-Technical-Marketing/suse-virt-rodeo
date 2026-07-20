@@ -156,7 +156,7 @@ IMAGE_NAME="$(find_image)"
 
 if [ -z "${IMAGE_NAME}" ]; then
   log "not found (chapter 3 task 1 likely skipped) — creating it directly ..."
-  cat <<EOF | kubectl apply -f -
+  cat <<EOF | kubectl create -f -
 apiVersion: harvesterhci.io/v1beta1
 kind: VirtualMachineImage
 metadata:
@@ -223,6 +223,30 @@ spec:
     spec:
       hostname: ${name}
       evictionStrategy: LiveMigrateIfPossible
+      # Pin to a stage=prod node (harvester1/harvester2 only, set up earlier in
+      # this script) but never the same node webserver-prod is currently on,
+      # so daily-batch-processor always lands on the *other* prod node. Uses
+      # a live pod-label match (harvesterhci.io/vmName=webserver-prod) rather
+      # than a hardcoded node name, since which prod node webserver-prod is on
+      # can change (e.g. after chapter 4 task 3's live migration re-runs).
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: stage
+                operator: In
+                values:
+                - prod
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: harvesterhci.io/vmName
+                operator: In
+                values:
+                - webserver-prod
+            topologyKey: kubernetes.io/hostname
       domain:
         cpu:
           cores: 2

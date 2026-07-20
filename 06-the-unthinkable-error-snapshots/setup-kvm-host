@@ -89,7 +89,7 @@ IMAGE_NAME="$(find_image)"
 
 if [ -z "${IMAGE_NAME}" ]; then
   log "not found (chapter 3 task 1 likely skipped) — creating it directly ..."
-  cat <<EOF | kubectl apply -f -
+  cat <<EOF | kubectl create -f -
 apiVersion: harvesterhci.io/v1beta1
 kind: VirtualMachineImage
 metadata:
