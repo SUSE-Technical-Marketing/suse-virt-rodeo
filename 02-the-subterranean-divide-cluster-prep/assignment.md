@@ -198,7 +198,18 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), select 
 Now create its counterpart for development:
 
 1. Click **Create**
-2. Set the **Name** to <b class="highlightcopy">dev</b>
+2. Set the **Name** to:
+
+<div class="cred">
+
+```txt
+dev
+```
+
+</div>
+
+
+
 3. Click **Create**
 
 Two workspaces now stand ready: <b class="highlightcopy">prod</b>, already provisioned, and <b class="highlightcopy">dev</b>, freshly created — each with its own quotas, policies, and access controls.
@@ -242,8 +253,30 @@ The development team does not need banking-grade replication for their sandboxes
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), under **Advanced > Storage Classes**:
 
 1. Click **Create**
-2. Set the **Name** to <b class="highlightcopy">harvester-longhorn-1rep</b>
-3. Set **Number Of Replicas** to <b class="highlightcopy">1</b>
+2. Set the **Name** to:
+
+<div class="cred">
+
+```txt
+harvester-longhorn-1rep
+```
+
+</div>
+
+
+
+
+3. Set **Number Of Replicas** to:
+
+<div class="cred">
+
+```txt
+1
+```
+
+</div>
+
+
 4. Click **Create**
 
 Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas — production ledgers) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.
