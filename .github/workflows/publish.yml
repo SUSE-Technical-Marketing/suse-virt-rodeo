@@ -46,7 +46,18 @@ jobs:
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
 
+      - name: DEBUG - dump CLI help (temporary, remove once auth mechanism confirmed)
+        run: |
+          instruqt --help
+          echo "---"
+          instruqt track --help
+          echo "---"
+          instruqt track push --help
+          echo "---"
+          instruqt login --help 2>&1 || true
+          echo "INSTRUQT_TOKEN secret is set: ${{ secrets.INSTRUQT_TOKEN != '' }}"
+
       - name: Push track to Instruqt
         env:
           INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
-        run: instruqt track push --token "${INSTRUQT_TOKEN}" --force
+        run: instruqt track push --force
