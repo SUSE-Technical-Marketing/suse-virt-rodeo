@@ -7,11 +7,11 @@
 # no chapter created it, confirmed via a live `kubectl get vm -A` that showed
 # only webserver-prod pre-baked on the cluster. This script closes that gap.
 #
-# Boots from the openSUSE Leap Micro image (official-images), same convention
-# as daily-batch-processor (chapter 4) — SSH user `opensuse`. Deliberately
-# does NOT install/start the QEMU guest agent: task 1's own note says the
-# snapshot here is crash-consistent by design, and the guest agent is
-# introduced later (chapter 8) for contrast. Don't add it here.
+# Boots from the SLES15-SP7 Minimal VM image (official-images), same
+# convention as daily-batch-processor (chapter 4) — SSH user `sles`.
+# Deliberately does NOT install/start the QEMU guest agent: task 1's own note
+# says the snapshot here is crash-consistent by design, and the guest agent
+# is introduced later (chapter 8) for contrast. Don't add it here.
 #
 # Field shapes and known gotchas match chapter 4's setup-kvm-host exactly
 # (both scripts provision a VM the same way) — see that script's header and
@@ -25,28 +25,24 @@
 # scripts' convention: a failure here should never block the track, but the
 # chapter will be unworkable until this succeeds at least once.
 #
-# KNOWN RISK — not yet live-tested (new script):
-#   - Whether the openSUSE Leap Micro image honors NoCloud cloud-init for
-#     static network-data, same open question as chapter 4's VM.
+# KNOWN RISK from the old image, now resolved: the SLES cloud-image family
+# (confirmed via chapter 3's pre-baked SLES-16 image and algo-trader-01) is
+# cloud-init-first and honors NoCloud static network-data correctly.
 #   - Namespace: placed in prod by pattern-match with webserver-prod (both
 #     are "core production systems" in the story) — not independently
 #     verified since transaction-ledger never existed on the cluster before.
 #
-# FIXED 2026-07-17: same fix as chapter 4 — this used to wait up to 10
-# minutes for the openSUSE Leap Micro image (only created by chapter 3, task
-# 1) and silently skip VM creation if it never showed up, which breaks a
-# live workshop jumping straight to chapter 6+. Now self-provisions the same
-# image (matched by URL) if missing.
+# FIXED 2026-07-17: this used to wait up to 10 minutes for the staged image
+# (only created by chapter 3, task 1) and silently skip VM creation if it
+# never showed up, which breaks a live workshop jumping straight to chapter
+# 6+. Now self-provisions the same image (matched by URL) if missing.
 #
-# FIXED 2026-07-20: same fix as chapter 4 — disk-0's PVC size was 5Gi, which
-# fails with "volume size should be larger than the backing image size". The
-# Leap Micro image's status.virtualSize is 34359738368 bytes (32Gi) despite
-# the actual downloaded file being ~1.5GB. Bumped to 40Gi.
-#
-# FIXED 2026-07-21: same fix as chapter 4 — this fallback's Leap Micro image
-# defaulted to 3 replicas, meaning the backing image had to replicate to 3
-# nodes before transaction-ledger's disk-0 became attachable. Pinned to 1
-# replica (disposable story VM, doesn't need banking-grade replication).
+# FIXED 2026-07-20/21 then REPLACED 2026-07-21: same story as chapter 4's
+# setup-kvm-host (see its header for the full breakdown) — disk-0's PVC size
+# of 5Gi failed against the (then) openSUSE Leap Micro image's 32GiB
+# virtualSize, and pinning replicas to 1 still wasn't enough since this lab's
+# 3 nodes don't have 32GiB+ free each. Switched to SLES15-SP7-Minimal-VM;
+# disk-0 is back to 5Gi accordingly.
 
 set -uo pipefail
 export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
@@ -85,8 +81,8 @@ else
   SSH_PUBKEY="$(cat "${SSH_PUBKEY_FILE}")"
 fi
 
-IMAGE_URL="http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
-IMAGE_DISPLAY_NAME="openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+IMAGE_URL="http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
+IMAGE_DISPLAY_NAME="SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
 
 find_image() {
   kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" \
@@ -94,7 +90,7 @@ find_image() {
     | grep -F "${IMAGE_URL}" | awk '{print $1}' | head -n1
 }
 
-log "checking for openSUSE Leap Micro image in ${IMAGE_NS} ..."
+log "checking for SLES15-SP7 Minimal VM image in ${IMAGE_NS} ..."
 IMAGE_NAME="$(find_image)"
 
 if [ -z "${IMAGE_NAME}" ]; then
@@ -153,7 +149,7 @@ metadata:
     stage: prod
   annotations:
     harvesterhci.io/volumeClaimTemplates: |-
-      [{"metadata":{"name":"${VM_NAME}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"40Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
+      [{"metadata":{"name":"${VM_NAME}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
 spec:
   runStrategy: Always
   template:

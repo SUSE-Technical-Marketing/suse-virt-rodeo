@@ -12,33 +12,38 @@ until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
   sleep 2
 done
 
-# Pre-cache the openSUSE Leap Micro image locally and serve it over HTTP on
-# the virbr0 gateway (192.168.122.1 — this is kvm-host itself, already the
-# gateway every nested VM's cloud-init points at, so it's reachable from
-# harvester1-3 with no extra networking). Chapters 3/4/6 import from this
-# local mirror instead of pulling ~1GB from the internet each time. Kicked
-# off in the background here so the download runs in parallel with the
-# Harvester node wait below — by the time any chapter needs it, it should
-# already be cached.
+# Serve the boot image chapters 3/4/6 import from, over HTTP on the virbr0
+# gateway (192.168.122.1 — this is kvm-host itself, already the gateway
+# every nested VM's cloud-init points at, so it's reachable from
+# harvester1-3 with no extra networking).
 #
-# If the kvm-host image (built via rodeo-cli) ever bakes this file in ahead
-# of time at ${IMAGE_CACHE_DIR}/${IMAGE_FILE}, the check below skips the
-# download entirely and only starts the HTTP server — this script doesn't
-# need to change either way.
+# FIXED 2026-07-21: replaced the openSUSE Leap Micro 6.2 appliance
+# (openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2) with SLES15-SP7-Minimal-VM
+# — Leap Micro's btrfs layout reports a 32GiB virtualSize regardless of the
+# ~1.5GB actual download (confirmed via `virt-resize --shrink`: the
+# filesystem's own real minimum is ~31.5GiB, not a sparse/shrinkable image),
+# which repeatedly exceeded this lab's per-node Longhorn disk capacity
+# (FailedAttachVolume/"insufficient storage" on all 3 nodes even at 1
+# replica). SLES15-SP7-Minimal-VM follows the same small-cloud-image
+# convention as chapter 3's pre-baked SLES-16.0-Minimal-VM (confirmed
+# ~1.3GiB virtual size for that one, proven working with a 5Gi PVC).
+#
+# UNLIKE the openSUSE Leap Micro image, this one has NO stable public
+# re-download URL — SLES cloud images are gated behind SUSE Customer Center,
+# and dl.suse.com URLs are signed and expire (see the `dlauth=` query string
+# on chapter 3's pre-baked SLES-16 image's spec.url for a live example). So
+# there is no automatic download here: the file has to be placed at
+# ${IMAGE_CACHE_DIR}/${IMAGE_FILE} by hand (as done for this lab) or baked
+# into the kvm-host image ahead of time via rodeo-cli. If it's ever missing,
+# this script only logs a warning — chapters 3/4/6 image imports will fail
+# until someone places the file there.
 IMAGE_CACHE_DIR="/var/www/images"
-IMAGE_FILE="openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
-IMAGE_UPSTREAM_URL="https://pkg.adfinis.com/opensuse/distribution/leap-micro/6.2/appliances/${IMAGE_FILE}"
+IMAGE_FILE="SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
 IMAGE_HTTP_PORT=8889
 mkdir -p "${IMAGE_CACHE_DIR}"
-(
-  if [ ! -s "${IMAGE_CACHE_DIR}/${IMAGE_FILE}" ]; then
-    echo ">>> [image-cache] downloading ${IMAGE_FILE} ..."
-    curl -fsSL -o "${IMAGE_CACHE_DIR}/${IMAGE_FILE}.tmp" "${IMAGE_UPSTREAM_URL}" \
-      && mv "${IMAGE_CACHE_DIR}/${IMAGE_FILE}.tmp" "${IMAGE_CACHE_DIR}/${IMAGE_FILE}" \
-      && echo ">>> [image-cache] download complete." \
-      || echo ">>> [image-cache] ERROR: download failed — chapters 3/4/6 image imports will fail until this is fixed and re-run manually."
-  fi
-) &> /var/log/image-cache.log &
+if [ ! -s "${IMAGE_CACHE_DIR}/${IMAGE_FILE}" ]; then
+  echo ">>> [image-cache] WARNING: ${IMAGE_FILE} not present at ${IMAGE_CACHE_DIR} — chapters 3/4/6 image imports will fail until it is placed there manually (no public re-download URL for this SUSE-licensed image)." >> /var/log/image-cache.log
+fi
 
 if ! pgrep -f "http.server ${IMAGE_HTTP_PORT}" &>/dev/null; then
   setsid nohup python3 -m http.server "${IMAGE_HTTP_PORT}" --bind 192.168.122.1 --directory "${IMAGE_CACHE_DIR}" \
@@ -117,8 +122,19 @@ agent variable set RANCHER_URL        "https://192.168.122.9:30002"
 agent variable set HARVESTER_URL      "https://192.168.122.10"
 agent variable set HARVESTER_PASSWORD "$RANCHER_PASS"
 
-# SSH key for virt1 (chapters 03+).
-# kvm-host IS the KVM hypervisor, so virbr0 (192.168.122.x) is directly reachable.
+# SSH key embedded (inline ssh_authorized_keys) into the VMs chapter 4/6
+# create themselves: daily-batch-processor (192.168.122.52) and
+# transaction-ledger (192.168.122.53). kvm-host IS the KVM hypervisor, so
+# virbr0 (192.168.122.x) is directly reachable.
+#
+# FIXED 2026-07-21: removed a "Host virt1" -> 192.168.122.50 entry that used
+# to live here, aliased to algo-trader-01 (chapter 3). It was unfixably
+# broken, not just mislabeled: algo-trader-01 authenticates via the pre-baked
+# Harvester KeyPair prod/default (ed25519, see 03-.../solve-kvm-host), not
+# via this script-generated RSA key at all - that key was never authorized
+# on that VM, so the alias would fail regardless of which username it used.
+# No student-facing content ever referenced this alias (repo-wide grep for
+# "ssh virt" turned up nothing), so nothing else needed to change.
 if [ ! -f /root/.ssh/id_rsa ]; then
   ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N ""
   chmod 600 /root/.ssh/id_rsa
@@ -127,15 +143,8 @@ fi
 mkdir -p /root/.ssh
 cat >> /root/.ssh/config << 'SSHEOF'
 
-Host virt1
-  HostName 192.168.122.50
-  User opensuse
-  IdentityFile /root/.ssh/id_rsa
-  StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null
-
 Host virt*
-  User opensuse
+  User sles
   IdentityFile /root/.ssh/id_rsa
   StrictHostKeyChecking no
   UserKnownHostsFile /dev/null

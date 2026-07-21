@@ -11,11 +11,11 @@
 # the cluster/image — this script does not touch it, only sanity-checks it's
 # there.
 #
-# daily-batch-processor boots from the openSUSE Leap Micro image chapter 3,
-# task 1 walks the student through adding (official-images/openSUSE-Leap-
-# Micro...) — that image is never used by algo-trader-01, it exists for this
-# VM (and presumably was also how payment-gateway-prod was provisioned). SSH
-# user is `opensuse` to match that image's convention.
+# daily-batch-processor boots from the SLES15-SP7 Minimal VM image chapter 3,
+# task 1 walks the student through adding (official-images/SLES15-SP7-
+# Minimal-VM...) — that image is never used by algo-trader-01, it exists for
+# this VM. SSH user is `sles` to match that image's convention (same family
+# as the pre-baked SLES-16 image algo-trader-01 boots from).
 #
 # FIXED 2026-07-17: this script used to just wait up to 10 minutes for that
 # image to exist and silently skip VM creation if it never showed up — which
@@ -49,31 +49,30 @@
 #     derivable from the image name — the original `longhorn-${IMAGE_NAME}`
 #     guess was wrong).
 #
-# FIXED 2026-07-20: disk-0's PVC size was 5Gi, which failed with "volume size
-# should be larger than the backing image size" — the Leap Micro image's
-# status.virtualSize is 34359738368 bytes (exactly 32Gi) despite the actual
-# downloaded file being ~1.5GB, and Longhorn's admission webhook rejects any
-# PVC smaller than that. Bumped to 40Gi for headroom. Same fix applied to
-# chapter 6's setup-kvm-host (same image, same original 5Gi bug).
-#
-# FIXED 2026-07-21: this self-provisioning fallback's Leap Micro image
-# defaulted to 3 replicas (Harvester's default when storageClassParameters
-# is unset), meaning the backing image had to replicate to 3 nodes before
-# daily-batch-processor's disk-0 became attachable — observed live as
-# FailedAttachVolume/"volume is not ready for workloads" long after
-# ProvisioningSucceeded. Pinned to 1 replica, matching chapter 3's
-# solve-kvm-host and chapter 6's same fallback (disposable story VM, doesn't
-# need banking-grade replication per chapter 2's own storage-tier lesson).
+# FIXED 2026-07-20/21 then REPLACED 2026-07-21: disk-0's PVC size was 5Gi,
+# which failed with "volume size should be larger than the backing image
+# size" against the (then) openSUSE Leap Micro image — its btrfs layout
+# reports a 32GiB virtualSize no matter the ~1.5GB actual download, and
+# `virt-resize --shrink` confirmed the filesystem's own real minimum is
+# ~31.5GiB, not a sparse/shrinkable image. Pinning it to 1 replica (instead
+# of Harvester's 3-replica default) still weren't enough — the lab's 3 nodes
+# didn't have 32GiB+ free each (FailedAttachVolume/"insufficient storage" on
+# all 3 nodes, confirmed via Longhorn manager logs). Switched to
+# SLES15-SP7-Minimal-VM instead of continuing to fight this image's size —
+# same small-cloud-image family as the pre-baked SLES-16 image algo-trader-01
+# already boots from (~1.3GiB virtual size for that one, works fine with a
+# 5Gi PVC). disk-0 here is 5Gi accordingly; confirm with `qemu-img info`
+# against the actual downloaded file if this ever needs re-verifying. Same
+# switch applied to chapter 6's setup-kvm-host (same image, same story).
 #
 # FIXED 2026-07-17: assignment.md now calls this VM webserver-prod throughout
 # (matches the real cluster object), and the sanity check below explicitly
 # starts it if it's Stopped, since the story requires it Running on arrival.
 #
-# KNOWN RISK — still not live-tested:
-#   Whether the openSUSE Leap Micro "Default-qcow" appliance actually honors
-#   NoCloud cloud-init (static network-data). Leap Micro's default appliance
-#   is sometimes Combustion-first rather than cloud-init-first — if the VM
-#   comes up but the static IP doesn't take, this is the first thing to check.
+# The SLES cloud-image family (confirmed via chapter 3's pre-baked SLES-16
+# image and algo-trader-01) is cloud-init-first and honors NoCloud static
+# network-data correctly — the Combustion-vs-cloud-init risk that applied to
+# the old Leap Micro image doesn't apply here.
 
 set -uo pipefail
 export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
@@ -142,8 +141,8 @@ else
   SSH_PUBKEY="$(cat "${SSH_PUBKEY_FILE}")"
 fi
 
-IMAGE_URL="http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
-IMAGE_DISPLAY_NAME="openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
+IMAGE_URL="http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
+IMAGE_DISPLAY_NAME="SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
 
 find_image() {
   kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" \
@@ -151,7 +150,7 @@ find_image() {
     | grep -F "${IMAGE_URL}" | awk '{print $1}' | head -n1
 }
 
-log "checking for openSUSE Leap Micro image in ${IMAGE_NS} ..."
+log "checking for SLES15-SP7 Minimal VM image in ${IMAGE_NS} ..."
 IMAGE_NAME="$(find_image)"
 
 if [ -z "${IMAGE_NAME}" ]; then
@@ -215,7 +214,7 @@ metadata:
     stage: prod
   annotations:
     harvesterhci.io/volumeClaimTemplates: |-
-      [{"metadata":{"name":"${name}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"40Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
+      [{"metadata":{"name":"${name}-disk-0","annotations":{"harvesterhci.io/imageId":"${IMAGE_NS}/${IMAGE_NAME}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"${IMAGE_SC}"}}]
 spec:
   runStrategy: Always
   template:

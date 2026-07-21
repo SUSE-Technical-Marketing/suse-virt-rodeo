@@ -207,7 +207,7 @@ For example, let's add a new image:
 <div class="cred">
 
 ```txt
-http://192.168.122.1:8889/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2
+http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2
 ```
 
 </div>

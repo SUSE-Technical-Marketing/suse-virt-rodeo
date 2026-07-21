@@ -175,13 +175,13 @@ You will replay this morning's events yourself, so you understand exactly what t
 In the [button label="Cluster Terminal" variant="success"](tab-1), log into the ledger virtual machine (find `TRANSACTION_LEDGER_IP` in the UI):
 
 ```bash
-ssh opensuse@TRANSACTION_LEDGER_IP
+ssh sles@TRANSACTION_LEDGER_IP
 ```
 
 Generate the highly sensitive transaction record onto the disk by typing exactly this:
 
 ```bash,run
-echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/opensuse/ledger.txt
+echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/ledger.txt
 ```
 
 **Now capture the baseline.** Switch to the [button label="SUSE Virtualization UI" variant="success"](tab-0):
@@ -197,13 +197,13 @@ echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/opens
 Return to the [button label="Cluster Terminal" variant="success"](tab-1) and simulate the junior admin's terrible mistake:
 
 ```bash,run
-rm /home/opensuse/ledger.txt
+rm /home/sles/ledger.txt
 ```
 
 Verify the file is truly gone:
 
 ```bash,run
-cat /home/opensuse/ledger.txt
+cat /home/sles/ledger.txt
 ```
 
 `No such file or directory`. One hundred million dollars, gone from the disk. Type `exit` to leave the ledger VM.
@@ -226,13 +226,13 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), in the 
 Wait for <b class="highlightcopy">ledger-staging-verify</b> to boot and acquire an IP address. In the [button label="Cluster Terminal" variant="success"](tab-1), SSH into this new staging virtual machine:
 
 ```bash
-ssh opensuse@STAGING_IP_ADDRESS
+ssh sles@STAGING_IP_ADDRESS
 ```
 
 Verify the file's existence:
 
 ```bash,run
-cat /home/opensuse/ledger.txt
+cat /home/sles/ledger.txt
 ```
 
 <div id="602" class="story">
