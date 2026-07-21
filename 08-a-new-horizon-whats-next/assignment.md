@@ -2,7 +2,7 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: "\U0001F305 Chapter 9 — A New Horizon"
+title: "\U0001F305 Chapter 8 — A New Horizon"
 teaser: The bank runs entirely on SUSE Virtualization. Take a victory lap, review
   everything you mastered, and chart where your new skills can take your own datacenter.
 tabs:
@@ -28,7 +28,7 @@ timelimit: 1800
 enhanced_loading: null
 ---
 
-🌅 Chapter 9 — A New Horizon
+🌅 Chapter 8 — A New Horizon
 ============================
 
 <style type="text/css">
@@ -105,7 +105,7 @@ enhanced_loading: null
   }
 </style>
 
-<img class="logos" alt="Welcome!" src="../assets/09-chapter-img.png"/>
+<img class="logos" alt="Welcome!" src="../assets/chapter-img-a_new_horizon.png"/>
 
 <div id="901" class="story">
 
