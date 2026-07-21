@@ -4,6 +4,18 @@ name: Publish Instruqt Track
 # Requires INSTRUQT_TOKEN in repo secrets and the image suse/suse-virt-rodeo-rc1
 # published in the Instruqt org. Use workflow_dispatch to publish manually from
 # any branch.
+#
+# FIXED 2026-07-21: every run of this workflow was failing at "Can't find
+# 'action.yml' ... for action 'instruqt/cli@v1'" — instruqt/cli has no
+# top-level action at all, only two subdirectory actions confirmed live
+# against the instruqt/cli repo: instruqt/cli/setup@v1 (installs the CLI
+# binary) and instruqt/cli/validate@v1 (wraps `instruqt lab validate`, no
+# token needed). There's no dedicated push action, so the CLI is installed
+# via setup and then invoked directly with `instruqt track push`, matching
+# this repo's own documented local workflow (see README.md). This means NO
+# push to this repo (main or otherwise) had ever successfully published to
+# Instruqt via this workflow until this fix — every prior publish only ever
+# happened through someone running `instruqt track push` locally.
 
 on:
   push:
@@ -22,12 +34,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Instruqt CLI
+        uses: instruqt/cli/setup@v1
+
       - name: Validate track
-        uses: instruqt/cli@v1
+        uses: instruqt/cli/validate@v1
         with:
-          command: track validate --token ${{ secrets.INSTRUQT_TOKEN }}
+          path: .
 
       - name: Push track to Instruqt
-        uses: instruqt/cli@v1
-        with:
-          command: track push --token ${{ secrets.INSTRUQT_TOKEN }} --force
+        env:
+          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+        run: instruqt track push --token "${INSTRUQT_TOKEN}" --force
