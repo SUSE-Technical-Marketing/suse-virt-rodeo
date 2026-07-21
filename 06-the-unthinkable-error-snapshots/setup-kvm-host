@@ -42,6 +42,11 @@
 # fails with "volume size should be larger than the backing image size". The
 # Leap Micro image's status.virtualSize is 34359738368 bytes (32Gi) despite
 # the actual downloaded file being ~1.5GB. Bumped to 40Gi.
+#
+# FIXED 2026-07-21: same fix as chapter 4 — this fallback's Leap Micro image
+# defaulted to 3 replicas, meaning the backing image had to replicate to 3
+# nodes before transaction-ledger's disk-0 became attachable. Pinned to 1
+# replica (disposable story VM, doesn't need banking-grade replication).
 
 set -uo pipefail
 export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
@@ -104,6 +109,8 @@ spec:
   sourceType: download
   displayName: ${IMAGE_DISPLAY_NAME}
   url: ${IMAGE_URL}
+  storageClassParameters:
+    numberOfReplicas: "1"
 EOF
   sleep 5
   IMAGE_NAME="$(find_image)"

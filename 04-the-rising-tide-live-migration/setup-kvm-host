@@ -56,6 +56,15 @@
 # PVC smaller than that. Bumped to 40Gi for headroom. Same fix applied to
 # chapter 6's setup-kvm-host (same image, same original 5Gi bug).
 #
+# FIXED 2026-07-21: this self-provisioning fallback's Leap Micro image
+# defaulted to 3 replicas (Harvester's default when storageClassParameters
+# is unset), meaning the backing image had to replicate to 3 nodes before
+# daily-batch-processor's disk-0 became attachable — observed live as
+# FailedAttachVolume/"volume is not ready for workloads" long after
+# ProvisioningSucceeded. Pinned to 1 replica, matching chapter 3's
+# solve-kvm-host and chapter 6's same fallback (disposable story VM, doesn't
+# need banking-grade replication per chapter 2's own storage-tier lesson).
+#
 # FIXED 2026-07-17: assignment.md now calls this VM webserver-prod throughout
 # (matches the real cluster object), and the sanity check below explicitly
 # starts it if it's Stopped, since the story requires it Running on arrival.
@@ -157,6 +166,8 @@ spec:
   sourceType: download
   displayName: ${IMAGE_DISPLAY_NAME}
   url: ${IMAGE_URL}
+  storageClassParameters:
+    numberOfReplicas: "1"
 EOF
   sleep 5
   IMAGE_NAME="$(find_image)"

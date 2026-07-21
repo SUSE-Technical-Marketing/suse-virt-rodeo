@@ -38,6 +38,13 @@
 #     this script uses a fixed name instead (still matches check-kvm-host's
 #     prefix-based lookup, which was fixed to tolerate either).
 #
+# FIXED 2026-07-21: the Leap Micro image created here defaults to 3 replicas
+# (Harvester's own default when storageClassParameters is unset), which
+# means every derived boot disk (this chapter doesn't use one, but chapter
+# 4/6's self-contained VMs do) needs the ~1.5GB backing image replicated to
+# 3 nodes before it's usable — slow, and per chapter 2's own storage-tier
+# lesson, unnecessary for disposable story VMs. Pinned to 1 replica here.
+#
 # Node labels for prod-network scheduling (stage=prod on harvester1/2) live
 # in track_scripts/setup-kvm-host, since webserver-prod needs them from
 # chapter 1 onward — not duplicated here.
@@ -80,6 +87,8 @@ spec:
   sourceType: download
   displayName: ${LEAP_DISPLAY_NAME}
   url: ${LEAP_URL}
+  storageClassParameters:
+    numberOfReplicas: "1"
 EOF
   sleep 5
   LEAP_IMAGE_NAME="$(find_leap_image)"
