@@ -66,8 +66,8 @@
 # switch applied to chapter 6's setup-kvm-host (same image, same story).
 #
 # FIXED 2026-07-17: assignment.md now calls this VM webserver-prod throughout
-# (matches the real cluster object), and the sanity check below explicitly
-# starts it if it's Stopped, since the story requires it Running on arrival.
+# (matches the real cluster object). Its Running-on-arrival sanity check
+# moved to track_scripts/setup-kvm-host on 2026-07-21 — see that script.
 #
 # The SLES cloud-image family (confirmed via chapter 3's pre-baked SLES-16
 # image and algo-trader-01) is cloud-init-first and honors NoCloud static
@@ -98,23 +98,11 @@ else
   log "algo-trader-01 not present, nothing to clean up."
 fi
 
-log "sanity-checking pre-existing production VM webserver-prod ..."
-if kubectl get vm -n "${NS}" webserver-prod &>/dev/null; then
-  RUN_STRATEGY="$(kubectl get vm -n "${NS}" webserver-prod -o jsonpath='{.spec.runStrategy}' 2>/dev/null)"
-  if [ "${RUN_STRATEGY}" != "Always" ]; then
-    log "webserver-prod runStrategy is '${RUN_STRATEGY:-unset}', starting it (story requires it Running on arrival) ..."
-    kubectl patch vm -n "${NS}" webserver-prod --type merge -p '{"spec":{"runStrategy":"Always"}}' || log "warn: failed to start webserver-prod."
-  fi
-  log "waiting for webserver-prod to reach Running phase ..."
-  for _ in $(seq 1 60); do
-    WP_PHASE="$(kubectl get vmi -n "${NS}" webserver-prod -o jsonpath='{.status.phase}' 2>/dev/null)"
-    [ "${WP_PHASE}" = "Running" ] && { log "webserver-prod: Running"; break; }
-    sleep 10
-  done
-  [ "${WP_PHASE:-}" = "Running" ] || log "warn: webserver-prod not Running yet (non-fatal, check the UI)."
-else
-  log "warn: webserver-prod NOT found in ${NS} — chapter 4 task 3 will have nothing to migrate."
-fi
+# webserver-prod's runStrategy/RestartRequired sanity-check now lives in
+# track_scripts/setup-kvm-host, since it's visible from chapter 1 onward and
+# needs to be Running from the start of the lab, not just by chapter 4 (a
+# fresh lab showed it Off with a pending "Restart action is required"
+# message as early as chapter 3).
 
 log "waiting for namespace ${NS} ..."
 for _ in $(seq 1 60); do
