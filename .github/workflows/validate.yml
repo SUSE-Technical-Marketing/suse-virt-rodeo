@@ -1,0 +1,58 @@
+name: Validate Instruqt Track
+
+# Validates the track on every push to main and on manual dispatch.
+# This does NOT publish to Instruqt — publishing is done manually via
+# `instruqt track push` from a local checkout (see README.md). This was
+# a deliberate call on 2026-07-21: CI auto-publish had been broken/unused
+# for months (see history below) and pushing straight to the live track is
+# risky enough to want a human in the loop, so this workflow's only job now
+# is catching validation errors before they reach a manual push.
+#
+# History of this file (was "Publish Instruqt Track", auto-pushed on every
+# push to main):
+#
+# FIXED 2026-07-21: every run was failing at "Can't find 'action.yml' ...
+# for action 'instruqt/cli@v1'" — instruqt/cli has no top-level action at
+# all, only two subdirectory actions confirmed live against the instruqt/cli
+# repo: instruqt/cli/setup@v1 (installs the CLI binary) and
+# instruqt/cli/validate@v1 (wraps `instruqt lab validate`, no token needed).
+# This means no push to this repo (main or otherwise) had ever successfully
+# published to Instruqt via this workflow — every prior publish only ever
+# happened through someone running `instruqt track push` locally.
+#
+# FIXED 2026-07-21 (second issue): `instruqt/cli/validate@v1` itself doesn't
+# work here — it's hardcoded internally to run `instruqt lab validate`,
+# which errors with "config does not contain a lab resource" against this
+# repo's track.yml/config.yml structure. `instruqt track validate` (a
+# different subcommand) DOES work correctly against this repo — confirmed
+# via a real local run. So validation here uses that directly instead of
+# the GitHub Action wrapper.
+#
+# FIXED 2026-07-21 (third issue, since superseded): `track push --token ...`
+# was never valid syntax, and INSTRUQT_TOKEN as an env var (confirmed via
+# docs.instruqt.com) is the real CI auth mechanism for `track push` — but
+# this repo's INSTRUQT_TOKEN secret doesn't exist, and per the note above,
+# push was removed from this workflow entirely rather than fixing that.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual validation run"
+        required: false
+        default: "manual validation"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Instruqt CLI
+        uses: instruqt/cli/setup@v1
+
+      - name: Validate track
+        run: instruqt track validate
