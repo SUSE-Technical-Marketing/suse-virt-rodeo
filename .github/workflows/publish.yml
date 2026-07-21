@@ -16,6 +16,15 @@ name: Publish Instruqt Track
 # push to this repo (main or otherwise) had ever successfully published to
 # Instruqt via this workflow until this fix — every prior publish only ever
 # happened through someone running `instruqt track push` locally.
+#
+# FIXED 2026-07-21 (same day, second issue): dropped the validate step —
+# `instruqt lab validate .` (setup@v1 installs "latest" by default) errors
+# with "config does not contain a lab resource", since the current CLI's
+# validate command expects a newer "lab resource" format this repo's
+# track.yml/config.yml structure predates. Push still uses `track` verbs
+# and is unaffected; re-add validation later once pinned to a CLI version
+# that still understands this repo's track-based format, or once the repo
+# is migrated to whatever format `instruqt lab validate` expects.
 
 on:
   push:
@@ -36,11 +45,6 @@ jobs:
 
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
-
-      - name: Validate track
-        uses: instruqt/cli/validate@v1
-        with:
-          path: .
 
       - name: Push track to Instruqt
         env:
