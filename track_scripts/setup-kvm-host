@@ -106,7 +106,7 @@ kubectl label node harvester3 stage=dev storage=dev --overwrite \
 
 # webserver-prod (pre-baked, visible from chapter 1 onward — it's the VM
 # chapter 4's live-migration story assumes is already running) — ensure it's
-# actually Running from track start, not just from chapter 4 onward.
+# started from track start, not just from chapter 4 onward.
 #
 # FIXED 2026-07-21: moved here from chapter 4's setup-kvm-host, same reason
 # as the node labels above — a fresh lab showed webserver-prod Off with "
@@ -117,6 +117,12 @@ kubectl label node harvester3 stage=dev storage=dev --overwrite \
 # spec) before just checking runStrategy — a VM already on runStrategy
 # Always will NOT auto-restart itself past a RestartRequired condition, it
 # needs an explicit restart, which the original chapter 4 logic never did.
+#
+# FIXED 2026-07-21: dropped the "wait up to 10 minutes for Running phase"
+# loop that used to sit here — webserver-prod isn't touched by any chapter
+# until chapter 4's live migration, so there's no reason to block the rest
+# of track setup on it. Kick off the restart/start and move on; it has
+# plenty of time to come up in the background before it's needed.
 echo ">>> Sanity-checking pre-existing production VM webserver-prod ..."
 if kubectl get vm -n prod webserver-prod &>/dev/null; then
   RESTART_REQUIRED="$(kubectl get vm -n prod webserver-prod \
@@ -125,22 +131,14 @@ if kubectl get vm -n prod webserver-prod &>/dev/null; then
     echo ">>> webserver-prod has a pending RestartRequired condition — forcing a restart ..."
     kubectl delete vmi -n prod webserver-prod --ignore-not-found --wait=false 2>/dev/null \
       || echo "WARN: failed to delete webserver-prod's VMI for restart."
-    sleep 5
   fi
 
   RUN_STRATEGY="$(kubectl get vm -n prod webserver-prod -o jsonpath='{.spec.runStrategy}' 2>/dev/null)"
   if [ "${RUN_STRATEGY}" != "Always" ]; then
-    echo ">>> webserver-prod runStrategy is '${RUN_STRATEGY:-unset}', starting it (story requires it Running on arrival) ..."
+    echo ">>> webserver-prod runStrategy is '${RUN_STRATEGY:-unset}', starting it (story requires it Running by chapter 4) ..."
     kubectl patch vm -n prod webserver-prod --type merge -p '{"spec":{"runStrategy":"Always"}}' \
       || echo "WARN: failed to start webserver-prod."
   fi
-  echo ">>> Waiting for webserver-prod to reach Running phase ..."
-  for _ in $(seq 1 60); do
-    WP_PHASE="$(kubectl get vmi -n prod webserver-prod -o jsonpath='{.status.phase}' 2>/dev/null)"
-    [ "${WP_PHASE}" = "Running" ] && { echo ">>> webserver-prod: Running"; break; }
-    sleep 10
-  done
-  [ "${WP_PHASE:-}" = "Running" ] || echo "WARN: webserver-prod not Running yet (non-fatal, check the UI)."
 else
   echo "WARN: webserver-prod NOT found in prod — chapter 4 task 3 will have nothing to migrate."
 fi
