@@ -25,6 +25,18 @@ name: Publish Instruqt Track
 # and is unaffected; re-add validation later once pinned to a CLI version
 # that still understands this repo's track-based format, or once the repo
 # is migrated to whatever format `instruqt lab validate` expects.
+#
+# FIXED 2026-07-21 (same day, third issue): `track push --token ...` was
+# never valid syntax — `instruqt track push --help` only lists --force/-h.
+# `instruqt auth login` is interactive/session-based (1hr token, no
+# non-interactive flag), so it's not usable in CI. Confirmed via
+# docs.instruqt.com/tracks/manage/test-a-track that INSTRUQT_TOKEN as an
+# environment variable (not a CLI flag, not auth login) is the documented
+# CI mechanism — the CLI reads it automatically. This workflow now sets it
+# as env on the push step only. REMAINING BLOCKER: this repo's INSTRUQT_TOKEN
+# secret does not actually exist (confirmed empty in a live run on
+# 2026-07-21) — add a real Instruqt API token at Settings > Secrets and
+# variables > Actions > New repository secret before this can succeed.
 
 on:
   push:
@@ -45,12 +57,6 @@ jobs:
 
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
-
-      - name: DEBUG - dump auth command help (temporary, remove once auth mechanism confirmed)
-        run: |
-          instruqt auth --help
-          echo "---"
-          instruqt auth login --help
 
       - name: Push track to Instruqt
         env:
