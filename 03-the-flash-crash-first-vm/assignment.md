@@ -237,7 +237,7 @@ Configure the engine exactly as the quants need it:
 <div class="cred">
 
 ```txt
-algo-trader-01
+vertex-trader-01
 ```
 
 </div>
@@ -350,7 +350,37 @@ This fulfills the trader's request for a secondary high-speed data drive. Behind
 
 Navigate to **Advanced Options**, then select **Cloud Configuration**, to make sure the trading system comes up with all the required settings and packages installed.
 
-In **User Data Template**, select <b class="highlightcopy">prod/prod</b>.
+In **User Data Template**, click **Create New** to define the standard template the whole production namespace will reuse. Name it:
+
+- **Namespace**:
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
+
+- **Name**:
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
+
+Since the template lives in the <b class="highlightcopy">prod</b> namespace and is itself named <b class="highlightcopy">prod</b>, it becomes <b class="highlightcopy">prod/prod</b> — the production standard, ready for every VM this namespace deploys from now on. For the **User Data**, enter:
+
+```yaml
+#cloud-config
+packages:
+  - qemu-guest-agent
+runcmd:
+  - [systemctl, enable, --now, qemu-guest-agent.service]
+```
+
+Save the template, then make sure <b class="highlightcopy">prod/prod</b> is selected as the **User Data Template** back on the VM creation form.
 
 
 The trading desk's firewall team has one more demand: the engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
@@ -367,7 +397,7 @@ ethernets:
         - 192.168.122.1
 ```
 
-Cloud-init applies both on first boot — <b class="highlightcopy">algo-trader-01</b> will come online at `192.168.122.50` with zero post-deployment manual setup.
+Cloud-init applies both on first boot — <b class="highlightcopy">vertex-trader-01</b> will come online at `192.168.122.50` with zero post-deployment manual setup.
 
 > [!NOTE]
 > This is **cloud-init** — the same industry-standard mechanism used by every major public cloud.

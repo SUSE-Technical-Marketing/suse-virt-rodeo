@@ -4,13 +4,13 @@
 # Deletes chapter 4's daily-batch-processor (self-contained to that chapter —
 # nothing in chapters 5-9 references it, confirmed via repo-wide grep) to
 # free resources on this resource-constrained host, same pattern chapter 4
-# uses to clean up chapter 3's algo-trader-01.
+# uses to clean up chapter 3's vertex-trader-01.
 #
 # Its boot disk is 40Gi (see chapter 4's setup-kvm-host header — the Leap
 # Micro image's backing/virtual size is 32Gi, so the PVC has to be at least
 # that large), tripled by that image's own StorageClass to 3 replicas — the
 # single biggest storage consumer among the self-contained per-chapter VMs,
-# so freeing it here matters more than algo-trader-01 did.
+# so freeing it here matters more than vertex-trader-01 did.
 #
 # Idempotent and non-fatal: a failure here should never block the track.
 

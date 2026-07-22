@@ -19,14 +19,14 @@
 #   - bridge interface, LiveMigrateIfPossible, per-image storageClassName
 #     read from status at runtime, SSH key embedded directly via
 #     ssh_authorized_keys (the sshNames annotation is a no-op against inline
-#     cloudInitNoCloud.userData — confirmed live via algo-trader-01).
+#     cloudInitNoCloud.userData — confirmed live via vertex-trader-01).
 #
 # Idempotent (kubectl apply) and non-fatal, matching the other chapter setup
 # scripts' convention: a failure here should never block the track, but the
 # chapter will be unworkable until this succeeds at least once.
 #
 # KNOWN RISK from the old image, now resolved: the SLES cloud-image family
-# (confirmed via chapter 3's pre-baked SLES-16 image and algo-trader-01) is
+# (confirmed via chapter 3's pre-baked SLES-16 image and vertex-trader-01) is
 # cloud-init-first and honors NoCloud static network-data correctly.
 #   - Namespace: placed in prod by pattern-match with webserver-prod (both
 #     are "core production systems" in the story) — not independently

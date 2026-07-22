@@ -1,7 +1,7 @@
 #!/bin/bash
 # Challenge 4 setup.
 #
-# First deletes chapter 3's algo-trader-01 (self-contained to that chapter,
+# First deletes chapter 3's vertex-trader-01 (self-contained to that chapter,
 # nothing later needs it) to free resources on this resource-constrained host,
 # before pre-provisioning the "already running in production" VM this
 # chapter's story assumes exists before the student arrives:
@@ -13,9 +13,9 @@
 #
 # daily-batch-processor boots from the SLES15-SP7 Minimal VM image chapter 3,
 # task 1 walks the student through adding (official-images/SLES15-SP7-
-# Minimal-VM...) — that image is never used by algo-trader-01, it exists for
+# Minimal-VM...) — that image is never used by vertex-trader-01, it exists for
 # this VM. SSH user is `sles` to match that image's convention (same family
-# as the pre-baked SLES-16 image algo-trader-01 boots from).
+# as the pre-baked SLES-16 image vertex-trader-01 boots from).
 #
 # FIXED 2026-07-17: this script used to just wait up to 10 minutes for that
 # image to exist and silently skip VM creation if it never showed up — which
@@ -40,7 +40,7 @@
 #     annotation only works when cloud-init goes through Harvester's own
 #     secret-based path (cloudInitNoCloud.secretRef). It is a silent no-op
 #     against inline cloudInitNoCloud.userData like this script uses (proven
-#     live via algo-trader-01 in chapter 3: VM came up fine, annotation was
+#     live via vertex-trader-01 in chapter 3: VM came up fine, annotation was
 #     present, but no key was ever injected — password prompt on SSH). Back to
 #     embedding the track's own SSH public key directly via
 #     ssh_authorized_keys in the inline userData.
@@ -59,7 +59,7 @@
 # didn't have 32GiB+ free each (FailedAttachVolume/"insufficient storage" on
 # all 3 nodes, confirmed via Longhorn manager logs). Switched to
 # SLES15-SP7-Minimal-VM instead of continuing to fight this image's size —
-# same small-cloud-image family as the pre-baked SLES-16 image algo-trader-01
+# same small-cloud-image family as the pre-baked SLES-16 image vertex-trader-01
 # already boots from (~1.3GiB virtual size for that one, works fine with a
 # 5Gi PVC). disk-0 here is 5Gi accordingly; confirm with `qemu-img info`
 # against the actual downloaded file if this ever needs re-verifying. Same
@@ -70,7 +70,7 @@
 # moved to track_scripts/setup-kvm-host on 2026-07-21 — see that script.
 #
 # The SLES cloud-image family (confirmed via chapter 3's pre-baked SLES-16
-# image and algo-trader-01) is cloud-init-first and honors NoCloud static
+# image and vertex-trader-01) is cloud-init-first and honors NoCloud static
 # network-data correctly — the Combustion-vs-cloud-init risk that applied to
 # the old Leap Micro image doesn't apply here.
 
@@ -89,13 +89,13 @@ log(){ echo ">>> [ch4-setup] $*"; }
 # track_scripts/setup-kvm-host, since webserver-prod is visible from chapter
 # 1 onward and needs them from the start of the lab, not just by chapter 4.
 
-log "freeing resources: deleting algo-trader-01 from chapter 3 (self-contained, nothing later needs it) ..."
-if kubectl get vm -n "${NS}" algo-trader-01 &>/dev/null; then
-  kubectl delete vm -n "${NS}" algo-trader-01 --wait=false 2>/dev/null || true
-  kubectl delete pvc -n "${NS}" algo-trader-01-disk-0 algo-trader-01-market-data-vol --ignore-not-found --wait=false 2>/dev/null || true
-  log "algo-trader-01 delete requested (non-blocking)."
+log "freeing resources: deleting vertex-trader-01 from chapter 3 (self-contained, nothing later needs it) ..."
+if kubectl get vm -n "${NS}" vertex-trader-01 &>/dev/null; then
+  kubectl delete vm -n "${NS}" vertex-trader-01 --wait=false 2>/dev/null || true
+  kubectl delete pvc -n "${NS}" vertex-trader-01-disk-0 vertex-trader-01-market-data-vol --ignore-not-found --wait=false 2>/dev/null || true
+  log "vertex-trader-01 delete requested (non-blocking)."
 else
-  log "algo-trader-01 not present, nothing to clean up."
+  log "vertex-trader-01 not present, nothing to clean up."
 fi
 
 # webserver-prod's runStrategy/RestartRequired sanity-check now lives in
@@ -105,11 +105,11 @@ fi
 # message as early as chapter 3).
 
 # webserver-prod's IP is static (assigned via the pre-baked image's own
-# netplan/cloud-init, not by any script here) — always 192.168.122.220.
+# netplan/cloud-init, not by any script here) — always 192.168.122.147.
 # Exposed as PAYMENT_GATEWAY_IP for task 2's heartbeat and task 4's uptime
 # check, so assignment.md can use it directly instead of a manual lookup.
-agent variable set PAYMENT_GATEWAY_IP "192.168.122.220"
-log "PAYMENT_GATEWAY_IP=192.168.122.220"
+agent variable set PAYMENT_GATEWAY_IP "192.168.122.147"
+log "PAYMENT_GATEWAY_IP=192.168.122.147"
 
 log "waiting for namespace ${NS} ..."
 for _ in $(seq 1 60); do

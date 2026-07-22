@@ -85,7 +85,7 @@ echo ">>> All 3 Harvester nodes Ready."
 # auto-injected by Harvester's own admission webhook onto any VM using that
 # network, not something the student or any script here asks for. None of
 # the 3 nodes carry these labels by default, so without this block
-# webserver-prod (and chapter 3's algo-trader-01) sit Unschedulable from the
+# webserver-prod (and chapter 3's vertex-trader-01) sit Unschedulable from the
 # very start of the lab. Live-confirmed 2026-07-20 via the Unschedulable
 # event in the UI.
 #
@@ -170,8 +170,8 @@ agent variable set HARVESTER_PASSWORD "$RANCHER_PASS"
 # virbr0 (192.168.122.x) is directly reachable.
 #
 # FIXED 2026-07-21: removed a "Host virt1" -> 192.168.122.50 entry that used
-# to live here, aliased to algo-trader-01 (chapter 3). It was unfixably
-# broken, not just mislabeled: algo-trader-01 authenticates via the pre-baked
+# to live here, aliased to vertex-trader-01 (chapter 3). It was unfixably
+# broken, not just mislabeled: vertex-trader-01 authenticates via the pre-baked
 # Harvester KeyPair prod/default (ed25519, see 03-.../solve-kvm-host), not
 # via this script-generated RSA key at all - that key was never authorized
 # on that VM, so the alias would fail regardless of which username it used.

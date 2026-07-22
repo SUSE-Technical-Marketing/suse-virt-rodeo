@@ -1,23 +1,30 @@
 #!/bin/bash
-# Challenge 3 solve — auto-creates algo-trader-01, reproducing tasks 1-5 of
+# Challenge 3 solve — auto-creates vertex-trader-01, reproducing tasks 1-5 of
 # the-flash-crash-first-vm via the Harvester/Kubernetes API instead of the UI.
 # Tasks 6-7 (console watch, manual SSH) are pure UI/manual validation with
 # nothing to auto-create.
 #
 # Field shapes below are live-confirmed 2026-07-20 from a real dump of an
-# algo-trader-01 built by hand through the UI:
+# vertex-trader-01 built by hand through the UI:
 #   - The base OS image is the pre-baked SLES-16.0-Minimal-VM.x86_64-Cloud-GM
 #     image (official-images namespace), found by displayName - not something
 #     this script creates. storageClassName is read from its own
 #     status.storageClassName (per-image lh-<uuid> value, see
 #     [[reference-harvester-crd-schemas]]).
-#   - "User Data Template: prod/prod" (Task 4) is NOT a persisted object
-#     anywhere in the cluster - searched every harvesterhci.io CRD and every
-#     Secret in prod, nothing named prod/prod exists. Whatever the UI does
-#     with that field, it gets consumed directly into a per-VM secret. This
-#     script skips it entirely and embeds the same net cloud-init content
-#     inline instead (qemu-guest-agent install+enable, SSH key, static IP) -
-#     the same working pattern chapter 4/6 already use.
+#   - "User Data Template: prod/prod" (Task 4) is a plain Kubernetes ConfigMap,
+#     not a dedicated CRD — confirmed live (no harvesterhci.io CRD for it in
+#     `kubectl get crd`). Shape: `metadata.name`/`namespace` are the two
+#     halves of the `<namespace>/<name>` identifier the UI shows,
+#     `metadata.labels.harvesterhci.io/cloud-init-template: user`, and the
+#     actual cloud-init YAML lives in `data.cloudInit` (a single string key,
+#     not split into userData/networkData). This script creates that
+#     ConfigMap so chapter 7 (which also references prod/prod) works even if
+#     a workshop jumps straight there, then separately embeds the same net
+#     cloud-init content inline on the VM itself (qemu-guest-agent
+#     install+enable, SSH key, static IP) - the same working pattern
+#     chapter 4/6 already use. `package_update: true` is deliberately left
+#     out of both copies — it forces a full repo refresh before install and
+#     was the single biggest chunk of this VM's boot time.
 #   - harvesterhci.io/sshNames annotation is a no-op with inline cloud-init
 #     (confirmed in chapter 4's header) - the KeyPair prod/default's real
 #     public key is read from its own spec.publicKey and embedded directly
@@ -39,7 +46,7 @@
 #     prefix-based lookup, which was fixed to tolerate either).
 #
 # FIXED 2026-07-21: this image (staged here for chapter 4/6, not used by
-# algo-trader-01 itself) defaults to 3 replicas when storageClassParameters
+# vertex-trader-01 itself) defaults to 3 replicas when storageClassParameters
 # is unset, which needlessly triples backing-image replication work for a
 # disposable story VM — unnecessary per chapter 2's own storage-tier lesson.
 # Pinned to 1 replica here.
@@ -50,7 +57,7 @@
 # minimum is ~31.5GiB, not a sparse/shrinkable image), which repeatedly
 # exceeded this lab's per-node Longhorn storage capacity. Switched to
 # SLES15-SP7-Minimal-VM, same small-cloud-image family as the pre-baked
-# SLES-16 image algo-trader-01 already boots from.
+# SLES-16 image vertex-trader-01 already boots from.
 #
 # Node labels for prod-network scheduling (stage=prod on harvester1/2) live
 # in track_scripts/setup-kvm-host, since webserver-prod needs them from
@@ -64,13 +71,13 @@ export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 NS="prod"
 IMAGE_NS="official-images"
-VM_NAME="algo-trader-01"
+VM_NAME="vertex-trader-01"
 VM_IP="192.168.122.50"
 
 log(){ echo ">>> [ch3-solve] $*"; }
 
 # --- Task 1: SLES15-SP7 Minimal VM image (needed by later chapters, not by
-#     algo-trader-01 itself - see chapter 4/6 headers) --------------------
+#     vertex-trader-01 itself - see chapter 4/6 headers) --------------------
 IMG_URL="http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
 IMG_DISPLAY_NAME="SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
 
@@ -113,7 +120,7 @@ for _ in $(seq 1 60); do
 done
 [ "${STAGED_READY:-}" = "100" ] || log "warn: SLES15-SP7 image not Active yet (non-fatal, chapters 4/6 self-provision it if still missing)."
 
-# --- Tasks 2-5: algo-trader-01 VM ------------------------------------------
+# --- Tasks 2-5: vertex-trader-01 VM ------------------------------------------
 if kubectl get vm -n "${NS}" "${VM_NAME}" &>/dev/null; then
   log "${VM_NAME} already exists, skipping."
   echo ">>> Challenge 3 solve complete."
@@ -136,6 +143,31 @@ log "using image ${IMAGE_NS}/${SLES_IMAGE_NAME} (storageClass ${SLES_SC:-<empty>
 log "reading KeyPair prod/default's public key ..."
 SSH_PUBKEY="$(kubectl get keypairs.harvesterhci.io -n "${NS}" default -o jsonpath='{.spec.publicKey}' 2>/dev/null)"
 [ -n "${SSH_PUBKEY}" ] || log "warn: could not read KeyPair prod/default; ${VM_NAME} will come up without student SSH access."
+
+log "checking for Cloud Config Template prod/prod ..."
+if kubectl get configmap -n "${NS}" prod &>/dev/null; then
+  log "prod/prod already exists, skipping."
+else
+  log "creating prod/prod Cloud Config Template ..."
+  cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prod
+  namespace: ${NS}
+  labels:
+    harvesterhci.io/cloud-init-template: user
+data:
+  cloudInit: |
+    #cloud-config
+    packages:
+      - qemu-guest-agent
+    runcmd:
+      - [systemctl, enable, --now, qemu-guest-agent.service]
+    ssh_authorized_keys:
+      - ${SSH_PUBKEY}
+EOF
+fi
 
 log "creating ${VM_NAME} at ${VM_IP} ..."
 cat <<EOF | kubectl apply -f -
@@ -221,7 +253,6 @@ spec:
         cloudInitNoCloud:
           userData: |
             #cloud-config
-            package_update: true
             packages:
               - qemu-guest-agent
             runcmd:

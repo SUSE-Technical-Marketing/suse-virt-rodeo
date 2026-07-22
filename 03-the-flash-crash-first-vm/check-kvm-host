@@ -12,7 +12,7 @@ export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 NS="prod"
 IMAGE_NS="official-images"
-VM_NAME="algo-trader-01"
+VM_NAME="vertex-trader-01"
 VM_IP="192.168.122.50"
 
 FAIL=0
@@ -34,7 +34,13 @@ else
   fail "SLES15-SP7 Minimal VM image not found in ${IMAGE_NS}."
 fi
 
-# --- Tasks 2-5: algo-trader-01 VM ------------------------------------------
+# --- Task 4: prod/prod Cloud Config Template (a plain ConfigMap, not a
+#     dedicated CRD - confirmed live via `kubectl get crd`) ----------------
+if ! kubectl get configmap -n "${NS}" prod &>/dev/null; then
+  fail "Cloud Config Template prod/prod not found (ConfigMap 'prod' missing in namespace ${NS})."
+fi
+
+# --- Tasks 2-5: vertex-trader-01 VM ------------------------------------------
 if ! kubectl get vm -n "${NS}" "${VM_NAME}" &>/dev/null; then
   fail "VirtualMachine ${VM_NAME} not found in ${NS}."
 else
@@ -67,7 +73,7 @@ else
   [ "${VOL_COUNT}" -ge 2 ] || fail "${VM_NAME} has ${VOL_COUNT} PVC-backed volumes, expected at least 2 (boot disk + market-data-vol)."
 
   # Harvester's UI always appends a random suffix to volume claim names
-  # (live-confirmed: algo-trader-01-market-data-vol-<random>) - an exact-name
+  # (live-confirmed: vertex-trader-01-market-data-vol-<random>) - an exact-name
   # lookup can never match a UI-built VM, so match by prefix instead.
   kubectl get pvc -n "${NS}" -o name | grep -q "^persistentvolumeclaim/${VM_NAME}-market-data-vol" \
     || fail "No PVC matching ${VM_NAME}-market-data-vol* found."
@@ -83,4 +89,4 @@ if [[ "${FAIL}" -eq 1 ]]; then
   exit 1
 fi
 
-echo "PASS: Chapter 3 objectives verified (SLES15-SP7 image, algo-trader-01 running at ${VM_IP} with 2 volumes)"
+echo "PASS: Chapter 3 objectives verified (SLES15-SP7 image, vertex-trader-01 running at ${VM_IP} with 2 volumes)"
