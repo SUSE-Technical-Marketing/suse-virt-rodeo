@@ -191,14 +191,24 @@ IMAGE_SC="$(kubectl get virtualmachineimages.harvesterhci.io -n "${IMAGE_NS}" "$
 [ -n "${IMAGE_SC}" ] || { log "warn: could not read storageClassName for ${IMAGE_NS}/${IMAGE_NAME}; VM creation will likely fail."; }
 
 create_vm() {
-  local name="$1" ip="$2"
+  local name="$1" ip="$2" pin_node="${3:-}"
 
   if kubectl get vm -n "${NS}" "${name}" &>/dev/null; then
     log "${name} already exists, skipping."
     return
   fi
 
-  log "creating ${name} at ${ip} ..."
+  local affinity_key affinity_value
+  if [ -n "${pin_node}" ]; then
+    log "creating ${name} at ${ip}, pinned to node ${pin_node} (webserver-prod's current node, for a guaranteed first collision) ..."
+    affinity_key="kubernetes.io/hostname"
+    affinity_value="${pin_node}"
+  else
+    log "creating ${name} at ${ip} ..."
+    affinity_key="stage"
+    affinity_value="prod"
+  fi
+
   cat <<EOF | kubectl apply -f -
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
@@ -220,16 +230,17 @@ spec:
       hostname: ${name}
       evictionStrategy: LiveMigrateIfPossible
       # Pin to a stage=prod node (harvester1/harvester2 only, set up earlier in
-      # this script).
+      # this script) — or, on initial creation, to webserver-prod's exact
+      # current node (see pin_node below) for a guaranteed first collision.
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: stage
+              - key: ${affinity_key}
                 operator: In
                 values:
-                - prod
+                - ${affinity_value}
       domain:
         cpu:
           cores: 2
@@ -285,7 +296,26 @@ spec:
 EOF
 }
 
-create_vm "daily-batch-processor" "192.168.122.52"
+# Resolve webserver-prod's current node so daily-batch-processor's FIRST
+# placement is guaranteed to collide with it — otherwise the scheduler might
+# just as easily pick the other stage=prod node, making chapter 6's
+# LastHealthyReplica story a coin flip instead of a reliable demo. Bounded to
+# 2 minutes; if it doesn't resolve, daily-batch-processor still schedules
+# fine, just without the guaranteed collision (non-fatal).
+log "resolving webserver-prod's current node for daily-batch-processor's initial placement ..."
+WEBSERVER_NODE=""
+for _ in $(seq 1 12); do
+  WEBSERVER_NODE="$(kubectl get vmi -n "${NS}" webserver-prod -o jsonpath='{.status.nodeName}' 2>/dev/null)"
+  [ -n "${WEBSERVER_NODE}" ] && break
+  sleep 10
+done
+if [ -n "${WEBSERVER_NODE}" ]; then
+  log "webserver-prod is on node ${WEBSERVER_NODE}."
+else
+  log "warn: could not resolve webserver-prod's node after 2 minutes; daily-batch-processor will schedule normally (stage=prod, may or may not collide)."
+fi
+
+create_vm "daily-batch-processor" "192.168.122.52" "${WEBSERVER_NODE}"
 
 log "waiting for daily-batch-processor to reach Running phase ..."
 for _ in $(seq 1 60); do
@@ -294,6 +324,19 @@ for _ in $(seq 1 60); do
   sleep 10
 done
 [ "${PHASE:-}" = "Running" ] || log "warn: daily-batch-processor not Running yet (non-fatal, check the UI)."
+
+# Release the node pin now that placement has happened once — restores the
+# normal stage=prod affinity every other prod VM uses, so a future reschedule
+# (restart, chapter 6's node drain) isn't artificially forced back onto
+# webserver-prod's node forever. requiredDuringSchedulingIgnoredDuringExecution
+# only affects scheduling decisions, so this never moves the VM that's
+# already running — it only changes what happens on the NEXT reschedule.
+# Idempotent and safe to run even if daily-batch-processor already existed
+# from a prior run.
+log "releasing daily-batch-processor's node pin (back to normal stage=prod scheduling) ..."
+kubectl patch vm -n "${NS}" daily-batch-processor --type merge \
+  -p '{"spec":{"template":{"spec":{"affinity":{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"stage","operator":"In","values":["prod"]}]}]}}}}}}}' \
+  || log "warn: failed to release daily-batch-processor's node pin."
 
 echo ">>> Challenge 4 setup complete."
 exit 0
