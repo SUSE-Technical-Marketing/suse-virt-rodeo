@@ -191,7 +191,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 
 - 🐮 Learn how to manage **fleets of these clusters at scale** — one Rancher Prime managing every SUSE Virtualization cluster in every branch datacenter — with [SUSE Rancher Prime](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
 
-- 🧪 Rebuild this at home: <b class="virt">SUSE Virtualization</b> is open source. Grab the ISO, install it on any spare x86 box, and your own Vertex Trust migration begins.
+- 🧪 Rebuild this at home: <b class="virt">SUSE Virtualization</b> is open source. Grab the ISO, install it on any spare x86 box, and run your own VMs. 
 
 - 🤝 You are never alone on this trail: SUSE customers consistently rate **SUSE Support** among the best in the industry — and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
 
@@ -199,7 +199,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 
 <div id="903" class="story">
 
-It has been an absolute honor working alongside you, **Architect**.
+It has been an absolute honor working alongside you!
 
 **Happy migrating!** 🎉
 
