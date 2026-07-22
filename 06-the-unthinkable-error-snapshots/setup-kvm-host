@@ -3,7 +3,7 @@
 # this chapter's story assumes exists before the student arrives:
 #   core-services   (the VM that gets snapshotted, wiped, and restored)
 #
-# transaction-ledger was previously referenced nowhere else in the track —
+# core-services was previously referenced nowhere else in the track —
 # no chapter created it, confirmed via a live `kubectl get vm -A` that showed
 # only webserver-prod pre-baked on the cluster. This script closes that gap.
 #
@@ -30,7 +30,7 @@
 # cloud-init-first and honors NoCloud static network-data correctly.
 #   - Namespace: placed in prod by pattern-match with webserver-prod (both
 #     are "core production systems" in the story) — not independently
-#     verified since transaction-ledger never existed on the cluster before.
+#     verified since core-services never existed on the cluster before.
 #
 # FIXED 2026-07-17: this used to wait up to 10 minutes for the staged image
 # (only created by chapter 3, task 1) and silently skip VM creation if it

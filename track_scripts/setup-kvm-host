@@ -166,7 +166,7 @@ agent variable set HARVESTER_PASSWORD "$RANCHER_PASS"
 
 # SSH key embedded (inline ssh_authorized_keys) into the VMs chapter 4/6
 # create themselves: daily-batch-processor (192.168.122.52) and
-# transaction-ledger (192.168.122.53). kvm-host IS the KVM hypervisor, so
+# core-services (192.168.122.53). kvm-host IS the KVM hypervisor, so
 # virbr0 (192.168.122.x) is directly reachable.
 #
 # FIXED 2026-07-21: removed a "Host virt1" -> 192.168.122.50 entry that used

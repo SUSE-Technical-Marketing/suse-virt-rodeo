@@ -113,7 +113,7 @@ enhanced_loading: null
 
 The next morning, the exhausted silence of the night shift is abruptly broken by a muffled sob coming from the junior database administrator's desk.
 
-You and Sarah walk over immediately. The junior admin is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary <b class="highlightcopy">transaction-ledger</b> server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
+You and Sarah walk over immediately. The junior admin is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary <b class="highlightcopy">core-services</b> server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
 
 A <span class="danger">one hundred million dollar</span> corporate transaction settlement record, finalized only moments before, has been wiped entirely from the disk.
 
@@ -172,10 +172,10 @@ Password:
 
 You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
 
-In the [button label="Cluster Terminal" variant="success"](tab-1), log into the ledger virtual machine:
+In the [button label="Cluster Terminal" variant="success"](tab-1), log into the core-services virtual machine:
 
 ```bash
-ssh sles@TRANSACTION_LEDGER_IP
+ssh sles@CORE_SERVICES_IP
 ```
 
 Generate the highly sensitive transaction record onto the disk by typing exactly this:
@@ -206,14 +206,14 @@ Verify the file is truly gone:
 cat /home/sles/ledger.txt
 ```
 
-`No such file or directory`. One hundred million dollars, gone from the disk. Type `exit` to leave the ledger VM.
+`No such file or directory`. One hundred million dollars, gone from the disk. Type `exit` to leave the core-services VM.
 
 🧪 Task 2: Clone a staging environment from the snapshot
 ========================================================
 
 Instead of immediately restoring production, you will build a **clone** to verify the data first — non-destructive recovery is how professionals turn back time.
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), in the **Snapshots** tab for the <b class="highlightcopy">transaction-ledger</b>:
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), in the **Snapshots** tab for the <b class="highlightcopy">core-services</b>:
 
 1. Locate <b class="highlightcopy">pre-disaster-backup</b>
 2. Click the **three dots** next to it and select **Restore to New Virtual Machine**
@@ -250,7 +250,7 @@ Type `exit` to leave the staging server.
 
 Now that you have verified the snapshot's integrity, return to the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-1. **Power off** the original <b class="highlightcopy">transaction-ledger</b> virtual machine to freeze the corrupted disk state
+1. **Power off** the original <b class="highlightcopy">core-services</b> virtual machine to freeze the corrupted disk state
 2. In the **Snapshots** tab, click the action menu next to <b class="highlightcopy">pre-disaster-backup</b>
 3. Select **Restore** and confirm the action
 4. Power the virtual machine back on
@@ -275,12 +275,12 @@ The cluster can now ship complete VM backups off the cluster — the modern equi
 ⏰ Task 6: Put backups on a schedule
 ====================================
 
-Ad-hoc snapshots saved the day once; policy keeps the bank safe every day after. Put <b class="highlightcopy">transaction-ledger</b> itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
+Ad-hoc snapshots saved the day once; policy keeps the bank safe every day after. Put <b class="highlightcopy">core-services</b> itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 1. Go to **Backup & Snapshot > Virtual Machine Schedules** and click **Create schedule**
-2. Set the **Namespace** to <b class="highlightcopy">prod</b> and the **Virtual Machine Name** to <b class="highlightcopy">transaction-ledger</b>
+2. Set the **Namespace** to <b class="highlightcopy">prod</b> and the **Virtual Machine Name** to <b class="highlightcopy">core-services</b>
 3. On the **Basics** tab, fill in:
    - **Cron Schedule:** <b class="highlightcopy">0 */5 * * *</b> — at minute 00, every 5 hours
    - **Retain:** <b class="highlightcopy">5</b>
