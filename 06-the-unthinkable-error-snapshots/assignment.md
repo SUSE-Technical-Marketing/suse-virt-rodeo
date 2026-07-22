@@ -172,7 +172,7 @@ Password:
 
 You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
 
-In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine:
+In the [button label="Cluster Terminal" variant="success"](tab-1), log into the ledger virtual machine:
 
 ```bash
 ssh sles@TRANSACTION_LEDGER_IP
