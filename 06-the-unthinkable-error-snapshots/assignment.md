@@ -176,7 +176,7 @@ In the [button label="Cluster Terminal" variant="success"](tab-1), log into the 
 
 ```bash
 ssh -o StrictHostKeyChecking=accept-new sles@`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'`
- 
+
 ```
 
 Generate the highly sensitive transaction record onto the disk by typing exactly this:
@@ -261,7 +261,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 2. Click the **three dots** on its row and select **Edit Setting**, add the following:
 
 - **Type**: <b class="highlightcopy">NFS</b>
-- **Endpoint**: 
+- **Endpoint**:
 
 <div class="cred">
 
@@ -281,7 +281,7 @@ The cluster can now ship complete VM backups off the cluster — the modern equi
 
 
 <div id="602" class="story">
-Ad-hoc snapshots can the day once; policy keeps the bank safe every day after. 
+Ad-hoc snapshots can the day once; policy keeps the bank safe every day after.
 </div>
 
 Put <b class="highlightcopy">core-services</b> itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
@@ -295,6 +295,8 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
   - **Namespace**: <b class="highlightcopy">prod</b>
   - **Virtual Machine Name**: <b class="highlightcopy">core-services</b>
   - **Basics**:
+    - **Retain:** <b class="highlightcopy">5</b>
+    - **Max Failure:** <b class="highlightcopy">2</b>
     - **Cron Schedule:** (at minute 00, every 5 hours)
 
 <div class="cred">
@@ -305,8 +307,6 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 </div>
 
-    - **Retain:** <b class="highlightcopy">5</b>
-    - **Max Failure:** <b class="highlightcopy">2</b>
 
 4. Click **Create**
 
@@ -326,7 +326,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 1. Go to **Virtual Machines**
 2. Click **Console** drop-down and select **Open in WebVNC**, a new window will appear with the terminal
 3. Login using the following credentials: **sles/1234**
-4. Once inside run the following command: 
+4. Once inside run the following command:
 
 
 <div class="cred">
@@ -352,10 +352,10 @@ Now lets delete the clone we no longer need.
 
 
 
-♻️ Task 4: Restore the production system
+♻️ Task 6: Restore the production system
 =========================================
 
-Now that you have verified the snapshot's integrity, return to the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+Now that you have verified the snapshot's integrity, proceed to restore the production system:
 
 1. Go to **Virtual Machines**
 2. Click the **three dots** on **core-services** row and select **Stop**,and again **Apply**.
