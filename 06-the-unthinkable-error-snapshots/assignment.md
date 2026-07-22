@@ -172,7 +172,7 @@ Password:
 
 You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
 
-In the [button label="Cluster Terminal" variant="success"](tab-1), log into the ledger virtual machine (find `TRANSACTION_LEDGER_IP` in the UI):
+In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine:
 
 ```bash
 ssh sles@TRANSACTION_LEDGER_IP
@@ -186,7 +186,7 @@ echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/
 
 **Now capture the baseline.** Switch to the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-1. Navigate to the <b class="highlightcopy">transaction-ledger</b> details page
+1. Navigate to the <b class="highlightcopy">core-services</b> details page
 2. Click the **Snapshots** tab
 3. Click **Take Snapshot** and name it <b class="highlightcopy">pre-disaster-backup</b>
 4. Wait for the storage subsystem to flag the snapshot state as **Active** — the rollback point is set
