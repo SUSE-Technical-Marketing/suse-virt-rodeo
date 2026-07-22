@@ -104,6 +104,13 @@ fi
 # fresh lab showed it Off with a pending "Restart action is required"
 # message as early as chapter 3).
 
+# webserver-prod's IP is static (assigned via the pre-baked image's own
+# netplan/cloud-init, not by any script here) — always 192.168.122.220.
+# Exposed as PAYMENT_GATEWAY_IP for task 2's heartbeat and task 4's uptime
+# check, so assignment.md can use it directly instead of a manual lookup.
+agent variable set PAYMENT_GATEWAY_IP "192.168.122.220"
+log "PAYMENT_GATEWAY_IP=192.168.122.220"
+
 log "waiting for namespace ${NS} ..."
 for _ in $(seq 1 60); do
   kubectl get namespace "${NS}" &>/dev/null && break

@@ -181,10 +181,10 @@ This halts its CPU cycles, dedicating maximum hardware resources to your emergen
 
 Switch to the [button label="Cluster Terminal" variant="success"](tab-1). You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.
 
-Locate the IP address for <b class="highlightcopy">webserver-prod</b> in the UI, then start the heartbeat (replace `PAYMENT_GATEWAY_IP` with the actual address):
+Start the heartbeat monitor against <b class="highlightcopy">webserver-prod</b>:
 
-```bash
-ping PAYMENT_GATEWAY_IP
+```bash,run
+ping [[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]]
 ```
 
 > [!IMPORTANT]
@@ -220,10 +220,10 @@ Strictly speaking, there *is* a hand-over moment: once the memory copy converges
 
 Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down — the gateway physically moved while its customers never noticed.
 
-Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running (replace `PAYMENT_GATEWAY_IP`):
+Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running:
 
-```bash
-ssh opensuse@PAYMENT_GATEWAY_IP "hostname && uptime"
+```bash,run
+ssh sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] "hostname && uptime"
 ```
 
 ▶️ Task 5: Resume normal operations
