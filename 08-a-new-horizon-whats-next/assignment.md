@@ -119,7 +119,7 @@ She turns to you and extends her hand. *"Thank you. You didn't just save our inf
 
 </div>
 
-## <b class="hovereffect">🏆 Your Deeds, Architect</b>
+## <b class="hovereffect">🏆 Your Deeds</b>
 
 You conquered incredible odds during your time here:
 
@@ -132,9 +132,14 @@ You conquered incredible odds during your time here:
 | 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |
 | ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, staging clones, storage tiers, and scheduled off-cluster backups |
 | 🤠 The Stampede | A compute famine | Golden VM templates — stamping out identical fleets on demand |
-| ⚔️ The Final Showdown | A vendor holding the bank hostage | Live extraction from the ISAware cluster and guest telemetry |
+
+
+<div id="902" class="story">
 
 Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digital frontier is vast and constantly evolving. There are always new architectures to design and new systems to modernize.
+
+</div>
+
 
 🔐 Login Credentials
 ====================
@@ -172,141 +177,12 @@ The lab environment will remain active until your timer expires. Feel free to ex
 
 - **Design your own crisis.** Create a new VM from scratch — pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
 
-- **Peek at the monitoring stack** that has been watching over you all along, under **Monitoring & Logging** in the left menu.
-
-- **For the command-line curious (optional):** the same inventory, through the API:
+- **For the command-line curious (optional):** the API is yours:
 
 ```bash,run
-kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmsnapshots -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A
 ```
 
-🏗️ Epilogue Quest — Sarah's last request (optional)
-====================================================
-
-<div id="902" class="story">
-
-You are halfway to the elevator when Sarah catches up with you, tablet in hand. *"One more thing, Architect. The mobile banking team saw what you built. They want their own Kubernetes cluster for the new customer portal — and they want it running **on** this platform, not beside it. Can it do that?"*
-
-You smile. This is where <b class="virt">SUSE Virtualization</b> stops being a hypervisor replacement and becomes a **cloud**.
-
-</div>
-
-When **Rancher Prime** manages <b class="virt">SUSE Virtualization</b>, it treats the platform as a cloud provider — identical to how it talks to AWS, Azure, or GCP. You can provision full Kubernetes clusters on the bank's own hardware with the same workflow the cloud teams already use.
-
-**Step 1 — A project for the team.** Rancher uses **Projects** to group namespaces and apply RBAC at scale. In the [button label="Rancher Prime UI" variant="success"](tab-2):
-
-1. Navigate to your cluster > **Projects/Namespaces**
-2. Click **Create Project**, name it <b class="highlightcopy">retail-banking</b>
-3. Under **Members**, add `admin` with the role **Project Member** (in production you would add the actual portal team)
-4. Click **Create**
-
-**Step 2 — The cloud credential.** Rancher needs permission to create VMs on the platform:
-
-1. Top-right user menu > **Cloud Credentials** > **Create**
-2. Select **Harvester**
-3. Name it <b class="highlightcopy">vertex-harvester</b> and select the imported cluster
-4. Click **Create**
-
-**Step 3 — Provision the portal cluster.** Still in the Rancher Prime UI:
-
-1. Go to **Cluster Management** > **Create** and select **RKE2/K3s**
-2. Under **Infrastructure**, select **Harvester**
-3. Set **Cluster Name** to <b class="highlightcopy">vertex-mobile</b>, pick the latest K3s version, and choose the `vertex-harvester` credential
-4. Configure the node pool: **1** machine, namespace `prod`, the openSUSE Leap image from your **Images** page, `2` CPU / `4 GiB` memory / `40 GiB` disk, network `prod/vmnet`, SSH user `opensuse`
-5. Under the cluster add-ons, enable the **Harvester CSI Driver** (Longhorn-backed persistent volumes) and the **Harvester Cloud Provider** (LoadBalancer services from your IP pool)
-6. Click **Create**
-
-Watch the platform build a cluster inside itself: stay on Rancher's **Cluster Management** page and watch <b class="highlightcopy">vertex-mobile</b> progress through the provisioning states — VMs appear on the **Virtual Machines** page of the [button label="SUSE Virtualization UI" variant="success"](tab-0) as Rancher creates them. This takes 5–10 minutes; wait for the state **Active**.
-
-> For the command-line curious, the same show plays in the [button label="Cluster Terminal" variant="success"](tab-1): `watch kubectl --kubeconfig .rodeo/harvester-kubeconfig get clusters.provisioning.cattle.io -A` (press `Ctrl+C` once it reports `Active`).
-
-**Step 4 — Light up the ops dashboard (advanced — for the Kubernetes-curious).** This final flourish deploys a small containerized app onto the new cluster. Note who is in charge here: the container work happens entirely through **Rancher**, not the SUSE Virtualization UI — running containers is Rancher's job. Skip freely; your mission is already complete.
-
-Once `vertex-mobile` is Active, open it in Rancher's **Cluster Explorer** and launch the built-in **Kubectl Shell** (`>_` icon, top right). This shell is already authenticated straight to `vertex-mobile` — no kubeconfig flag needed, unlike every other terminal command in this workshop. Deploy the bank's ops dashboard — a tiny Node.js app that reads the cluster API and renders live vitals:
-
-```bash
-kubectl create namespace vertex-ops
-kubectl create serviceaccount geeko-dash -n vertex-ops
-kubectl create clusterrole geeko-dash-reader --verb=get,list --resource=nodes
-kubectl create clusterrolebinding geeko-dash-reader --clusterrole=geeko-dash-reader --serviceaccount=vertex-ops:geeko-dash
-kubectl create configmap geeko-dash-config -n vertex-ops --from-literal=CLUSTER_NAME=VERTEX-TRUST-MOBILE-01
-```
-
-```bash
-kubectl apply -f - << 'EOF'
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: geeko-dash
-  namespace: vertex-ops
-  labels:
-    app: geeko-dash
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: geeko-dash
-  template:
-    metadata:
-      labels:
-        app: geeko-dash
-    spec:
-      serviceAccountName: geeko-dash
-      containers:
-        - name: geeko-dash
-          image: docker.io/avaleror/alien-geeko:latest
-          ports:
-            - containerPort: 3000
-          env:
-            - name: CLUSTER_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: geeko-dash-config
-                  key: CLUSTER_NAME
-          resources:
-            requests:
-              cpu: 25m
-              memory: 32Mi
-            limits:
-              cpu: 100m
-              memory: 64Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: geeko-dash
-  namespace: vertex-ops
-spec:
-  selector:
-    app: geeko-dash
-  type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: 3000
-EOF
-```
-
-```bash
-kubectl rollout status deployment/geeko-dash -n vertex-ops
-kubectl get svc geeko-dash -n vertex-ops
-```
-
-The `EXTERNAL-IP` comes straight out of <b class="highlightcopy">vertex-ippool</b> (`192.168.122.200–220`) — the address reserve set aside for the platform's load balancers. The loop is closed. Verify the dashboard answers, from the [button label="Cluster Terminal" variant="success"](tab-1) (replace with the external IP you saw):
-
-```bash
-curl -s http://EXTERNAL_IP/health
-```
-
-The full stack you now command:
-
-```
-Bare metal
-  └── SUSE Virtualization  (KubeVirt + Longhorn + Kube-OVN)
-        └── vertex-mobile  (K3s cluster, provisioned by Rancher Prime as VMs)
-              └── geeko-dash  (ops dashboard, LoadBalancer IP from vertex-ippool)
-```
-
-Every layer open source. Every layer one bill. Sarah's mobile banking team gets their cloud — and it never leaves the building.
 
 🚀 What's next on your horizon?
 ===============================
