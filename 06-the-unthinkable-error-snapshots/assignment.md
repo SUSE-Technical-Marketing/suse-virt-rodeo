@@ -113,7 +113,7 @@ enhanced_loading: null
 
 The next morning, the exhausted silence of the night shift is abruptly broken by a muffled sob coming from the junior database administrator's desk.
 
-You and Sarah walk over immediately. The junior admin is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary <b class="highlightcopy">core-services</b> server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
+You and Sarah walk over immediately. The junior admin is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary <b class="highlightcopy">transaction-ledger</b> server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
 
 A <span class="danger">one hundred million dollar</span> corporate transaction settlement record, finalized only moments before, has been wiped entirely from the disk.
 
@@ -172,10 +172,11 @@ Password:
 
 You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
 
-In the [button label="Cluster Terminal" variant="success"](tab-1), log into the core-services virtual machine:
+In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine:
 
 ```bash
-ssh sles@CORE_SERVICES_IP
+ssh -o StrictHostKeyChecking=accept-new sles@`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'`
+ 
 ```
 
 Generate the highly sensitive transaction record onto the disk by typing exactly this:
@@ -186,108 +187,184 @@ echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/
 
 **Now capture the baseline.** Switch to the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-1. Navigate to the <b class="highlightcopy">core-services</b> details page
-2. Click the **Snapshots** tab
-3. Click **Take Snapshot** and name it <b class="highlightcopy">pre-disaster-backup</b>
-4. Wait for the storage subsystem to flag the snapshot state as **Active** — the rollback point is set
+1. Navigate to **Virtual Machines**, then click on the **...** bottom next to <b class="highlightcopy">core-services</b> VM
+2. Click on **Take Virtual Machine Snapshot**
+3. Name it:
 
-> [!NOTE]
-> Snapshots are **crash-consistent** by default — equivalent to pulling the power cord and booting back up. For **application-consistent** snapshots (filesystem freeze during capture), the QEMU guest agent must be running inside the VM — you will meet it again in a later chapter.
+<div class="cred">
+
+```txt
+pre-disaster-backup
+```
+
+</div>
+
+4. Click on **Create**
+
+5. Navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots** and wait for one we just created to have the state **Ready** — the rollback point is set
+
 
 Return to the [button label="Cluster Terminal" variant="success"](tab-1) and simulate the junior admin's terrible mistake:
 
 ```bash,run
-rm /home/sles/ledger.txt
+rm -f /home/sles/ledger.txt
 ```
 
-Verify the file is truly gone:
+One hundred million dollars, gone from the disk. Leave the VM console:
 
 ```bash,run
-cat /home/sles/ledger.txt
+exit
 ```
 
-`No such file or directory`. One hundred million dollars, gone from the disk. Type `exit` to leave the core-services VM.
 
 🧪 Task 2: Clone a staging environment from the snapshot
 ========================================================
 
-Instead of immediately restoring production, you will build a **clone** to verify the data first — non-destructive recovery is how professionals turn back time.
+Instead of immediately restoring production, you will build a **clone** to verify the data first — non-destructive recovery is always adviced..
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), in the **Snapshots** tab for the <b class="highlightcopy">core-services</b>:
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0).
 
-1. Locate <b class="highlightcopy">pre-disaster-backup</b>
-2. Click the **three dots** next to it and select **Restore to New Virtual Machine**
-3. Name the new virtual machine <b class="highlightcopy">ledger-staging-verify</b>
-4. Click **Create**
+1. Navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots**
 
-🔍 Task 3: Verify the data in the staging sandbox
-=================================================
+2. Click on **pre-disaster-backup** snapshot:
 
-Wait for <b class="highlightcopy">ledger-staging-verify</b> to boot and acquire an IP address. In the [button label="Cluster Terminal" variant="success"](tab-1), SSH into this new staging virtual machine:
+3. Click the **three dots** next to it and select **Restore New**
 
-```bash
-ssh sles@STAGING_IP_ADDRESS
+4. Name the new virtual machine:
+
+
+<div class="cred">
+
+```txt
+core-services-staging-verify
 ```
-
-Verify the file's existence:
-
-```bash,run
-cat /home/sles/ledger.txt
-```
-
-<div id="602" class="story">
-
-`CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED`
-
-The text prints flawlessly. **The data is safe.**
 
 </div>
 
-Type `exit` to leave the staging server.
+
+5. Click **Create**
+
+
+> [!Note]
+> Due to the hardware used in this lab this process will take longer than in normal conditions please continue to the next task.
+
+
+
+🏦 Task 3: Connect the off-cluster backup vault
+======================================================
+
+Snapshots saved the us this morning — but snapshots live on the **same cluster** as the workload. They protect against fat fingers, but not against physical damage or cyber attacks. For real disaster recovery we operate an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
+
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+
+1. Go to **Advanced > Settings** and locate <b class="highlightcopy">backup-target</b>
+2. Click the **three dots** on its row and select **Edit Setting**, add the following:
+
+- **Type**: <b class="highlightcopy">NFS</b>
+- **Endpoint**: 
+
+<div class="cred">
+
+```txt
+192.168.122.1:/srv/backups/
+```
+
+</div>
+
+3. Click **Save**
+
+The cluster can now ship complete VM backups off the cluster — the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production deployment this would point to a physically separated facility.
+
+
+⏰ Task 4: Put backups on a schedule
+====================================
+
+
+<div id="602" class="story">
+Ad-hoc snapshots can the day once; policy keeps the bank safe every day after. 
+</div>
+
+Put <b class="highlightcopy">core-services</b> itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
+
+
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+
+1. Go to **Backup & Snapshot > Virtual Machine Schedules** and click **Create schedule**
+2. Set the following details:
+
+  - **Namespace**: <b class="highlightcopy">prod</b>
+  - **Virtual Machine Name**: <b class="highlightcopy">core-services</b>
+  - **Basics**:
+    - **Cron Schedule:** (at minute 00, every 5 hours)
+
+<div class="cred">
+
+```txt
+0 */5 * * *
+```
+
+</div>
+
+    - **Retain:** <b class="highlightcopy">5</b>
+    - **Max Failure:** <b class="highlightcopy">2</b>
+
+4. Click **Create**
+
+From now on the platform backs the VM up to the NFS vault every five hours, keeps the five most recent copies, and pauses the schedule if two consecutive runs fail. Set once, protected forever.
+
+
+
+🔍 Task 5: Verify the data in the staging sandbox
+=================================================
+
+Now that <b class="highlightcopy">core-services-staging-verify</b> is up and running. Lets verify the file is there.
+
+This time we will use the console, since the VM has no network.
+
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
+
+1. Go to **Virtual Machines**
+2. Click **Console** drop-down and select **Open in WebVNC**, a new window will appear with the terminal
+3. Login using the following credentials: **sles/1234**
+4. Once inside run the following command: 
+
+
+<div class="cred">
+
+```txt
+cat /home/sles/ledger.txt
+```
+
+</div>
+
+5. It should return:
+
+**CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED**
+
+
+The text prints flawlessly. **The data is safe.**
+
+
+Now lets delete the clone we no longer need.
+
+1. Close the window with the console.
+2. Click the **three dots** on **core-services-staging-verify** row and select **Delete**,and again **Delete**.
+
+
 
 ♻️ Task 4: Restore the production system
 =========================================
 
 Now that you have verified the snapshot's integrity, return to the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-1. **Power off** the original <b class="highlightcopy">core-services</b> virtual machine to freeze the corrupted disk state
+1. Go to **Virtual Machines**
+2. Click the **three dots** on **core-services** row and select **Stop**,and again **Apply**.
+
 2. In the **Snapshots** tab, click the action menu next to <b class="highlightcopy">pre-disaster-backup</b>
 3. Select **Restore** and confirm the action
 4. Power the virtual machine back on
 
 Optionally, SSH back into the production ledger and `cat` the file one last time — the record is back where it belongs.
-
-🏦 Task 5: Connect the bank's off-cluster backup vault
-======================================================
-
-Snapshots saved the ledger this morning — but snapshots live on the **same cluster** as the workload. They protect against fat fingers, not against a datacenter fire. For real disaster recovery the bank operates an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
-
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
-
-1. Go to **Advanced > Settings** and locate <b class="highlightcopy">backup-target</b>
-2. Click the **three dots** on its row and select **Edit Setting**
-3. Set the **Type** to <b class="highlightcopy">NFS</b>
-4. Set the **Endpoint** to <b class="highlightcopy">192.168.122.1:/srv/backups/</b>
-5. Click **Save**
-
-The cluster can now ship complete VM backups off the cluster — the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production <b class="bank">Vertex Trust Bank</b> deployment this would point to a separate facility.
-
-⏰ Task 6: Put backups on a schedule
-====================================
-
-Ad-hoc snapshots saved the day once; policy keeps the bank safe every day after. Put <b class="highlightcopy">core-services</b> itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
-
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
-
-1. Go to **Backup & Snapshot > Virtual Machine Schedules** and click **Create schedule**
-2. Set the **Namespace** to <b class="highlightcopy">prod</b> and the **Virtual Machine Name** to <b class="highlightcopy">core-services</b>
-3. On the **Basics** tab, fill in:
-   - **Cron Schedule:** <b class="highlightcopy">0 */5 * * *</b> — at minute 00, every 5 hours
-   - **Retain:** <b class="highlightcopy">5</b>
-   - **Max Failure:** <b class="highlightcopy">2</b>
-4. Click **Create**
-
-From now on the platform backs the ledger up to the NFS vault every five hours, keeps the five most recent copies, and pauses the schedule if two consecutive runs fail. Set once, protected forever.
 
 🏋️ Bonus Drills — see the machinery behind the safety net (optional)
 ======================================================================
