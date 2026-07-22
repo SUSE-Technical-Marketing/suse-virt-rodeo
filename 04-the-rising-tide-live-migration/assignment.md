@@ -281,7 +281,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAM
 > [!NOTE]
 > **Beyond compute:** the same zero-downtime idea also applies to *disks*. <b class="virt">SUSE Virtualization</b> supports **in-place storage live migration** — moving a running VM's volumes between storage backends — for example from Longhorn to an external CSI array — without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
 
-💼 Why does this matter for Vertex Trust Bank?
+💼 Why does this matter?
 ==============================================
 
 - **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots — workloads simply slide to healthy nodes while customers keep paying with their cards.

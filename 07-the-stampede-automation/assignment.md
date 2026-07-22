@@ -406,7 +406,7 @@ You can examine the file `template_prod-basic.yaml` — it contains a definition
 
 
 
-💼 Why does this matter for Vertex Trust Bank?
+💼 Why does this matter?
 ==============================================
 
 - **Elasticity on owned hardware.** Cloud-style scale-out (and scale-in) on the bank's own datacenter — no data residency questions, no egress bills.

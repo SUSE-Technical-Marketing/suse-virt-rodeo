@@ -346,7 +346,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kube
 kubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev
 ```
 
-💼 Why does this matter for Vertex Trust Bank?
+💼 Why does this matter?
 ==============================================
 
 - **The silos disappear.** VMs and containers share nodes, storage, and one operations team — the datacenter's "temperature divide" is gone.

@@ -382,7 +382,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; ku
 ```
 
 
-💼 Why does this matter for Vertex Trust Bank?
+💼 Why does this matter?
 ==============================================
 
 - **Human error stops being catastrophic.** Recovery went from "wait for midnight tapes and pray" to a five-minute, self-service rollback.

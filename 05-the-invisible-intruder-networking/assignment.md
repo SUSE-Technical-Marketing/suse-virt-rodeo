@@ -347,7 +347,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get subnets.kubeovn.io -o custo
 
 Two vaults, same IP space, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else** — micro-segmentation without a proprietary SDN license, and without ever running out of address space.
 
-💼 Why does this matter for Vertex Trust Bank?
+💼 Why does this matter?
 ==============================================
 
 - **Segmentation at 2 AM, in software.** What used to be a re-cabling project with change-control meetings became three minutes of configuration — while the threat window was still closed.

@@ -387,7 +387,7 @@ kubectl get pods -n harvester-system --kubeconfig .rodeo/harvester-kubeconfig | 
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get settings.harvesterhci.io server-version
 ```
 
-💼 Why does this matter for Vertex Trust Bank?
+💼 Why does this matter?
 ==============================================
 
 - **One command center.** VMs, storage, and networking are visible from a single dashboard — no more juggling three separate management consoles with three separate licenses.
