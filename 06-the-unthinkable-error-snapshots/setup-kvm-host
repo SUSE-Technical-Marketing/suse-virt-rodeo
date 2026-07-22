@@ -202,6 +202,7 @@ spec:
             ssh_authorized_keys:
               - ${SSH_PUBKEY}
             chpasswd:
+              expire: False
               list: |
                 root:\$6\$SalTsaLt\$Yb2OtGlwV37.96VyXUSa9nGMfpWm40YAkJx1yQRZgIFF.Waoay8p5fMPx5c7XFOTXpOjoT/AfANAAEeNc58oF/
                 sles:\$6\$SalTsaLt\$Yb2OtGlwV37.96VyXUSa9nGMfpWm40YAkJx1yQRZgIFF.Waoay8p5fMPx5c7XFOTXpOjoT/AfANAAEeNc58oF/

@@ -174,7 +174,7 @@ You will replay this morning's events yourself, so you understand exactly what t
 
 In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine:
 
-```bash
+```bash,run
 ssh -o StrictHostKeyChecking=accept-new sles@`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'`
 
 ```
@@ -319,12 +319,12 @@ From now on the platform backs the VM up to the NFS vault every five hours, keep
 
 Now that <b class="highlightcopy">core-services-staging-verify</b> is up and running. Lets verify the file is there.
 
-This time we will use the console, since the VM has no network.
+This time we will use the graphical console, since the VM has no network.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 1. Go to **Virtual Machines**
-2. Click **Console** drop-down and select **Open in WebVNC**, a new window will appear with the terminal
+2. Click **Console** drop-down and select **Open in WebVNC**, a new window will appear with the terminal, feel free to resize it.
 3. Login using the following credentials: **sles/1234**
 4. Once inside run the following command:
 
@@ -359,25 +359,28 @@ Now that you have verified the snapshot's integrity, proceed to restore the prod
 
 1. Go to **Virtual Machines**
 2. Click the **three dots** on **core-services** row and select **Stop**,and again **Apply**.
+3. Once it has completely stop, navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots**
 
-2. In the **Snapshots** tab, click the action menu next to <b class="highlightcopy">pre-disaster-backup</b>
-3. Select **Restore** and confirm the action
-4. Power the virtual machine back on
+4. Click on **pre-disaster-backup** snapshot:
 
-Optionally, SSH back into the production ledger and `cat` the file one last time — the record is back where it belongs.
+5. Click the **three dots** next to it and select **Replace Existing**
+
+6. Click on **Create**
+
+The VM will power it up by itself becuase that is what is defined in the run strategy.
+
+Optionally, SSH back and `cat` the file one last time — the record is back where it belongs.
+
 
 🏋️ Bonus Drills — see the machinery behind the safety net (optional)
 ======================================================================
 
-- **See the replication with your own eyes.** Open the **Longhorn** dashboard (via **Support > Access Embedded Longhorn UI**, as in Chapter 1), go to the **Volume** page, and click any volume. The diagram shows its replicas spread across different nodes — one node can burn down and the ledger keeps serving.
-
 - **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object — as is your new backup schedule:
 
 ```bash,run
-kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmsnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
 ```
 
-- **Clean up the sandbox.** The staging clone did its job; delete <b class="highlightcopy">ledger-staging-verify</b> from the **Virtual Machines** page to return its resources to the pool.
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================
