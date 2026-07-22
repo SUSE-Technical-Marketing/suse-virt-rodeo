@@ -133,12 +133,19 @@ if kubectl get vm -n prod webserver-prod &>/dev/null; then
       || echo "WARN: failed to delete webserver-prod's VMI for restart."
   fi
 
-  RUN_STRATEGY="$(kubectl get vm -n prod webserver-prod -o jsonpath='{.spec.runStrategy}' 2>/dev/null)"
-  if [ "${RUN_STRATEGY}" != "Always" ]; then
-    echo ">>> webserver-prod runStrategy is '${RUN_STRATEGY:-unset}', starting it (story requires it Running by chapter 4) ..."
-    kubectl patch vm -n prod webserver-prod --type merge -p '{"spec":{"runStrategy":"Always"}}' \
-      || echo "WARN: failed to start webserver-prod."
-  fi
+#  RUN_STRATEGY="$(kubectl get vm -n prod webserver-prod -o jsonpath='{.spec.runStrategy}' 2>/dev/null)"
+#  if [ "${RUN_STRATEGY}" != "Always" ]; then
+#    echo ">>> webserver-prod runStrategy is '${RUN_STRATEGY:-unset}', starting it (story requires it Running on arrival) ..."
+#    kubectl patch vm -n prod webserver-prod --type merge -p '{"spec":{"runStrategy":"Always"}}' \
+#      || echo "WARN: failed to start webserver-prod."
+#  fi
+  echo ">>> Waiting for webserver-prod to reach Running phase ..."
+  for _ in $(seq 1 60); do
+    WP_PHASE="$(kubectl get vmi -n prod webserver-prod -o jsonpath='{.status.phase}' 2>/dev/null)"
+    [ "${WP_PHASE}" = "Running" ] && { echo ">>> webserver-prod: Running"; break; }
+    sleep 10
+  done
+  [ "${WP_PHASE:-}" = "Running" ] || echo "WARN: webserver-prod not Running yet (non-fatal, check the UI)."
 else
   echo "WARN: webserver-prod NOT found in prod — chapter 4 task 3 will have nothing to migrate."
 fi

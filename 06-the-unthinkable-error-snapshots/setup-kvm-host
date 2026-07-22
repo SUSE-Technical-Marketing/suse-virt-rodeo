@@ -1,7 +1,7 @@
 #!/bin/bash
 # Challenge 6 setup — pre-provisions the "already running in production" VM
 # this chapter's story assumes exists before the student arrives:
-#   transaction-ledger   (the VM that gets snapshotted, wiped, and restored)
+#   core-services   (the VM that gets snapshotted, wiped, and restored)
 #
 # transaction-ledger was previously referenced nowhere else in the track —
 # no chapter created it, confirmed via a live `kubectl get vm -A` that showed
@@ -51,7 +51,7 @@ NS="prod"
 NET="${NS}/service"
 IMAGE_NS="official-images"
 SSH_PUBKEY_FILE="/root/.ssh/id_rsa.pub"
-VM_NAME="transaction-ledger"
+VM_NAME="core-services"
 VM_IP="192.168.122.53"
 
 log(){ echo ">>> [ch6-setup] $*"; }
@@ -204,7 +204,7 @@ spec:
           networkData: |
             version: 2
             ethernets:
-              enp1s0:
+              eth0:
                 addresses:
                   - ${VM_IP}/24
                 gateway4: 192.168.122.1
