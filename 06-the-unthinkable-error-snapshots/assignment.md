@@ -2,7 +2,7 @@
 slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
-title: "⏪ Chapter 6: The Unthinkable Error"
+title: '⏪ Chapter 6: The Unthinkable Error'
 teaser: A slipped cursor just deleted a $100M settlement record. Turn back the clock
   with VM snapshots, verify the recovery in a safe staging clone, then make protection
   permanent with scheduled off-cluster backups.
@@ -325,7 +325,10 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 1. Go to **Virtual Machines**
 2. Click **Console** drop-down and select **Open in WebVNC**, a new window will appear with the terminal, feel free to resize it.
-3. Login using the following credentials: **sles/1234**
+3. Login using the following credentials:
+   - **username**: 'sles'
+   - **password**: '1234'
+
 4. Once inside run the following command:
 
 

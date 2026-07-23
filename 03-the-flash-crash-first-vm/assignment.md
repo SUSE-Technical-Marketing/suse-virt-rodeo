@@ -2,7 +2,7 @@
 slug: the-flash-crash-first-vm
 id: 09d4eiczcvaw
 type: challenge
-title: "⚡ Chapter 3: The Flash Crash"
+title: '⚡ Chapter 3: The Flash Crash'
 teaser: The Asian markets are melting down and the quants need a calculation engine
   NOW. Deploy a fully configured VM with storage and credentials in minutes, not days.
 tabs:

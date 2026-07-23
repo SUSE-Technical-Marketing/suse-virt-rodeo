@@ -219,7 +219,7 @@ You hold your breath as the hypervisor coordinates the massive memory transfer o
 
 </div>
 
-Press `Ctrl+C` to terminate the ping. 
+Press `Ctrl+C` to terminate the ping.
 
 <div id="403" class="story">
 You exhale sharply. **The transaction flow survived.**
