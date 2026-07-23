@@ -148,7 +148,6 @@ You bypass the legacy ticketing system entirely and prepare to deploy a fully co
 1. Verify the operating system image
 2. Provision the calculation engine
 3. Access the Web Console
-4. Validate via Secure Shell
 
 </div>
 
@@ -444,39 +443,25 @@ Cloud-init applies both on first boot: <b class="highlightcopy">vertex-trader-01
 
 Now we have finished the configuration please click **Create** to initialize the deployment of the Virtual Machine.
 
-> [!NOTE]
-> Scheduling rules let you separate critical banking systems from background workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
+
+<div id="303" class="story">
+Scheduling rules let you separate critical systems from other workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
+
+</div>
+
 
 > [!NOTE]
 > **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.
 
 
-🖥️ Task 6: Access the Web Console
+🖥️ Task 3: Access the Web Console
 =================================
 
 Monitor the [button label="SUSE Virtualization UI" variant="success"](tab-0) until the virtual machine transitions to the **Running** state.
 
 1. Click the **Console** button on the virtual machine row to open the VNC web console
-2. Watch the Linux boot sequence complete
+2. Observe we can access the system without a connection by using this method, don't wait for the installation to finish just move on to the next.
 3. Close the console window
-
-🔐 Task 7: Validate via Secure Shell
-====================================
-
-Thanks to the fixed address you injected, there is no hunting for IPs. Switch to the [button label="Cluster Terminal" variant="success"](tab-1) and wait for the engine to answer on the network:
-
-```bash,run
-until nc -zv -w 1 192.168.122.50 22 >/dev/null 2>&1; do echo "Waiting for the calculation engine..."; sleep 5; done; echo "Engine is on the network."
-```
-
-Establish the secure connection and verify the secondary data volume is successfully attached to the system:
-
-```bash,run
-ssh -o StrictHostKeyChecking=accept-new  sles@192.168.122.50 lsblk
-```
-
-
-You should see the boot disk **and** a second block device of 1G.
 
 
 
@@ -518,7 +503,7 @@ You should recognize `market-data-vol` in the list: a banking data drive, expres
 - **Consistency by construction.** Golden images plus cloud-init mean every engine the quants request boots identical, configured, and ready.
 - **No stranded storage.** Volumes are carved from the shared Longhorn pool on demand, no more waiting for SAN LUN allocations.
 
-<div id="302" class="story">
+<div id="304" class="story">
 
 You radio back to the trading floor. *"Your engine is online and the data volume is attached."* The crisis is averted — but the day is far from over.
 
