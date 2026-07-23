@@ -135,9 +135,11 @@ In the past, fulfilling this emergency request at <b class="bank">Vertex Trust B
 
 You do not have days. **You have minutes.**
 
-</div>
+
 
 You bypass the legacy ticketing system entirely and prepare to deploy a fully configured Linux virtual machine (with injected security credentials and attached storage) in mere seconds.
+</div>
+
 
 <div class="missionbox">
 
@@ -145,11 +147,8 @@ You bypass the legacy ticketing system entirely and prepare to deploy a fully co
 
 1. Verify the operating system image
 2. Provision the calculation engine
-3. Attach the volumes and the production network
-4. Customize the installation with cloud-init
-5. Choose where the engine is allowed to run
-6. Access the Web Console
-7. Validate via Secure Shell
+3. Access the Web Console
+4. Validate via Secure Shell
 
 </div>
 
@@ -229,6 +228,11 @@ Move on to the next task; once the download completes, an alert shows up in the 
 
 For this task we are going to create our first VM.
 
+
+> [!NOTE]
+> Please don't click **Create** until instructed.
+
+
 Navigate to **Virtual Machines** and click the **Create** button.
 
 Configure the engine exactly as the quants need it:
@@ -274,36 +278,12 @@ prod
 </div>
 
 
-  Notice the very low resources: our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
+Notice the very low resources: our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
 
 - **SSHKey**: <b class="highlightcopy">prod/default</b>
 
-Now assign it a label: go to the **Labels** tab and click **Add Label**:
-
-- **Key**:
-<div class="cred">
-
-```txt
-stage
-```
-
-</div>
-- **Value**:
-<div class="cred">
-
-```txt
-prod
-```
-
-</div>
-
-This will help us manage the VM with future automation.
 
 
-Do **not** click Create yet. The trader also needs his data volume.
-
-💽 Task 3: Attach the volumes and the production network
-========================================================
 
 Under the **Volumes** tab, fill in the following details:
 
@@ -342,67 +322,15 @@ Now wire the engine into the bank's network. Under the **Networks** tab:
 - **Network**: <b class="highlightcopy">prod/service</b>
 
 
+
+
+<div id="302" class="story">
+
+
 This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated Longhorn volumes, the market data survives even if a physical disk dies mid-trade.
-
-
-🔑 Task 4: Customize the installation
-======================================
-
-Navigate to **Advanced Options**, then select **Cloud Configuration**, to make sure the trading system comes up with all the required settings and packages installed.
-
-In **User Data Template**, click **Create New** to define the standard template the whole production namespace will reuse. Name it:
-
-- **Name**:
-<div class="cred">
-
-```txt
-prod
-```
 
 </div>
 
-Since the template lives in the <b class="highlightcopy">prod</b> namespace and is itself named <b class="highlightcopy">prod</b>, it becomes <b class="highlightcopy">prod/prod</b>: the production standard, ready for every VM this namespace deploys from now on. For the **User Data**, enter:
-
-```yaml
-#cloud-config
-packages:
-  - qemu-guest-agent
-runcmd:
-  - - systemctl
-    - enable
-    - --now
-    - qemu-guest-agent.service
-ssh_authorized_keys:
-  - ssh-ed25519
-    AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
-```
-
-Save the template, then make sure <b class="highlightcopy">prod/prod</b> is selected as the **User Data Template** back on the VM creation form.
-
-
-The trading desk's firewall team has one more demand: the engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
-
-```yaml
-version: 2
-ethernets:
-  enp1s0:
-    addresses:
-      - 192.168.122.50/24
-    gateway4: 192.168.122.1
-    nameservers:
-      addresses:
-        - 192.168.122.1
-```
-
-Cloud-init applies both on first boot: <b class="highlightcopy">vertex-trader-01</b> will come online at `192.168.122.50` with zero post-deployment manual setup.
-
-> [!NOTE]
-> This is **cloud-init**, the same industry-standard mechanism used by every major public cloud.
-> In a real-case scenario there would be more complete automation and dedicated templates for this server's purpose.
-
-
-📍 Task 5: Choose where the engine is allowed to run
-====================================================
 
 
 Since this is a mixed-environment cluster, let's make sure the VM runs only on production nodes.
@@ -434,7 +362,87 @@ prod
 
 </div>
 
-Click **Create** to initialize the deployment.
+
+
+
+Now assign it a label: go to the **Labels** tab and click **Add Label**:
+
+- **Key**:
+<div class="cred">
+
+```txt
+stage
+```
+
+</div>
+- **Value**:
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
+
+This will help us manage the VM with future automation.
+
+
+
+
+Navigate to **Advanced Options**, then select **Cloud Configuration**, to make sure the trading system comes up with all the required settings and packages installed.
+
+In **User Data Template**, click **Create New** to define the standard template the whole production namespace will reuse. Name it:
+
+- **Name**:
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
+
+Since the template lives in the <b class="highlightcopy">prod</b> namespace and is itself named <b class="highlightcopy">prod</b>, it becomes <b class="highlightcopy">prod/prod</b>: the production standard, ready for every VM this namespace deploys from now on. For the **User Data**, enter:
+
+```yaml
+#cloud-config
+packages:
+  - qemu-guest-agent
+runcmd:
+  - - systemctl
+    - enable
+    - --now
+    - qemu-guest-agent.service
+ssh_authorized_keys:
+  - ssh-ed25519
+    AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
+```
+
+Save the template by clicking in **Create**, then make sure <b class="highlightcopy">prod/prod</b> is selected as the **User Data Template** back on the VM creation form.
+
+
+The trading desk's firewall team has one more demand: the engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
+
+```yaml
+version: 2
+ethernets:
+  enp1s0:
+    addresses:
+      - 192.168.122.50/24
+    gateway4: 192.168.122.1
+    nameservers:
+      addresses:
+        - 192.168.122.1
+```
+
+Cloud-init applies both on first boot: <b class="highlightcopy">vertex-trader-01</b> will come online at `192.168.122.50` with zero post-deployment manual setup.
+
+> [!NOTE]
+> This is **cloud-init**, the same industry-standard mechanism used by every major public cloud.
+> In a real-case scenario there would be more complete automation and dedicated templates for this server's purpose.
+
+
+Now we have finished the configuration please click **Create** to initialize the deployment of the Virtual Machine.
 
 > [!NOTE]
 > Scheduling rules let you separate critical banking systems from background workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
