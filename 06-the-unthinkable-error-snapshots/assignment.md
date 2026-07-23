@@ -175,7 +175,7 @@ You will replay this morning's events yourself, so you understand exactly what t
 In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine:
 
 ```bash,run
-ssh -o StrictHostKeyChecking=accept-new sles@`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'`
+while [[ "${IPA}" ==  "" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'`; sleep 1; echo -n '.'; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}
 
 ```
 
