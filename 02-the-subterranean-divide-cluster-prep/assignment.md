@@ -2,7 +2,7 @@
 slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
-title: "\U0001F6D7 Chapter 2 — The Subterranean Divide"
+title: "\U0001F6D7 Chapter 2: The Subterranean Divide"
 teaser: Two hardware silos, two teams that barely speak. Descend into the datacenter,
   map the node topology, and give every disk in the fabric a price tag the bank can
   live with.
@@ -29,7 +29,7 @@ timelimit: 2400
 enhanced_loading: null
 ---
 
-🛗 Chapter 2 — The Subterranean Divide
+🛗 Chapter 2: The Subterranean Divide
 ======================================
 
 <style type="text/css">
@@ -145,7 +145,7 @@ You walk between the two rows, feeling the distinct temperature differential. *"
 
 ## <b class="hovereffect">One fabric for two worlds</b>
 
-You explain the elegant architecture of <b class="virt">SUSE Virtualization</b>: by leveraging advanced open-source technologies on a **Kubernetes foundation**, the platform does not just *tolerate* virtual machines — it treats them as **native citizens of the container ecosystem**. The heavy virtual machines will run side-by-side with the nimble containers, managed by the exact same orchestration engine:
+You explain the elegant architecture of <b class="virt">SUSE Virtualization</b>: by using advanced open-source technologies on a **Kubernetes foundation**, the platform does not just *tolerate* virtual machines: it treats them as **native citizens of the container ecosystem**. The heavy virtual machines will run side-by-side with the nimble containers, managed by the exact same orchestration engine:
 
 | Virtualization world | Container World | Unified on SUSE Virtualization |
 |---------------------|----------------|-------------------------------|
@@ -153,7 +153,7 @@ You explain the elegant architecture of <b class="virt">SUSE Virtualization</b>:
 | Hypervisor management console | Container tooling | **One platform underneath**. SUSE Virtualization runs the VMs, Rancher Prime commands the clusters and the containers |
 | SAN storage arrays | CSI volumes | **Longhorn serves VMs and pods alike** |
 
-That last row is where you start. Every VM disk, every container's persistent volume, all of it rides on the same distributed storage fabric — and not every workload deserves the same price tag.
+That last row is where you start. Every VM disk, every container's persistent volume, all of it rides on the same distributed storage fabric, and not every workload deserves the same price tag.
 
 <div class="missionbox">
 
@@ -221,7 +221,7 @@ Banks grow, and so does this fabric. Running low on space is not a forklift upgr
 
 The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster.
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), select **Namespaces** from the left-hand menu. You will notice <b class="highlightcopy">prod</b> already sitting in the list — the platform team provisioned it before you arrived, and it is where the bank's production workloads will live.
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), select **Namespaces** from the left-hand menu. You will notice <b class="highlightcopy">prod</b> already sitting in the list. The platform team provisioned it before you arrived, and it is where the bank's production workloads will live.
 
 Now create its counterpart for development:
 
@@ -254,7 +254,7 @@ The developers workspace now stand ready, in the future we can assign to it quot
 💾 Task 3: Understand how Longhorn replicates your data
 ========================================================
 
-Lets look at *how* the storage backend stays healthy. Every disk <b class="virt">SUSE Virtualization</b> hands to a VM or a pod is a **Longhorn volume**, and every Longhorn volume is created from a **StorageClass** — a policy that decides, among other things, how many copies of your data exist at any given time.
+Let's look at *how* the storage backend stays healthy. Every disk <b class="virt">SUSE Virtualization</b> hands to a VM or a pod is a **Longhorn volume**, and every Longhorn volume is created from a **StorageClass**: a policy that decides, among other things, how many copies of your data exist at any given time.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Advanced > Storage Classes** and click on <b class="highlightcopy">harvester-longhorn</b>.
 
@@ -270,7 +270,7 @@ Let's look under the hood and see how Longhorn stores the data:
 ```bash,run
 rodeo ssh harvester1
 ```
-2. Check the Longhorn folder on the harvester1 node — you will see some folders and files:
+2. Check the Longhorn folder on the harvester1 node: you will see some folders and files:
 ```bash,run
 ls /var/lib/harvester/defaultdisk
 ```
@@ -284,12 +284,12 @@ exit
 ```
 
 > [!NOTE]
-> Three replicas means three times the disk footprint. That is the correct trade for production money. It is wasteful for a developer's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics — and policies can be tuned per workload.
+> Three replicas means three times the disk footprint. That is the correct trade for production money. It is wasteful for a developer's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics, and policies can be tuned per workload.
 
 🧅 Task 4: Build a cost-tier storage class for the development team
 =====================================================================
 
-The development team does not need production-grade replication for their sandboxes — they need cheap, fast iteration. You will give them their own storage tier, priced for what it actually is: disposable.
+The development team does not need production-grade replication for their sandboxes, they need cheap, fast iteration. You will give them their own storage tier, priced for what it actually is: disposable.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), under **Advanced > Storage Classes**:
 
@@ -323,18 +323,18 @@ harvester-longhorn-1rep
 
 5. Click **Create**
 
-Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas — production) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.
+Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas, production) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.
 
 > [!NOTE]
 > One replica means **zero redundancy**, lose that single node and the volume is gone. That is an acceptable risk for a sandbox nobody depends on overnight, and a very deliberate trade-off you are making on the record, not an accident. Storage classes can also encode disk tags to steer workloads to specific hardware, production on fast NVMe, development on cheaper spindles.
 
-🏋️ Bonus Drills — for the command-line curious (optional)
+🏋️ Bonus Drills: for the command-line curious (optional)
 ==========================================================
 
-New to Kubernetes? **Skip ahead freely.** If you are curious, everything you just did in the UI is also visible through the Kubernetes API — open the [button label="Cluster Terminal" variant="success"](tab-1):
+New to Kubernetes? **Skip ahead freely.** If you are curious, everything you just did in the UI is also visible through the Kubernetes API, open the [button label="Cluster Terminal" variant="success"](tab-1):
 
 
-- **See your UI storage classes as API objects** — the workspace and both storage tiers:
+- **See your UI storage classes as API objects**: the workspace and both storage tiers:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;
@@ -349,9 +349,9 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev
 💼 Why does this matter?
 ==============================================
 
-- **The silos disappear.** VMs and containers share nodes, storage, and one operations team — the datacenter's "temperature divide" is gone.
+- **The silos disappear.** VMs and containers share nodes, storage, and one operations team. The datacenter's "temperature divide" is gone.
 - **No retraining cliff.** The container team's Kubernetes skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by Kubernetes API.
-- **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls — auditors will love it.
+- **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls. Auditors will love it.
 - **Storage has a price list now.** Replication is a dial, not a default. Production data gets three copies because it must; disposable sandboxes get one because they should not cost more than they need to.
 
 <div id="202" class="story">
@@ -365,5 +365,5 @@ Click **Check** to continue. ⚡
 📚 More information
 ===================
 
-- [SUSE Virtualization — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
-- [Storage — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/storage/overview.html)
+- [SUSE Virtualization: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [Storage: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/storage/overview.html)

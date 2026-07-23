@@ -2,9 +2,9 @@
 slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
-title: ⏪ Chapter 6 — The Unthinkable Error
+title: ⏪ Chapter 6: The Unthinkable Error
 teaser: A slipped cursor just deleted a $100M settlement record. Turn back the clock
-  with VM snapshots, verify the recovery in a safe staging clone — then make protection
+  with VM snapshots, verify the recovery in a safe staging clone, then make protection
   permanent with scheduled off-cluster backups.
 tabs:
 - id: lygpkmkmyndn
@@ -29,7 +29,7 @@ timelimit: 3600
 enhanced_loading: null
 ---
 
-⏪ Chapter 6 — The Unthinkable Error
+⏪ Chapter 6: The Unthinkable Error
 ===================================
 
 <style type="text/css">
@@ -201,7 +201,7 @@ pre-disaster-backup
 
 4. Click on **Create**
 
-5. Navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots** and wait for one we just created to have the state **Ready** — the rollback point is set
+5. Navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots** and wait for one we just created to have the state **Ready**: the rollback point is set
 
 
 Return to the [button label="Cluster Terminal" variant="success"](tab-1) and simulate the junior admin's terrible mistake:
@@ -220,7 +220,7 @@ exit
 🧪 Task 2: Clone a staging environment from the snapshot
 ========================================================
 
-Instead of immediately restoring production, you will build a **clone** to verify the data first — non-destructive recovery is always adviced..
+Instead of immediately restoring production, you will build a **clone** to verify the data first, non-destructive recovery is always advised.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0).
 
@@ -253,7 +253,7 @@ core-services-staging-verify
 🏦 Task 3: Connect the off-cluster backup vault
 ======================================================
 
-Snapshots saved the us this morning — but snapshots live on the **same cluster** as the workload. They protect against fat fingers, but not against physical damage or cyber attacks. For real disaster recovery we operate an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
+Snapshots saved us this morning, but snapshots live on the **same cluster** as the workload. They protect against fat fingers, but not against physical damage or cyber attacks. For real disaster recovery we operate an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
@@ -273,7 +273,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 3. Click **Save**
 
-The cluster can now ship complete VM backups off the cluster — the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production deployment this would point to a physically separated facility.
+The cluster can now ship complete VM backups off the cluster, the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production deployment this would point to a physically separated facility.
 
 
 ⏰ Task 4: Put backups on a schedule
@@ -317,7 +317,7 @@ From now on the platform backs the VM up to the NFS vault every five hours, keep
 🔍 Task 5: Verify the data in the staging sandbox
 =================================================
 
-Now that <b class="highlightcopy">core-services-staging-verify</b> is up and running. Lets verify the file is there.
+Now that <b class="highlightcopy">core-services-staging-verify</b> is up and running, let's verify the file is there.
 
 This time we will use the graphical console, since the VM has no network.
 
@@ -345,10 +345,10 @@ cat /home/sles/ledger.txt
 The text prints flawlessly. **The data is safe.**
 
 
-Now lets delete the clone we no longer need.
+Now let's delete the clone we no longer need.
 
 1. Close the window with the console.
-2. Click the **three dots** on **core-services-staging-verify** row and select **Delete**,and again **Delete**.
+2. Click the **three dots** on **core-services-staging-verify** row and select **Delete**, and again **Delete**.
 
 
 
@@ -358,8 +358,8 @@ Now lets delete the clone we no longer need.
 Now that you have verified the snapshot's integrity, proceed to restore the production system:
 
 1. Go to **Virtual Machines**
-2. Click the **three dots** on **core-services** row and select **Stop**,and again **Apply**.
-3. Once it has completely stop, navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots**
+2. Click the **three dots** on **core-services** row and select **Stop**, and again **Apply**.
+3. Once it has completely stopped, navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots**
 
 4. Click on **pre-disaster-backup** snapshot:
 
@@ -367,15 +367,15 @@ Now that you have verified the snapshot's integrity, proceed to restore the prod
 
 6. Click on **Create**
 
-The VM will power it up by itself becuase that is what is defined in the run strategy.
+The VM will power itself back up because that is what the run strategy defines.
 
-Optionally, SSH back and `cat` the file one last time — the record is back where it belongs.
+Optionally, SSH back and `cat` the file one last time. The record is back where it belongs.
 
 
-🏋️ Bonus Drills — see the machinery behind the safety net (optional)
+🏋️ Bonus Drills: see the machinery behind the safety net (optional)
 ======================================================================
 
-- **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object — as is your new backup schedule:
+- **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object, as is your new backup schedule:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
@@ -386,7 +386,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; ku
 ==============================================
 
 - **Human error stops being catastrophic.** Recovery went from "wait for midnight tapes and pray" to a five-minute, self-service rollback.
-- **Verify before you overwrite.** Restoring to a clone means you never gamble production on an unverified backup — a pattern your auditors and your junior admins will both sleep better with.
+- **Verify before you overwrite.** Restoring to a clone means you never gamble production on an unverified backup, a pattern your auditors and your junior admins will both sleep better with.
 - **Protection is now policy, not heroics.** An off-cluster NFS backup vault and a five-hourly backup schedule mean the safety net runs itself from here on.
 
 Click **Check** to continue. 🤠

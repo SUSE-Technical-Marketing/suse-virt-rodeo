@@ -2,7 +2,7 @@
 slug: the-flash-crash-first-vm
 id: 09d4eiczcvaw
 type: challenge
-title: ⚡ Chapter 3 — The Flash Crash
+title: ⚡ Chapter 3: The Flash Crash
 teaser: The Asian markets are melting down and the quants need a calculation engine
   NOW. Deploy a fully configured VM with storage and credentials in minutes, not days.
 tabs:
@@ -28,7 +28,7 @@ timelimit: 3000
 enhanced_loading: null
 ---
 
-⚡ Chapter 3 — The Flash Crash
+⚡ Chapter 3: The Flash Crash
 =============================
 
 <style type="text/css">
@@ -137,7 +137,7 @@ You do not have days. **You have minutes.**
 
 </div>
 
-You bypass the legacy ticketing system entirely and prepare to deploy a fully configured Linux virtual machine — with injected security credentials and attached storage — in mere seconds.
+You bypass the legacy ticketing system entirely and prepare to deploy a fully configured Linux virtual machine (with injected security credentials and attached storage) in mere seconds.
 
 <div class="missionbox">
 
@@ -187,9 +187,9 @@ Password:
 Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Images** on the left side panel, and confirm that the base **SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2** operating system image is present and marked as **Active**.
 
 > [!NOTE]
-> Images in <b class="virt">SUSE Virtualization</b> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk — the image itself is never modified.
+> Images in <b class="virt">SUSE Virtualization</b> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk. The image itself is never modified.
 
-**If the image were missing**, you could add it yourself in seconds — no waiting for a storage admin.
+**If the image were missing**, you could add it yourself in seconds, no waiting for a storage admin.
 
 Images can be created from a URL, uploaded from your workstation, or exported from an existing volume via **Images > Create**:
 
@@ -214,13 +214,13 @@ http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2
 
 2. Click **Create**
 
-The image you just created appears in the list with the state **Downloading** — you can follow it in the progress column.
+The image you just created appears in the list with the state **Downloading**. You can follow it in the progress column.
 
 Move on to the next task; once the download completes, an alert shows up in the **notification bell** at the top right of the screen.
 
 
 > [!NOTE]
-> The download runs server-side, from a local mirror on this lab's own network, so it lands in seconds — the image becomes **Active** once Longhorn has it replicated.
+> The download runs server-side, from a local mirror on this lab's own network, so it lands in seconds. The image becomes **Active** once Longhorn has it replicated.
 
 
 🚀 Task 2: Provision the calculation engine
@@ -274,11 +274,11 @@ prod
 </div>
 
 
-  Notice the very low resources — our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
+  Notice the very low resources: our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
 
 - **SSHKey**: <b class="highlightcopy">prod/default</b>
 
-Now assign it a label — go to the **Labels** tab and click **Add Label**:
+Now assign it a label: go to the **Labels** tab and click **Add Label**:
 
 - **Key**:
 <div class="cred">
@@ -300,7 +300,7 @@ prod
 This will help us manage the VM with future automation.
 
 
-Do **not** click Create yet — the trader also needs his data volume.
+Do **not** click Create yet. The trader also needs his data volume.
 
 💽 Task 3: Attach the volumes and the production network
 ========================================================
@@ -342,7 +342,7 @@ Now wire the engine into the bank's network. Under the **Networks** tab:
 - **Network**: <b class="highlightcopy">prod/service</b>
 
 
-This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated Longhorn volumes — the market data survives even if a physical disk dies mid-trade.
+This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated Longhorn volumes, the market data survives even if a physical disk dies mid-trade.
 
 
 🔑 Task 4: Customize the installation
@@ -351,15 +351,6 @@ This fulfills the trader's request for a secondary high-speed data drive. Behind
 Navigate to **Advanced Options**, then select **Cloud Configuration**, to make sure the trading system comes up with all the required settings and packages installed.
 
 In **User Data Template**, click **Create New** to define the standard template the whole production namespace will reuse. Name it:
-
-- **Namespace**:
-<div class="cred">
-
-```txt
-prod
-```
-
-</div>
 
 - **Name**:
 <div class="cred">
@@ -370,14 +361,20 @@ prod
 
 </div>
 
-Since the template lives in the <b class="highlightcopy">prod</b> namespace and is itself named <b class="highlightcopy">prod</b>, it becomes <b class="highlightcopy">prod/prod</b> — the production standard, ready for every VM this namespace deploys from now on. For the **User Data**, enter:
+Since the template lives in the <b class="highlightcopy">prod</b> namespace and is itself named <b class="highlightcopy">prod</b>, it becomes <b class="highlightcopy">prod/prod</b>: the production standard, ready for every VM this namespace deploys from now on. For the **User Data**, enter:
 
 ```yaml
 #cloud-config
 packages:
   - qemu-guest-agent
 runcmd:
-  - [systemctl, enable, --now, qemu-guest-agent.service]
+  - - systemctl
+    - enable
+    - --now
+    - qemu-guest-agent.service
+ssh_authorized_keys:
+  - ssh-ed25519
+    AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
 ```
 
 Save the template, then make sure <b class="highlightcopy">prod/prod</b> is selected as the **User Data Template** back on the VM creation form.
@@ -397,10 +394,10 @@ ethernets:
         - 192.168.122.1
 ```
 
-Cloud-init applies both on first boot — <b class="highlightcopy">vertex-trader-01</b> will come online at `192.168.122.50` with zero post-deployment manual setup.
+Cloud-init applies both on first boot: <b class="highlightcopy">vertex-trader-01</b> will come online at `192.168.122.50` with zero post-deployment manual setup.
 
 > [!NOTE]
-> This is **cloud-init** — the same industry-standard mechanism used by every major public cloud.
+> This is **cloud-init**, the same industry-standard mechanism used by every major public cloud.
 > In a real-case scenario there would be more complete automation and dedicated templates for this server's purpose.
 
 
@@ -410,11 +407,11 @@ Cloud-init applies both on first boot — <b class="highlightcopy">vertex-trader
 
 Since this is a mixed-environment cluster, let's make sure the VM runs only on production nodes.
 
-Click on **Node Scheduling** — SUSE Virtualization offers three choices:
+Click on **Node Scheduling**: SUSE Virtualization offers three choices:
 
-- **Any available node** — the Kubernetes scheduler chooses where to place the VM, and **live migration stays enabled**
-- **Specific node** — pin the VM to one node (no migration possible)
-- **Scheduling rules** — affinity rules based on node labels (GPU capability, NUMA topology, network zone…)
+- **Any available node**: the Kubernetes scheduler chooses where to place the VM, and **live migration stays enabled**
+- **Specific node**: pin the VM to one node (no migration possible)
+- **Scheduling rules**: affinity rules based on node labels (GPU capability, NUMA topology, network zone…)
 
 Configure the production rule:
 
@@ -440,7 +437,7 @@ prod
 Click **Create** to initialize the deployment.
 
 > [!NOTE]
-> Scheduling rules let you separate critical banking systems from background workloads — for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
+> Scheduling rules let you separate critical banking systems from background workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
 
 > [!NOTE]
 > **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.
@@ -475,7 +472,7 @@ You should see the boot disk **and** a second block device of 1G.
 
 
 
-🏋️ Bonus Drills — see through the abstraction (optional, for the command-line curious)
+🏋️ Bonus Drills: see through the abstraction (optional, for the command-line curious)
 ========================================================================================
 
 New to Kubernetes? **Skip ahead freely.** Otherwise, back in the [button label="Cluster Terminal" variant="success"](tab-1), look at what the platform actually created for you:
@@ -504,14 +501,14 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod
 ```
 
-You should recognize `market-data-vol` in the list — a banking data drive, expressed as cloud-native storage.
+You should recognize `market-data-vol` in the list: a banking data drive, expressed as cloud-native storage.
 
 💼 Why does this matter for Vertex Trust Bank?
 ==============================================
 
-- **Days become minutes.** A ticket-driven, multi-team provisioning process collapsed into a two-minute self-service workflow — during a live market crisis.
+- **Days become minutes.** A ticket-driven, multi-team provisioning process collapsed into a two-minute self-service workflow, during a live market crisis.
 - **Consistency by construction.** Golden images plus cloud-init mean every engine the quants request boots identical, configured, and ready.
-- **No stranded storage.** Volumes are carved from the shared Longhorn pool on demand — no more waiting for SAN LUN allocations.
+- **No stranded storage.** Volumes are carved from the shared Longhorn pool on demand, no more waiting for SAN LUN allocations.
 
 <div id="302" class="story">
 
@@ -525,4 +522,4 @@ Click **Check** to continue. 🌊
 ===================
 
 - [Creating Virtual Machines](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
-- [SUSE Virtualization — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [SUSE Virtualization: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)

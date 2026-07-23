@@ -2,7 +2,7 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: "\U0001F305 Chapter 8 — A New Horizon"
+title: "\U0001F305 Chapter 8: A New Horizon"
 teaser: The bank runs entirely on SUSE Virtualization. Take a victory lap, review
   everything you mastered, and chart where your new skills can take your own datacenter.
 tabs:
@@ -28,7 +28,7 @@ timelimit: 1800
 enhanced_loading: null
 ---
 
-🌅 Chapter 8 — A New Horizon
+🌅 Chapter 8: A New Horizon
 ============================
 
 <style type="text/css">
@@ -131,7 +131,7 @@ You conquered incredible odds during your time here:
 | 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and one-click node evacuation |
 | 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |
 | ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, staging clones, storage tiers, and scheduled off-cluster backups |
-| 🤠 The Stampede | A compute famine | Golden VM templates — stamping out identical fleets on demand |
+| 🤠 The Stampede | A compute famine | Golden VM templates, stamping out identical fleets on demand |
 
 
 <div id="902" class="story">
@@ -168,14 +168,14 @@ Password:
 
 
 
-🧭 Victory lap — the lab is still yours
+🧭 Victory lap: the lab is still yours
 =======================================
 
-The lab environment will remain active until your timer expires. Feel free to explore the dashboard and experiment with the infrastructure you have built. Some ideas:
+The lab environment will remain active until your timer expires. Feel free to dig into the dashboard and experiment with the infrastructure you have built. Some ideas:
 
-- **Take a final inventory of the empire you built.** Tour the [button label="SUSE Virtualization UI" variant="success"](tab-0): the **Virtual Machines** page, the **Networks** you defined, the **Templates** blueprint, and the **Backup & Snapshot** history — every crisis of the week left its mark here.
+- **Take a final inventory of the empire you built.** Tour the [button label="SUSE Virtualization UI" variant="success"](tab-0): the **Virtual Machines** page, the **Networks** you defined, the **Templates** blueprint, and the **Backup & Snapshot** history: every crisis of the week left its mark here.
 
-- **Design your own crisis.** Create a new VM from scratch — pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
+- **Design your own crisis.** Create a new VM from scratch: pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
 
 - **For the command-line curious (optional):** the API is yours:
 
@@ -187,13 +187,13 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 🚀 What's next on your horizon?
 ===============================
 
-- 📖 Keep your skills sharp by exploring the deep technical architecture in the [SUSE Virtualization Documentation](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).
+- 📖 Keep your skills sharp by digging into the deep technical architecture in the [SUSE Virtualization Documentation](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).
 
-- 🐮 Learn how to manage **fleets of these clusters at scale** — one Rancher Prime managing every SUSE Virtualization cluster in every branch datacenter — with [SUSE Rancher Prime](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
+- 🐮 Learn how to manage **fleets of these clusters at scale** (one Rancher Prime managing every SUSE Virtualization cluster in every branch datacenter) with [SUSE Rancher Prime](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
 
-- 🧪 Rebuild this at home: <b class="virt">SUSE Virtualization</b> is open source. Grab the ISO, install it on any spare x86 box, and run your own VMs. 
+- 🧪 Rebuild this at home: <b class="virt">SUSE Virtualization</b> is open source. Grab the ISO, install it on any spare x86 box, and run your own VMs.
 
-- 🤝 You are never alone on this trail: SUSE customers consistently rate **SUSE Support** among the best in the industry — and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
+- 🤝 You are never alone on this trail: SUSE customers consistently rate **SUSE Support** among the best in the industry, and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
 
 - 💬 Talk to your <b class="suse">SUSE</b> representative about what this story would look like with **your** legacy cluster in the darkest corner of the room.
 
@@ -208,7 +208,7 @@ It has been an absolute honor working alongside you!
 📚 More information
 ===================
 
-- [SUSE Virtualization — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [SUSE Virtualization: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Creating Virtual Machines](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
 - [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
 - [Backup and Restore](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)

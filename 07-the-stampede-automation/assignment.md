@@ -2,9 +2,9 @@
 slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
-title: "\U0001F920 Chapter 7 — The Stampede"
+title: "\U0001F920 Chapter 7: The Stampede"
 teaser: The markets are in freefall and the quants need the calculation fleet scaled
-  from three nodes to five — now. Forge a golden VM template and stamp out identical
+  from three nodes to five, now. Forge a golden VM template and stamp out identical
   machines on demand.
 tabs:
 - id: xxc2ymjtxzih
@@ -29,7 +29,7 @@ timelimit: 3000
 enhanced_loading: null
 ---
 
-🤠 Chapter 7 — The Stampede
+🤠 Chapter 7: The Stampede
 ===========================
 
 <style type="text/css">
@@ -210,24 +210,24 @@ Finally, we want all production machines standardized on a set of packages and s
 
 To finalize, click **Create**.
 
-Can you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency — and inconsistency makes further automation even more difficult.
+Can you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency, and inconsistency makes further automation even more difficult.
 
 
 > [!NOTE]
-> Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage — a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
+> Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage: a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
 
 🏭 Task 2: Recreate the template from the command line
 =======================================================
 
-As mentioned earlier, SUSE Virtualization runs on Kubernetes, and in Kubernetes *everything* is a defined resource. You may have noticed that many of the menus have an **Edit as YAML** button next to **Create** — what you see there is the YAML-formatted definition of the object you are creating with the UI, and it is exactly what you can pass to kubectl and other tools to automate the management of resources in the Kubernetes cluster: virtual machines, templates, and more.
+As mentioned earlier, SUSE Virtualization runs on Kubernetes, and in Kubernetes *everything* is a defined resource. You may have noticed that many of the menus have an **Edit as YAML** button next to **Create**: what you see there is the YAML-formatted definition of the object you are creating with the UI, and it is exactly what you can pass to kubectl and other tools to automate the management of resources in the Kubernetes cluster: virtual machines, templates, and more.
 
-Since everything can be defined in a text file, it is easy to keep track of changes and to automate operations — no need to click-click every time. For certain tasks the UI does make things much simpler (Virtual Machine Templates are one of them), but let's see how to create the very same template from the command line.
+Since everything can be defined in a text file, it is easy to keep track of changes and to automate operations, no need to click-click every time. For certain tasks the UI does make things much simpler (Virtual Machine Templates are one of them), but let's see how to create the very same template from the command line.
 
 First delete the template you just created. Go to **Advanced > Templates**, and on the row showing <b class="highlightcopy">prod/prod-basic</b> click the **three dots** and select **Delete**.
 
 Now let's recreate it.
 
-For clarity, first create a file with the resource definition formatted in YAML — run the following command in the [button label="Cluster Terminal" variant="success"](tab-1):
+For clarity, first create a file with the resource definition formatted in YAML: run the following command in the [button label="Cluster Terminal" variant="success"](tab-1):
 
 
 ```bash,run
@@ -324,7 +324,7 @@ EOF
 
 This file could be stored in a Git repository to keep track of changes, and also to feed a CI/CD process that automatically applies changes made to it.
 
-Now create the resource — run the following command:
+Now create the resource: run the following command:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f virtualMachineTemplate_prod-basic.yaml
@@ -367,7 +367,7 @@ The market surge subsides. The virtual machines sit idle, waiting for the next w
 
 </div>
 
-You no longer need so many virtual machines — delete them all at once (don't worry if they are still starting).
+You no longer need so many virtual machines, delete them all at once (don't worry if they are still starting).
 
 In the **Virtual Machines** section:
 
@@ -384,12 +384,12 @@ The suffering of these noble virtual machines has stopped. You see the flames, m
 
 
 
-🏋️ Bonus Drills — for the command-line curious (optional)
+🏋️ Bonus Drills: for the command-line curious (optional)
 ==========================================================
 
 New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label="Cluster Terminal" variant="success"](tab-1) that the UI, the fleet, and the API all agree:
 
-- **Inspect the template as an API object** — templates and their versions are resources too:
+- **Inspect the template as an API object**: templates and their versions are resources too:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod
@@ -402,21 +402,21 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n 
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplateversions -n prod prod-basic -o yaml >> template_prod-basic.yaml
 ```
 
-You can examine the file `template_prod-basic.yaml` — it contains a definition similar to the one you used to create the template in Task 2.
+You can examine the file `template_prod-basic.yaml`: it contains a definition similar to the one you used to create the template in Task 2.
 
 
 
 💼 Why does this matter?
 ==============================================
 
-- **Elasticity on owned hardware.** Cloud-style scale-out (and scale-in) on the bank's own datacenter — no data residency questions, no egress bills.
-- **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle — configuration drift cannot happen at 2 AM.
-- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost — the exact opposite of the old hypervisor sprawl.
+- **Elasticity on owned hardware.** Cloud-style scale-out (and scale-in) on the bank's own datacenter: no data residency questions, no egress bills.
+- **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle: configuration drift cannot happen at 2 AM.
+- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost, the exact opposite of the old hypervisor sprawl.
 
 Click **Check** to continue. ⚔️
 
 📚 More information
 ===================
 
-- [SUSE Virtualization — Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [SUSE Virtualization: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Creating Virtual Machines](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)

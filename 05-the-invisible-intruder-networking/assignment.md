@@ -2,8 +2,8 @@
 slug: the-invisible-intruder-networking
 id: 6y9uhwn9zyll
 type: challenge
-title: "\U0001F575️ Chapter 5 — The Invisible Intruder"
-teaser: A 2 AM security alert — the public web server shares a flat network with the
+title: "\U0001F575️ Chapter 5: The Invisible Intruder"
+teaser: A 2 AM security alert. The public web server shares a flat network with the
   bank's most sensitive database. Build a software-defined vault and lock the database
   inside.
 tabs:
@@ -29,7 +29,7 @@ timelimit: 3000
 enhanced_loading: null
 ---
 
-🕵️ Chapter 5 — The Invisible Intruder
+🕵️ Chapter 5: The Invisible Intruder
 =====================================
 
 <style type="text/css">
@@ -139,12 +139,12 @@ You don't need physical cables. You have the power of **software-defined network
 
 ## <b class="hovereffect">Two layers of software-defined networking</b>
 
-<b class="virt">SUSE Virtualization</b> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN — capabilities the bank used to pay a separate closed-source SDN license for:
+<b class="virt">SUSE Virtualization</b> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN, capabilities the bank used to pay a separate closed-source SDN license for:
 
 | Layer | Technology | Use tonight |
 |-------|-----------|-------------|
 | L2 / VLAN bridging | **Multus** | The vault VLAN isolating the database |
-| SDN / isolated overlay zones | **Kube-OVN** | Private subnets with no external path — even overlapping CIDRs |
+| SDN / isolated overlay zones | **Kube-OVN** | Private subnets with no external path, even overlapping CIDRs |
 
 <div class="missionbox">
 
@@ -194,7 +194,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigat
 2. Set the **Name** to <b class="highlightcopy">closed-loop</b>
 3. Click **Create**
 
-The new cluster network appears in the list. Now assign it a physical interface — click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
+The new cluster network appears in the list. Now assign it a physical interface: click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
 
 1. Set the **Name** to <b class="highlightcopy">closed-loop</b>
 2. Under **Uplink**, set **NICs** to <b class="highlightcopy">ens5</b>
@@ -222,7 +222,7 @@ Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-l
 🔒 Task 2: Create a closed loop SDN
 ===================================
 
-Now create the same type of isolation for the development environment. Adding new NICs and cabling is expensive, and dev does not need that performance — so this time you will use a **software-defined network**.
+Now create the same type of isolation for the development environment. Adding new NICs and cabling is expensive, and dev does not need that performance, so this time you will use a **software-defined network**.
 
 Go to **Networks > Virtual Machine Networks** and click **Create**, then fill in the following details:
 
@@ -252,7 +252,7 @@ Now you can assign the network <b class="highlightcopy">dev/secure-loop-dev</b> 
 =====================================================
 
 
-You have two new isolated networks — now it is time to show your peers how to attach them to a VM. You are not making the change yourself, just walking through how it is done:
+You have two new isolated networks. Now it is time to show your peers how to attach them to a VM. You are not making the change yourself, just walking through how it is done:
 
 Return to the **Virtual Machines** dashboard and locate the target virtual machine:
 
@@ -271,12 +271,12 @@ The VM boots connected to the new network.
 
 
 
-🏋️ Bonus Drills — for the command-line curious (optional)
+🏋️ Bonus Drills: for the command-line curious (optional)
 ==========================================================
 
-New to Kubernetes? **Skip ahead freely** — we have the isolated networks already created. These optional drills add an extra isolated network with pure Kubernetes tooling.
+New to Kubernetes? **Skip ahead freely**: we have the isolated networks already created. These optional drills add an extra isolated network with pure Kubernetes tooling.
 
-**Drill 1 — an extra isolated network is needed for QA: Kubernetes network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
+**Drill 1, an extra isolated network is needed for QA: Kubernetes network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -298,7 +298,7 @@ Confirm the policy is enforced:
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get networkpolicy -n prod
 ```
 
-**Drill 2 — build air-gapped containment zones.** VLANs segment the physical network — but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:
+**Drill 2: build air-gapped containment zones.** VLANs segment the physical network, but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -317,7 +317,7 @@ spec:
 EOF
 ```
 
-Now prove the most counterintuitive capability of the SDN layer: **overlapping address space**. Create a second, completely independent zone for the forensics team — using the *exact same CIDR*:
+Now prove the most counterintuitive capability of the SDN layer: **overlapping address space**. Create a second, completely independent zone for the forensics team, using the *exact same CIDR*:
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -337,22 +337,22 @@ EOF
 ```
 
 > [!NOTE]
-> Kube-OVN handles overlapping CIDRs via VPC isolation. If the command returns a validation error about duplicate CIDRs, use `172.16.1.0/24` for `forensics-zone` instead — the isolation demonstration still holds, just with different addresses.
+> Kube-OVN handles overlapping CIDRs via VPC isolation. If the command returns a validation error about duplicate CIDRs, use `172.16.1.0/24` for `forensics-zone` instead. The isolation demonstration still holds, just with different addresses.
 
-Verify both zones exist with `natOutgoing: false` — no path out, no path in:
+Verify both zones exist with `natOutgoing: false`: no path out, no path in:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
 ```
 
-Two vaults, same IP space, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else** — micro-segmentation without a proprietary SDN license, and without ever running out of address space.
+Two vaults, same IP space, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else**: micro-segmentation without a proprietary SDN license, and without ever running out of address space.
 
 💼 Why does this matter?
 ==============================================
 
-- **Segmentation at 2 AM, in software.** What used to be a re-cabling project with change-control meetings became three minutes of configuration — while the threat window was still closed.
-- **Defense-in-depth by default.** VLAN isolation at layer 2, network policies at the pod layer, and private SDN subnets — three independent walls from one platform.
-- **Compliance evidence built in.** Every network, policy, and subnet is a versionable YAML object — the security auditors get proof, not promises.
+- **Segmentation at 2 AM, in software.** What used to be a re-cabling project with change-control meetings became three minutes of configuration, while the threat window was still closed.
+- **Defense-in-depth by default.** VLAN isolation at layer 2, network policies at the pod layer, and private SDN subnets: three independent walls from one platform.
+- **Compliance evidence built in.** Every network, policy, and subnet is a versionable YAML object: the security auditors get proof, not promises.
 
 Click **Check** to continue. ⏪
 

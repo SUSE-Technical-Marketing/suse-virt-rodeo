@@ -2,9 +2,9 @@
 slug: the-rising-tide-live-migration
 id: xjv2r0tfyztq
 type: challenge
-title: "\U0001F30A Chapter 4 — The Rising Tide"
+title: "\U0001F30A Chapter 4: The Rising Tide"
 teaser: A coolant leak is flooding the rack hosting the Payment Gateway. Execute a
-  zero-downtime live migration before the hardware shorts out — while transactions
+  zero-downtime live migration before the hardware shorts out, while transactions
   keep flowing.
 tabs:
 - id: fpgxlmifoynn
@@ -29,7 +29,7 @@ timelimit: 2400
 enhanced_loading: null
 ---
 
-🌊 Chapter 4 — The Rising Tide
+🌊 Chapter 4: The Rising Tide
 ==============================
 
 <style type="text/css">
@@ -200,7 +200,7 @@ ping [[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]]
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the <b class="highlightcopy">webserver-prod</b> instance:
 
-1. Read the **Node** column and **write down** which node the gateway is running on — you will want proof it moved
+1. Read the **Node** column and **write down** which node the gateway is running on: you will want proof it moved
 2. Click the **three vertical dots** on the far right side of its row
 3. Select **Migrate** from the context menu
 4. Choose a different, safe target node from the dropdown list
@@ -226,9 +226,9 @@ You exhale sharply. **The transaction flow survived.**
 </div>
 
 
-Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node — a micro-interruption. On a properly sized infrastructure it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization *inside* virtualization, the most you might have spotted is slightly higher latency times in the pings.
+Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node, a micro-interruption. On a properly sized infrastructure it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization *inside* virtualization, the most you might have spotted is slightly higher latency times in the pings.
 
-Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down — the gateway physically moved while its customers never noticed.
+Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down. The gateway physically moved while its customers never noticed.
 
 <div id="404" class="story">
 Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running:
@@ -257,10 +257,10 @@ The gateway is safe — but the water-damaged node is still dripping, and smalle
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Hosts**:
 
-1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration — the one you wrote down. <i id="406" class="story">That is the water-damaged machine</i>
+1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down. <i id="406" class="story">That is the water-damaged machine</i>
 2. Click the **three dots** on its row and select **Enable Maintenance Mode**, then confirm
 
-Now watch the **Virtual Machines** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty — no spreadsheets, no manual target-picking, no forgotten VM.
+Now watch the **Virtual Machines** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty. No spreadsheets, no manual target-picking, no forgotten VM.
 
 Once the node shows **Maintenance** and its VM count reaches zero, <i id="407" class="story">the (virtual) repair crew swaps the (virtual) coolant valve.</i> Bring the node back into service:
 
@@ -269,12 +269,12 @@ Once the node shows **Maintenance** and its VM count reaches zero, <i id="407" c
 The node rejoins the fabric, ready to accept workloads again.
 
 > [!NOTE]
-> The same intelligence works in the other direction, too: every time a new VM is created, the scheduler places it on the least-loaded suitable node, keeping the cluster naturally balanced — no manual Tetris required. Between automatic placement on the way in and automatic evacuation on the way out, the humans only decide *what* should run; the platform decides *where*.
+> The same intelligence works in the other direction, too: every time a new VM is created, the scheduler places it on the least-loaded suitable node, keeping the cluster naturally balanced, no manual Tetris required. Between automatic placement on the way in and automatic evacuation on the way out, the humans only decide *what* should run; the platform decides *where*.
 
-🏋️ Bonus Drills — the migration paper trail (optional, for the command-line curious)
+🏋️ Bonus Drills: the migration paper trail (optional, for the command-line curious)
 ======================================================================================
 
-New to Kubernetes? **Skip ahead freely.** Otherwise: every migration is itself a Kubernetes object — which means it is auditable. In the [button label="Cluster Terminal" variant="success"](tab-1):
+New to Kubernetes? **Skip ahead freely.** Otherwise: every migration is itself a Kubernetes object, which means it is auditable. In the [button label="Cluster Terminal" variant="success"](tab-1):
 
 - **Review the migration record** (who moved, when, from where to where):
 
@@ -288,21 +288,21 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigra
 kubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
 ```
 
-- **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy — SUSE Virtualization can reschedule VMs from a failed host automatically:
+- **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy: SUSE Virtualization can reschedule VMs from a failed host automatically:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
 ```
 
 > [!NOTE]
-> **Beyond compute:** the same zero-downtime idea also applies to *disks*. <b class="virt">SUSE Virtualization</b> supports **in-place storage live migration** — moving a running VM's volumes between storage backends — for example from Longhorn to an external CSI array — without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
+> **Beyond compute:** the same zero-downtime idea also applies to *disks*. <b class="virt">SUSE Virtualization</b> supports **in-place storage live migration** (moving a running VM's volumes between storage backends, for example from Longhorn to an external CSI array) without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
 
 💼 Why does this matter?
 ==============================================
 
-- **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots — workloads simply slide to healthy nodes while customers keep paying with their cards.
-- **Planned maintenance without midnight windows.** One click on **Maintenance Mode** drains an entire node automatically — routine patching happens at 2 PM instead of 2 AM, and nobody keeps a spreadsheet of which VM lives where.
-- **An audit trail regulators can read.** Every migration is a recorded API object — no more reconstructing what happened from console screenshots.
+- **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots: workloads simply slide to healthy nodes while customers keep paying with their cards.
+- **Planned maintenance without midnight windows.** One click on **Maintenance Mode** drains an entire node automatically. Routine patching happens at 2 PM instead of 2 AM, and nobody keeps a spreadsheet of which VM lives where.
+- **An audit trail regulators can read.** Every migration is a recorded API object, no more reconstructing what happened from console screenshots.
 
 Click **Check** to continue. 🕵️
 
