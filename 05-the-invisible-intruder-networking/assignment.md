@@ -197,6 +197,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigat
 The new cluster network appears in the list. Now assign it a physical interface: click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
 
 1. Set the **Name** to <b class="highlightcopy">closed-loop</b>
+   Notice the **Node Selector** section, in here we can specify where the network will be available.
 2. Under **Uplink**, set **NICs** to <b class="highlightcopy">ens5</b>
 3. Click **Create**
 
@@ -254,7 +255,7 @@ Now you can assign the network <b class="highlightcopy">dev/secure-loop-dev</b> 
 
 You have two new isolated networks. Now it is time to show your peers how to attach them to a VM. You are not making the change yourself, just walking through how it is done:
 
-Return to the **Virtual Machines** dashboard and locate the target virtual machine:
+Return to the **Virtual Machines** dashboard and locate the target virtual machine ( **webserver-prod** ):
 
 1. Click the **three dots** on its row and select **Edit Config**
 2. Go to the **Networks** tab

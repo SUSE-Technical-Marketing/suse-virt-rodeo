@@ -171,7 +171,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to *
 
 1. Locate the virtual machine named <b class="highlightcopy">daily-batch-processor</b>
 2. Click the **three vertical dots** on the right side of its row
-3. Select **Pause**
+3. Select **Pause** then click **Apply** after prompted to confirm.
 4. Wait for its state to change to **Paused**
 
 This halts its CPU cycles, dedicating maximum hardware resources to your emergency operation.
