@@ -2,7 +2,7 @@
 slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
-title: ⏪ Chapter 6: The Unthinkable Error
+title: "⏪ Chapter 6: The Unthinkable Error"
 teaser: A slipped cursor just deleted a $100M settlement record. Turn back the clock
   with VM snapshots, verify the recovery in a safe staging clone, then make protection
   permanent with scheduled off-cluster backups.
