@@ -176,6 +176,11 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to *
 
 This halts its CPU cycles, dedicating maximum hardware resources to your emergency operation.
 
+> [!NOTE]
+> This is not really necessary, we have setup already a dedicated network for live migration traffic, is here for educational purposes
+
+
+
 📡 Task 2: Establish a service heartbeat
 ========================================
 
@@ -214,16 +219,23 @@ You hold your breath as the hypervisor coordinates the massive memory transfer o
 
 </div>
 
-Press `Ctrl+C` to terminate the ping. You exhale sharply. **The transaction flow survived.**
+Press `Ctrl+C` to terminate the ping. 
 
-Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node — a micro-interruption measured in milliseconds. On a properly sized network it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization, the most you might have spotted is a single ping answering a touch slower than its siblings.
+<div id="403" class="story">
+You exhale sharply. **The transaction flow survived.**
+</div>
+
+
+Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node — a micro-interruption. On a properly sized infrastructure it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization *inside* virtualization, the most you might have spotted is slightly higher latency times in the pings.
 
 Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), the **Node** column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down — the gateway physically moved while its customers never noticed.
 
+<div id="404" class="story">
 Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running:
+</div>
 
 ```bash,run
-ssh sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] "hostname && uptime"
+ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] "hostname && uptime"
 ```
 
 ▶️ Task 5: Resume normal operations
@@ -237,16 +249,20 @@ Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). 
 🛠️ Task 6: Hand the damaged rack to the repair crew
 ====================================================
 
-The gateway is safe — but the water-damaged node is still dripping, and smaller workloads may still be running on it. You are not going to migrate them one by one while a puddle spreads across the floor. Let the platform do the thinking.
+
+<div id="405" class="story">
+The gateway is safe — but the water-damaged node is still dripping, and smaller workloads may still be running on it. You are not going to migrate them one by one while a puddle spreads across the floor. Let the platform manage it.
+</div>
+
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Hosts**:
 
-1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration — the one you wrote down. That is the water-damaged machine
+1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration — the one you wrote down. <i id="406" class="story">That is the water-damaged machine</i>
 2. Click the **three dots** on its row and select **Enable Maintenance Mode**, then confirm
 
 Now watch the **Virtual Machines** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty — no spreadsheets, no manual target-picking, no forgotten VM.
 
-Once the node shows **Maintenance** and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
+Once the node shows **Maintenance** and its VM count reaches zero, <i id="407" class="story">the (virtual) repair crew swaps the (virtual) coolant valve.</i> Bring the node back into service:
 
 3. Click the **three dots** on its row again and select **Disable Maintenance Mode**
 
