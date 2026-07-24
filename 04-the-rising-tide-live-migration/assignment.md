@@ -283,7 +283,7 @@ Now watch the **Virtual Machines** page: every VM still living on the damaged no
 > [!NOTE]
 > This may take some time in this lab environment.
 
-Once the node shows **Maintenance** and its VM count reaches zero, <i id="407" class="story">the (virtual) repair crew swaps the (virtual) coolant valve.</i> Bring the node back into service:
+Once the node shows **Maintenance** and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
 
 3. Click the **three dots** on its row again and select **Uncordon**
 
