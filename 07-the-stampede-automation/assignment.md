@@ -146,9 +146,8 @@ You crack your knuckles. What the bank needs is a **golden blueprint**: define t
 ## 🎯 Your Quest Objectives
 
 1. Forge the golden template
-2. Recreate the template from the command line
-3. Scale the fleet under pressure
-4. Stand the fleet down
+2. Scale the fleet under pressure
+3. Stand the fleet down
 
 </div>
 
@@ -246,141 +245,8 @@ Can you imagine filling in all these details every time? People would give up, a
 > [!NOTE]
 > Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage: a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
 
-🏭 Task 2: Recreate the template from the command line
-=======================================================
 
-As mentioned earlier, SUSE Virtualization runs on Kubernetes, and in Kubernetes *everything* is a defined resource. You may have noticed that many of the menus have an **Edit as YAML** button next to **Create**: what you see there is the YAML-formatted definition of the object you are creating with the UI, and it is exactly what you can pass to kubectl and other tools to automate the management of resources in the Kubernetes cluster: virtual machines, templates, and more.
-
-Since everything can be defined in a text file, it is easy to keep track of changes and to automate operations, no need to click-click every time. For certain tasks the UI does make things much simpler (Virtual Machine Templates are one of them), but let's see how to create the very same template from the command line.
-
-First delete the template you just created. Go to **Advanced > Templates**, and on the row showing <b class="highlightcopy">prod/prod-basic</b> click the **three dots** and select **Delete**.
-
-Now let's recreate it.
-
-For clarity, first create a file with the resource definition formatted in YAML: run the following command in the [button label="Cluster Terminal" variant="success"](tab-1):
-
-
-```bash,run
-disk_id="disk-0"
-image_id="official-images/`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -n official-images     -o jsonpath='{range .items[?(@.spec.displayName=="sles-16.0-minimal-vm.x86_64-cloud-gm.qcow2")]}{.metadata.name}{end}'`"
-storageclass_id="harvester-longhorn"
-
-
-cat > virtualMachineTemplate_prod-basic.yaml <<'EOF'
----
-apiVersion: harvesterhci.io/v1beta1
-kind: VirtualMachineTemplate
-metadata:
-  name: prod-basic
-  namespace: prod
----
-
-apiVersion: harvesterhci.io/v1beta1
-kind: VirtualMachineTemplateVersion
-metadata:
-  labels:
-    stage: prod
-  name: prod-basic
-  namespace: prod
-spec:
-  templateId: prod/prod-basic
-  vm:
-    metadata:
-      annotations:
-        harvesterhci.io/volumeClaimTemplates: '[{"metadata":{"name":"${disk_id}","annotations":{"harvesterhci.io/imageId":"official-images/${image_id}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"${storageclass_id}"}}]'
-      labels:
-        harvesterhci.io/os: linux
-        stage: prod
-    spec:
-      runStrategy: RerunOnFailure
-      template:
-        metadata:
-          annotations:
-            harvesterhci.io/sshNames: '["prod/default"]'
-        spec:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
-                  - key: stage
-                    operator: In
-                    values:
-                    - prod
-          domain:
-            cpu:
-              cores: 1
-              sockets: 1
-              threads: 1
-            devices:
-              disks:
-              - bootOrder: 1
-                disk:
-                  bus: virtio
-                name: disk-0
-              - disk:
-                  bus: virtio
-                name: cloudinitdisk
-              inputs:
-              - bus: usb
-                name: tablet
-                type: tablet
-              interfaces:
-              - bridge: {}
-                model: virtio
-                name: default
-            features:
-              acpi:
-                enabled: true
-            machine:
-              type: q35
-            resources:
-              limits:
-                cpu: "1"
-                memory: 1Gi
-          evictionStrategy: LiveMigrateIfPossible
-          networks:
-          - multus:
-              networkName: prod/service
-            name: default
-          terminationGracePeriodSeconds: 120
-          volumes:
-          - name: disk-0
-            persistentVolumeClaim:
-              claimName: ${disk_id}
-          - cloudInitNoCloud:
-              userdata: |
-		    #cloud-config
-		    package_update: true
-		    packages:
-		      - qemu-guest-agent
-		    runcmd:
-		      - - systemctl
-			- enable
-			- --now
-			- qemu-guest-agent.service
-		    ssh_authorized_keys:
-		      - ssh-ed25519
-			AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
-            name: cloudinitdisk
-EOF
-```
-
-This file could be stored in a Git repository to keep track of changes, and also to feed a CI/CD process that automatically applies changes made to it.
-
-Now create the resource: run the following command:
-
-```bash,run
-kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f virtualMachineTemplate_prod-basic.yaml
-```
-
-It creates the two resources needed to set up the template.
-
-In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate back to the **Templates** list and check that the template is there, with all the same details.
-
-
-
-📈 Task 3: Scale the fleet under pressure
+📈 Task 2: Scale the fleet under pressure
 =========================================
 
 Because the template already exists, deploying multiple servers takes just a few clicks.
@@ -415,7 +281,7 @@ The risk analysis team begins feeding data into the expanded fleet, stabilizing 
 </div>
 
 
-🧹 Task 4: Stand the fleet down
+🧹 Task 3: Stand the fleet down
 ===============================
 
 <div id="703" class="story">
