@@ -184,7 +184,8 @@ Password:
 
 
 
-You need a template that speeds up the deployment of virtual machines and standardizes them. Navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
+You need a template that speeds up the deployment of virtual machines and standardizes them. 
+In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
 
 - **Namespace**: <b class="highlightcopy">prod</b>
 - **Template Name**:
@@ -361,7 +362,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f virtualMachineTemplate
 
 It creates the two resources needed to set up the template.
 
-Navigate back to the **Templates** list and check that the template is there, with all the same details.
+In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate back to the **Templates** list and check that the template is there, with all the same details.
 
 
 
@@ -370,7 +371,7 @@ Navigate back to the **Templates** list and check that the template is there, wi
 
 Because the template already exists, deploying multiple servers takes just a few clicks.
 
-Go to **Virtual Machines** and click **Create**, then fill in the following details:
+In [button label="SUSE Virtualization UI" variant="success"](tab-0) go to **Virtual Machines** and click **Create**, then fill in the following details:
 
 1. Select **Multiple Instance**
 2. Set the **Namespace** to <b class="highlightcopy">prod</b>
@@ -411,7 +412,7 @@ The market surge subsides. The virtual machines sit idle, waiting for the next w
 
 You no longer need so many virtual machines, delete them all at once (don't worry if they are still starting).
 
-In the **Virtual Machines** section:
+In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate to the **Virtual Machines** section:
 
 1. Tick the **checkboxes** next to all the new virtual machines you created
 2. Click **Delete**, tick **Delete All**, and click **Delete**

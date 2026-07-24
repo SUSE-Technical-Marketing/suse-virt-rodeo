@@ -1,0 +1,29 @@
+#!/bin/bash
+set -uo pipefail
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+data:
+  cloudInit: |
+    #cloud-config
+    package_update: true
+    packages:
+      - qemu-guest-agent
+    runcmd:
+      - - systemctl
+        - enable
+        - --now
+        - qemu-guest-agent.service
+    ssh_authorized_keys:
+      - ssh-ed25519
+        AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
+kind: ConfigMap
+metadata:
+  labels:
+    harvesterhci.io/cloud-init-template: user
+  name: prod
+  namespace: prod
+EOF
+
