@@ -187,7 +187,15 @@ Password:
 You need a template that speeds up the deployment of virtual machines and standardizes them. Navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
 
 - **Namespace**: <b class="highlightcopy">prod</b>
-- **Template Name**: <b class="highlightcopy">prod-basic</b>
+- **Template Name**: 
+
+<div class="cred">
+
+```txt
+prod-basic
+```
+
+</div>
 
 We need to minimize resource usage, and all the VMs should be reachable using the production SSH key, which is securely guarded.
 
@@ -211,15 +219,51 @@ All production VMs should run only on production-ready hosts.
 - Node Scheduling:
   1. Select **Run virtual machine on node(s) matching scheduling rules**
   2. Click **Add Node Selector**, then **Add Rule**:
-     - **Key**: <b class="highlightcopy">stage</b>
-     - **Value**: <b class="highlightcopy">prod</b>
+     - **Key**: 
+
+<div class="cred">
+
+```txt
+stage
+```
+
+</div>
+
+     - **Value**: 
+
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
+
 
 We want the VMs to be properly labeled:
 
 - Labels:
   - Click **Add Label**:
-    - **Key**: <b class="highlightcopy">stage</b>
-    - **Value**: <b class="highlightcopy">prod</b>
+    - **Key**: 
+
+<div class="cred">
+
+```txt
+stage
+```
+
+</div>
+
+    - **Value**:
+
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
+
 
 Finally, we want all production machines standardized on a set of packages and settings:
 
@@ -367,6 +411,9 @@ Go to **Virtual Machines** and click **Create**, then fill in the following deta
 4. Set the **Count** to <b class="highlightcopy">2</b>
 5. Tick **Use VM Template** and set the **Template** to <b class="highlightcopy">prod/prod-basic</b>
 6. Click **Create**
+
+
+
 
 
 <div id="702" class="story">
