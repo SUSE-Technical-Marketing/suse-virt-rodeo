@@ -189,6 +189,10 @@ Password:
 💥 Task 1: Simulate the creation and destruction of the record
 ==============================================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter6_video1.gif"/>
+</div>
+
 You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
 
 In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine:
@@ -239,6 +243,10 @@ exit
 🧪 Task 2: Clone a staging environment from the snapshot
 ========================================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter6_video2.gif"/>
+</div>
+
 Instead of immediately restoring production, you will build a **clone** to verify the data first, non-destructive recovery is always advised.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0).
@@ -272,6 +280,10 @@ core-services-staging-verify
 🏦 Task 3: Connect the off-cluster backup vault
 ======================================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter6_video3.gif"/>
+</div>
+
 Snapshots saved us this morning, but snapshots live on the **same cluster** as the workload. They protect against fat fingers, but not against physical damage or cyber attacks. For real disaster recovery we operate an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
@@ -298,6 +310,9 @@ The cluster can now ship complete VM backups off the cluster, the modern equival
 ⏰ Task 4: Put backups on a schedule
 ====================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter6_video4.gif"/>
+</div>
 
 <div id="602" class="story">
 Ad-hoc snapshots can the day once; policy keeps the bank safe every day after.
@@ -335,6 +350,10 @@ From now on the platform backs the VM up to the NFS vault every five hours, keep
 
 🔍 Task 5: Verify the data in the staging sandbox
 =================================================
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter6_video5.gif"/>
+</div>
 
 Now that <b class="highlightcopy">core-services-staging-verify</b> is up and running, let's verify the file is there.
 
@@ -376,6 +395,10 @@ Now let's delete the clone we no longer need.
 
 ♻️ Task 6: Restore the production system
 =========================================
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter6_video6.gif"/>
+</div>
 
 Now that you have verified the snapshot's integrity, proceed to restore the production system:
 
