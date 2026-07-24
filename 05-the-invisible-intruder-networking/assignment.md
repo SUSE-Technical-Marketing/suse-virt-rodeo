@@ -253,7 +253,7 @@ Now you can assign the network <b class="highlightcopy">dev/secure-loop-dev</b> 
 =====================================================
 
 
-You have two new isolated networks. Now it is time to show your peers how to attach them to a VM. 
+You have two new isolated networks. Now it is time to show your peers how to attach them to a VM.
 
 You are not making the change yourself, just walking through how it is done, for that we will choose the production server:
 

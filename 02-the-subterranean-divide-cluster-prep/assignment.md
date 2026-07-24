@@ -205,6 +205,9 @@ It is ready for you to use but if you want to use other CSI you are free to use 
 🖥️ Task 1: Inspect the physical node topology
 =============================================
 
+![chapter2_video1.gif](../assets/chapter2_video1.gif)
+
+
 Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to the left-hand menu, and click on **Hosts**.
 
 1. Click on the name of **one of the hosts** in the list
@@ -218,6 +221,8 @@ Banks grow, and so does this fabric. Running low on space is not a forklift upgr
 
 🏗️ Task 2: Prepare a dedicated workspace
 ========================================
+
+![chapter2_video2.gif](../assets/chapter2_video2.gif)
 
 The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster.
 
@@ -254,6 +259,9 @@ The developers workspace now stand ready, in the future we can assign to it quot
 💾 Task 3: Understand how Longhorn replicates your data
 ========================================================
 
+
+![chapter2_video3.gif](../assets/chapter2_video3.gif)
+
 Let's look at *how* the storage backend stays healthy. Every disk <b class="virt">SUSE Virtualization</b> hands to a VM or a pod is a **Longhorn volume**, and every Longhorn volume is created from a **StorageClass**: a policy that decides, among other things, how many copies of your data exist at any given time.
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Advanced > Storage Classes** and click on <b class="highlightcopy">harvester-longhorn</b>.
@@ -288,6 +296,9 @@ exit
 
 🧅 Task 4: Build a cost-tier storage class for the development team
 =====================================================================
+
+![chapter2_video4.gif](../assets/chapter2_video4.gif)
+
 
 The development team does not need production-grade replication for their sandboxes, they need cheap, fast iteration. You will give them their own storage tier, priced for what it actually is: disposable.
 
@@ -331,6 +342,8 @@ Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replica
 🏋️ Bonus Drills: for the command-line curious (optional)
 ==========================================================
 
+![chapter2_video5.gif](../assets/chapter2_video5.gif)
+
 New to Kubernetes? **Skip ahead freely.** If you are curious, everything you just did in the UI is also visible through the Kubernetes API, open the [button label="Cluster Terminal" variant="success"](tab-1):
 
 
@@ -361,6 +374,7 @@ Sarah watches over your shoulder as the new workspace and the two storage tiers 
 </div>
 
 Click **Check** to continue. ⚡
+
 
 📚 More information
 ===================

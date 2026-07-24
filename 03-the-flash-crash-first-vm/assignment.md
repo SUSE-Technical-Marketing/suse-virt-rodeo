@@ -420,7 +420,7 @@ ssh_authorized_keys:
 Save the template by clicking in **Create**, then make sure <b class="highlightcopy">prod/prod</b> is selected as the **User Data Template** back on the VM creation form.
 
 <div id="303" class="story">
-The trading desk's firewall team has one more demand: 
+The trading desk's firewall team has one more demand:
 </div>
 
 The engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
