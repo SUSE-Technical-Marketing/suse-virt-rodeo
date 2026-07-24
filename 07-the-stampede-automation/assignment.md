@@ -281,7 +281,7 @@ spec:
   vm:
     metadata:
       annotations:
-        harvesterhci.io/volumeClaimTemplates: '[{"metadata":{"name":"-disk-0-thsxi","annotations":{"harvesterhci.io/imageId":"official-images/image-v62vf"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"10Gi"}},"volumeMode":"Block","storageClassName":"lh-3311febd-12d9-4ebc-82bc-728e5ccbfbe6"}}]'
+        harvesterhci.io/volumeClaimTemplates: '[{"metadata":{"name":"-disk-0-thsxi","annotations":{"harvesterhci.io/imageId":"official-images/image-v62vf"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"lh-3311febd-12d9-4ebc-82bc-728e5ccbfbe6"}}]'
       labels:
         harvesterhci.io/os: linux
         stage: prod
