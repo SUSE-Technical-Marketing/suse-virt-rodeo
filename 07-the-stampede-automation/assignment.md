@@ -187,7 +187,7 @@ Password:
 You need a template that speeds up the deployment of virtual machines and standardizes them. Navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
 
 - **Namespace**: <b class="highlightcopy">prod</b>
-- **Template Name**: 
+- **Template Name**:
 
 <div class="cred">
 
@@ -208,6 +208,7 @@ Our default base OS is SLES 16.
 
 - Volumes:
   - **Image**: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
+  - **Size**: <b class="highlightcopy">5</b>
 
 We want production servers to offer their services on the production service network.
 
@@ -219,7 +220,7 @@ All production VMs should run only on production-ready hosts.
 - Node Scheduling:
   1. Select **Run virtual machine on node(s) matching scheduling rules**
   2. Click **Add Node Selector**, then **Add Rule**:
-     - **Key**: 
+     - **Key**:
 
 <div class="cred">
 
@@ -229,7 +230,7 @@ stage
 
 </div>
 
-     - **Value**: 
+     - **Value**:
 
 <div class="cred">
 
@@ -244,7 +245,7 @@ We want the VMs to be properly labeled:
 
 - Labels:
   - Click **Add Label**:
-    - **Key**: 
+    - **Key**:
 
 <div class="cred">
 
