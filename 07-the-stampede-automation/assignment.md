@@ -105,6 +105,24 @@ enhanced_loading: null
     display: flex;
     align-items: center;
   }
+  img.animatedgif {
+    --borderthickness: 5pt;
+    --colors: #0000 25%,#30ba78 0;
+    padding: 10px;
+    background:
+      conic-gradient(from 90deg  at top    var(--borderthickness) left  var(--borderthickness),var(--colors)) 0    0,
+      conic-gradient(from 180deg at top    var(--borderthickness) right var(--borderthickness),var(--colors)) 100% 0,
+      conic-gradient(from 0deg   at bottom var(--borderthickness) left  var(--borderthickness),var(--colors)) 0    100%,
+      conic-gradient(from -90deg at bottom var(--borderthickness) right var(--borderthickness),var(--colors)) 100% 100%;
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    transition: 1s;
+  }
+
+  img.animatedgif:hover {
+    background-size: 51% 51%;
+  }
+
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/07-chapter-img.png"/>
