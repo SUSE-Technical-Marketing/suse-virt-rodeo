@@ -220,50 +220,16 @@ All production VMs should run only on production-ready hosts.
 - Node Scheduling:
   1. Select **Run virtual machine on node(s) matching scheduling rules**
   2. Click **Add Node Selector**, then **Add Rule**:
-     - **Key**:
-
-<div class="cred">
-
-```txt
-stage
-```
-
-</div>
-
-     - **Value**:
-
-<div class="cred">
-
-```txt
-prod
-```
-
-</div>
+     - **Key**: <b class="highlightcopy">stage</b>
+     - **Value**: <b class="highlightcopy">prod</b>
 
 
 We want the VMs to be properly labeled:
 
 - Labels:
   - Click **Add Label**:
-    - **Key**:
-
-<div class="cred">
-
-```txt
-stage
-```
-
-</div>
-
-    - **Value**:
-
-<div class="cred">
-
-```txt
-prod
-```
-
-</div>
+    - **Key**: <b class="highlightcopy">stage</b>
+    - **Value**: <b class="highlightcopy">prod</b>
 
 
 Finally, we want all production machines standardized on a set of packages and settings:
@@ -408,7 +374,17 @@ Go to **Virtual Machines** and click **Create**, then fill in the following deta
 
 1. Select **Multiple Instance**
 2. Set the **Namespace** to <b class="highlightcopy">prod</b>
-3. Set the **Name Prefix** to <b class="highlightcopy">appcluster</b>
+3. Set the **Name Prefix** to:
+
+<div class="cred">
+
+```txt
+appcluster
+```
+
+</div>
+
+
 4. Set the **Count** to <b class="highlightcopy">2</b>
 5. Tick **Use VM Template** and set the **Template** to <b class="highlightcopy">prod/prod-basic</b>
 6. Click **Create**
