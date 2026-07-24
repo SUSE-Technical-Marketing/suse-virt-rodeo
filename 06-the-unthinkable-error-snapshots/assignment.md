@@ -372,7 +372,7 @@ Now that you have verified the snapshot's integrity, proceed to restore the prod
 
 The VM will power itself back up because that is what the run strategy defines.
 
-Optionally, SSH back and `cat` the file one last time. The record is back where it belongs.
+Optionally, SSH back and `cat` the file one last time, then logout of the VM. The record is back where it belongs.
 
 
 🏋️ Bonus Drills: see the machinery behind the safety net (optional)
@@ -383,6 +383,9 @@ Optionally, SSH back and `cat` the file one last time. The record is back where 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
 ```
+
+> [!NOTE]
+> Make sure you logout of the VM before running this commands.
 
 
 💼 Why does this matter?

@@ -288,9 +288,9 @@ mysusevirt1
 
 3. Click **Create**
 4. A new screen appears. On it a url shows up, copy that url for the next steps.
-5. Below it you can see the registration instructions. Follow them, and remember to select **Insecure Skip TLS Verify** when editing the <b class="highlightcopy">cluster-registration-url</b> setting.
+5. Below it you can see the registration instructions. Follow them, and remember to select **Insecure Skip TLS Verify** when editing the <b class="highlightcopy">cluster-registration-url</b> setting. This should be done in [button label="SUSE Virtualization UI" variant="success"](tab-0).
 
-6. Click on "Harvester Clusters" on the top left of the UI.
+6. Switch back to [button label="Rancher Prime UI" variant="success"](tab-2) and click on "Harvester Clusters" on the top left of the UI.
 
 Notice the state next to the cluster name: **Pending**. It is waiting for the cluster to finish the registration process.
 

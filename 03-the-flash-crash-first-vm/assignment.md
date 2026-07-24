@@ -419,8 +419,11 @@ ssh_authorized_keys:
 
 Save the template by clicking in **Create**, then make sure <b class="highlightcopy">prod/prod</b> is selected as the **User Data Template** back on the VM creation form.
 
+<div id="303" class="story">
+The trading desk's firewall team has one more demand: 
+</div>
 
-The trading desk's firewall team has one more demand: the engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
+The engine must come up on a **predictable address**, not whatever DHCP hands out. In the **Network Data** field, enter:
 
 ```yaml
 version: 2
@@ -444,7 +447,7 @@ Cloud-init applies both on first boot: <b class="highlightcopy">vertex-trader-01
 Now we have finished the configuration please click **Create** to initialize the deployment of the Virtual Machine.
 
 
-<div id="303" class="story">
+<div id="304" class="story">
 Scheduling rules let you separate critical systems from other workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
 
 </div>
@@ -503,7 +506,7 @@ You should recognize `market-data-vol` in the list: a banking data drive, expres
 - **Consistency by construction.** Golden images plus cloud-init mean every engine the quants request boots identical, configured, and ready.
 - **No stranded storage.** Volumes are carved from the shared Longhorn pool on demand, no more waiting for SAN LUN allocations.
 
-<div id="304" class="story">
+<div id="305" class="story">
 
 You radio back to the trading floor. *"Your engine is online and the data volume is attached."* The crisis is averted — but the day is far from over.
 

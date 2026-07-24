@@ -223,11 +223,11 @@ Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-l
 🔒 Task 2: Create a closed loop SDN
 ===================================
 
-Now create the same type of isolation for the development environment. Adding new NICs and cabling is expensive, and dev does not need that performance, so this time you will use a **software-defined network**.
+Now create the same type of isolation for the development environment. Adding new NICs and cabling is expensive, a development environment does not need that many dedicated resources, so this time you will use a **software-defined network**.
 
 Go to **Networks > Virtual Machine Networks** and click **Create**, then fill in the following details:
 
-- **Namespace**: <b class="highlightcopy">dev</b>
+- **Namespace**: <b class="highlightcopy">prod</b>
 - **Name**: <b class="highlightcopy">secure-loop-dev</b>
 - Basics:
   - **Type**: <b class="highlightcopy">OverlayNetwork</b>
@@ -253,7 +253,9 @@ Now you can assign the network <b class="highlightcopy">dev/secure-loop-dev</b> 
 =====================================================
 
 
-You have two new isolated networks. Now it is time to show your peers how to attach them to a VM. You are not making the change yourself, just walking through how it is done:
+You have two new isolated networks. Now it is time to show your peers how to attach them to a VM. 
+
+You are not making the change yourself, just walking through how it is done, for that we will choose the production server:
 
 Return to the **Virtual Machines** dashboard and locate the target virtual machine ( **webserver-prod** ):
 
