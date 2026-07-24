@@ -184,7 +184,7 @@ Password:
 
 
 
-You need a template that speeds up the deployment of virtual machines and standardizes them. 
+You need a template that speeds up the deployment of virtual machines and standardizes them.
 In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
 
 - **Namespace**: <b class="highlightcopy">prod</b>
@@ -261,6 +261,11 @@ For clarity, first create a file with the resource definition formatted in YAML:
 
 
 ```bash,run
+disk_id="disk-0"
+image_id="official-images/`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -n official-images     -o jsonpath='{range .items[?(@.spec.displayName=="sles-16.0-minimal-vm.x86_64-cloud-gm.qcow2")]}{.metadata.name}{end}'`"
+storageclass_id="harvester-longhorn"
+
+
 cat > virtualMachineTemplate_prod-basic.yaml <<'EOF'
 ---
 apiVersion: harvesterhci.io/v1beta1
@@ -282,7 +287,7 @@ spec:
   vm:
     metadata:
       annotations:
-        harvesterhci.io/volumeClaimTemplates: '[{"metadata":{"name":"-disk-0-thsxi","annotations":{"harvesterhci.io/imageId":"official-images/image-v62vf"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"lh-3311febd-12d9-4ebc-82bc-728e5ccbfbe6"}}]'
+        harvesterhci.io/volumeClaimTemplates: '[{"metadata":{"name":"${disk_id}","annotations":{"harvesterhci.io/imageId":"official-images/${image_id}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"5Gi"}},"volumeMode":"Block","storageClassName":"${storageclass_id}"}}]'
       labels:
         harvesterhci.io/os: linux
         stage: prod
@@ -342,12 +347,21 @@ spec:
           volumes:
           - name: disk-0
             persistentVolumeClaim:
-              claimName: -disk-0-thsxi
+              claimName: ${disk_id}
           - cloudInitNoCloud:
-              networkDataSecretRef:
-                name: prod-basic-xcezl
-              secretRef:
-                name: prod-basic-xcezl
+              userdata: |
+		    #cloud-config
+		    package_update: true
+		    packages:
+		      - qemu-guest-agent
+		    runcmd:
+		      - - systemctl
+			- enable
+			- --now
+			- qemu-guest-agent.service
+		    ssh_authorized_keys:
+		      - ssh-ed25519
+			AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
             name: cloudinitdisk
 EOF
 ```
