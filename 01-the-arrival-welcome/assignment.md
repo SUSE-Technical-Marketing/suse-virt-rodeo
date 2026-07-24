@@ -138,7 +138,7 @@ Your journey begins right now. Before you can begin dismantling the old world, y
 <b class="virt">SUSE Virtualization</b> (also known as **Harvester**) is a modern, open-source hyperconverged infrastructure (HCI) platform built on Kubernetes. It runs directly on bare metal and gives the bank enterprise-grade **virtual machines** on a cloud-native foundation, exactly the bridge <b class="bank">Vertex Trust Bank</b> needs:
 
 - **KubeVirt + KVM/QEMU**: enterprise virtualization as native Kubernetes workloads. Underneath sits the same battle-hardened **KVM/QEMU** pair that has powered Linux virtualization for decades, which is why the platform can run a huge variety of guest operating systems, including the very old ones still serving in the bank's dustiest legacy corners, patiently waiting for their migration
-- **Longhorn**: distributed, replicated block storage across every node, set up and ready out of the box. And if the bank ever prefers different storage, **any CSI-compatible storage driver plugs right in**, freedom of choice, never lock-in
+- **SUSE Storage (Longhorn)**: distributed, replicated block storage across every node, set up and ready out of the box. And if the bank ever prefers different storage, **any CSI-compatible storage driver plugs right in**, freedom of choice, never lock-in
 - **Software-defined networking**: VLANs and isolated overlay networks without touching a cable
 - **One open-source bill**: no per-socket hypervisor tax
 - **Support that actually listens**: SUSE customers consistently rate **SUSE Support** among the best in the industry, and their feedback directly shapes where the products go next. Try asking a closed-source vendor for a seat at that table
@@ -150,7 +150,7 @@ Every proprietary component bleeding the bank's budget dry has a modern, open-so
 | The old world (per-socket licensing) | SUSE Virtualization |
 |--------------------------------------|---------------------|
 | ISAware proprietary hypervisor | KubeVirt + KVM |
-| Proprietary storage array | Longhorn distributed storage, or any CSI driver the bank chooses |
+| Proprietary storage array |  SUSE storage, or any CSI driver the bank chooses |
 | Closed-source SDN | Kube-OVN + Multus |
 | ISAware Command Throne | SUSE Rancher Prime |
 
@@ -330,9 +330,9 @@ You should see the list of Virtual Machines present in every namespace.
 💾 Bonus Drill: validate the distributed storage fabric (optional)
 ====================================================================
 
-A healthy storage backend is key for banking operations. <b class="virt">SUSE Virtualization</b> uses **Longhorn** to replicate every volume across the cluster.
+A healthy storage backend is key for banking operations. <b class="virt">SUSE Virtualization</b> uses **SUSE Storage** to replicate every volume across the cluster.
 
-The [button label="SUSE Virtualization UI" variant="success"](tab-0) already shows information about the storage health, but it is also possible to access the Longhorn dashboard by enabling the **Extension developer features**:
+The [button label="SUSE Virtualization UI" variant="success"](tab-0) already shows information about the storage health, but it is also possible to access the SUSE Storage (Longhorn) dashboard by enabling the **Extension developer features**:
 
 1. Click on your **user icon** in the top-right corner
 2. Select **Preferences**
@@ -343,12 +343,12 @@ Go back to **Home**, and in the bottom-left corner click on **Support**.
 You will now see two new sections:
 
 - **Access Embedded Rancher UI**
-- **Access Embedded Longhorn UI**
+- **Access Embedded SUSE Storage (Longhorn) UI**
 
 Click on the **Longhorn UI** section.
 
-It will take you to the Longhorn Dashboard, all should be green.
-If a node were unschedulable or a volume degraded, Longhorn would already be rebuilding replicas elsewhere, but you always confirm your ground truth.
+It will take you to the SUSE Storage Dashboard, all should be green.
+If a node were unschedulable or a volume degraded, SUSE Storage would already be rebuilding replicas elsewhere, but you always confirm your ground truth.
 
 
 🏋️ Bonus Drills: for the command-line curious (optional)
@@ -396,7 +396,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get settings.harvesterhci.io se
 - **One command center.** VMs, storage, and networking are visible from a single dashboard, no more juggling three separate management consoles with three separate licenses.
 - **Kubernetes-native from day one.** Everything in the dashboard is a Kubernetes resource under the hood. The container team's existing skills transfer directly, while the VM team gets a friendly point-and-click UI.
 - **Fleet management and RBAC included.** Rancher Prime is ready to command every cluster the bank will ever run, with one login and one set of access rules.
-- **Distributed storage out of the box.** Longhorn replicates data across nodes automatically; no proprietary SAN, no synchronization nightmares.
+- **Distributed storage out of the box.** SUSE Storage replicates data across nodes automatically; no proprietary SAN, no synchronization nightmares.
 
 Once you confirm the control plane is responding, the storage is healthy, and your administrative access is secured, you are ready to proceed deeper into the facility.
 
