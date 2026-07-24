@@ -285,7 +285,7 @@ Now watch the **Virtual Machines** page: every VM still living on the damaged no
 
 Once the node shows **Maintenance** and its VM count reaches zero, <i id="407" class="story">the (virtual) repair crew swaps the (virtual) coolant valve.</i> Bring the node back into service:
 
-3. Click the **three dots** on its row again and select **Disable Maintenance Mode**
+3. Click the **three dots** on its row again and select **Uncordon**
 
 The node rejoins the fabric, ready to accept workloads again.
 
