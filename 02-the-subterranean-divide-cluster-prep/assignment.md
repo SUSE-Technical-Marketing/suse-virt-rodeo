@@ -113,6 +113,24 @@ enhanced_loading: null
     100% { text-shadow: none; }
   }
 
+  img.animatedgif { 
+    --borderthickness: 5pt;
+    --colors: #0000 25%,#30ba78 0;
+    padding: 10px;
+    background:
+      conic-gradient(from 90deg  at top    var(--borderthickness) left  var(--borderthickness),var(--colors)) 0    0,
+      conic-gradient(from 180deg at top    var(--borderthickness) right var(--borderthickness),var(--colors)) 100% 0,
+      conic-gradient(from 0deg   at bottom var(--borderthickness) left  var(--borderthickness),var(--colors)) 0    100%,
+      conic-gradient(from -90deg at bottom var(--borderthickness) right var(--borderthickness),var(--colors)) 100% 100%;
+    background-size: 50px 50px; 
+    background-repeat: no-repeat;
+    transition: 1s;
+  }
+  
+  img.animatedgif:hover {
+    background-size: 51% 51%;
+  }
+
 
 </style>
 <script>
@@ -205,7 +223,10 @@ It is ready for you to use but if you want to use other CSI you are free to use 
 🖥️ Task 1: Inspect the physical node topology
 =============================================
 
-![chapter2_video1.gif](../assets/chapter2_video1.gif)
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter2_video1.gif"/>
+</div>
 
 
 Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to the left-hand menu, and click on **Hosts**.
@@ -222,7 +243,10 @@ Banks grow, and so does this fabric. Running low on space is not a forklift upgr
 🏗️ Task 2: Prepare a dedicated workspace
 ========================================
 
-![chapter2_video2.gif](../assets/chapter2_video2.gif)
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter2_video2.gif"/>
+</div>
 
 The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster.
 
@@ -260,7 +284,9 @@ The developers workspace now stand ready, in the future we can assign to it quot
 ========================================================
 
 
-![chapter2_video3.gif](../assets/chapter2_video3.gif)
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter2_video3.gif"/>
+</div>
 
 Let's look at *how* the storage backend stays healthy. Every disk <b class="virt">SUSE Virtualization</b> hands to a VM or a pod is a **Longhorn volume**, and every Longhorn volume is created from a **StorageClass**: a policy that decides, among other things, how many copies of your data exist at any given time.
 
@@ -297,7 +323,10 @@ exit
 🧅 Task 4: Build a cost-tier storage class for the development team
 =====================================================================
 
-![chapter2_video4.gif](../assets/chapter2_video4.gif)
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter2_video4.gif"/>
+</div>
 
 
 The development team does not need production-grade replication for their sandboxes, they need cheap, fast iteration. You will give them their own storage tier, priced for what it actually is: disposable.
@@ -342,7 +371,10 @@ Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replica
 🏋️ Bonus Drills: for the command-line curious (optional)
 ==========================================================
 
-![chapter2_video5.gif](../assets/chapter2_video5.gif)
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter2_video5.gif"/>
+</div>
+
 
 New to Kubernetes? **Skip ahead freely.** If you are curious, everything you just did in the UI is also visible through the Kubernetes API, open the [button label="Cluster Terminal" variant="success"](tab-1):
 
