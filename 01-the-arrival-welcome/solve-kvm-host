@@ -1,14 +1,13 @@
 #!/bin/bash
 set -euo pipefail
-export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
-# Nothing to create — this chapter is about exploring the UI and running read-only commands.
-# Verify the cluster is healthy so Check passes immediately after Solve.
+# Nothing to create — this chapter is about exploring the UI and running
+# read-only commands. Must be a true no-op: Instruqt's Skip button runs this
+# script, and skipping is most likely to happen early, before the cluster
+# (up to 90 minutes to bring all 3 Harvester nodes Ready) has finished
+# initializing. The old version gated on 3/3 nodes Ready and exited 1
+# otherwise, which made Skip fail with an error during exactly that window.
+# check-kvm-host still verifies cluster health for students who complete the
+# chapter normally instead of skipping it.
 
-READY=$(kubectl get nodes --no-headers 2>/dev/null | grep -c ' Ready' || echo 0)
-if [[ "$READY" -lt 3 ]]; then
-  echo "ERROR: Cluster not healthy — ${READY}/3 nodes Ready"
-  exit 1
-fi
-
-echo ">>> Cluster is healthy — Chapter 1 objectives verified"
+echo ">>> Nothing to solve for Chapter 1 — skipping straight to Chapter 2."
