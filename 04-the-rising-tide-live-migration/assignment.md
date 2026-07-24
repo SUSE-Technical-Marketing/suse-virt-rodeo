@@ -185,6 +185,11 @@ Password:
 ⏸️ Task 1: Suspend non-critical workloads to free resources
 ===========================================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter4_video1.gif"/>
+</div>
+
+
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines**:
 
 1. Locate the virtual machine named <b class="highlightcopy">daily-batch-processor</b>
@@ -202,6 +207,10 @@ This halts its CPU cycles, dedicating maximum hardware resources to your emergen
 📡 Task 2: Establish a service heartbeat
 ========================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter4_video2.gif"/>
+</div>
+
 Switch to the [button label="Cluster Terminal" variant="success"](tab-1). You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.
 
 Start the heartbeat monitor against <b class="highlightcopy">webserver-prod</b>:
@@ -216,6 +225,10 @@ ping [[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]]
 🚚 Task 3: Execute the Live Migration
 =====================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter4_video3.gif"/>
+</div>
+
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the <b class="highlightcopy">webserver-prod</b> instance:
 
 1. Read the **Node** column and **write down** which node the gateway is running on: you will want proof it moved
@@ -228,6 +241,10 @@ Behind the scenes, KubeVirt copies the VM's live memory pages to the target node
 
 👀 Task 4: Monitor the seamless transfer
 ========================================
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter4_video4.gif"/>
+</div>
 
 Immediately switch back to the [button label="Cluster Terminal" variant="success"](tab-1) tab and watch the ping sequence.
 
@@ -259,6 +276,10 @@ ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEW
 ▶️ Task 5: Resume normal operations
 ===================================
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter4_video5.gif"/>
+</div>
+
 Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). Locate the <b class="highlightcopy">daily-batch-processor</b> you paused earlier:
 
 1. Click the **three dots** on its row
@@ -266,6 +287,10 @@ Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). 
 
 🛠️ Task 6: Hand the damaged rack to the repair crew
 ====================================================
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter4_video6.gif"/>
+</div>
 
 
 <div id="405" class="story">
@@ -294,6 +319,10 @@ The node rejoins the fabric, ready to accept workloads again.
 
 🏋️ Bonus Drills: the migration paper trail (optional, for the command-line curious)
 ======================================================================================
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter4_video7.gif"/>
+</div>
 
 New to Kubernetes? **Skip ahead freely.** Otherwise: every migration is itself a Kubernetes object, which means it is auditable. In the [button label="Cluster Terminal" variant="success"](tab-1):
 
