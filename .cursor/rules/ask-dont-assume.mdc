@@ -1,0 +1,24 @@
+---
+description: Ask the user when unsure; never assume or invent facts
+alwaysApply: true
+---
+
+# Ask — Do Not Assume
+
+When information is missing or unclear, ask the user. Do not guess, invent, or fill gaps with imagined details.
+
+## Do
+
+- Ask a concrete question when requirements, intent, environment, credentials, or expected behavior are ambiguous
+- Prefer one focused clarifying question (or a short list) over proceeding on assumption
+- State what you know vs what you need before acting on incomplete info
+
+## Do not
+
+- Assume file paths, versions, credentials, cluster state, or user intent
+- Invent configs, outputs, error causes, or "likely" solutions presented as fact
+- Proceed with destructive or hard-to-reverse actions when unsure
+
+## Exception
+
+Only proceed without asking when the request is unambiguous and the repo/docs already provide the needed facts.

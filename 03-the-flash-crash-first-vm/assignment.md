@@ -211,7 +211,7 @@ Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navi
 Images can be created from a URL, uploaded from your workstation, or exported from an existing volume via **Images > Create**:
 
 <div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/04-create_vm_image.gif"/>
+  <img class="animatedgif" src="../assets/chapter3-new-image.gif"/>
 </div>
 
 For example, let's add a new image:
@@ -249,6 +249,10 @@ For this task we are going to create our first VM.
 
 > [!NOTE]
 > Please don't click **Create** until instructed.
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter3-new-vm.gif"/>
+</div>
 
 
 Navigate to **Virtual Machines** and click the **Create** button.
@@ -465,21 +469,28 @@ Cloud-init applies both on first boot: <b class="highlightcopy">vertex-trader-01
 
 Now we have finished the configuration please click **Create** to initialize the deployment of the Virtual Machine.
 
-
 <div id="304" class="story">
 Scheduling rules let you separate critical systems from other workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
 
 </div>
 
-
 > [!NOTE]
 > **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.
 
+> [!IMPORTANT] 
+> This is a **nested-configuration**, I/O performance is not as good as we'd like it takes some time to finish the provisioning process, in the meanwhile the VM starts we have some more fun for you.
+> Go to the "Bonus Drills" and learn a little more about how to interact with SUSE Virtualization API using the cli. All in SUSE Virtualization is a Kuernetes object, and this means that we can interact with it using the Kubernetes API, or in this case the underlying SUSE Virtualization RKE2 cluster.
+> Once you finish come back to the Task 3.
 
 🖥️ Task 3: Access the Web Console
 =================================
 
 Monitor the [button label="SUSE Virtualization UI" variant="success"](tab-0) until the virtual machine transitions to the **Running** state.
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter3-vm-vnc.gif"/>
+</div>
+
 
 1. Click the **Console** button on the virtual machine row to open the VNC web console
 2. Observe we can access the system without a connection by using this method, don't wait for the installation to finish just move on to the next.

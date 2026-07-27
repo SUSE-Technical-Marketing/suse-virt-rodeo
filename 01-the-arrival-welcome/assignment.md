@@ -293,6 +293,8 @@ Let's see what is inside Rancher.
 
 Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** from the left menu.
 
+![chapter1-import_harvester.gif](../assets/chapter1-import_harvester.gif)
+
 From here you can manage multiple SUSE Virtualization clusters. Import the existing one:
 
 1. Click **Import Existing**
