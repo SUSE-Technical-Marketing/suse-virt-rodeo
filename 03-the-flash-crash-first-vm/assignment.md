@@ -367,7 +367,8 @@ Configure the production rule:
 
 1. Select **Run virtual machine on node(s) matching scheduling rules**
 2. Click **Add Node Selector**, then **Add Rule**:
-   - **Key**:
+
+- **Key**:
 <div class="cred">
 
 ```txt
@@ -375,7 +376,8 @@ stage
 ```
 
 </div>
-   - **Value**:
+
+- **Value**:
 <div class="cred">
 
 ```txt
@@ -383,8 +385,6 @@ prod
 ```
 
 </div>
-
-
 
 
 Now assign it a label: go to the **Labels** tab and click **Add Label**:
@@ -397,6 +397,7 @@ stage
 ```
 
 </div>
+
 - **Value**:
 <div class="cred">
 
@@ -407,8 +408,6 @@ prod
 </div>
 
 This will help us manage the VM with future automation.
-
-
 
 
 Navigate to **Advanced Options**, then select **Cloud Configuration**, to make sure the trading system comes up with all the required settings and packages installed.
@@ -477,7 +476,7 @@ Scheduling rules let you separate critical systems from other workloads, for exa
 > [!NOTE]
 > **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.
 
-> [!IMPORTANT] 
+> [!IMPORTANT]
 > This is a **nested-configuration**, I/O performance is not as good as we'd like it takes some time to finish the provisioning process, in the meanwhile the VM starts we have some more fun for you.
 > Go to the "Bonus Drills" and learn a little more about how to interact with SUSE Virtualization API using the cli. All in SUSE Virtualization is a Kuernetes object, and this means that we can interact with it using the Kubernetes API, or in this case the underlying SUSE Virtualization RKE2 cluster.
 > Once you finish come back to the Task 3.
