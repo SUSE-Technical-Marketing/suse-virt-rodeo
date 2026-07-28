@@ -212,12 +212,21 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigat
 2. Set the **Name** to <b class="highlightcopy">closed-loop</b>
 3. Click **Create**
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
+</div>
+
 The new cluster network appears in the list. Now assign it a physical interface: click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
 
 1. Set the **Name** to <b class="highlightcopy">closed-loop</b>
    Notice the **Node Selector** section, in here we can specify where the network will be available.
 2. Under **Uplink**, set **NICs** to <b class="highlightcopy">ens5</b>
 3. Click **Create**
+
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
+</div>
 
 Now define the VM-facing network on top of it. Select **Virtual Machine Networks** and click **Create** to define a new secure perimeter:
 
@@ -229,12 +238,8 @@ Now define the VM-facing network on top of it. Select **Virtual Machine Networks
 
 Click **Create**.
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/02-create_vm_network.gif"/>
-</div>
 
 Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-loop-prod</b> appears with **Active** status.
-
 
 
 
@@ -242,6 +247,10 @@ Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-l
 ===================================
 
 Now create the same type of isolation for the development environment. Adding new NICs and cabling is expensive, a development environment does not need that many dedicated resources, so this time you will use a **software-defined network**.
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter5-secure-loop-dev.gif"/>
+</div>
 
 Go to **Networks > Virtual Machine Networks** and click **Create**, then fill in the following details:
 
@@ -251,6 +260,10 @@ Go to **Networks > Virtual Machine Networks** and click **Create**, then fill in
   - **Type**: <b class="highlightcopy">OverlayNetwork</b>
 
 Click **Create**.
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter5-secure-vpc-dev.gif"/>
+</div>
 
 Now create the SDN subnet. Go to **Virtual Private Cloud**, and on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click **Create Subnet**, then fill in the following details:
 
@@ -267,11 +280,16 @@ Click **Create**.
 Now you can assign the network <b class="highlightcopy">dev/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
 
 
+
 🎯 Task 3: Configure VMs with the new networks
 =====================================================
 
 
 You have two new isolated networks. Now it is time to show your peers how to attach them to a VM.
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter5-webserver-secure-network.gif"/>
+</div>
 
 You are not making the change yourself, just walking through how it is done, for that we will choose the production server:
 

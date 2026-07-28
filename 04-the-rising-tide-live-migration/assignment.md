@@ -300,7 +300,10 @@ The gateway is safe — but the water-damaged node is still dripping, and smalle
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Hosts**:
 
-1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down. <i id="406" class="story">That is the water-damaged machine</i>
+1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down. 
+
+<i id="406" class="story">That is the water-damaged machine</i>
+
 2. Click the **three dots** on its row and select **Enable Maintenance Mode**, then confirm
 
 Now watch the **Virtual Machines** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty. No spreadsheets, no manual target-picking, no forgotten VM.

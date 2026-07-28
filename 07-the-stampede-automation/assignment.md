@@ -181,7 +181,9 @@ Password:
 📜 Task 1: Forge the golden template
 ====================================
 
-
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter7-prod-vm-template.gif"/>
+</div>
 
 You need a template that speeds up the deployment of virtual machines and standardizes them.
 In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
@@ -251,6 +253,10 @@ Can you imagine filling in all these details every time? People would give up, a
 
 Because the template already exists, deploying multiple servers takes just a few clicks.
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter7-fleet-vms.gif"/>
+</div>
+
 In [button label="SUSE Virtualization UI" variant="success"](tab-0) go to **Virtual Machines** and click **Create**, then fill in the following details:
 
 1. Select **Multiple Instance**
@@ -291,6 +297,11 @@ The market surge subsides. The virtual machines sit idle, waiting for the next w
 </div>
 
 You no longer need so many virtual machines, delete them all at once (don't worry if they are still starting).
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter7-fleet-vms-delete.gif"/>
+</div>
+
 
 In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate to the **Virtual Machines** section:
 
