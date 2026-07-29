@@ -227,7 +227,7 @@ Password:
 
 Navigate to the [button label="SUSE Virtualization UI" variant="success"](tab-0) tab and log in using your credentials.
 
-![01-connect_to_cluster.gif](../assets/01-connect_to_cluster.gif)
+![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
 Take a moment to look at the main **Dashboard**: this is your command center for the entire mission.
 

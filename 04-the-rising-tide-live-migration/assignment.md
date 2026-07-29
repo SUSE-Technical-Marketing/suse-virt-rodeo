@@ -300,7 +300,7 @@ The gateway is safe — but the water-damaged node is still dripping, and smalle
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Hosts**:
 
-1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down. 
+1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down.
 
 <i id="406" class="story">That is the water-damaged machine</i>
 
