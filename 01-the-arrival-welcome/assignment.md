@@ -293,7 +293,9 @@ Let's see what is inside Rancher.
 
 Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** from the left menu.
 
-![chapter1-import_harvester.gif](../assets/chapter1-import_harvester.gif)
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter1-import_harvester.gif"/>
+</div>
 
 From here you can manage multiple SUSE Virtualization clusters. Import the existing one:
 
@@ -352,6 +354,10 @@ You should see the list of Virtual Machines present in every namespace.
 ====================================================================
 
 A healthy storage backend is key for banking operations. <b class="virt">SUSE Virtualization</b> uses **SUSE Storage** to replicate every volume across the cluster.
+
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter1-longhorn-ui.gif"/>
+</div>
 
 The [button label="SUSE Virtualization UI" variant="success"](tab-0) already shows information about the storage health, but it is also possible to access the SUSE Storage (Longhorn) dashboard by enabling the **Extension developer features**:
 
