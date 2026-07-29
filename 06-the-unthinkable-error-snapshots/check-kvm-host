@@ -1,0 +1,16 @@
+#!/bin/bash
+set -euo pipefail
+
+# Intentionally always-pass. Chapter 6 (The Unthinkable Error) is deliberately
+# independent — everything it needs is self-provisioned by setup-kvm-host,
+# and nothing later in the track reads back state the student creates here
+# (verified by tracing every resource this chapter's tasks create against
+# every later chapter's setup/assignment, 2026-07-29). Real per-task
+# validation was a deliberate choice not to build for this chapter, not an
+# oversight - this script exists only so the UI shows a real "Check" button
+# (matching the assignment text) instead of Instruqt's "no check script"
+# fallback ("Next"), and so Skip stays enabled track-wide: Instruqt disables
+# Skip for the whole track if ANY challenge has a check script without a
+# matching solve script (see this chapter's solve-kvm-host).
+
+echo "PASS: Chapter 6 has no automated grading by design - nothing to verify."

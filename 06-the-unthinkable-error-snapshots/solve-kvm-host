@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+
+# Nothing to create — Chapter 6 (The Unthinkable Error) is fully self-provisioned by
+# setup-kvm-host, and check-kvm-host always passes (see that script's
+# header for why). This solve script exists only so Skip stays enabled
+# track-wide: Instruqt disables Skip for the whole track if any challenge
+# has a check script without a matching solve script, and this chapter now
+# has a check script.
+
+echo ">>> Nothing to solve for Chapter 6 — skipping straight ahead."

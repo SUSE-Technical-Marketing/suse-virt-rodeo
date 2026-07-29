@@ -2,13 +2,16 @@
 set -uo pipefail
 export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
-
+# package_update is deliberately left out (or false) here - it forces a full
+# repo refresh before install and was the single biggest chunk of boot time
+# for VMs built from this template, same fix already applied to chapters
+# 3/4/6's cloud-init (see chapter 3's solve-kvm-host header for the original
+# finding).
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 data:
   cloudInit: |
     #cloud-config
-    package_update: true
     packages:
       - qemu-guest-agent
     runcmd:
