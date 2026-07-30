@@ -1,0 +1,35 @@
+name: PR title
+
+# Releases are driven by Conventional Commits. Because feature-branch PRs into
+# dev are squash-merged, the PR title becomes the commit that eventually
+# reaches main — so the title must be a valid Conventional Commit
+# (e.g. "feat: ...", "fix(chapter5): ...").
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches: [dev, main]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Allowed types — keep in sync with changelog-sections in
+          # release-please-config.json.
+          types: |
+            feat
+            fix
+            perf
+            refactor
+            docs
+            build
+            ci
+            test
+            chore
