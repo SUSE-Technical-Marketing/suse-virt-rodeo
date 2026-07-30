@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "simple",
+  "include-component-in-tag": false,
+  "bootstrap-sha": "2c06d333193c7de60cdf0d3797ef6a0320da7104",
+  "changelog-sections": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance" },
+    { "type": "refactor", "section": "Refactoring" },
+    { "type": "docs", "section": "Documentation" },
+    { "type": "build", "section": "Build & Release" },
+    { "type": "ci", "section": "CI", "hidden": true },
+    { "type": "test", "section": "Tests", "hidden": true },
+    { "type": "chore", "section": "Chores", "hidden": true }
+  ],
+  "packages": {
+    ".": {
+      "package-name": "suse-virt-rodeo",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
