@@ -6,13 +6,19 @@ itself, it belongs in [rodeo-cli](https://github.com/avaleror/rodeo-cli), not he
 
 ## Branches
 
-- **`dev`** — where all day-to-day work lands first. Open your PR against this branch.
+- **`dev`** — where all day-to-day work lands first.
 - **`main`** — the stable branch. It's what gets manually pushed to the live Instruqt
-  track (`instruqt track push`), and what release-please tags. It only receives
-  changes that have already been merged and settled on `dev`, via a `dev` → `main` PR
-  opened periodically by a maintainer.
+  track (`instruqt track push`) and manually tagged for releases. It only receives
+  changes that have already been merged and settled on `dev`, via a periodic
+  `dev` → `main` sync.
 
-Both branches are protected: no direct pushes, every change goes through a PR.
+**Andres and Raul can push directly to either branch** — no PR required for small
+changes. Use a PR anyway for anything sizeable (a new chapter, a change touching
+several chapters, anything you'd want a second pair of eyes on) — it's optional, not
+enforced by GitHub, so it's a judgment call each time.
+
+Everyone else: every change goes through a PR (branch off `dev`, open the PR against
+`dev`). PRs don't require an approval to merge, but the PR title lint must pass.
 
 ## Opening a PR
 
@@ -28,16 +34,15 @@ Both branches are protected: no direct pushes, every change goes through a PR.
 
 ### PR title format
 
-**PR titles must follow [Conventional Commits](https://www.conventionalcommits.org/)** —
-a GitHub Action lints this automatically and blocks merge if the title doesn't match.
-Since PRs are squash-merged, the title becomes the commit message that release-please
-later reads to work out the next version number.
+**PR titles should follow [Conventional Commits](https://www.conventionalcommits.org/)** —
+a GitHub Action lints this automatically. It's informational (not a merge-blocking
+check), but keeping it consistent makes `git log` and the PR history easy to scan.
 
 ```
 <type>: <short description>
 ```
 
-Allowed types (keep in sync with `release-please-config.json`):
+Allowed types:
 
 | Type | Use for |
 |------|---------|
@@ -64,20 +69,29 @@ docs: correct Rancher Prime version in README
 
 ### Checks and review
 
-- The **PR title lint** must pass.
-- **PRs need one approval before merge**, from andres.valero@suse.com or
-  raul.mahiques@suse.com.
+- The **PR title lint** runs on every PR but does not block merge.
+- **No approval is required to merge.**
 - Merges into `dev` are squash-merged (one clean commit per PR). The periodic
-  `dev` → `main` sync is a regular merge, so individual commits stay visible to
-  release-please.
+  `dev` → `main` sync is a regular merge, so individual commits stay visible in history.
 
 ## Versioning and releases
 
-Releases are automated with [release-please](https://github.com/googleapis/release-please).
-Every push to `main` re-evaluates the Conventional Commit history since the last
-release; when there's something to release, release-please opens (or updates) a
-release PR that bumps the version and updates `CHANGELOG.md`. Merging that PR cuts the
-git tag automatically. You never hand-pick a version number.
+**Tags are created manually** — there is no automated versioning (we tried
+release-please; it bumps the version for *any* commit, including docs-only changes,
+with no way to exclude specific types, so we dropped it). After pushing a meaningful
+batch of changes to `main`, a maintainer decides major/minor/patch by eye based on the
+size and nature of the change, then:
+
+```bash
+git checkout main && git pull
+git tag -a vX.Y.Z -m "vX.Y.Z — short summary of what changed"
+git push origin vX.Y.Z
+```
+
+Follow standard [semver](https://semver.org/): major for breaking changes (a renamed
+chapter dependency, a changed agent variable), minor for new content (a new chapter or
+task), patch for fixes and docs. `CHANGELOG.md` can be updated by hand alongside the
+tag if the change is worth calling out.
 
 ## Publishing to the live Instruqt track
 
