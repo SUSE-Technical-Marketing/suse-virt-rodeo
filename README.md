@@ -11,7 +11,7 @@ students spend their time on the tasks, not on cluster bring-up.
 **Versions:** Harvester 1.8.1 · Rancher Prime 2.14.1 · K3s v1.35 · SLES 16 host
 **Duration:** ~3 hours
 **Audience:** DevOps engineers, SREs, platform teams looking at SUSE Virtualization
-**Track version:** [`v1.0.1`](https://github.com/SUSE-Technical-Marketing/suse-virt-rodeo/releases/tag/v1.0.1) — this is the version currently live on Instruqt. See [CHANGELOG.md](CHANGELOG.md) for release history and [CONTRIBUTING.md](CONTRIBUTING.md#publishing-to-the-live-instruqt-track) for how new versions get published.
+**Track version:** [`v1.0.2`](https://github.com/SUSE-Technical-Marketing/suse-virt-rodeo/releases/tag/v1.0.2) — this is the version currently live on Instruqt. See [CHANGELOG.md](CHANGELOG.md) for release history and [CONTRIBUTING.md](CONTRIBUTING.md#publishing-to-the-live-instruqt-track) for how new versions get published.
 
 > **This repo is the lab content only.** The infrastructure it runs on (the nested
 > Harvester + Rancher stack) is built and owned by **rodeo-cli**, not by this repo.

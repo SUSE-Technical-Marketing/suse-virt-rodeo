@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/SUSE-Technical-Marketing/suse-virt-rodeo/compare/v1.0.1...v1.0.2) (2026-07-30)
+
+UI branding switched from the SUSE wordmark to the Geeko mascot (private label text
+now reads "SUSE Virtualization" to compensate, since the mascot carries no text).
+Also: dropped release-please in favor of manual tagging, added CODEOWNERS-gated
+review for external PRs, and simplified CONTRIBUTING.md.
+
 ## [1.0.1](https://github.com/SUSE-Technical-Marketing/suse-virt-rodeo/compare/v1.0.0...v1.0.1) (2026-07-30)
 
 
