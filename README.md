@@ -151,15 +151,18 @@ would take, which is the whole reason the stack is baked into the image.
 
 ### Push the track to Instruqt
 
+Publishing is manual, always from `main` (never `dev`):
+
 ```bash
+git checkout main && git pull
+instruqt track validate
 instruqt track push
 instruqt track start suse-virt-rodeo
 ```
 
-`.github/workflows/publish.yml` validates and pushes the track automatically on every
-push to `main`, and can be triggered manually with `workflow_dispatch`. It needs
-`INSTRUQT_TOKEN` in the repo secrets and the `suse/suse-virt-rodeo-rc1` image published
-in the Instruqt org.
+`.github/workflows/validate.yml` runs `instruqt track validate` in CI so structural
+errors are caught before merge, but it does not push — pushing to the live track is a
+deliberate, manual step a maintainer runs.
 
 ### Credentials
 
@@ -173,8 +176,10 @@ only, do not reuse it anywhere real. Node SSH is key-based.
 
 ## Contributing
 
-Work on `dev`. Keep this repo lab-only: anything about building the host, the nested
-VMs, iPXE, or the image belongs in
-**[rodeo-cli](https://github.com/avaleror/rodeo-cli)**, not here.
+PRs welcome — see **[CONTRIBUTING.md](CONTRIBUTING.md)** for the branching model, PR
+title conventions, review process, and how releases/tagging work.
+
+Keep this repo lab-only: anything about building the host, the nested VMs, iPXE, or
+the image belongs in **[rodeo-cli](https://github.com/avaleror/rodeo-cli)**, not here.
 
 Track developers: andres.valero@suse.com · raul.mahiques@suse.com
