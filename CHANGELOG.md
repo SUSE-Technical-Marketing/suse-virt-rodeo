@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/SUSE-Technical-Marketing/suse-virt-rodeo/compare/v1.0.2...v1.0.3) (2026-07-31)
+
+Fixed chapter 5's Drill 2 (bonus): Kube-OVN `Subnet` manifests were missing the
+required `provider` field, and the "same CIDR on two zones" premise was wrong
+(Kube-OVN enforces CIDR uniqueness per-VPC, not per-provider). Each zone now
+creates its own `NetworkAttachmentDefinition` first; `forensics-zone` uses a
+distinct CIDR. Live-tested against a running instance before merging.
+
 ## [1.0.2](https://github.com/SUSE-Technical-Marketing/suse-virt-rodeo/compare/v1.0.1...v1.0.2) (2026-07-30)
 
 UI branding switched from the SUSE wordmark to the Geeko mascot (private label text
