@@ -337,7 +337,22 @@ Confirm the policy is enforced:
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get networkpolicy -n prod
 ```
 
-**Drill 2: build air-gapped containment zones.** VLANs segment the physical network, but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Build a fully air-gapped zone for the bank's future forensics workloads:
+**Drill 2: build air-gapped containment zones.** VLANs segment the physical network, but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Each zone needs its own dedicated network first, then a `Subnet` bound to it. Build a fully air-gapped zone for the bank's future forensics workloads:
+
+```bash,run
+cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: vault-zone
+  namespace: prod
+  labels:
+    network.harvesterhci.io/clusternetwork: mgmt
+    network.harvesterhci.io/type: OverlayNetwork
+spec:
+  config: '{"cniVersion":"0.3.1","name":"vault-zone","type":"kube-ovn","provider":"vault-zone.prod.ovn","server_socket":"/run/openvswitch/kube-ovn-daemon.sock"}'
+EOF
+```
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -353,10 +368,27 @@ spec:
   protocol: IPv4
   natOutgoing: false
   private: true
+  provider: vault-zone.prod.ovn
+  vpc: ovn-cluster
 EOF
 ```
 
-Now prove the most counterintuitive capability of the SDN layer: **overlapping address space**. Create a second, completely independent zone for the forensics team, using the *exact same CIDR*:
+Create a second, completely independent zone for the forensics team the same way:
+
+```bash,run
+cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: forensics-zone
+  namespace: prod
+  labels:
+    network.harvesterhci.io/clusternetwork: mgmt
+    network.harvesterhci.io/type: OverlayNetwork
+spec:
+  config: '{"cniVersion":"0.3.1","name":"forensics-zone","type":"kube-ovn","provider":"forensics-zone.prod.ovn","server_socket":"/run/openvswitch/kube-ovn-daemon.sock"}'
+EOF
+```
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -365,18 +397,20 @@ kind: Subnet
 metadata:
   name: forensics-zone
 spec:
-  cidrBlock: "172.16.0.0/24"
-  gateway: "172.16.0.1"
+  cidrBlock: "172.16.1.0/24"
+  gateway: "172.16.1.1"
   excludeIps:
-    - "172.16.0.1"
+    - "172.16.1.1"
   protocol: IPv4
   natOutgoing: false
   private: true
+  provider: forensics-zone.prod.ovn
+  vpc: ovn-cluster
 EOF
 ```
 
 > [!NOTE]
-> Kube-OVN handles overlapping CIDRs via VPC isolation. If the command returns a validation error about duplicate CIDRs, use `172.16.1.0/24` for `forensics-zone` instead. The isolation demonstration still holds, just with different addresses.
+> Each zone gets its own dedicated network (and therefore its own isolated logical switch), which is what makes the isolation real. Kube-OVN still enforces one rule per VPC: no two subnets in the same VPC (`ovn-cluster`) may share a CIDR, even on different networks, which is why `forensics-zone` uses a different block. True overlapping address space between zones is possible too, it just requires a second custom VPC, out of scope for this drill.
 
 Verify both zones exist with `natOutgoing: false`: no path out, no path in:
 
@@ -384,7 +418,7 @@ Verify both zones exist with `natOutgoing: false`: no path out, no path in:
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
 ```
 
-Two vaults, same IP space, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else**: micro-segmentation without a proprietary SDN license, and without ever running out of address space.
+Two vaults, two independent private networks, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else**: micro-segmentation without a proprietary SDN license, built and torn down entirely in software.
 
 💼 Why does this matter?
 ==============================================
