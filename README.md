@@ -26,7 +26,7 @@ hands you the keys to a fresh SUSE Virtualization platform and a list of problem
 will not wait. Each chapter is a crisis that maps to a real task in a hypervisor
 migration: bring the cluster online, ship a VM under pressure, dodge a hardware
 failure with live migration, wall off a sensitive database, recover a deleted record,
-scale a fleet, and pull the last workload off the old vendor.
+and scale a fleet from a golden template.
 
 By the end the bank runs entirely on SUSE Virtualization, and the student has done
 every core operation by hand.
@@ -35,7 +35,7 @@ every core operation by hand.
 
 ## The chapters
 
-Nine story chapters, run in order. Each is an Instruqt challenge with its own
+Eight story chapters, run in order. Each is an Instruqt challenge with its own
 `assignment.md` and, where there is something to grade, a `check-kvm-host` and
 `solve-kvm-host` script.
 
@@ -48,8 +48,7 @@ Nine story chapters, run in order. Each is an Instruqt challenge with its own
 | 5 | 🕵️ The Invisible Intruder | Software-defined networking: isolate the sensitive database behind a VPC. |
 | 6 | ⏪ The Unthinkable Error | VM snapshots, restore into a staging clone, storage tiers, scheduled backups. |
 | 7 | 🤠 The Stampede | Forge a golden VM template and stamp out identical machines on demand. |
-| 8 | ⚔️ The Final Showdown | Migrate the last VM off the legacy ISAware cluster while it is still running. |
-| 9 | 🌅 A New Horizon | Recap what was covered and where the skills go next. |
+| 8 | 🌅 A New Horizon | Recap what was covered and where the skills go next. |
 
 `10-development/` is an internal sandbox chapter for authoring and testing. It is not
 part of the student flow.
@@ -114,8 +113,7 @@ The same stack backs the public self-serve
 ├── 05-the-invisible-intruder-networking/
 ├── 06-the-unthinkable-error-snapshots/
 ├── 07-the-stampede-automation/
-├── 08-the-final-showdown-migrate-isaware/
-├── 09-a-new-horizon-whats-next/         # Chapter 9
+├── 08-a-new-horizon-whats-next/         # Chapter 8
 ├── 10-development/                      # internal authoring sandbox
 ├── track_scripts/
 │   └── setup-kvm-host                   # runs at track start: boots VMs, waits for
@@ -140,7 +138,7 @@ Each chapter directory holds:
    for the Harvester VIP, then for all 3 nodes to reach `Ready`, and exports the agent
    variables the assignments reference (`RANCHER_URL`, `HARVESTER_URL`,
    `RANCHER_PASSWORD`, `HARVESTER_PASSWORD`).
-3. The student works through chapters 1 to 9. Each chapter's `check` script gates
+3. The student works through chapters 1 to 8. Each chapter's `check` script gates
    progress.
 
 Startup from a pre-built image is minutes, not the ~90 the from-scratch cluster build
