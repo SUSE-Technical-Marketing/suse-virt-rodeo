@@ -30,5 +30,5 @@ lab_config:
   override_challenge_layout: false
   hideStopButton: false
   default_layout: AssignmentLeft
-checksum: "12541829287519313494"
+checksum: "3136079760968905990"
 enhanced_loading: true
