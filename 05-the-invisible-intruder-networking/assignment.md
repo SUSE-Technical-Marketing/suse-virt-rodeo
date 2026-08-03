@@ -215,7 +215,16 @@ Our team has set up the SUSE Virtualization nodes with an extra dedicated NIC th
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigate to **Networks** in the left menu, then select **Cluster Network Configuration**:
 
 1. Click **Create a Cluster Network**
-2. Set the **Name** to <b class="highlightcopy">closed-loop</b>
+2. Set the **Name** to:
+
+<div class="cred">
+
+```txt
+closed-loop
+```
+
+</div>
+
 3. Click **Create**
 
 <div style='align: middle; margin: 15px;'>
@@ -224,7 +233,16 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), navigat
 
 The new cluster network appears in the list. Now assign it a physical interface: click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
 
-1. Set the **Name** to <b class="highlightcopy">closed-loop</b>
+1. Set the **Name** to:
+
+<div class="cred">
+
+```txt
+closed-loop
+```
+
+</div>
+
    Notice the **Node Selector** section, in here we can specify where the network will be available.
 2. Under **Uplink**, set **NICs** to <b class="highlightcopy">ens5</b>
 3. Click **Create**
@@ -237,7 +255,16 @@ The new cluster network appears in the list. Now assign it a physical interface:
 Now define the VM-facing network on top of it. Select **Virtual Machine Networks** and click **Create** to define a new secure perimeter:
 
 - **Namespace**: <b class="highlightcopy">prod</b>
-- **Name**: <b class="highlightcopy">secure-loop-prod</b>
+- **Name**:
+
+<div class="cred">
+
+```txt
+secure-loop-prod
+```
+
+</div>
+
 - Basics:
   - **Type**: <b class="highlightcopy">UntaggedNetwork</b>
   - **Cluster Network**: <b class="highlightcopy">closed-loop</b>
@@ -261,7 +288,16 @@ Now create the same type of isolation for the development environment. Adding ne
 Go to **Networks > Virtual Machine Networks** and click **Create**, then fill in the following details:
 
 - **Namespace**: <b class="highlightcopy">prod</b>
-- **Name**: <b class="highlightcopy">secure-loop-dev</b>
+- **Name**:
+
+<div class="cred">
+
+```txt
+secure-loop-dev
+```
+
+</div>
+
 - Basics:
   - **Type**: <b class="highlightcopy">OverlayNetwork</b>
 
@@ -273,11 +309,38 @@ Click **Create**.
 
 Now create the SDN subnet. Go to **Virtual Private Cloud**, and on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click **Create Subnet**, then fill in the following details:
 
-- **Name**: <b class="highlightcopy">secure-vpc-dev</b>
+- **Name**:
+
+<div class="cred">
+
+```txt
+secure-vpc-dev
+```
+
+</div>
+
 - Basic:
-  - **CIDR**: <b class="highlightcopy">192.168.32.0/24</b>
+  - **CIDR**:
+
+<div class="cred">
+
+```txt
+192.168.32.0/24
+```
+
+</div>
+
   - **Provider**: <b class="highlightcopy">dev/secure-loop-dev</b>
-  - **Gateway IP**: <b class="highlightcopy">192.168.32.1</b>
+  - **Gateway IP**:
+
+<div class="cred">
+
+```txt
+192.168.32.1
+```
+
+</div>
+
   - **Dynamic Host Configuration Protocol (DHCP)**: <b class="highlightcopy">Enabled</b>
   - **Private Subnet**: <b class="highlightcopy">Enabled</b>
 

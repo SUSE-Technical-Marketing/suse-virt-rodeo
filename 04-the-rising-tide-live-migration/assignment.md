@@ -197,7 +197,16 @@ Password:
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines**:
 
-1. Locate the virtual machine named <b class="highlightcopy">daily-batch-processor</b>
+1. Locate the virtual machine named:
+
+<div class="cred">
+
+```txt
+daily-batch-processor
+```
+
+</div>
+
 2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the right side of its row
 3. Select **Pause** then click **Apply** after prompted to confirm.
 4. Wait for its state to change to **Paused**
@@ -234,7 +243,15 @@ ping [[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]]
   <img class="animatedgif" src="../assets/chapter4_video3.gif"/>
 </div>
 
-In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the <b class="highlightcopy">webserver-prod</b> instance:
+In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the following instance:
+
+<div class="cred">
+
+```txt
+webserver-prod
+```
+
+</div>
 
 1. Read the **Node** column and **write down** which node the gateway is running on: you will want proof it moved
 2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the far right side of its row
@@ -285,7 +302,15 @@ ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEW
   <img class="animatedgif" src="../assets/chapter4_video5.gif"/>
 </div>
 
-Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). Locate the <b class="highlightcopy">daily-batch-processor</b> you paused earlier:
+Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). Locate the virtual machine you paused earlier:
+
+<div class="cred">
+
+```txt
+daily-batch-processor
+```
+
+</div>
 
 1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row
 2. Select **Unpause** to allow the non-critical jobs to resume
