@@ -132,6 +132,10 @@ enhanced_loading: null
   }
 
   .embedded_img {
+    width: 100%;
+    height: auto;
+    max-height: 1.5vh;
+    max-width: 1.5vh;
     margin: 0;
     padding: 0;
     display: inline-block;

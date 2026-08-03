@@ -106,11 +106,6 @@ enhanced_loading: null
     display: flex;
     align-items: center;
   }
-  .embedded_img {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-  }
   img.animatedgif {
     --borderthickness: 5pt;
     --colors: #0000 25%,#30ba78 0;
@@ -127,6 +122,16 @@ enhanced_loading: null
 
   img.animatedgif:hover {
     background-size: 51% 51%;
+  }
+
+  .embedded_img {
+    width: 100%;
+    height: auto;
+    max-height: 1.5vh;
+    max-width: 1.5vh;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
   }
 
 </style>
