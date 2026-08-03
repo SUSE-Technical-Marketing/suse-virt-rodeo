@@ -133,6 +133,12 @@ enhanced_loading: null
     background-size: 51% 51%;
   }
 
+  .embedded_img {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+  }
+
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/01-chapter-img.png"/>
@@ -247,7 +253,7 @@ Clicking on each of them takes you to a dedicated section with further informati
 
 You see a detailed view of each host's reserved and used resources, as well as the host's IP addresses and other details.
 
-Notice the **three dots** at the end of each row: clicking them opens a menu with different actions for that host.
+Notice the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> at the end of each row: clicking them opens a menu with different actions for that host.
 
 Go back to the **Dashboard** and look at what else is there:
 
@@ -321,7 +327,7 @@ Remain in the Rancher UI and watch the state change from **Pending** to **Waitin
 
 Now go back to **Harvester Clusters**: the cluster appears in the list.
 
-Let's see what else you can do here. Click the **three dots** at the end of the cluster's row; a menu drops down with some options:
+Let's see what else you can do here. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> at the end of the cluster's row; a menu drops down with some options:
 
 - **Kubectl Shell**: opens a shell connected to the cluster, where you can run kubectl commands against it.
 - **Download KubeConfig**: same as what you already saw in the SUSE Virtualization UI.

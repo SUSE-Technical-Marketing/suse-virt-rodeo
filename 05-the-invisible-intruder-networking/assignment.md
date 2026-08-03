@@ -139,6 +139,12 @@ enhanced_loading: null
     background-size: 51% 51%;
   }
 
+  .embedded_img {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+  }
+
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/05-chapter-img.png"/>
@@ -295,11 +301,11 @@ You are not making the change yourself, just walking through how it is done, for
 
 Return to the **Virtual Machines** dashboard and locate the target virtual machine ( **webserver-prod** ):
 
-1. Click the **three dots** on its row and select **Edit Config**
+1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select **Edit Config**
 2. Go to the **Networks** tab
 3. Select the network <b class="highlightcopy">prod/secure-loop-prod</b> for production systems, or <b class="highlightcopy">dev/secure-loop-dev</b> for development systems
 4. Click **Save**
-5. Click the **three dots** again and select **Restart**
+5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> again and select **Restart**
 
 The VM boots connected to the new network.
 

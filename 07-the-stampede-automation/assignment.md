@@ -123,6 +123,12 @@ enhanced_loading: null
     background-size: 51% 51%;
   }
 
+  .embedded_img {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+  }
+
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/07-chapter-img.png"/>

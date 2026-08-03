@@ -106,6 +106,11 @@ enhanced_loading: null
     display: flex;
     align-items: center;
   }
+  .embedded_img {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+  }
   img.animatedgif {
     --borderthickness: 5pt;
     --colors: #0000 25%,#30ba78 0;
@@ -193,7 +198,7 @@ Password:
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines**:
 
 1. Locate the virtual machine named <b class="highlightcopy">daily-batch-processor</b>
-2. Click the **three vertical dots** on the right side of its row
+2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the right side of its row
 3. Select **Pause** then click **Apply** after prompted to confirm.
 4. Wait for its state to change to **Paused**
 
@@ -232,7 +237,7 @@ ping [[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]]
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to **Virtual Machines** and locate the <b class="highlightcopy">webserver-prod</b> instance:
 
 1. Read the **Node** column and **write down** which node the gateway is running on: you will want proof it moved
-2. Click the **three vertical dots** on the far right side of its row
+2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the far right side of its row
 3. Select **Migrate** from the context menu
 4. Choose a different, safe target node from the dropdown list
 5. Click **Apply**
@@ -257,7 +262,7 @@ You hold your breath as the hypervisor coordinates the massive memory transfer o
 Press `Ctrl+C` to terminate the ping.
 
 <div id="403" class="story">
-You exhale sharply. **The transaction flow survived.**
+You exhale sharply. The transaction flow survived.
 </div>
 
 
@@ -282,7 +287,7 @@ ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEW
 
 Return to the [button label="SUSE Virtualization UI" variant="success"](tab-0). Locate the <b class="highlightcopy">daily-batch-processor</b> you paused earlier:
 
-1. Click the **three dots** on its row
+1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row
 2. Select **Unpause** to allow the non-critical jobs to resume
 
 🛠️ Task 6: Hand the damaged rack to the repair crew
@@ -304,7 +309,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0), go to *
 
 <i id="406" class="story">That is the water-damaged machine</i>
 
-2. Click the **three dots** on its row and select **Enable Maintenance Mode**, then confirm
+2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select **Enable Maintenance Mode**, then confirm
 
 Now watch the **Virtual Machines** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty. No spreadsheets, no manual target-picking, no forgotten VM.
 
@@ -313,7 +318,7 @@ Now watch the **Virtual Machines** page: every VM still living on the damaged no
 
 Once the node shows **Maintenance** and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
 
-3. Click the **three dots** on its row again and select **Uncordon**
+3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row again and select **Uncordon**
 
 The node rejoins the fabric, ready to accept workloads again.
 

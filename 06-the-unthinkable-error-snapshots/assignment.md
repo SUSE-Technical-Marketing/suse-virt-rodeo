@@ -124,6 +124,12 @@ enhanced_loading: null
     background-size: 51% 51%;
   }
 
+  .embedded_img {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+  }
+
 </style>
 
 <img class="logos" alt="Welcome!" src="../assets/06-chapter-img.png"/>
@@ -255,7 +261,7 @@ In the [button label="SUSE Virtualization UI" variant="success"](tab-0).
 
 2. Click on **pre-disaster-backup** snapshot:
 
-3. Click the **three dots** next to it and select **Restore New**
+3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> next to it and select **Restore New**
 
 4. Name the new virtual machine:
 
@@ -289,7 +295,7 @@ Snapshots saved us this morning, but snapshots live on the **same cluster** as t
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
 1. Go to **Advanced > Settings** and locate <b class="highlightcopy">backup-target</b>
-2. Click the **three dots** on its row and select **Edit Setting**, add the following:
+2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select **Edit Setting**, add the following:
 
 - **Type**: <b class="highlightcopy">NFS</b>
 - **Endpoint**:
@@ -389,7 +395,7 @@ The text prints flawlessly. **The data is safe.**
 Now let's delete the clone we no longer need.
 
 1. Close the window with the console.
-2. Click the **three dots** on **core-services-staging-verify** row and select **Delete**, and again **Delete**.
+2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on **core-services-staging-verify** row and select **Delete**, and again **Delete**.
 
 
 
@@ -403,12 +409,12 @@ Now let's delete the clone we no longer need.
 Now that you have verified the snapshot's integrity, proceed to restore the production system:
 
 1. Go to **Virtual Machines**
-2. Click the **three dots** on **core-services** row and select **Stop**, and again **Apply**.
+2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on **core-services** row and select **Stop**, and again **Apply**.
 3. Once it has completely stopped, navigate to **Backup and Snapshots**, then click on **Virtual Machine Snapshots**
 
 4. Click on **pre-disaster-backup** snapshot:
 
-5. Click the **three dots** next to it and select **Replace Existing**
+5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> next to it and select **Replace Existing**
 
 6. Click on **Create**
 
