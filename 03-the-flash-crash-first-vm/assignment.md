@@ -221,6 +221,8 @@ For example, let's add a new image:
    - **Name**: filled in automatically
    - Basics:
      - **URL**:
+
+
 <div class="cred">
 
 ```txt
@@ -228,6 +230,8 @@ http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2
 ```
 
 </div>
+
+
 
 2. Click **Create**
 
@@ -477,7 +481,7 @@ Scheduling rules let you separate critical systems from other workloads, for exa
 > **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt">SUSE Virtualization</b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.
 
 > [!IMPORTANT]
-> Since this lab runs on a **nested configuration**, I/O performance is a bit slower than usual, and the provisioning process will take a few moments. While your VM spins up, we have some entertainment lined up for you! Head over to Bonus Drills to learn how to interact with the SUSE Virtualization API using the CLI. Everything in SUSE Virtualization is a Kubernetes object, which means you can manage it via the Kubernetes API through the underlying RKE2 cluster.
+> Since this lab runs on a **nested configuration**, I/O performance is a bit slower than usual, and the provisioning process will take a few minutes. While your VM spins up, we have some entertainment lined up for you! Head over to Bonus Drills to learn how to interact with the SUSE Virtualization API using the CLI. Everything in SUSE Virtualization is a Kubernetes object, which means you can manage it via the Kubernetes API through the underlying RKE2 cluster.
 > Once you're done, jump back into Task 3.
 
 🖥️ Task 3: Access the Web Console
