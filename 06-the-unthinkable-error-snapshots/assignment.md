@@ -220,7 +220,15 @@ echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/
 
 **Now capture the baseline.** Switch to the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-1. Navigate to **Virtual Machines**, then click on the **...** bottom next to <b class="highlightcopy">core-services</b> VM
+1. Navigate to **Virtual Machines**, then locate the following VM and click the **...** button next to it:
+
+<div class="cred">
+
+```txt
+core-services
+```
+
+</div>
 2. Click on **Take Virtual Machine Snapshot**
 3. Name it:
 
@@ -298,7 +306,15 @@ Snapshots saved us this morning, but snapshots live on the **same cluster** as t
 
 In the [button label="SUSE Virtualization UI" variant="success"](tab-0):
 
-1. Go to **Advanced > Settings** and locate <b class="highlightcopy">backup-target</b>
+1. Go to **Advanced > Settings** and locate:
+
+<div class="cred">
+
+```txt
+backup-target
+```
+
+</div>
 2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select **Edit Setting**, add the following:
 
 - **Type**: <b class="highlightcopy">NFS</b>
