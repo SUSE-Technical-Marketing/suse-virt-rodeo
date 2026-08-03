@@ -124,6 +124,10 @@ enhanced_loading: null
   }
 
   .embedded_img {
+    width: 100%;
+    height: auto;
+    max-height: 1.5vh;
+    max-width: 1.5vh;
     margin: 0;
     padding: 0;
     display: inline-block;
@@ -228,16 +232,50 @@ All production VMs should run only on production-ready hosts.
 - Node Scheduling:
   1. Select **Run virtual machine on node(s) matching scheduling rules**
   2. Click **Add Node Selector**, then **Add Rule**:
-     - **Key**: <b class="highlightcopy">stage</b>
-     - **Value**: <b class="highlightcopy">prod</b>
+     - **Key**:
+
+<div class="cred">
+
+```txt
+stage
+```
+
+</div>
+
+     - **Value**:
+
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
 
 
 We want the VMs to be properly labeled:
 
 - Labels:
   - Click **Add Label**:
-    - **Key**: <b class="highlightcopy">stage</b>
-    - **Value**: <b class="highlightcopy">prod</b>
+    - **Key**:
+
+<div class="cred">
+
+```txt
+stage
+```
+
+</div>
+
+    - **Value**:
+
+<div class="cred">
+
+```txt
+prod
+```
+
+</div>
 
 
 Finally, we want all production machines standardized on a set of packages and settings:
