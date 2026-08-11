@@ -149,18 +149,22 @@ enhanced_loading: null
 
 
 <div id="101" class="story">
-
-The rain lashed against the floor-to-ceiling windows of <b class="bank">Vertex Trust Bank</b> headquarters, distorting the city skyline into a gray, watery blur. Inside the glass-walled executive boardroom, the atmosphere was equally turbulent. **Sarah**, the Chief Technology Officer, paced the length of the room, her eyes fixed on a massive overhead monitor projecting a sea of <span class="danger">red alerts</span> and performance warnings.
+<span lang=en>
+The rain lashed against the floor-to-ceiling windows of <b class="bank">Vertex Trust Bank</b> headquarters, distorting the city skyline into a gray, watery blur. Inside the glass-walled executive boardroom, the atmosphere was equally turbulent. Sarah, the Chief Technology Officer, paced the length of the room, her eyes fixed on a massive overhead monitor projecting a sea of <span class="danger">red alerts</span> and performance warnings.
 
 She turned to you, her voice tight with exhaustion. *"We are losing precious milliseconds on every single market transaction. Our legacy hypervisors are buckling under the sheer volume of modern digital banking traffic. The infrastructure is brittle, the storage arrays are constantly falling out of synchronization, and our licensing costs are bleeding our engineering budget completely dry. We cannot survive another year chained to these monolithic, antiquated systems."*
 
 You sit quietly at the end of the mahogany table, reviewing the architectural schematics she provided. As an elite **Infrastructure Architect**, you have been brought in for one specific purpose: to save <b class="bank">Vertex Trust Bank</b> from total operational gridlock. They need a bridge to the cloud-native world without rebuilding their entire application stack from scratch.
 
 *"We have a plan, Sarah,"* you finally say, closing your laptop with a reassuring click. *"We are going to transition the entire datacenter to <b class="virt">SUSE Virtualization</b>. We will bring your legacy systems into the modern era, and we will do it without missing a beat."*
-
+</span>
 </div>
 
+
+<span lang=en>
 Your journey begins right now. Before you can begin dismantling the old world, you need to establish a foothold in the new one and dig into the environment.
+
+
 
 ## <b class="hovereffect">What is SUSE Virtualization?</b>
 
@@ -200,10 +204,15 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 > Disclaimer: This lab is meant to be educational and not to provide instructions on how to configure a production environment for a 'bank', most decisions made are with the limitations and purpose of this environment.
 
 
+
+
+
 🔐 Your Architect Credentials
 =============================
 
 For your records, your Architect Credentials are as follows:
+</span>
+
 
 Username:
 
@@ -225,6 +234,9 @@ Password:
 
 </div>
 
+
+<span lang=en>
+
 > [!NOTE]
 > The UIs use self-signed certificates. Accept the browser security warning when it appears. If a page does not load right away, the lab environment may still be booting. Wait a minute and refresh the tab.
 
@@ -232,14 +244,17 @@ Password:
 > If you prefer to work in your own browser instead of the embedded tabs, the lab host is reachable directly at:
 > <a href="https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443">https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443</a>
 
+
+
+
 📊 Task 1: Log in and inspect the unified dashboard
 ===================================================
 
-Navigate to the [button label="SUSE Virtualization UI" variant="success"](tab-0) tab and log in using your credentials.
+Navigate to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span lang=en> tab and log in using your credentials.
 
 ![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
-Take a moment to look at the main **Dashboard**: this is your command center for the entire mission.
+Take a moment to look at the main </span>  **Dashboard**<span lang=en>: this is your command center for the entire mission.
 
 
 > [!NOTE]
@@ -247,7 +262,7 @@ Take a moment to look at the main **Dashboard**: this is your command center for
 
 
 - The first section contains the overall numbers:
-  - **Hosts** the cluster is made of
+  - </span>**Hosts** the cluster is made of
   - **Virtual Machines** (running and stopped)
   - **Images** available to deploy new VMs
   - **Volumes** in use
@@ -352,7 +367,7 @@ Finally, click on the cluster name itself: it takes you to the SUSE Virtualizati
 You will spend most of this mission in the UI, but an architect always verifies their emergency access. Click on the [button label="Cluster Terminal" variant="success"](tab-1) tab and run one command to check that your connection to the underlying Kubernetes engine is active:
 
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachine -A
 ```
 
@@ -395,19 +410,19 @@ New to Kubernetes? **Skip ahead freely**: everything that matters is in the UI. 
 
 - **See the Kubernetes control plane and CoreDNS endpoints:**
 
-```bash,run
+```bash,wrap,run
 kubectl cluster-info --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
 - **Check cluster component health**: query the control plane's health endpoint; every check (etcd, informers, shutdown hooks) should report `ok`:
 
-```bash,run
+```bash,wrap,run
 kubectl get --raw='/readyz?verbose' --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
 - **Confirm every node in the fabric is ready:**
 
-```bash,run
+```bash,wrap,run
 kubectl get nodes --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
@@ -415,7 +430,7 @@ kubectl get nodes --kubeconfig .rodeo/harvester-kubeconfig
 
 - **Verify the core virtualization services are running:**
 
-```bash,run
+```bash,wrap,run
 kubectl get pods -n harvester-system --kubeconfig .rodeo/harvester-kubeconfig | grep -v Completed
 ```
 
@@ -423,7 +438,7 @@ kubectl get pods -n harvester-system --kubeconfig .rodeo/harvester-kubeconfig | 
 
 - **Confirm the exact platform version the bank is running:**
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get settings.harvesterhci.io server-version
 ```
 

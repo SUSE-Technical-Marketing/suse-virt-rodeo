@@ -247,8 +247,10 @@ closed-loop
 
 </div>
 
-   Notice the **Node Selector** section, in here we can specify where the network will be available.
+Notice the **Node Selector** section, in here we can specify where the network will be available.
+
 2. Under **Uplink**, set **NICs** to <b class="highlightcopy">ens5</b>
+
 3. Click **Create**
 
 
@@ -334,7 +336,7 @@ secure-vpc-dev
 
 </div>
 
-  - **Provider**: <b class="highlightcopy">dev/secure-loop-dev</b>
+  - **Provider**: <b class="highlightcopy">prod/secure-loop-dev</b>
   - **Gateway IP**:
 
 <div class="cred">
@@ -350,7 +352,7 @@ secure-vpc-dev
 
 Click **Create**.
 
-Now you can assign the network <b class="highlightcopy">dev/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
+Now you can assign the network <b class="highlightcopy">prod/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
 
 
 
@@ -370,7 +372,7 @@ Return to the **Virtual Machines** dashboard and locate the target virtual machi
 
 1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select **Edit Config**
 2. Go to the **Networks** tab
-3. Select the network <b class="highlightcopy">prod/secure-loop-prod</b> for production systems, or <b class="highlightcopy">dev/secure-loop-dev</b> for development systems
+3. Select the network <b class="highlightcopy">prod/secure-loop-prod</b> for production systems, or <b class="highlightcopy">prod/secure-loop-dev</b> for development systems
 4. Click **Save**
 5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> again and select **Restart**
 
@@ -406,7 +408,7 @@ EOF
 
 Confirm the policy is enforced:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get networkpolicy -n prod
 ```
 
@@ -487,7 +489,7 @@ EOF
 
 Verify both zones exist with `natOutgoing: false`: no path out, no path in:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
 ```
 
