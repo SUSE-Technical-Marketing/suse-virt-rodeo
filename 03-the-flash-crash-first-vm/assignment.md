@@ -401,7 +401,9 @@ prod
 </div>
 
 
-Now assign it a label: go to the **Labels** tab and click **Add Label**:
+Now assign it a label:
+
+Go to the **Labels** tab and click **Add Label**:
 
 - **Key**:
 <div class="cred">
@@ -517,25 +519,25 @@ New to Kubernetes? **Skip ahead freely.** Otherwise, back in the [button label="
 
 - **The golden images are API objects too:**
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -A
 ```
 
 - **The VM is a Kubernetes resource:**
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachines -n prod
 ```
 
 - **The running instance, with its node and IP** (the same IP you used for SSH):
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide
 ```
 
 - **The disks are ordinary PersistentVolumeClaims backed by Longhorn:**
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod
 ```
 

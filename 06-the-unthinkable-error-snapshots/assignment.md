@@ -205,16 +205,16 @@ Password:
 
 You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
 
-In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine:
+In the [button label="Cluster Terminal" variant="success"](tab-1), log into the virtual machine (it may take a couple of minutes until the VM starts):
 
-```bash,run
-while [[ "${IPA}" ==  "" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'`; sleep 1; echo -n '.'; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}
+```bash,wrap,run
+while [[ "${IPA}" ==  "" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'`; sleep 5; echo -n '.'; done ; while [[ "$?" != "0" ]] ; do ssh -T -o StrictHostKeyChecking=accept-new sles@${IPA} 2>/dev/null ; sleep 5; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}
 
 ```
 
 Generate the highly sensitive transaction record onto the disk by typing exactly this:
 
-```bash,run
+```bash,wrap,run
 echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/ledger.txt
 ```
 
@@ -448,7 +448,7 @@ Optionally, SSH back and `cat` the file one last time, then logout of the VM. Th
 
 - **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object, as is your new backup schedule:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
 ```
 

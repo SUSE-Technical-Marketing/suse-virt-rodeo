@@ -318,7 +318,7 @@ rodeo ssh harvester1
 ls /var/lib/harvester/defaultdisk
 ```
 3. Inside the replicas folder, find one folder per volume replica this node holds:
-```bash,run
+```bash,wrap,run
 ls /var/lib/harvester/defaultdisk/replicas/
 ```
 4. Leave the host by typing exit:
@@ -390,13 +390,13 @@ New to Kubernetes? **Skip ahead freely.** If you are curious, everything you jus
 
 - **See your UI storage classes as API objects**: the workspace and both storage tiers:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;
 ```
 
 - **Label the new workspace** so future automation can target it easily:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev
 ```
 

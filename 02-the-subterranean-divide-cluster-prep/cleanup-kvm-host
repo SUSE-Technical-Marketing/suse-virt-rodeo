@@ -1,0 +1,2 @@
+kubect get namespace dev &>/dev/null || kubectl create namespace dev 
+exit 0

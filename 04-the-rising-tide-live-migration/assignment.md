@@ -296,7 +296,7 @@ Back in the [button label="SUSE Virtualization UI" variant="success"](tab-0), th
 Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running:
 </div>
 
-```bash,run
+```bash,wrap,run
 ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] "hostname && uptime"
 ```
 
@@ -366,19 +366,19 @@ New to Kubernetes? **Skip ahead freely.** Otherwise: every migration is itself a
 
 - **Review the migration record** (who moved, when, from where to where):
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A
 ```
 
 - **Inspect the details of the completed migration:**
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
 ```
 
 - **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy: SUSE Virtualization can reschedule VMs from a failed host automatically:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
 ```
 

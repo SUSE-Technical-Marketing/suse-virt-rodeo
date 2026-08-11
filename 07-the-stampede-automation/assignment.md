@@ -232,7 +232,9 @@ All production VMs should run only on production-ready hosts.
 - Node Scheduling:
   1. Select **Run virtual machine on node(s) matching scheduling rules**
   2. Click **Add Node Selector**, then **Add Rule**:
-     - **Key**:
+
+
+- **Key**:
 
 <div class="cred">
 
@@ -242,7 +244,7 @@ stage
 
 </div>
 
-     - **Value**:
+- **Value**:
 
 <div class="cred">
 
@@ -257,8 +259,9 @@ We want the VMs to be properly labeled:
 
 - Labels:
   - Click **Add Label**:
-    - **Key**:
 
+
+- **Key**:
 <div class="cred">
 
 ```txt
@@ -267,8 +270,7 @@ stage
 
 </div>
 
-    - **Value**:
-
+- **Value**:
 <div class="cred">
 
 ```txt
@@ -369,18 +371,27 @@ New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label=
 
 - **Inspect the template as an API object**: templates and their versions are resources too:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod
 ```
 
 - **Retrieve the template definition in yaml format**:
 
-```bash,run
+```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic -o yaml > template_prod-basic.yaml
-kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplateversions -n prod prod-basic -o yaml >> template_prod-basic.yaml
+template_version_name=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplateversions -n prod -o name |grep '/prod-basic-'`
+kubectl --kubeconfig .rodeo/harvester-kubeconfig get -n prod ${template_version_name} -o yaml >> template_prod-basic.yaml
 ```
 
-You can examine the file `template_prod-basic.yaml`: it contains a definition similar to the one you used to create the template in Task 2.
+You can examine the file `template_prod-basic.yaml`:
+
+
+```bash,wrap,run
+less template_prod-basic.yaml
+```
+
+
+It contains a definition similar to the one you used to create the template in Task 2.
 
 
 

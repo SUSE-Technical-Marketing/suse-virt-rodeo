@@ -1,0 +1,15 @@
+#!/bin/bash
+# Challenge 2 setup.
+#
+
+set -uo pipefail
+export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
+
+SSH_PUBKEY_FILE="/root/.ssh/id_rsa.pub"
+
+log(){ echo ">>> [ch2-setup] $*"; }
+
+# Make sure the dev namespace doesn't exists.
+kubectl get namespace dev &>/dev/null && kubectl delete namespace dev 
+
+exit 0
