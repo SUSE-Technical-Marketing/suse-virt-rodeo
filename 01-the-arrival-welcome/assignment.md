@@ -149,7 +149,7 @@ enhanced_loading: null
 
 
 <div id="101" class="story">
-
+<span lang=en>
 The rain lashed against the floor-to-ceiling windows of <b class="bank">Vertex Trust Bank</b> headquarters, distorting the city skyline into a gray, watery blur. Inside the glass-walled executive boardroom, the atmosphere was equally turbulent. **Sarah**, the Chief Technology Officer, paced the length of the room, her eyes fixed on a massive overhead monitor projecting a sea of <span class="danger">red alerts</span> and performance warnings.
 
 She turned to you, her voice tight with exhaustion. *"We are losing precious milliseconds on every single market transaction. Our legacy hypervisors are buckling under the sheer volume of modern digital banking traffic. The infrastructure is brittle, the storage arrays are constantly falling out of synchronization, and our licensing costs are bleeding our engineering budget completely dry. We cannot survive another year chained to these monolithic, antiquated systems."*
@@ -157,10 +157,14 @@ She turned to you, her voice tight with exhaustion. *"We are losing precious mil
 You sit quietly at the end of the mahogany table, reviewing the architectural schematics she provided. As an elite **Infrastructure Architect**, you have been brought in for one specific purpose: to save <b class="bank">Vertex Trust Bank</b> from total operational gridlock. They need a bridge to the cloud-native world without rebuilding their entire application stack from scratch.
 
 *"We have a plan, Sarah,"* you finally say, closing your laptop with a reassuring click. *"We are going to transition the entire datacenter to <b class="virt">SUSE Virtualization</b>. We will bring your legacy systems into the modern era, and we will do it without missing a beat."*
-
+</span>
 </div>
 
+
+<span lang=en>
 Your journey begins right now. Before you can begin dismantling the old world, you need to establish a foothold in the new one and dig into the environment.
+
+
 
 ## <b class="hovereffect">What is SUSE Virtualization?</b>
 
@@ -198,6 +202,9 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 
 > [!NOTE]
 > Disclaimer: This lab is meant to be educational and not to provide instructions on how to configure a production environment for a 'bank', most decisions made are with the limitations and purpose of this environment.
+
+
+</span>
 
 
 🔐 Your Architect Credentials
