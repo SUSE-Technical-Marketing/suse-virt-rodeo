@@ -231,10 +231,6 @@ closed-loop
 
 3. Click **Create**
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-closed-loop.gif"/>
-</div>
-
 The new cluster network appears in the list. Now assign it a physical interface: click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
 
 1. Set the **Name** to:
