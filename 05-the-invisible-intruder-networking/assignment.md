@@ -232,7 +232,7 @@ closed-loop
 3. Click **Create**
 
 <div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
+  <img class="animatedgif" src="../assets/chapter5-closed-loop.gif"/>
 </div>
 
 The new cluster network appears in the list. Now assign it a physical interface: click **Create Network Configuration** on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
@@ -255,7 +255,7 @@ Notice the **Node Selector** section, in here we can specify where the network w
 
 
 <div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
+  <img class="animatedgif" src="../assets/chapter5-closed-loop.gif"/>
 </div>
 
 Now define the VM-facing network on top of it. Select **Virtual Machine Networks** and click **Create** to define a new secure perimeter:
@@ -277,6 +277,9 @@ secure-loop-prod
 
 Click **Create**.
 
+<div style='align: middle; margin: 15px;'>
+  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
+</div>
 
 Back in the **Virtual Machine Networks** list, <b class="highlightcopy">secure-loop-prod</b> appears with **Active** status.
 
