@@ -354,6 +354,8 @@ Click **Create**.
 Now you can assign the network <b class="highlightcopy">prod/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
 
 
+If you are curious to see the topology on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click **Topology**, this is specially useful when having multiple subnets,
+
 
 🎯 Task 3: Configure VMs with the new networks
 =====================================================
@@ -375,7 +377,7 @@ Return to the **Virtual Machines** dashboard and locate the target virtual machi
 4. Click **Save**
 5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> again and select **Restart**
 
-The VM boots connected to the new network.
+The VM boots connected to the new network. Don't wait for it to finish.
 
 
 
@@ -389,7 +391,7 @@ The VM boots connected to the new network.
 
 New to Kubernetes? **Skip ahead freely**: we have the isolated networks already created. These optional drills add an extra isolated network with pure Kubernetes tooling.
 
-**Drill 1, an extra isolated network is needed for QA: Kubernetes network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
+**An extra isolated network is needed for QA: Kubernetes network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the [button label="Cluster Terminal" variant="success"](tab-1), apply a default deny-all ingress policy to the secure namespace:
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -411,43 +413,8 @@ Confirm the policy is enforced:
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get networkpolicy -n prod
 ```
 
-**Drill 2: build air-gapped containment zones.** VLANs segment the physical network, but <b class="virt">SUSE Virtualization</b> also ships a full SDN layer (**Kube-OVN**) for overlay networks with private, non-NAT'ed subnets. Each zone needs its own dedicated network first, then a `Subnet` bound to it. Build a fully air-gapped zone for the bank's future forensics workloads:
 
-```bash,run
-cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
-apiVersion: k8s.cni.cncf.io/v1
-kind: NetworkAttachmentDefinition
-metadata:
-  name: vault-zone
-  namespace: prod
-  labels:
-    network.harvesterhci.io/clusternetwork: mgmt
-    network.harvesterhci.io/type: OverlayNetwork
-spec:
-  config: '{"cniVersion":"0.3.1","name":"vault-zone","type":"kube-ovn","provider":"vault-zone.prod.ovn","server_socket":"/run/openvswitch/kube-ovn-daemon.sock"}'
-EOF
-```
-
-```bash,run
-cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
-apiVersion: kubeovn.io/v1
-kind: Subnet
-metadata:
-  name: vault-zone
-spec:
-  cidrBlock: "172.16.0.0/24"
-  gateway: "172.16.0.1"
-  excludeIps:
-    - "172.16.0.1"
-  protocol: IPv4
-  natOutgoing: false
-  private: true
-  provider: vault-zone.prod.ovn
-  vpc: ovn-cluster
-EOF
-```
-
-Create a second, completely independent zone for the forensics team the same way:
+Create a completely independent zone for the forensics team:
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -457,7 +424,7 @@ metadata:
   name: forensics-zone
   namespace: prod
   labels:
-    network.harvesterhci.io/clusternetwork: mgmt
+    network.harvesterhci.io/clusternetwork: secure-loop-prod
     network.harvesterhci.io/type: OverlayNetwork
 spec:
   config: '{"cniVersion":"0.3.1","name":"forensics-zone","type":"kube-ovn","provider":"forensics-zone.prod.ovn","server_socket":"/run/openvswitch/kube-ovn-daemon.sock"}'

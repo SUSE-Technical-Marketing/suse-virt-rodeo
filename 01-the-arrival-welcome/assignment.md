@@ -194,7 +194,7 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 ## 🎯 Your Quest Objectives
 
 1. Log in and inspect the unified dashboard
-2. Meet Rancher Prime, the fleet commander
+2. Meet Rancher Prime, the command center!
 3. Validate the distributed storage fabric
 4. Test your administrative terminal access
 
@@ -306,8 +306,8 @@ If you still have time, familiarize yourself with the sections before moving on 
 
 
 
-🐮 Task 2: Meet Rancher Prime, the fleet commander
-==================================================
+🐮 Task 2: Meet Rancher Prime, the command center
+=================================================
 
 The platform can also be connected to **Rancher Prime**, and it is important to understand who does what in the bank's new world:
 
@@ -352,7 +352,12 @@ Let's see what else you can do here. Click the <img class="embedded_img" desc="t
 - **Download KubeConfig**: same as what you already saw in the SUSE Virtualization UI.
 - **Download YAML**: downloads the cluster definition in YAML format; you can use it as a template to import new clusters in an automated fashion (it also needs one extra step in the cluster UI).
 
-Finally, click on the cluster name itself: it takes you to the SUSE Virtualization UI embedded within the Rancher UI, so you can easily operate multiple clusters from one place.
+Finally, click on the cluster name itself
+- it takes you to the SUSE Virtualization UI embedded within the Rancher UI
+- Notice on the left column a 'RBAC' entry appears on the menu, we can control who can do what on our clusters.
+
+
+With Rancher you can easily operate multiple clusters from one place.
 
 
 
