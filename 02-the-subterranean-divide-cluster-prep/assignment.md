@@ -245,7 +245,7 @@ Go to the [button label="SUSE Virtualization UI" variant="success"](tab-0), navi
 
 
 <div id="203" class="story">
-Banks grow, and so does this fabric. Running low on space is not a forklift upgrade anymore. Rack a new node, add its raw disks to the pool, and Longhorn rebalances replicas across the expanded fabric automatically with no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
+Banks grow, and so does this fabric. Running low on space is not a complex upgrade anymore. Rack a new node, add its raw disks to the pool, and Longhorn rebalances replicas across the expanded fabric automatically with no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
 </div>
 
 

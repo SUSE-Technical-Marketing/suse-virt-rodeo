@@ -229,7 +229,7 @@ For example, let's add a new image:
 1. Go to **Images** on the left panel and click **Create**, then fill in the following details:
    - **Namespace**: <b class="highlightcopy">official-images</b>
    - **Name**: filled in automatically
-   - Basics:
+   - <b style="color:#30ba78;">Basics</b>:
      - **URL**:
 
 
@@ -321,7 +321,7 @@ Notice the very low resources: our future crew of quants is highly skilled, and 
 
 
 
-Under the **Volumes** tab, fill in the following details:
+Under the <b style="color:#30ba78;">Volumes</b> tab (green, not to be confused with the one in black), fill in the following details:
 
 - **Image**: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
 - **Size**:
@@ -353,7 +353,7 @@ market-data-vol
 
 </div>
 
-Now wire the engine into the bank's network. Under the **Networks** tab:
+Now wire the engine into the bank's network. Under the <b style="color:#30ba78;">Networks</b> tab (green, not to be confused with the one in black):
 
 - **Network**: <b class="highlightcopy">prod/service</b>
 
@@ -371,7 +371,7 @@ This fulfills the trader's request for a secondary high-speed data drive. Behind
 
 Since this is a mixed-environment cluster, let's make sure the VM runs only on production nodes.
 
-Click on **Node Scheduling**: SUSE Virtualization offers three choices:
+Click on <b style="color:#30ba78;">Node Scheduling</b>: SUSE Virtualization offers three choices:
 
 - **Any available node**: the Kubernetes scheduler chooses where to place the VM, and **live migration stays enabled**
 - **Specific node**: pin the VM to one node (no migration possible)
@@ -403,7 +403,7 @@ prod
 
 Now assign it a label:
 
-Go to the **Labels** tab and click **Add Label**:
+Go to the <b style="color:#30ba78;">Labels</b> tab (not to be confused with "Instance Labels") and click **Add Label**:
 
 - **Key**:
 <div class="cred">
@@ -426,9 +426,9 @@ prod
 This will help us manage the VM with future automation.
 
 
-Navigate to **Advanced Options**, then select **Cloud Configuration**, to make sure the trading system comes up with all the required settings and packages installed.
+Navigate to <b style="color:#30ba78;">Advanced Options</b> (don't mistake it with 'Advanced' on the left column), then select **Cloud Configuration**, to make sure the system comes up with all the required settings and packages installed.
 
-In **User Data Template**, click **Create New** to define the standard template the whole production namespace will reuse. Name it:
+Click on **User Data Template** and select **Create New** to define a standard template. Name it:
 
 - **Name**:
 <div class="cred">
@@ -439,7 +439,8 @@ prod
 
 </div>
 
-Since the template lives in the <b class="highlightcopy">prod</b> namespace and is itself named <b class="highlightcopy">prod</b>, it becomes <b class="highlightcopy">prod/prod</b>: the production standard, ready for every VM this namespace deploys from now on. For the **User Data**, enter:
+
+For the **User Data**, enter:
 
 ```yaml
 #cloud-config
@@ -450,12 +451,21 @@ runcmd:
     - enable
     - --now
     - qemu-guest-agent.service
+write_files:
+  - path: /etc/issue
+    content: |
+      \e{red}Production\e{reset}
+    append: true
 ssh_authorized_keys:
   - ssh-ed25519
     AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
 ```
 
-Save the template by clicking in **Create**, then make sure <b class="highlightcopy">prod/prod</b> is selected as the **User Data Template** back on the VM creation form.
+Save the template by clicking in **Create** (inside the template box)
+
+
+Since the template lives in the <b class="highlightcopy">prod</b> namespace and is itself named <b class="highlightcopy">prod</b>, it becomes <b class="highlightcopy">prod/prod</b>: the production standard, ready to use for every VM.
+
 
 <div id="303" class="story">
 The trading desk's firewall team has one more demand:
@@ -484,6 +494,8 @@ Cloud-init applies both on first boot: <b class="highlightcopy">vertex-trader-01
 
 Now we have finished the configuration please click **Create** to initialize the deployment of the Virtual Machine.
 
+Don't wait for it to finish booting, please proceed to the next task.
+
 <div id="304" class="story">
 Scheduling rules let you separate critical systems from other workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
 
@@ -507,7 +519,7 @@ Monitor the [button label="SUSE Virtualization UI" variant="success"](tab-0) unt
 
 
 1. Click the **Console** button on the virtual machine row to open the VNC web console
-2. Observe we can access the system without a connection by using this method, don't wait for the installation to finish just move on to the next.
+2. Observe we can access the system without a connection by using this method, **don't wait for the installation to finish just move on to the next**.
 3. Close the console window
 
 

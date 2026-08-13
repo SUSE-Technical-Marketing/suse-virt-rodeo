@@ -127,8 +127,8 @@ enhanced_loading: null
   .embedded_img {
     width: 100%;
     height: auto;
-    max-height: 1.5vh;
-    max-width: 1.5vh;
+    max-height: 3vh;
+    max-width: 3vh;
     margin: 0;
     padding: 0;
     display: inline-block;
@@ -232,10 +232,11 @@ This halts its CPU cycles, dedicating maximum hardware resources to your emergen
 
 Switch to the [button label="Cluster Terminal" variant="success"](tab-1). You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.
 
-Start the heartbeat monitor against <b class="highlightcopy">webserver-prod</b>:
+Start the heartbeat monitor from <b class="highlightcopy">webserver-prod</b>:
 
 ```bash,run
-ping [[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]]
+ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] 'ping 192.168.122.1'
+
 ```
 
 > [!IMPORTANT]
@@ -348,7 +349,7 @@ Now watch the **Virtual Machines** page: every VM still living on the damaged no
 
 Once the node shows **Maintenance** and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
 
-3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row again and select **Uncordon**
+3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row again and select **Uncordon** and then **Disable Maintenance Mode**
 
 The node rejoins the fabric, ready to accept workloads again.
 
