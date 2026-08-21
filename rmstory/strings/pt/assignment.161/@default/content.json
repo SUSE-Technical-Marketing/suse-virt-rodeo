@@ -1,0 +1,8 @@
+{
+  "content": "A poeira finalmente assentou. O datacenter está silencioso, banhado no suave brilho verde dos nós <span id=\"ch1.intro1.2\"/> operando em perfeita harmonia.\n\nO Vertex Trust Bank não está mais preso ao passado. Agora funciona inteiramente numa stack de virtualização enxuta, de alto desempenho e nativa da nuvem.\n\nSarah está ao seu lado, olhando para o painel unificado na tela principal. *\"Eu não achava que fosse possível,\"* ela admite, balançando a cabeça em descrença. *\"Estamos executando microsserviços em contêineres e livros-razão monolíticos exatamente na mesma malha. Nosso armazenamento é distribuído, nossas redes são definidas por software, e nossos custos de licenciamento simplesmente despencaram.\"*\n\nEla se vira para você e estende a mão. *\"Obrigada. Você não apenas salvou nossa infraestrutura — você salvou o banco.\"*",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:07:52.795998+00:00"
+}

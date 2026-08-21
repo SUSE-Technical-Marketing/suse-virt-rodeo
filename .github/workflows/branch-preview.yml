@@ -107,9 +107,6 @@ jobs:
         # the length check and what's pushed reflect the same, tag-free content.
         run: python3 .github/scripts/strip-rmstory-spans.py
 
-      - name: Install PyYAML
-        run: pip install --quiet pyyaml
-
       - name: Check teaser lengths
         run: python3 .github/scripts/check-teaser-length.py
 
