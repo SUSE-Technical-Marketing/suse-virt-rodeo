@@ -1,30 +1,27 @@
 name: Branch Preview Track
 
-# Creates (or updates) a maintenance-mode Instruqt track for every branch, so branch work
-# can be tested on Instruqt without ever touching the real production track (the one
-# identified by the `id` in the repo-root track.yml). Publishing that one stays the
-# deliberate manual step described in CONTRIBUTING.md — this workflow never pushes to it.
+# Rebrands the one Instruqt track this repo owns (fixed `id` in track.yml, already
+# maintenance: true) with the pushing branch's name, then pushes it — so branch content
+# can be reviewed on Instruqt without a separate manual publish step. On main, the branch
+# suffix is stripped back to nothing, so the track reads with its plain production name.
 #
-# Each branch gets its own preview track, slug `<production-slug>-<branch, slugified>`,
-# so repeat pushes to the same branch update the same preview track instead of minting a
-# new one every run. Title is the production title with " (branch: <branch>)" appended —
-# except on main, whose preview keeps the bare production title with no branch suffix.
-# maintenance: true is force-set on every push so no preview track is ever
-# learner-visible/bookable in the catalog.
+# track.yml's `slug` and `title` carry a literal `__BRANCH__` placeholder. This workflow
+# replaces every occurrence of it with `-<branch, lowercased and slugified>` (e.g. `-dev`),
+# or with nothing when the branch is main. The substitution happens only on the
+# CI runner's checked-out working tree — nothing is committed back to git, so the
+# placeholder stays in the repo for the next run.
 #
-# Only git-tracked files are synced into the preview track (via `git ls-files`), so
-# local/untracked scratch content never leaks into it.
+# Because this always targets the SAME track id, every branch's push relabels the one
+# track (last push wins) rather than creating a separate track per branch. That's
+# deliberate: track.yml already carries maintenance: true, so the track isn't
+# learner-visible/bookable regardless of which branch most recently pushed to it.
 #
-# PARTIALLY VERIFIED against a live run (2026-08-21): INSTRUQT_TOKEN now exists as a repo
-# secret. First run confirmed `instruqt track pull` correctly reports "Entity not found"
-# (exit non-zero) for a slug that doesn't exist yet, and confirmed `instruqt track create`
-# additionally requires a default team, set non-interactively via `instruqt config set
-# team` (see "Configure Instruqt default team" step) — `instruqt auth login` is
-# interactive-only and not usable in CI. Still unconfirmed: a full create+push actually
-# succeeding end to end, and what directory name `track pull`/`track create` write into
-# (undocumented — the "locate the new directory" steps below stay defensive, a
-# before/after listing diff, rather than assuming a flag). Fix forward the same way
-# validate.yml's/publish.yml's history did.
+# NOTE: track.yml's slug/title now permanently contain `__BRANCH__` in git. A manual
+# `instruqt track push` from a local checkout (the flow CONTRIBUTING.md/README.md
+# document for publishing to production) would push that literal placeholder text unless
+# it's stripped first — this workflow's substitution only happens on the CI runner. If
+# manual production publishing is still expected to work, CONTRIBUTING.md/README.md need
+# a matching "replace __BRANCH__ with nothing" step added to those instructions.
 
 on:
   push:
@@ -46,115 +43,43 @@ jobs:
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
 
-      - name: Install PyYAML
-        run: pip install --quiet pyyaml
+      - name: Configure Instruqt default team
+        # `instruqt track create` failed CI with "Default team not configured. Use
+        # `instruqt auth login` to set it." (confirmed via a live run, 2026-08-21) —
+        # `auth login` is interactive-only, so the team is set non-interactively via
+        # `instruqt config set team` instead. This workflow no longer calls `track
+        # create`, but keeping this is cheap insurance in case `validate`/`push` need it
+        # too.
+        env:
+          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+        run: |
+          set -e
+          OWNER=$(grep '^owner:' track.yml | awk '{print $2}')
+          instruqt config set team "$OWNER"
 
-      - name: Compute preview track slug and title
-        id: meta
+      - name: Replace __BRANCH__ placeholder in track.yml
         run: |
           set -e
           BRANCH="${GITHUB_REF_NAME}"
-          # slugify: lowercase, collapse '/', '_', spaces to '-', drop anything else
-          BRANCH_SLUG=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g')
-
-          PROD_SLUG=$(python3 -c "import yaml; print(yaml.safe_load(open('track.yml'))['slug'])")
-          OWNER=$(python3 -c "import yaml; print(yaml.safe_load(open('track.yml'))['owner'])")
-          BASE_TITLE=$(python3 -c "import yaml; print(yaml.safe_load(open('track.yml'))['title'])")
-
-          SLUG="${PROD_SLUG}-${BRANCH_SLUG}"
           if [ "$BRANCH" = "main" ]; then
-            TITLE="$BASE_TITLE"
+            REPL=""
           else
-            TITLE="$BASE_TITLE (branch: $BRANCH)"
+            BRANCH_LOWER=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g')
+            REPL="-${BRANCH_LOWER}"
           fi
+          python3 - "$REPL" <<'PYEOF'
+          import pathlib
+          import sys
 
-          {
-            echo "slug=$SLUG"
-            echo "title=$TITLE"
-            echo "owner=$OWNER"
-            echo "prod_slug=$PROD_SLUG"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Configure Instruqt default team
-        # `instruqt track create` fails CI with "Default team not configured. Use
-        # `instruqt auth login` to set it." — auth login is interactive-only (confirmed
-        # via a live run, 2026-08-21), so the team has to be set non-interactively via
-        # `instruqt config set team`, documented at
-        # https://docs.instruqt.com/reference/cli/commands.
-        env:
-          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
-          OWNER: ${{ steps.meta.outputs.owner }}
-        run: instruqt config set team "$OWNER"
-
-      - name: Fetch or create the branch preview track
-        env:
-          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
-          SLUG: ${{ steps.meta.outputs.slug }}
-          OWNER: ${{ steps.meta.outputs.owner }}
-          PROD_SLUG: ${{ steps.meta.outputs.prod_slug }}
-          TITLE: ${{ steps.meta.outputs.title }}
-        run: |
-          set -e
-          before=$(ls -1d */ 2>/dev/null | sort)
-
-          if instruqt track pull "$OWNER/$SLUG"; then
-            echo "Found existing preview track $OWNER/$SLUG"
-          else
-            echo "No existing preview track for $OWNER/$SLUG — creating one from production"
-            instruqt track create --from "$OWNER/$PROD_SLUG" --title "$TITLE"
-          fi
-
-          after=$(ls -1d */ 2>/dev/null | sort)
-          newdir=$(comm -13 <(echo "$before") <(echo "$after") | head -n1)
-          if [ -z "$newdir" ]; then
-            echo "Could not determine the directory instruqt wrote the track into" >&2
-            exit 1
-          fi
-          mv "$newdir" preview-track
-
-      - name: Sync branch content into the preview track, keep its own id/slug
-        env:
-          TITLE: ${{ steps.meta.outputs.title }}
-        run: |
-          set -e
-          python3 - <<'PYEOF'
-          import os
-          import shutil
-          import subprocess
-
-          import yaml
-
-          files = subprocess.run(
-              ["git", "ls-files"], capture_output=True, text=True, check=True
-          ).stdout.splitlines()
-
-          for src in files:
-              if src == "track.yml" or src.startswith("preview-track/"):
-                  continue
-              dst = os.path.join("preview-track", src)
-              os.makedirs(os.path.dirname(dst) or ".", exist_ok=True)
-              shutil.copy2(src, dst)
-
-          src_track = yaml.safe_load(open("track.yml"))
-          dst_track = yaml.safe_load(open("preview-track/track.yml"))
-
-          # id/slug belong to the preview track itself — never overwrite them with the
-          # production track's identity.
-          src_track["id"] = dst_track["id"]
-          src_track["slug"] = dst_track["slug"]
-          src_track["title"] = os.environ["TITLE"]
-          src_track["maintenance"] = True
-
-          with open("preview-track/track.yml", "w") as f:
-              yaml.safe_dump(src_track, f, sort_keys=False)
+          repl = sys.argv[1]
+          path = pathlib.Path("track.yml")
+          path.write_text(path.read_text().replace("__BRANCH__", repl))
           PYEOF
 
-      - name: Validate preview track
-        working-directory: preview-track
+      - name: Validate track
         run: instruqt track validate
 
-      - name: Push preview track
-        working-directory: preview-track
+      - name: Push track
         env:
           INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
         run: instruqt track push --force
