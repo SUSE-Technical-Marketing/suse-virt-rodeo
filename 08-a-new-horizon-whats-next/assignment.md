@@ -3,8 +3,7 @@ slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
 title: "<span id="assignment.158" lang="ja" no>🌅 第8章:新たな地平線</span>"
-teaser: <span id="assignment.159" lang="ja" hist="vertrex-bank">銀行は完全に<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>で稼働しています。
-  ここでウイニングランを飾り、習得したことをすべて振り返り、身につけた新しいスキルが自分のデータセンターをどこへ導いてくれるかを思い描いてみましょう。</span>
+teaser: <span id="assignment.159" lang="ja" hist="vertrex-bank">銀行は完全に<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>で稼働中。ウイニングランを飾り、学んだスキルが自分のデータセンターをどこへ導くか思い描こう。</span>
 tabs:
 - id: jw4tji5y1jbv
   title: SUSE Virtualization UI

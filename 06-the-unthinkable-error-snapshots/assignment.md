@@ -3,7 +3,7 @@ slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
 title: '<span id="assignment.116" lang="ja" hist="vertrex-bank">⏪ 第6章:ありえないエラー</span>'
-teaser: <span id="assignment.117" lang="ja" hist="vertrex-bank">滑ったカーソルが、1億ドルの決済記録を削除してしまった。VMスナップショットで時間を巻き戻し、安全なステージング環境の複製で復旧を確認したら、定期的なオフクラスターバックアップで保護を恒久化しよう。</span>
+teaser: <span id="assignment.117" lang="ja" hist="vertrex-bank">誤操作で1億ドルの決済記録を削除。VMスナップショットで時間を巻き戻し、ステージング環境で復旧を確認し、定期バックアップで保護を恒久化せよ。</span>
 tabs:
 - id: lygpkmkmyndn
   title: SUSE Virtualization UI

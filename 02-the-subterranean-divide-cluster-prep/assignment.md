@@ -3,7 +3,7 @@ slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
 title: "<span id="assignment.12" lang="ja" hist="vertrex-bank">第2章:地底の分裂</span>"
-teaser: <span lang="ja" hist="vertrex-bank" id="ts2">二つのハードウェアサイロ、互いにほとんど言葉を交わさない二つのチーム。データセンターへ降り立ち、ノードのトポロジーをマッピングし、ファブリック内のすべてのディスクに銀行が納得できる価格をつけよ。</span>
+teaser: <span lang="ja" hist="vertrex-bank" id="ts2">二つのハードウェアサイロ、口を利かない二つのチーム。データセンターへ降り、ノードをマッピングし、全ディスクに価格をつけよ。</span>
 tabs:
 - id: gix6w5fqkxd6
   title: SUSE Virtualization UI

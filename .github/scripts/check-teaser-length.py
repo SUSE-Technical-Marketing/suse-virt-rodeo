@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""Fail if any chapter's teaser frontmatter field exceeds Instruqt's 255-char limit.
+"""Fail if any chapter's teaser frontmatter field exceeds Instruqt's 255-byte limit.
 
 `instruqt track validate` doesn't catch this — it only surfaces at `track push`, as
 "challenges: (teaser: the length must be no more than 255.)", well after validation has
 already passed. Run this first so a too-long teaser fails fast with the offending file
 and length, instead of a bare server-side error during push.
+
+The limit is enforced server-side on the UTF-8 byte length, not the character count —
+confirmed by chapter 2's Japanese teaser passing a 255-*character* check (149 chars)
+and still getting rejected by `track push` (343 bytes). A non-Latin character is
+multiple bytes in UTF-8 (Japanese is typically 3), so measuring by len() badly
+undercounts non-English teasers; measuring bytes matches what Instruqt actually checks
+regardless of language.
 
 `teaser` is pulled out with a targeted line scan instead of `yaml.safe_load()`-ing the
 whole frontmatter block. Several chapters' `title` fields contain markup baked in by the
@@ -47,15 +54,15 @@ def main() -> int:
         teaser = extract_teaser(match.group(1))
         if teaser is None:
             continue
-        length = len(teaser)
+        length = len(teaser.encode("utf-8"))
         if length > LIMIT:
             print(
-                f"{path}: teaser is {length} chars, over the {LIMIT}-char Instruqt limit",
+                f"{path}: teaser is {length} bytes, over the {LIMIT}-byte Instruqt limit",
                 file=sys.stderr,
             )
             failed = True
         else:
-            print(f"{path}: teaser is {length}/{LIMIT} chars, OK")
+            print(f"{path}: teaser is {length}/{LIMIT} bytes, OK")
     return 1 if failed else 0
 
 

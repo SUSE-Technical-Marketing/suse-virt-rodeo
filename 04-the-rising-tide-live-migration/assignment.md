@@ -3,7 +3,7 @@ slug: the-rising-tide-live-migration
 id: xjv2r0tfyztq
 type: challenge
 title: "<span id="assignment.65" lang="ja" hist="vertrex-bank">🌊 第4章:高まる潮</span>"
-teaser: <span id="assignment.66" lang="ja" hist="vertrex-bank">冷却材漏れにより、決済ゲートウェイをホストするラックが浸水しています。ハードウェアがショートする前に、トランザクションを継続させながらゼロダウンタイムのライブマイグレーションを実行してください。</span>
+teaser: <span id="assignment.66" lang="ja" hist="vertrex-bank">冷却材漏れで決済ゲートウェイのラックが浸水中。ショートする前に、トランザクションを止めずにゼロダウンタイムのライブマイグレーションを実行せよ。</span>
 tabs:
 - id: fpgxlmifoynn
   title: SUSE Virtualization UI

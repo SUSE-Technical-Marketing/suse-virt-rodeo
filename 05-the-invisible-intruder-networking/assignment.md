@@ -3,7 +3,7 @@ slug: the-invisible-intruder-networking
 id: 6y9uhwn9zyll
 type: challenge
 title: "<span id="assignment.100" lang="ja" hist="vertrex-bank">第5章:見えない侵入者</span>"
-teaser: <span id="assignment.101" lang="ja" hist="vertrex-bank">午前2時のセキュリティアラート。公開Webサーバーが、銀行の最重要データベースとフラットネットワークを共有している。ソフトウェア定義のボールトを構築し、データベースをその中に隔離せよ。</span>
+teaser: <span id="assignment.101" lang="ja" hist="vertrex-bank">午前2時のアラート。公開Webサーバーと最重要データベースが同じフラットネットワークを共有中。ソフトウェア定義のボールトを構築し、DBを隔離せよ。</span>
 tabs:
 - id: 69jpoti7gjds
   title: SUSE Virtualization UI
