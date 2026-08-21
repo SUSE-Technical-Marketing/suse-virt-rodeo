@@ -2,10 +2,8 @@
 slug: the-rising-tide-live-migration
 id: xjv2r0tfyztq
 type: challenge
-title: "<span id="assignment.65" lang="en" hist="vertrex-bank">\U0001F30A Chapter 4: The Rising Tide</span>"
-teaser: <span id="assignment.66" lang="en" hist="vertrex-bank">A coolant leak is flooding the rack hosting the Payment Gateway. Execute a
-  zero-downtime live migration before the hardware shorts out, while transactions
-  keep flowing.</span>
+title: "<span id="assignment.65" lang="ja" hist="vertrex-bank">🌊 第4章:高まる潮</span>"
+teaser: <span id="assignment.66" lang="ja" hist="vertrex-bank">冷却材漏れにより、決済ゲートウェイをホストするラックが浸水しています。ハードウェアがショートする前に、トランザクションを継続させながらゼロダウンタイムのライブマイグレーションを実行してください。</span>
 tabs:
 - id: fpgxlmifoynn
   title: SUSE Virtualization UI
@@ -28,10 +26,7 @@ difficulty: intermediate
 timelimit: 2400
 enhanced_loading: null
 ---
-<span id="assignment.67" lang="en" hist="vertrex-bank">
-🌊 Chapter 4: The Rising Tide
-==============================
-</span>
+<span id="assignment.67" lang="ja" hist="vertrex-bank">🌊 第4章:高まる潮</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -140,39 +135,35 @@ enhanced_loading: null
 
 <div id="401" class="story">
 
-<span id="assignment.68" lang="en" hist="vertrex-bank">
-The adrenaline from the trading floor incident has barely faded from your system when a deep, metallic groan echoes through the datacenter walls. You and Sarah turn simultaneously toward **Rack 4**. A primary coolant valve has ruptured overhead, and a steady stream of chilled, chemically treated water is cascading directly onto the physical server chassis hosting the bank's primary **Payment Gateway**.
+<span id="assignment.68" lang="ja" hist="vertrex-bank">トレーディングフロアでの事件のアドレナリンがまだ体内から抜けきらないうちに、データセンターの壁を通して重く金属的なうめき声が響き渡る。あなたとサラは同時に**ラック4**の方を振り向いた。頭上で一次冷却バルブが破裂し、冷たく化学処理された水が絶え間なく流れ落ち、銀行の基幹**決済ゲートウェイ**をホストする物理サーバーシャーシに直撃していた。
 
-*"If that server shorts out, the gateway drops,"* Sarah says, genuine panic creeping into her voice as she watches the water pool. *"If the gateway drops, every single credit card transaction for <b class="bank">Vertex Trust Bank</b> fails. We will be facing <span class="danger">federal regulatory investigations</span> by morning."*
+*「あのサーバーがショートしたら、ゲートウェイが落ちる」*水がたまっていくのを見つめながら、サラの声に本物のパニックが忍び寄る。*「ゲートウェイが落ちれば、Vertex Trust銀行のクレジットカード取引が一件残らず失敗する。朝までには連邦規制当局の調査に直面することになるわ」*
 
-*"We aren't going to let it drop,"* you reply, your fingers flying across your keyboard.
-</span>
+*「落とさせはしない」*あなたはそう答えながら、キーボードの上で指を高速に走らせる。</span>
 
 </div>
 
-<span id="assignment.69" lang="en" no>
-You cannot shut the machine down to move it; the transaction stream is too critical, processing thousands of requests a second. You must execute a **live migration**, moving a running VM, memory and all, to a different physical node with **zero downtime**.
+<span id="assignment.69" lang="ja" no>以下のマシンを停止してから移動させることはできません。トランザクションストリームは非常に重要で、1秒間に何千ものリクエストを処理しています。**ライブマイグレーション**を実行し、稼働中の仮想マシンをメモリごと別の物理ノードへ、**ダウンタイムゼロ**で移動させる必要があります。
 
-But first, to ensure maximum bandwidth is available for the emergency migration, you decide to suspend a nearby non-critical batch processing server.
+しかしその前に、緊急マイグレーションに最大限の帯域を確保するため、近くにある重要度の低いバッチ処理サーバーを一時停止させることにします。
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Suspend non-critical workloads to free resources
-2. Establish a service heartbeat
-3. Execute the Live Migration
-4. Monitor the seamless transfer
-5. Resume normal operations
-6. Hand the damaged rack to the repair crew
+## 🎯 クエストの目標
 
-</div>
+1. 重要度の低いワークロードを一時停止してリソースを解放する
+2. サービスのハートビートを確立する
+3. ライブマイグレーションを実行する
+4. シームレスな転送を監視する
+5. 通常の運用を再開する
+6. 損傷したラックを修理チームに引き渡す
 
-🔐 Login Credentials
+
+
+🔐 ログイン認証情報
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UIと**Rancher Prime** UIは同じ認証情報を使用します。</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -196,19 +187,10 @@ admin
 
 
 
-<span id="assignment.72" lang="en" no>
-⏸️ Task 1: Suspend non-critical workloads to free resources
-===========================================================
+<span id="assignment.72" lang="ja" no>⏸️ タスク1：非重要なワークロードを一時停止してリソースを解放する
+===========================================================</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.73" lang="ja" no>、<span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>に移動します:
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video1.gif"/>
-</div>
-
-
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.73" lang="en" no>, go to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>:
-
-1. Locate the virtual machine named:
-</span>
+1. 次の名前の仮想マシンを見つけます:</span>
 
 <div class="cred">
 
@@ -218,30 +200,27 @@ daily-batch-processor
 
 </div>
 
-<span id="assignment.74" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the right side of its row
-3. Select <span id="assignment.74.1" lang="nolang" no>**Pause**</span> then click <span id="assignment.74.2" lang="nolang" no>**Apply**</span> after prompted to confirm.
-4. Wait for its state to change to <span id="assignment.74.3" lang="nolang" no>**Paused**</span>
+<span id="assignment.74" lang="ja" no>2. 行の右側にある をクリックします
+3. <span id="assignment.74.1" lang="nolang" no>**Pause**</span> を選択し、確認を求められたら <span id="assignment.74.2" lang="nolang" no>**Apply**</span> をクリックします。
+4. 状態が <span id="assignment.74.3" lang="nolang" no>**Paused**</span> に変わるまで待ちます
 
-This halts its CPU cycles, dedicating maximum hardware resources to your emergency operation.
+これによりCPUサイクルが停止し、緊急操作に最大限のハードウェアリソースが割り当てられます。
 
 > [!NOTE]
-> This is not really necessary, we have setup already a dedicated network for live migration traffic, is here for educational purposes
-</span>
+> これは実際には必要ありません。ライブマイグレーショントラフィック用の専用ネットワークはすでに設定済みです。ここでは教育目的のために記載しています</span>
 
 
 
-<span id="assignment.75" lang="en" no>
-📡 Task 2: Establish a service heartbeat
+<span id="assignment.75" lang="ja" no>📡 タスク2: サービスハートビートの確立
 ========================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video2.gif"/>
-</div>
 
-Switch to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.76" lang="en" no>. You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.
+  
 
-Start the heartbeat monitor from <span id="assignment.76.1" lang="nolang" no><b class="highlightcopy">webserver-prod</b></span>:
+
+次に切り替えて</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.76" lang="ja" no>継続的なハートビートモニターが必要です。避難中もネットワーク接続が切断されていないことを証明するためです。
+
+<span id="assignment.76.1" lang="nolang" no><b class="highlightcopy">webserver-prod</b></span> からハートビートモニターを起動してください。
 
 ```bash,run
 ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] 'ping 192.168.122.1'
@@ -249,19 +228,16 @@ ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEW
 ```
 
 > [!IMPORTANT]
-> Leave the ping running continuously in the terminal. **Do not stop it.** This scrolling stream of replies is your proof of zero downtime. Switch your focus back to the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI.
-</span>
+> pingはターミナルで継続的に実行させたままにしてください。**停止しないでください。** この流れ続ける応答は、ダウンタイムがゼロであることの証拠です。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UIに再びフォーカスを戻してください。</span>
 
-<span id="assignment.77" lang="en" no>
-🚚 Task 3: Execute the Live Migration
+<span id="assignment.77" lang="ja" no>🚚 タスク3: ライブマイグレーションの実行
 =====================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video3.gif"/>
-</div>
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.78" lang="en" no>, go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** and locate the following instance:
-</span>
+  
+
+
+以下の</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.78" lang="ja" no>、**<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** に移動し、次のインスタンスを見つけます。</span>
 
 <div class="cred">
 
@@ -271,67 +247,54 @@ webserver-prod
 
 </div>
 
-<span id="assignment.79" lang="en" no>
-1. Read the <span id="assignment.79.1" lang="nolang" no>**Node**</span> column and **write down** which node the gateway is running on: you will want proof it moved
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the far right side of its row
-3. Select <span id="assignment.79.2" lang="nolang" no>**Migrate**</span> from the context menu
-4. Choose a different, safe target node from the dropdown list
-5. Click <span id="assignment.74.2" lang="nolang" no>**Apply**</span>
+<span id="assignment.79" lang="ja" no>1. <span id="assignment.79.1" lang="nolang" no>**Node**</span> 列を確認し、ゲートウェイがどのノードで稼働しているかを**書き留めてください**。移動したことを証明する材料になります
+2. その行の一番右にある  をクリックします
+3. コンテキストメニューから <span id="assignment.79.2" lang="nolang" no>**Migrate**</span> を選択します
+4. ドロップダウンリストから、別の安全な移動先ノードを選択します
+5. <span id="assignment.74.2" lang="nolang" no>**Apply**</span> をクリックします
 
-Behind the scenes, <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> copies the VM's live memory pages to the target node over the network, tracking and re-copying any pages the busy gateway dirties mid-flight, until it can freeze, flip, and resume execution on the new node in a fraction of a second.
-</span>
+裏側では、<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> がVMのライブメモリページをネットワーク経由で移動先ノードへコピーし、稼働中のゲートウェイが移行の最中に変更(ダーティ化)したページを追跡しては再コピーする、という処理を繰り返します。そして最終的に実行を凍結し、瞬時に切り替えて、新しいノード上で実行を再開します。</span>
 
-<span id="assignment.80" lang="en" no>
-👀 Task 4: Monitor the seamless transfer
+<span id="assignment.80" lang="ja" no>👀 タスク4: シームレスな移行を監視する
 ========================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video4.gif"/>
-</div>
 
-Immediately switch back to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.81" lang="en" no> tab and watch the ping sequence.
-</span>
+  
+
+
+直ちに戻って</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.81" lang="ja" no>タブを確認し、pingシーケンスを見守ります。</span>
 
 <div id="402" class="story">
 
-<span id="assignment.82" lang="en" hist="vertrex-bank">
-You hold your breath as the <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> coordinates the massive memory transfer over the network. The pings continue scrolling down the screen, **completely uninterrupted**. The virtual machine seamlessly materializes on the new physical node just as sparks begin to fly from the water-damaged chassis in Rack 4.
-</span>
+<span id="assignment.82" lang="ja" hist="vertrex-bank">息を止めて見守る中、<span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>がネットワーク越しの大規模なメモリ転送を調整していく。画面をスクロールし続けるpingは**まったく途切れることがない**。仮想マシンが新しい物理ノードへとシームレスに具現化するのとほぼ同時に、ラック4では水濡れした筐体から火花が飛び始めていた。</span>
 
 </div>
 
-<span id="assignment.83" lang="en" no>
-Press `Ctrl+C` to terminate the ping.
-</span>
+<span id="assignment.83" lang="ja" no>`Ctrl+C`を押してpingを終了します。</span>
 
 <div id="403" class="story">
-<span id="assignment.84" lang="en" hist="vertrex-bank">You exhale sharply. The transaction flow survived.</span>
+<span id="assignment.84" lang="ja" hist="vertrex-bank">息を鋭く吐き出す。トランザクションフローは持ちこたえた。</span>
 </div>
 
 
-<span id="assignment.85" lang="en" no>
-Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node, a micro-interruption. On a properly sized infrastructure it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization *inside* virtualization, the most you might have spotted is slightly higher latency times in the pings.
-
-Back in the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.86" lang="en" no>, the <span id="assignment.79.1" lang="nolang" no>**Node**</span> column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down. </span><span id="assignment.87" lang="en" hist="vertrex-bank">The gateway physically moved while its customers never noticed.</span>
+<span id="assignment.85" lang="ja" no>厳密に言えば、ハンドオーバーの瞬間は*確かに*存在する。メモリコピーが収束すると、実行が新しいノードに切り替わる間、VMは最後の一瞬だけ停止する、いわばマイクロ中断だ。適切な規模のインフラであれば完全に気づかれることなく通過するし、この仮想化の中の仮想化の、そのまた中の仮想化を実行しているこのラボでさえ、せいぜいpingのレイテンシが少し高くなる程度しか気づかなかっただろう。</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.86" lang="ja" no>、webserver-prodの<span id="assignment.79.1" lang="nolang" no>**Node**</span>列が、あなたが書き留めたものとは**異なるノード**を示しています。</span><span id="assignment.87" lang="ja" hist="vertrex-bank">ゲートウェイは物理的に移動したが、顧客はまったく気づかなかった。</span>
 
 <div id="404" class="story">
-<span id="assignment.88" lang="en" hist="vertrex-bank">Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running:</span>
+<span id="assignment.88" lang="ja" hist="vertrex-bank">サラが規制当局に提出する証拠を作成してください——ゲストの稼働時間カウンターは一度もリセットされておらず、これはオペレーティングシステムが一度も停止していないことを意味します。</span>
 </div>
 
 ```bash,wrap,run
 ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] "hostname && uptime"
 ```
 
-<span id="assignment.89" lang="en" no>
-▶️ Task 5: Resume normal operations
+<span id="assignment.89" lang="ja" no>▶️ タスク5:通常運用の再開
 ===================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video5.gif"/>
-</div>
 
-Return to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.90" lang="en" no>. Locate the virtual machine you paused earlier:
-</span>
+  
+
+
+以下に戻る</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.90" lang="ja" no>先ほど一時停止した仮想マシンを見つけます。</span>
 
 <div class="cred">
 
@@ -341,95 +304,78 @@ daily-batch-processor
 
 </div>
 
-<span id="assignment.91" lang="en" no>
-1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row
-2. Select <span id="assignment.91.1" lang="nolang" no>**Unpause**</span> to allow the non-critical jobs to resume
+<span id="assignment.91" lang="ja" no>1. その行にある をクリックします
+2. <span id="assignment.91.1" lang="nolang" no>**Unpause**</span> を選択して、緊急性の低いジョブを再開できるようにします
 
-🛠️ Task 6: Hand the damaged rack to the repair crew
-====================================================
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video6.gif"/>
-</div>
-
-</span>
+🛠️ タスク6: 破損したラックを修理チームに引き渡す
+====================================================</span>
 
 
 <div id="405" class="story">
-<span id="assignment.92" lang="en" hist="vertrex-bank">The gateway is safe — but the water-damaged node is still dripping, and smaller workloads may still be running on it. You are not going to migrate them one by one while a puddle spreads across the floor. Let the platform manage it.</span>
+<span id="assignment.92" lang="ja" hist="vertrex-bank">ゲートウェイは安全です――しかし、水損したノードはまだ水が滴り続けており、より小さなワークロードがその上でまだ稼働している可能性があります。床に水たまりが広がる中、それらを一つずつ移行するようなことはしません。プラットフォームに管理させましょう。</span>
 </div>
 
 
-<span id="assignment.93" lang="en" no>
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.94" lang="en" no>, go to <span id="assignment.94.1" lang="nolang" no>**Hosts**</span>:
+<span id="assignment.93" lang="ja" no>The text to translate appears to be empty or cut off — only "In the" was included. Could you paste the full text you'd like translated to Japanese?</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.94" lang="ja" no>、<span id="assignment.94.1" lang="nolang" no>**Hosts**</span>に移動します。
 
-1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down.
-</span>
+1. 移行**前**にwebserver-prodが稼働していたノードを探してください。書き留めておいたものです。</span>
 
-<i id="406" class="story"><span id="assignment.95" lang="en" hist="vertrex-bank">That is the water-damaged machine</span></i>
+<i id="406" class="story"><span id="assignment.95" lang="ja" hist="vertrex-bank">それは水害を受けた機械です</span></i>
 
-<span id="assignment.96" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.96.1" lang="nolang" no>**Enable Maintenance Mode**</span>, then <span id="assignment.96.2" lang="nolang" no>confirm</span>
+<span id="assignment.96" lang="ja" no>2. その行の  をクリックし、<span id="assignment.96.1" lang="nolang" no>**Enable Maintenance Mode**</span> を選択し、次に <span id="assignment.96.2" lang="nolang" no>confirm</span> を選択します
 
-Now watch the **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty. No spreadsheets, no manual target-picking, no forgotten VM.
+次に **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** ページを見てください。障害ノード上で稼働していたすべてのVMが**自動的に**ライブマイグレーションでそこから退避します。プラットフォームが正常なターゲットノードを選び、ワークロードを1つずつ移動させ、ノードを空にします。スプレッドシートも、手動でのターゲット選定も、VMの移し忘れも一切ありません。
 
 > [!NOTE]
-> This may take some time in this lab environment.
+> このラボ環境では、これに多少時間がかかることがあります。
 
-Once the node shows <span id="assignment.96.3" lang="nolang" no>**Maintenance**</span> and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
+ノードが <span id="assignment.96.3" lang="nolang" no>**Maintenance**</span> と表示され、VM数が0になったら、(仮想の)修理チームが(仮想の)冷却バルブを交換します。ノードをサービスに復帰させましょう。
 
-3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row again and select <span id="assignment.96.4" lang="nolang" no>**Uncordon**</span> and then <span id="assignment.96.5" lang="nolang" no>**Disable Maintenance Mode**</span>
+3. その行の  を再度クリックし、<span id="assignment.96.4" lang="nolang" no>**Uncordon**</span> を選択し、次に <span id="assignment.96.5" lang="nolang" no>**Disable Maintenance Mode**</span> を選択します
 
-The node rejoins the fabric, ready to accept workloads again.
+ノードはファブリックに再参加し、再びワークロードを受け入れる準備が整います。
 
 > [!NOTE]
-> The same intelligence works in the other direction, too: every time a new VM is created, the scheduler places it on the least-loaded suitable node, keeping the cluster naturally balanced, no manual Tetris required. Between automatic placement on the way in and automatic evacuation on the way out, the humans only decide *what* should run; the platform decides *where*.
-</span>
+> 同じ知性は逆方向でも機能します。新しいVMが作成されるたびに、スケジューラーは最も負荷の低い適切なノードにそれを配置し、クラスターを自然にバランスの取れた状態に保ちます。手動でのテトリスは不要です。入ってくる際の自動配置と出ていく際の自動退避のあいだで、人間が決めるのは*何を*実行するかだけであり、*どこで*実行するかはプラットフォームが決めます。</span>
 
-<span id="assignment.97" lang="en" no>
-🏋️ Bonus Drills: the migration paper trail (optional, for the command-line curious)
+<span id="assignment.97" lang="ja" no>🏋️ ボーナスドリル：マイグレーションの記録証跡（コマンドラインが好きな方向け、任意）
 ======================================================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video7.gif"/>
-</div>
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise: every migration is itself a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> object, which means it is auditable. In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.98" lang="en" no>:
+  
 
-- **Review the migration record** (who moved, when, from where to where):
+
+<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> は初めてですか？**遠慮なく読み飛ばしてください。** そうでなければ：すべてのマイグレーションはそれ自体が <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> オブジェクトであり、つまり監査可能だということです。その中で</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.98" lang="ja" no>- **移行記録を確認する**（誰が、いつ、どこからどこへ移動したか）:
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A
 ```
 
-- **Inspect the details of the completed migration:**
+- **完了した移行の詳細を確認する:**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
 ```
 
-- **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> can reschedule VMs from a failed host automatically:
+- **先を見据える:** 誰も移行できないうちに、警告もなく*ノード*が故障したらどうなるだろうか？各VMの実行戦略を確認しよう: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>は障害の発生したホストからVMを自動的に再スケジュールできる:
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
 ```
 
 > [!NOTE]
-> **Beyond compute:** the same zero-downtime idea also applies to *disks*. <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> supports **in-place storage live migration** (moving a running VM's volumes between storage backends, for example from <span id="assignment.2.8" lang="nolang" no>Longhorn</span> to an external <span id="assignment.2.9" lang="nolang" no>CSI</span> array) without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
-</span>
+> **コンピュートを超えて:** ゼロダウンタイムという同じ発想は*ディスク*にも当てはまる。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>は**インプレースのストレージライブマイグレーション**（VMを停止せずに、稼働中のVMのボリュームをストレージバックエンド間で移動すること。例えば<span id="assignment.2.8" lang="nolang" no>Longhorn</span>から外部の<span id="assignment.2.9" lang="nolang" no>CSI</span>アレイへ）をサポートしている。コンピュートは今夜退避し、ストレージは来四半期に退避する——そしてゲートウェイはどちらにも気づくことはない。</span>
 
-<span id="assignment.99" lang="en" no>
-💼 Why does this matter?
+<span id="assignment.99" lang="ja" no>💼 なぜこれが重要なのか?
 ==============================================
 
-- **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots: workloads simply slide to healthy nodes while your services are working.
-- **Planned maintenance without midnight windows.** One click on **Maintenance Mode** drains an entire node automatically. Routine patching happens at 2 PM instead of 2 AM, and nobody keeps a spreadsheet of which VM lives where.
-- **An audit trail regulators can read.** Every migration is a recorded API object, no more reconstructing what happened from console screenshots.
+- **ハードウェア障害が障害にならなくなる。** 冷却液漏れ、ファームウェアの更新、ホストの再起動などが発生しても、サービスが稼働し続けたまま、ワークロードは正常なノードへとスムーズに移行します。
+- **深夜のメンテナンス時間帯が不要に。** **メンテナンスモード** をワンクリックするだけで、ノード全体のワークロードが自動的に排出(ドレイン)されます。定期的なパッチ適用は深夜2時ではなく午後2時に行えるようになり、どのVMがどこで稼働しているかをスプレッドシートで管理する必要もなくなります。
+- **監査担当者が読める監査証跡。** すべてのマイグレーションはAPIオブジェクトとして記録され、コンソールのスクリーンショットから何が起きたかを再構築する必要はもうありません。
 
-Click **Check** to continue. 🕵️
+続行するには **Check** をクリックしてください。🕵️
 
-📚 More information
-===================
-</span>
+📚 詳細情報
+===================</span>
 
 - [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)

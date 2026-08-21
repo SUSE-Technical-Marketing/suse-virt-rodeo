@@ -2,10 +2,9 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: "<span id="assignment.158" lang="en" no>\U0001F305 Chapter 8: A New Horizon</span>"
-teaser: <span id="assignment.159" lang="en" hist="vertrex-bank">The bank runs entirely on <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
-  Take a victory lap, review everything you mastered, and chart where your new skills
-  can take your own datacenter.</span>
+title: "<span id="assignment.158" lang="ja" no>🌅 第8章:新たな地平線</span>"
+teaser: <span id="assignment.159" lang="ja" hist="vertrex-bank">銀行は完全に<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>で稼働しています。
+  ここでウイニングランを飾り、習得したことをすべて振り返り、身につけた新しいスキルが自分のデータセンターをどこへ導いてくれるかを思い描いてみましょう。</span>
 tabs:
 - id: jw4tji5y1jbv
   title: SUSE Virtualization UI
@@ -28,10 +27,8 @@ difficulty: basic
 timelimit: 1800
 enhanced_loading: null
 ---
-<span id="assignment.160" lang="en" no>
-🌅 Chapter 8: A New Horizon
-============================
-</span>
+<span id="assignment.160" lang="ja" no>🌅 第8章:新たな地平線
+============================</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -130,50 +127,42 @@ enhanced_loading: null
 
 <div id="901" class="story">
 
-<span id="assignment.161" lang="en" hist="vertrex-bank">
-The dust has finally settled. The datacenter is quiet, bathed in the soft green glow of the <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> nodes operating in perfect harmony.
+<span id="assignment.161" lang="ja" hist="vertrex-bank">ほこりがようやく収まった。データセンターは静まり返り、完璧な調和の中で稼働する<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>ノードの柔らかな緑の光に包まれている。
 
-<b class="bank">Vertex Trust Bank</b> is no longer shackled to the past. It is now running entirely on a lean, high-performance, cloud-native virtualization stack.
+Vertex Trust銀行はもはや過去に縛られていない。今や、無駄のない高性能なクラウドネイティブ仮想化スタックの上で完全に稼働している。
 
-Sarah stands beside you, looking at the unified dashboard on the main screen. *"I didn't think it was possible,"* she admits, shaking her head in disbelief. *"We are running containerized microservices and monolithic ledgers on the exact same fabric. Our storage is distributed, our networks are software-defined, and our licensing costs have just plummeted."*
+サラはあなたの隣に立ち、メインスクリーンの統合ダッシュボードを見つめている。*「こんなことが可能だとは思わなかったわ」*と、信じられないというように首を振りながら認める。*「コンテナ化されたマイクロサービスとモノリシックな台帳が、まったく同じ基盤の上で動いているのよ。ストレージは分散され、ネットワークはソフトウェア定義で、ライセンスコストは急落したわ」*
 
-She turns to you and extends her hand. *"Thank you. You didn't just save our infrastructure — you saved the bank."*
-</span>
+彼女はあなたの方を向き、手を差し出す。*「ありがとう。あなたはただ私たちのインフラを救っただけじゃない——銀行そのものを救ってくれたのよ」*</span>
 
 </div>
 
-<span id="assignment.162" lang="en" no>
-## <b class="hovereffect">🏆 Your Deeds</b>
+<span id="assignment.162" lang="ja" no>## 🏆 あなたの功績
 
-You conquered incredible odds during your time here:
+あなたはここでの活動中、驚くべき困難を乗り越えました：
 
-| Chapter | Crisis | Skill you mastered |
+| チャプター | 危機 | 習得したスキル |
 |:--------|:-------|:-------------------|
-| 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform dashboard, <span id="assignment.2.8" lang="nolang" no>Longhorn</span> storage, and Rancher Prime |
-| 🛗 The Subterranean Divide | Two warring hardware silos | Uniting VMs and containers on one <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> fabric |
-| ⚡ The Flash Crash | A market meltdown | Deploying VMs in minutes with images, volumes, and cloud-init |
-| 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and one-click node evacuation |
-| 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |
-| ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, staging clones, storage tiers, and scheduled off-cluster backups |
-| 🤠 The Stampede | A compute famine | Golden VM templates, stamping out identical fleets on demand |
-</span>
+| 🏦 到着 | 沈みゆくレガシーデータセンター | プラットフォームダッシュボード、<span id="assignment.2.8" lang="nolang" no>Longhorn</span>ストレージ、Rancher Primeの調査 |
+| 🛗 地下の分断 | 対立する2つのハードウェアサイロ | VMとコンテナを一つの<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>ファブリックに統合 |
+| ⚡ フラッシュ・クラッシュ | 市場の暴落 | イメージ、ボリューム、cloud-initを使い数分でVMを展開 |
+| 🌊 高まる潮流 | 水没したサーバーラック | ゼロダウンタイムのライブマイグレーションとワンクリックノード退避 |
+| 🕵️ 見えざる侵入者 | 横方向への攻撃経路 | ソフトウェア定義VLANと分離されたSDNサブネット |
+| ⏪ 信じられないエラー | 削除された1億ドルのレコード | スナップショット、ステージングクローン、ストレージ階層、スケジュール済みのオフクラスターバックアップ |
+| 🤠 スタンピード | コンピュート資源の枯渇 | ゴールデンVMテンプレート、オンデマンドで同一構成のフリートを量産 |</span>
 
 
 <div id="902" class="story">
 
-<span id="assignment.163" lang="en" hist="vertrex-bank">
-Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digital frontier is vast and constantly evolving. There are always new architectures to design and new systems to modernize.
-</span>
+<span id="assignment.163" lang="ja" hist="vertrex-bank">ヴェルテックス・トラスト銀行での仕事は完了しました——しかし、デジタルフロンティアは広大で、絶えず進化し続けています。設計すべき新しいアーキテクチャや、近代化すべき新しいシステムは常に存在するのです。</span>
 
 </div>
 
 
-<span id="assignment.164" lang="en" no>
-🔐 Login Credentials
+<span id="assignment.164" lang="ja" no>🔐 ログイン認証情報
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI と **Rancher Prime** UI は同じ認証情報を使用します。</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -197,56 +186,48 @@ admin
 
 
 
-<span id="assignment.165" lang="en" no>
-🧭 Victory lap: the lab is still yours
+<span id="assignment.165" lang="ja" no>🧭 勝利のラップ:ラボはまだあなたのものです
 =======================================
 
-The lab environment will remain active until your timer expires. Feel free to dig into the dashboard and experiment with the infrastructure you have built. Some ideas:
+ラボ環境はタイマーが切れるまでアクティブなままです。ダッシュボードをじっくり確認し、あなたが構築したインフラを自由に試してみてください。いくつかのアイデアです:
 
-- **Take a final inventory of the empire you built.** Tour the </span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="en" no>: the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> page, the **Networks** you defined, the **Templates** blueprint, and the **Backup & Snapshot** history: every crisis of the week left its mark here.
+- **あなたが築き上げた帝国の最終点検をしましょう。**</span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="ja" no><span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> ページ、あなたが定義した**ネットワーク**、**テンプレート**のブループリント、そして**バックアップとスナップショット**の履歴:今週のあらゆる危機がここに痕跡を残しています。
 
-- **Design your own crisis.** Create a new VM from scratch: pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
+- **自分だけの危機をデザインしよう。** ゼロから新しいVMを作成:イメージを選び、サイズを決め、cloud-initを設定し、スナップショットを取り、ライブマイグレーションを行います。今回は手順書なし。あなたはもう道を知っています。
 
-- **For the command-line curious (optional):** the API is yours:
+- **コマンドラインが気になる方へ(任意):** APIはあなたのものです:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A
-```
-</span>
+```</span>
 
 
-<span id="assignment.167" lang="en" no>
-🚀 What's next on your horizon?
+<span id="assignment.167" lang="ja" no>🚀 次の目標は？
 ===============================
 
-- 📖 Keep your skills sharp by digging into the deep technical architecture in the [SUSE Virtualization Documentation](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).
+- 📖 [SUSE Virtualization Documentation](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)で深い技術アーキテクチャを掘り下げ、スキルを磨き続けましょう。
 
-- 🐮 Learn how to manage **fleets of these clusters at scale** (one Rancher Prime managing every <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> cluster in every branch datacenter) with [<span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
+- 🐮 [<span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html)を使って、**大規模なクラスタ群**（各支社データセンターのあらゆる<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>クラスタを一つのRancher Primeで管理する）の管理方法を学びましょう。
 
-- 🧪 Rebuild this at home: <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> is open source. Grab the ISO, install it on any spare x86 box, and run your own VMs.
+- 🧪 自宅で再現してみましょう：<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>はオープンソースです。ISOを入手し、余っているx86マシンにインストールして、自分自身のVMを動かしてみてください。
 
-- 🤝 You are never alone on this trail: SUSE customers consistently rate <span id="assignment.167.1" lang="nolang" no>**SUSE Support**</span> among the best in the industry, and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
+- 🤝 この道のりであなたは決して一人ではありません：SUSEの顧客は<span id="assignment.167.1" lang="nolang" no>**SUSE Support**</span>を業界最高水準と評価し続けており、顧客からのフィードバックは製品の進化に直接反映されます。SUSEと共に歩むということは、行列に並ぶチケットではなく、テーブルに着く席を得るということです。それがオープンソースならではの違いです。
 
-- 💬 Talk to your <b class="suse">SUSE</b> representative about what this story would look like with **your** legacy cluster in the darkest corner of the room.
-</span>
+- 💬 部屋の一番暗い隅にある**あなたの**レガシークラスタを使ったら、このストーリーがどうなるか、SUSEの担当者に相談してみましょう。</span>
 
 <div id="903" class="story">
 
-<span id="assignment.168" lang="en" hist="vertrex-bank">
-It has been an absolute honor working alongside you!
+<span id="assignment.168" lang="ja" hist="vertrex-bank">一緒に働けたことは、この上ない光栄でした!
 
-**Happy migrating!** 🎉
-</span>
+**移行、頑張ってください!** 🎉</span>
 
 </div>
 
-<span id="assignment.169" lang="en" no>
-📚 More information
+<span id="assignment.169" lang="ja" no>📚 詳細情報
 ===================
 
-- [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
-- [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
-- [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
-- [Backup and Restore](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)
-- [Cluster Networking](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)
-</span>
+- [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: 概要](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>の作成](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
+- [ライブマイグレーション](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
+- [バックアップとリストア](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)
+- [クラスタネットワーキング](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)</span>

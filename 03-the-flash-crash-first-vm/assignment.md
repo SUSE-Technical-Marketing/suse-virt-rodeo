@@ -2,9 +2,8 @@
 slug: the-flash-crash-first-vm
 id: 09d4eiczcvaw
 type: challenge
-title: '<span id="assignment.33" lang="en" hist="vertrex-bank">⚡ Chapter 3: The Flash Crash</span>'
-teaser: <span id="assignment.34" lang="en" hist="vertrex-bank">The Asian markets are melting down and the quants need a calculation engine
-  NOW. Deploy a fully configured VM with storage and credentials in minutes, not days.</span>
+title: '<span id="assignment.33" lang="ja" hist="vertrex-bank">⚡ 第3章:フラッシュ・クラッシュ</span>'
+teaser: <span id="assignment.34" lang="ja" hist="vertrex-bank">アジア市場が暴落しており、クオンツは今すぐ計算エンジンを必要としています。数日ではなく数分で、ストレージと認証情報を完全に構成した仮想マシンをデプロイします。</span>
 tabs:
 - id: 6byxu4pxkfpm
   title: SUSE Virtualization UI
@@ -27,12 +26,8 @@ difficulty: basic
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.35" lang="en" hist="vertrex-bank">
-
-⚡ Chapter 3: The Flash Crash
-=============================
-
-</span>
+<span id="assignment.35" lang="ja" hist="vertrex-bank">⚡ 第3章:フラッシュ・クラッシュ
+=============================</span>
 
 <style type="text/css">
   * {
@@ -159,38 +154,28 @@ enhanced_loading: null
 
 <div id="301" class="story">
 
-<span id="assignment.36" lang="en" hist="vertrex-bank">
-You are sitting in a makeshift office just outside the datacenter, halfway through reviewing the network topology, when the overhead emergency lights suddenly pulse a harsh yellow. Your radio crackles to life. It is the **Head of Quantitative Trading**, and he sounds panicked.
+<span id="assignment.36" lang="ja" hist="vertrex-bank">アジア市場で大規模な異常が発生しています!」トレーディングフロアの騒然とした喧騒の中、彼は叫びます。「現行のアルゴリズムモデルでは、流入するデータストリームを十分な速さで解析できていません。今すぐ専用の高性能計算エンジンを、高速セカンダリデータボリューム付きで展開する必要があります。さもなければ、今後10分で数百万ドルの損失を出すことになります!」
 
-*"We have a <span class="danger">massive anomaly</span> in the Asian markets!"* he shouts over the chaotic background noise of a frenzied trading floor. *"Our current algorithmic models are failing to parse the incoming data stream fast enough. We need a new, dedicated high-performance calculation engine deployed immediately, complete with a secondary high-speed data volume, or we are going to bleed millions in the next ten minutes!"*
+過去、Vertex Trust Bankでこの緊急要請に対応するには、優先チケットを開き、インフラチームがストレージ割り当てを確保するのを待ち、手動でオペレーティングシステムをインストールする必要がありました。それには**数日**かかるプロセスでした。
 
-In the past, fulfilling this emergency request at <b class="bank">Vertex Trust Bank</b> meant opening a priority ticket, waiting for the infrastructure team to carve out storage allocations, and manually installing an operating system. It was a process that took **days**.
+数日の余裕はありません。**あるのは数分だけです。**
 
-You do not have days. **You have minutes.**
-
-
-
-You bypass the legacy ticketing system entirely and prepare to deploy a fully configured <span id="assignment.2.6" lang="nolang" no>Linux</span> virtual machine (with injected security credentials and attached storage) in mere seconds.
-</span>
+あなたは旧来のチケットシステムを完全に迂回し、フルに構成された<span id="assignment.2.6" lang="nolang" no>Linux</span>仮想マシン(セキュリティ資格情報の注入とストレージのアタッチ済み)を、わずか数秒でデプロイする準備を整えます。</span>
 </div>
 
 
-<span id="assignment.37" lang="en" no>
-<div class="missionbox">
+<span id="assignment.37" lang="ja" no>## 🎯 クエストの目的
 
-## 🎯 Your Quest Objectives
+1. オペレーティングシステムイメージを確認する
+2. <span id="assignment.37.1" lang="ja" hist="vertrex-bank">計算エンジン</span>をプロビジョニングする
+3. Webコンソールにアクセスする
 
-1. Verify the operating system image
-2. Provision the <span id="assignment.37.1" lang="en" hist="vertrex-bank">calculation engine</span>
-3. Access the Web Console
 
-</div>
 
-🔐 Login Credentials
+🔐 ログイン認証情報
 ====================
 
-The **<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UI and **Rancher Prime** UI use the same credentials.
-</span>
+**<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UIと**Rancher Prime** UIは同じ認証情報を使用します。</span>
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
 
@@ -215,32 +200,29 @@ admin
 
 
 
-<span id="assignment.38" lang="en" no>
-📀 Task 1: Verify the operating system image
+<span id="assignment.38" lang="ja" no>📀 課題1: OSイメージを確認する
 ============================================
 
-Go to the </span> [button label="<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI" variant="success"](tab-0) <span id="assignment.39" lang="en" no>, navigate to **<span id="assignment.6.3" lang="nolang" no>Images</span>** on the left side panel, and confirm that the base <span id="assignment.39.1" lang="nolang" no>**SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2**</span> operating system image is present and marked as **<span id="assignment.6.17" lang="nolang" no>Active</span>**.
+移動する</span> [button label="<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI" variant="success"](tab-0) <span id="assignment.39" lang="ja" no>、左側パネルの**<span id="assignment.6.3" lang="nolang" no>Images</span>**に移動し、ベースの<span id="assignment.39.1" lang="nolang" no>**SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2**</span>オペレーティングシステムイメージが存在し、**<span id="assignment.6.17" lang="nolang" no>Active</span>**とマークされていることを確認します。
 
 > [!NOTE]
-> <span id="assignment.6.3" lang="nolang" no>Images</span> in <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk. The image itself is never modified.
+> <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>における<span id="assignment.6.3" lang="nolang" no>Images</span>は、クラスタ全体で共有されるゴールデンマスターです。このイメージから起動する各VMは、それぞれ独自のコピーオンライトディスクを持ちます。イメージ自体が変更されることはありません。
 
-**If the image were missing**, you could add it yourself in seconds, no waiting for a storage admin.
+**イメージが存在しない場合**、ストレージ管理者を待つことなく、自分で数秒で追加できます。
 
-Images can be created from a URL, uploaded from your workstation, or exported from an existing volume via <span id="assignment.39.2" lang="nolang" no>**Images > Create**</span>:
+イメージは、URLから作成する、ワークステーションからアップロードする、または<span id="assignment.39.2" lang="nolang" no>**Images > Create**</span>経由で既存のボリュームからエクスポートすることができます。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter3-new-image.gif"/>
-</div>
 
-For example, let's add a new image:
+  
 
-1. Go to **<span id="assignment.6.3" lang="nolang" no>Images</span>** on the left panel and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
-   - <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">official-images</b>
-   - <span id="assignment.19.4" lang="nolang" no>**Name**</span>: filled in automatically
-   - <b style="color:#30ba78;">Basics</b>:
-     - <span id="assignment.39.4" lang="nolang" no>**URL**</span>:
 
-</span>
+例として、新しいイメージを追加してみましょう。
+
+1. 左側パネルの**<span id="assignment.6.3" lang="nolang" no>Images</span>**に移動し、<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックして、以下の詳細を入力します。
+   - <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: official-images
+   - <span id="assignment.19.4" lang="nolang" no>**Name**</span>: 自動的に入力されます
+   - 基本情報:
+     - <span id="assignment.39.4" lang="nolang" no>**URL**</span>:</span>
 
 <div class="cred">
 
@@ -251,40 +233,37 @@ http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2
 </div>
 
 
-<span id="assignment.40" lang="en" no>
+<span id="assignment.40" lang="ja" no>2. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします
 
-2. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+作成したばかりのイメージが、状態<span id="assignment.40.1" lang="nolang" no>**Downloading**</span>で一覧に表示されます。進捗列でその状況を確認できます。
 
-The image you just created appears in the list with the state <span id="assignment.40.1" lang="nolang" no>**Downloading**</span>. You can follow it in the progress column.
-
-Move on to the next task; once the download completes, an alert shows up in the **notification bell** at the top right of the screen.
+次のタスクに進んでください。ダウンロードが完了すると、画面右上の**通知ベル**にアラートが表示されます。
 
 
 > [!NOTE]
-> The download runs server-side, from a local mirror on this lab's own network, so it lands in seconds. The image becomes **<span id="assignment.6.17" lang="nolang" no>Active</span>** once <span id="assignment.2.8" lang="nolang" no>Longhorn</span> has it replicated.
+> ダウンロードはサーバー側で、このラボ自身のネットワーク上にあるローカルミラーから実行されるため、数秒で完了します。イメージは<span id="assignment.2.8" lang="nolang" no>Longhorn</span>にレプリケートされると**<span id="assignment.6.17" lang="nolang" no>Active</span>**になります。
 
 
-🚀 Task 2: Provision the calculation engine
+🚀 タスク2: 計算エンジンをプロビジョニングする
 ===========================================
 
 
-For this task we are going to create our first VM.
+このタスクでは、最初のVMを作成します。
 
 
 > [!NOTE]
-> Please don't click <span id="assignment.19.3" lang="nolang" no>**Create**</span> until instructed.
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter3-new-vm.gif"/>
-</div>
+> 指示があるまで<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックしないでください。
 
 
-Navigate to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> and click the <span id="assignment.19.3" lang="nolang" no>**Create**</span> button.
+  
 
-<span id="assignment.40.3" lang="en" hist="vertrex-bank">Configure the engine exactly as the quants need it:</span>
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+
+<span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>に移動し、<span id="assignment.19.3" lang="nolang" no>**Create**</span>ボタンをクリックします。
+
+<span id="assignment.40.3" lang="ja" hist="vertrex-bank">クオンツが必要としている通りにエンジンを設定してください。</span>
+
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -305,11 +284,9 @@ prod
 </div>
 
 
-<span id="assignment.42" lang="en" no>
-  If the namespace does not exist, create it.
+<span id="assignment.42" lang="ja" no>Namespaceが存在しない場合は作成してください。
 
-- <span id="assignment.42.1" lang="nolang" no>**CPU**</span>:
-</span>
+- <span id="assignment.42.1" lang="nolang" no>**CPU**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -331,21 +308,17 @@ prod
 </div>
 
 
-<span id="assignment.44" lang="en" hist="vertrex-bank">
-Notice the very low resources: our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
-</span>
+<span id="assignment.44" lang="ja" hist="vertrex-bank">非常に少ないリソースにご注目ください。私たちの未来のクオンツチームは高いスキルを持っており、彼らのアプリケーションは低レイテンシと低リソース使用に向けて極限まで最適化されています。</span>
 
-<span id="assignment.45" lang="en" no>
-- <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: <b class="highlightcopy">prod/default</b>
+<span id="assignment.45" lang="ja" no>- <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
 
 
 
 
-Under the <b style="color:#30ba78;"><span id="assignment.6.4" lang="nolang" no>Volumes</span></b> tab (green, not to be confused with the one in black), fill in the following details:
+<span id="assignment.6.4" lang="nolang" no>Volumes</span>タブ(緑色。黒色のものと混同しないように)で、以下の詳細を入力してください:
 
-- <span id="assignment.45.2" lang="nolang" no>**Image**</span>: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
-- <span id="assignment.45.3" lang="nolang" no>**Size**</span>:
-</span>
+- <span id="assignment.45.2" lang="nolang" no>**Image**</span>: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2
+- <span id="assignment.45.3" lang="nolang" no>**Size**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -354,11 +327,9 @@ Under the <b style="color:#30ba78;"><span id="assignment.6.4" lang="nolang" no>V
 
 </div>
 
-<span id="assignment.46" lang="en" no>
-Then add a new volume by clicking <span id="assignment.46.1" lang="nolang" no>**Add Volume**</span>, and fill in the following details:
+<span id="assignment.46" lang="ja" no>それでは、<span id="assignment.46.1" lang="nolang" no>**Add Volume**</span>をクリックして新しいボリュームを追加し、以下の詳細を入力します。
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -378,43 +349,31 @@ market-data-vol
 
 </div>
 
-<span id="assignment.48" lang="en" hist="vertrex-bank">
-Now wire the engine into the bank's network.</span><span id="assignment.49" lang="en" no>Under the <span id="assignment.49.1" lang="nolang" no><b style="color:#30ba78;">Networks</b></span> tab (green, not to be confused with the one in black):
+<span id="assignment.48" lang="ja" hist="vertrex-bank">今度はそのエンジンを銀行のネットワークに接続します。</span><span id="assignment.49" lang="ja" no><span id="assignment.49.1" lang="nolang" no><b style="color:#30ba78;">Networks</b></span> タブ(緑色、黒いタブと混同しないように)の下:
 
-- <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <span id="assignment.49.3" lang="nolang" no><b class="highlightcopy">prod/service</b></span>
-
-
-
-
-</span>
+- <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <span id="assignment.49.3" lang="nolang" no><b class="highlightcopy">prod/service</b></span></span>
 <div id="302" class="story">
 
 
-<span id="assignment.50" lang="en" hist="vertrex-bank">
-This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated <span id="assignment.2.8" lang="nolang" no>Longhorn</span> volumes, the market data survives even if a physical disk dies mid-trade.
-</span>
+<span id="assignment.50" lang="ja" hist="vertrex-bank">トレーダーの高速セカンドデータドライブの要求はこれで満たされます。裏側では、両方のディスクがレプリケートされた<span id="assignment.2.8" lang="nolang" no>Longhorn</span>ボリュームになり、取引中に物理ディスクが1台故障しても、市場データは失われません。</span>
 
 </div>
 
 
-<span id="assignment.51" lang="en" no>
+<span id="assignment.51" lang="ja" no>このクラスターは混在環境なので、VMが本番ノードでのみ実行されるようにしましょう。
 
+<span id="assignment.51.1" lang="nolang" no><b style="color:#30ba78;">Node Scheduling</b></span>をクリックすると、<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>で3つの選択肢が表示されます:
 
-Since this is a mixed-environment cluster, let's make sure the VM runs only on production nodes.
+- <span id="assignment.51.2" lang="nolang" no>**Any available node**</span>: <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>スケジューラーがVMの配置場所を選択し、**ライブマイグレーションは有効のまま**になります
+- <span id="assignment.51.3" lang="nolang" no>**Specific node**</span>: VMを1つのノードに固定します(マイグレーションは不可)
+- <span id="assignment.51.4" lang="nolang" no>**Scheduling rules**</span>: ノードラベル(GPU機能、NUMAトポロジー、ネットワークゾーンなど)に基づくアフィニティルール
 
-Click on <span id="assignment.51.1" lang="nolang" no><b style="color:#30ba78;">Node Scheduling</b></span>: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> offers three choices:
+本番用ルールを設定します:
 
-- <span id="assignment.51.2" lang="nolang" no>**Any available node**</span>: the <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> scheduler chooses where to place the VM, and **live migration stays enabled**
-- <span id="assignment.51.3" lang="nolang" no>**Specific node**</span>: pin the VM to one node (no migration possible)
-- <span id="assignment.51.4" lang="nolang" no>**Scheduling rules**</span>: affinity rules based on node labels (GPU capability, NUMA topology, network zone…)
+1. <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>を選択
+2. <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>をクリックし、続いて<span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>をクリック:
 
-Configure the production rule:
-
-1. Select <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
-2. Click <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>, then <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
-
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -435,13 +394,11 @@ prod
 </div>
 
 
-<span id="assignment.53" lang="en" no>
-Now assign it a label:
+<span id="assignment.53" lang="ja" no>ラベルを割り当てます:
 
-Go to the <span id="assignment.53.1" lang="nolang" no><b style="color:#30ba78;">Labels</b></span> tab (not to be confused with <span id="assignment.53.2" lang="nolang" no>"Instance Labels"</span>) and click <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
+<span id="assignment.53.1" lang="nolang" no><b style="color:#30ba78;">Labels</b></span> タブに移動し(<span id="assignment.53.2" lang="nolang" no>"Instance Labels"</span> と混同しないように注意してください)、<span id="assignment.53.3" lang="nolang" no>**Add Label**</span> をクリックします:
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -461,16 +418,13 @@ prod
 
 </div>
 
-<span id="assignment.54" lang="en" no>
-This will help us manage the VM with future automation.
+<span id="assignment.54" lang="ja" no>これは今後の自動化でこのVMを管理するのに役立ちます。
 
+<span id="assignment.54.1" lang="nolang" no><b style="color:#30ba78;">Advanced Options</b></span>に移動し(左側の列にある<span id="assignment.54.2" lang="nolang" no>'Advanced'</span>と間違えないよう注意してください)、<span id="assignment.54.3" lang="nolang" no>**Cloud Configuration**</span>を選択して、必要な設定とパッケージがすべてインストールされた状態でシステムが起動することを確認します。
 
-Navigate to <span id="assignment.54.1" lang="nolang" no><b style="color:#30ba78;">Advanced Options</b></span> (don't mistake it with <span id="assignment.54.2" lang="nolang" no>'Advanced'</span> on the left column), then select <span id="assignment.54.3" lang="nolang" no>**Cloud Configuration**</span>, to make sure the system comes up with all the required settings and packages installed.
+<span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>をクリックし、<span id="assignment.54.5" lang="nolang" no>**Create New**</span>を選択して標準テンプレートを定義します。次の名前を付けます:
 
-Click on <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span> and select <span id="assignment.54.5" lang="nolang" no>**Create New**</span> to define a standard template. Name it:
-
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -480,8 +434,7 @@ prod
 </div>
 
 
-<span id="assignment.55" lang="en" no>
-For the <span id="assignment.55.1" lang="nolang" no>**User Data**</span>, enter:
+<span id="assignment.55" lang="ja" no><span id="assignment.55.1" lang="nolang" no>**User Data**</span>には、以下を入力します。
 
 ```yaml
 #cloud-config
@@ -502,21 +455,15 @@ ssh_authorized_keys:
     AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa
 ```
 
-Save the template by clicking in <span id="assignment.19.3" lang="nolang" no>**Create**</span> (inside the template box)
+<span id="assignment.19.3" lang="nolang" no>**Create**</span>（テンプレートボックス内）をクリックして、テンプレートを保存します。
 
 
-Since the template lives in the <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span> namespace and is itself named <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>, it becomes <b class="highlightcopy">prod/prod</b>: the production standard, ready to use for every VM.
-
-
-</span>
+このテンプレートは<span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>名前空間に存在し、それ自体が<span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>という名前であるため、prod/prodとなります。これはあらゆるVMに使用できる、本番環境の標準テンプレートです。</span>
 <div id="303" class="story">
-<span id="assignment.56" lang="en" hist="vertrex-bank">
-The trading desk's firewall team has one more demand:
-</span>
+<span id="assignment.56" lang="ja" hist="vertrex-bank">取引デスクのファイアウォールチームからもう一つ要求があります。</span>
 </div>
 
-<span id="assignment.57" lang="en" no>
-The engine must come up on a **predictable address**, not whatever DHCP hands out. In the <span id="assignment.57.1" lang="nolang" no>**Network Data**</span> field, enter:
+<span id="assignment.57" lang="ja" no>エンジンは DHCP が割り当てるアドレスではなく、**予測可能なアドレス**で起動する必要があります。<span id="assignment.57.1" lang="nolang" no>**Network Data**</span> フィールドに、次を入力します。
 
 ```yaml
 version: 2
@@ -530,103 +477,86 @@ ethernets:
         - 192.168.122.1
 ```
 
-Cloud-init applies both on first boot: <span id="assignment.57.2" lang="nolang" no><b class="highlightcopy">the-engine-01</b></span> will come online at `192.168.122.50` with zero post-deployment manual setup.
+Cloud-init は初回起動時に両方を適用します。<span id="assignment.57.2" lang="nolang" no><b class="highlightcopy">the-engine-01</b></span> はデプロイ後の手動設定を一切行うことなく、`192.168.122.50` でオンラインになります。
 
 > [!NOTE]
-> This is **cloud-init**, the same industry-standard mechanism used by every major public cloud.
-> In a real-case scenario there would be more complete automation and dedicated templates for this server's purpose.
+> これは**cloud-init**であり、あらゆる主要パブリッククラウドで使用されている業界標準の仕組みと同じものです。
+> 実際のケースでは、このサーバーの用途に応じたより完全な自動化と専用テンプレートが用意されるでしょう。
 
 
-Now we have finished the configuration please click <span id="assignment.19.3" lang="nolang" no>**Create**</span> to initialize the deployment of the Virtual Machine.
+設定が完了しましたので、<span id="assignment.19.3" lang="nolang" no>**Create**</span> をクリックして仮想マシンのデプロイを開始してください。
 
-Don't wait for it to finish booting, please proceed to the next task.
-</span>
+起動が完了するのを待たずに、次のタスクに進んでください。</span>
 
 <div id="304" class="story">
-<span id="assignment.58" lang="en" hist="vertrex-bank">
-Scheduling rules let you separate critical systems from other workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
-</span>
+<span id="assignment.58" lang="ja" hist="vertrex-bank">スケジューリングルールを使うと、重要なシステムを他のワークロードから分離できます。たとえば、トレーディングエンジンを低レイテンシーのノードに固定し、バッチジョブは残りのノードを共有させる、といった具合です。ここで「利用可能な任意のノード」としておくことが重要です。それこそが、次章でのゼロダウンタイムでの退避を可能にするものだからです。</span>
 
 </div>
 
-<span id="assignment.59" lang="en" hist="vertrex-bank">
-> [!NOTE]
-> **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.</span>
+<span id="assignment.59" lang="ja" hist="vertrex-bank">> [!NOTE]
+> **マイクロ秒がお金になるとき:** ハイフリークエンシートレーディングデスクが求めるのは、配置ルールや専用ハードウェアだけではありません。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> は、VMに**専用CPUコアを固定割り当て**したり、ハードウェアを直接パススルーしたり、**SR-IOV**を使ってハードウェア(NICとGPUの両方)を仮想化したり、データセンターGPUをハードウェアで分離された**MIGパーティション**に分割して複数のVMが1つのGPUをノイジーネイバーなしで共有できるようにしたりすることができます。物理リソースをVMに専有させることで、**予測可能で一貫性のあるレイテンシー**が得られます。この演習は教育目的のみのものであり、ハイフリークエンシートレーディングアプリケーションの構築方法を推奨するものではありません。</span>
 
-<span id="assignment.60" lang="en" no>
-> [!IMPORTANT]
-> Since this lab runs on a **nested configuration**, I/O performance is a bit slower than usual, and the provisioning process will take a few minutes. While your VM spins up, we have some entertainment lined up for you! Head over to Bonus Drills to learn how to interact with the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> API using the CLI. Everything in <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> is a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> object, which means you can manage it via the <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API through the underlying RKE2 cluster.
-> Once you're done, jump back into Task 3.
+<span id="assignment.60" lang="ja" no>> [!IMPORTANT]
+> このラボは**ネスト構成**で動作しているため、I/Oパフォーマンスは通常より少し遅く、プロビジョニングプロセスには数分かかります。VMが起動する間、皆さんを楽しませるコンテンツをご用意しました!Bonus Drillsに移動して、CLIを使って<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> APIを操作する方法を学びましょう。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>内のすべては<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>オブジェクトであるため、基盤となるRKE2クラスターを通じて<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API経由で管理できます。
+> 完了したら、Task 3に戻りましょう。
 
 🖥️ Task 3: Access the Web Console
 =================================
 
-Monitor the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.61" lang="en" no> until the virtual machine transitions to the **Running** state.
+Monitor the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.61" lang="ja" no>仮想マシンが **Running** 状態に移行するまで。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter3-vm-vnc.gif"/>
-</div>
+1. 仮想マシン行の<span id="assignment.61.1" lang="nolang" no>**Console**</span>ボタンをクリックしてVNC Webコンソールを開く
+2. この方法で接続なしでシステムにアクセスできることを確認する。**インストールの完了を待たずに次に進んでください**。
+3. コンソールウィンドウを閉じる
 
-
-1. Click the <span id="assignment.61.1" lang="nolang" no>**Console**</span> button on the virtual machine row to open the VNC web console
-2. Observe we can access the system without a connection by using this method, **don't wait for the installation to finish just move on to the next**.
-3. Close the console window
-
-
-
-🏋️ Bonus Drills: see through the abstraction (optional, for the command-line curious)
+🏋️ ボーナスドリル: 抽象化の裏側を見る(オプション、コマンドラインに興味がある方向け)
 ========================================================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise, back in the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.62" lang="en" no>, look at what the platform actually created for you:
+<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>は初めてですか?**遠慮なく読み飛ばしてください。** そうでない場合は、</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.62" lang="ja" no>、実際にプラットフォームがあなたのために何を作成したかを見てみましょう:
 
-- **The golden images are API objects too:**
+- **ゴールデンイメージもAPIオブジェクトです:**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -A
 ```
 
-- **The VM is a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> resource:**
+- **VMは<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>リソースです:**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachines -n prod
 ```
 
-- **The running instance, with its node and IP** (the same IP you used for SSH):
+- **実行中のインスタンス、そのノードとIP**(SSHで使用したものと同じIP):
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide
 ```
 
-- **The disks are ordinary <span id="assignment.62.1" lang="nolang" no>PersistentVolumeClaims</span> backed by <span id="assignment.2.8" lang="nolang" no>Longhorn</span>:**
+- **ディスクは<span id="assignment.2.8" lang="nolang" no>Longhorn</span>にバックアップされた通常の<span id="assignment.62.1" lang="nolang" no>PersistentVolumeClaims</span>です:**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod
 ```
 
-You should recognize `market-data-vol` in the list: <span id="assignment.62.2" lang="en" hist="vertrex-bank">a banking data drive, expressed as cloud-native storage</span>.
+リストの中に`market-data-vol`があることに気づくはずです: <span id="assignment.62.2" lang="ja" hist="vertrex-bank">銀行データドライブ(クラウドネイティブストレージとして表現されるもの)</span>。
 
-💼 Why does this matter?
+💼 なぜこれが重要なのか?
 ========================
 
-- **Days become minutes.** A ticket-driven, multi-team provisioning process collapsed into a two-minute self-service workflow, <span id="assignment.62.3" lang="en" hist="vertrex-bank">during a live market crisis.</span>
-- **Consistency by construction.** Golden images plus cloud-init mean every engine the quants request boots identical, configured, and ready.
-- **No stranded storage.** <span id="assignment.6.4" lang="nolang" no>Volumes</span> are carved from the shared <span id="assignment.2.8" lang="nolang" no>Longhorn</span> pool on demand.
-</span>
+- **数日が数分に変わる。** チケット駆動型の複数チームにまたがるプロビジョニングプロセスが、2分間のセルフサービスワークフローに凝縮されました。<span id="assignment.62.3" lang="ja" hist="vertrex-bank">ライブ市場危機の最中に。</span>
+- **構造による一貫性。** ゴールデンイメージとcloud-initにより、クオンツが要求するすべてのエンジンが同一の構成で起動し、すぐに使用可能になります。
+- **孤立したストレージがない。** <span id="assignment.6.4" lang="nolang" no>Volumes</span>は、共有された<span id="assignment.2.8" lang="nolang" no>Longhorn</span>プールからオンデマンドで切り出されます。</span>
 
 <div id="305" class="story">
 
-<span id="assignment.63" lang="en" hist="vertrex-bank">
-You radio back to the trading floor. *"Your engine is online and the data volume is attached."* The crisis is averted — but the day is far from over.
-</span>
+<span id="assignment.63" lang="ja" hist="vertrex-bank">無線でトレーディングフロアに連絡する。*「エンジンは稼働中で、データボリュームも接続済みだ」*。危機は回避された——しかし、この一日はまだ終わらない。</span>
 
 </div>
 
-<span id="assignment.64" lang="en" no>
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. 🌊
+<span id="assignment.64" lang="ja" no>続けるには <span id="assignment.32.1" lang="nolang" no>**Check**</span> をクリックしてください。🌊
 
-📚 More information
-===================
-</span>
+📚 詳細情報
+===================</span>
 
 - [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)

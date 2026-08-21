@@ -2,10 +2,8 @@
 slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
-title: '<span id="assignment.116" lang="en" hist="vertrex-bank">⏪ Chapter 6: The Unthinkable Error</span>'
-teaser: <span id="assignment.117" lang="en" hist="vertrex-bank">A slipped cursor just deleted a $100M settlement record. Turn back the clock
-  with VM snapshots, verify the recovery in a safe staging clone, then make protection
-  permanent with scheduled off-cluster backups.</span>
+title: '<span id="assignment.116" lang="ja" hist="vertrex-bank">⏪ 第6章:ありえないエラー</span>'
+teaser: <span id="assignment.117" lang="ja" hist="vertrex-bank">滑ったカーソルが、1億ドルの決済記録を削除してしまった。VMスナップショットで時間を巻き戻し、安全なステージング環境の複製で復旧を確認したら、定期的なオフクラスターバックアップで保護を恒久化しよう。</span>
 tabs:
 - id: lygpkmkmyndn
   title: SUSE Virtualization UI
@@ -28,12 +26,8 @@ difficulty: intermediate
 timelimit: 3600
 enhanced_loading: null
 ---
-<span id="assignment.118" lang="en" hist="vertrex-bank">
-
-⏪ Chapter 6: <span id="assignment.118.1" lang="en" no>The Unthinkable Error</span>
-===================================
-
-</span>
+<span id="assignment.118" lang="ja" hist="vertrex-bank">⏪ 第6章:<span id="assignment.118.1" lang="ja" no>考えられない誤り</span>
+===================================</span>
 
 <style type="text/css">
   * {
@@ -143,43 +137,37 @@ enhanced_loading: null
 
 <div id="601" class="story">
 
-<span id="assignment.119" lang="en" hist="vertrex-bank">
-The next morning, the exhausted silence of the night shift is abruptly broken by a muffled job coming from the junior database administrator's desk.
+<span id="assignment.119" lang="ja" hist="vertrex-bank">翌朝、夜勤の疲れ切った静寂が、若手データベース管理者のデスクからくぐもった悲鳴によって突然破られる。
 
-You and Sarah walk over immediately. The junior admin is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary <b class="highlightcopy">transaction-ledger</b> server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
+あなたとサラはすぐに駆け寄る。若手管理者は恐怖に顔をこわばらせて画面を見つめ、キーボードの上で手を震わせていた。基幹取引台帳サーバー上の古い一時ファイルを削除しようとしていたところ、カーソルが滑ってしまったのだ。誤って間違ったディレクトリに対して再帰的な削除コマンドを実行してしまった。
 
-A <b class="danger">one hundred million dollar</b> corporate transaction settlement record, finalized only moments before, has been wiped entirely from the disk.
+わずか数分前に確定したばかりの、一億ドル規模の企業間取引決済記録が、ディスクから完全に消去されてしまった。
 
-*"I destroyed it,"* the admin whispers, trembling. *"The backup tape run does not happen until midnight. The data is just gone."*
+*「僕が壊してしまった」*管理者は震えながら囁く。*「バックアップテープの実行は深夜零時までありません。データは、もう消えてしまったんです」*
 
-Sarah closes her eyes, rubbing her temples, bracing for the devastating impact this will have on the bank's stock price and reputation. But you place a steady hand on the admin's shoulder.
+サラは目を閉じ、こめかみを揉みながら、これが銀行の株価と評判に与える壊滅的な打撃を覚悟する。しかし、あなたは管理者の肩に落ち着いた手を置く。
 
-*"The data isn't gone,"* you say calmly. *"Our new storage architecture relies on distributed block-level snapshots. I took a baseline state capture right before the morning shift started."*
+*「データは消えていない」*あなたは冷静に言う。*「うちの新しいストレージアーキテクチャは、分散ブロックレベルのスナップショットに基づいている。朝のシフトが始まる直前に、ベースラインの状態キャプチャを取得しておいた」*
 
-You step up to his terminal. It is time to turn back the clock. But you must be careful: you want to **verify the restored data in a safe sandbox before overwriting production**.
-</span>
+あなたは彼の端末に歩み寄る。時計の針を巻き戻す時が来た。だが、慎重を期さねばならない。**復元したデータは、本番環境に上書きする前に、安全なサンドボックスで検証する**必要がある。</span>
 
 </div>
 
-<span id="assignment.120" lang="en" no>
-<div class="missionbox">
+<span id="assignment.120" lang="ja" no>## 🎯 あなたのクエストの目標
 
-## 🎯 Your Quest Objectives
+1. レコードの作成と削除をシミュレートする
+2. スナップショットからステージング環境をクローンする
+3. ステージングサンドボックスでデータを確認する
+4. 本番システムを復元する
+5. <span id="assignment.120.1" lang="nolang" hist="vertrex-bank">bank's off-cluster backup vault</span>を接続する
+6. バックアップのスケジュールを設定する
 
-1. Simulate the creation and destruction of the record
-2. Clone a staging environment from the snapshot
-3. Verify the data in the staging sandbox
-4. Restore the production system
-5. Connect the <span id="assignment.120.1" lang="nolang" hist="vertrex-bank">bank's off-cluster backup vault</span>
-6. Put backups on a schedule
 
-</div>
 
-🔐 Login Credentials
+🔐 ログイン認証情報
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI と **Rancher Prime** UI は同じ認証情報を使用します。</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -203,33 +191,29 @@ admin
 
 
 
-<span id="assignment.121" lang="en" no>
-💥 Task 1: Simulate the creation and destruction of the record
+<span id="assignment.121" lang="ja" no>💥 タスク1：レコードの作成と削除をシミュレートする
 ==============================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video1.gif"/>
-</div>
 
-You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
+  
 
-In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.122" lang="en" no>, log into the virtual machine (it may take a couple of minutes until the VM starts):
+
+今朝の出来事を自分自身で再現し、スナップショットが何を保護しているのかを正確に理解します。
+
+In the</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.122" lang="ja" no>仮想マシンにログインします(VMが起動するまで数分かかる場合があります):
 
 ```bash,wrap,run
 while [[ "${IPA}" ==  "" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'|grep -v ':'`; sleep 5; echo -n '.'; done ; while [[ "$?" != "0" ]] ; do ssh -T -o StrictHostKeyChecking=accept-new sles@${IPA} 2>/dev/null ; sleep 5; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}
 
 ```
 
-Generate the highly sensitive transaction record onto the disk by typing exactly this:
+次のコマンドを正確に入力して、非常に機密性の高い取引記録をディスク上に生成します:
 
 ```bash,wrap,run
 echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/ledger.txt
 ```
 
-**Now capture the baseline.** Switch to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.123" lang="en" no>:
-
-1. Navigate to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>, then locate the following VM and click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> button next to it:
-</span>
+**では、ベースラインを取得しましょう。** 次に切り替えます</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.123" lang="ja" no>1. <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>に移動し、次のVMを見つけて、その横にあるボタンをクリックします。</span>
 
 <div class="cred">
 
@@ -238,10 +222,8 @@ core-services
 ```
 
 </div>
-<span id="assignment.124" lang="en" no>
-2. Click on <span id="assignment.124.1" lang="nolang" no>**Take Virtual Machine Snapshot**</span>
-3. Name it:
-</span>
+<span id="assignment.124" lang="ja" no>2. <span id="assignment.124.1" lang="nolang" no>**Take Virtual Machine Snapshot**</span>をクリックします
+3. 次のように名前を付けます:</span>
 
 <div class="cred">
 
@@ -251,44 +233,29 @@ pre-disaster-backup
 
 </div>
 
-<span id="assignment.125" lang="en" no>
-4. Click on <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.125" lang="ja" no>4. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします
 
-5. Navigate to <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>, then click on <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span> and wait for one we just created to have the state <span id="assignment.125.3" lang="nolang" no>**Ready**</span>: the rollback point is set
-
-
-Return to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.126" lang="en" no> and simulate the junior admin's terrible mistake:
-
-```bash,run
-rm -f /home/sles/ledger.txt
-```
-
-One hundred million dollars, gone from the disk. Leave the VM console:
+5. <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>に移動し、次に<span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>をクリックして、先ほど作成したものの状態が<span id="assignment.125.3" lang="nolang" no>**Ready**</span>になるまで待ちます。これでロールバックポイントが設定されます</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.126" lang="ja" no>百万ドル、ディスクから消えました。VMコンソールを終了します。
 
 ```bash,run
 exit
 ```
 
 
-🧪 Task 2: Clone a staging environment from the snapshot
+🧪 タスク2: スナップショットからステージング環境をクローンする
 ========================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video2.gif"/>
-</div>
 
-Instead of immediately restoring production, you will build a **clone** to verify the data first, non-destructive recovery is always advised.
+  
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.127" lang="en" no>.
 
-1. Navigate to <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>, then click on <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>
+すぐに本番環境を復元するのではなく、まず**クローン**を作成してデータを確認します。非破壊的な復旧は常に推奨されます。</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.127" lang="ja" no>1. <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>に移動し、<span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>をクリックします
 
-2. Click on <span id="assignment.127.1" lang="nolang" no>**pre-disaster-backup**</span> snapshot:
+2. <span id="assignment.127.1" lang="nolang" no>**pre-disaster-backup**</span>のスナップショットをクリックします
 
-3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> next to it and select <span id="assignment.127.2" lang="nolang" no>**Restore New**</span>
+3. その横の を クリックし、<span id="assignment.127.2" lang="nolang" no>**Restore New**</span>を選択します
 
-4. Name the new virtual machine:
-</span>
+4. 新しい仮想マシンに名前を付けます:</span>
 
 
 <div class="cred">
@@ -300,28 +267,22 @@ core-services-staging-verify
 </div>
 
 
-<span id="assignment.128" lang="en" no>
-5. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.128" lang="ja" no>5. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします
 
 
 > [!Note]
-> Due to the hardware used in this lab this process will take longer than in normal conditions please continue to the next task.
+> このラボで使用しているハードウェアの都合上、この処理には通常より時間がかかります。次のタスクに進んでください。
 
 
 
-🏦 Task 3: Connect the off-cluster backup vault
+🏦 タスク3：クラスタ外バックアップボールトを接続する
 ======================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video3.gif"/>
-</div>
 
-Snapshots saved us this morning, but snapshots live on the **same cluster** as the workload. They protect against fat fingers, but not against physical damage or cyber attacks. For real disaster recovery we operate an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
+  
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.129" lang="en" no>:
 
-1. Go to <span id="assignment.129.1" lang="nolang" no>**Advanced > Settings**</span> and locate:
-</span>
+今朝はスナップショットが助けになりましたが、スナップショットはワークロードと**同じクラスタ**上に存在します。うっかり操作からは保護されますが、物理的な損傷やサイバー攻撃からは保護されません。真の災害復旧のためには、クラスタ外の**バックアップボールト**を運用します。これは別のストレージシステム上にあるNFS共有です。それでは接続してみましょう。</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.129" lang="ja" no>1. <span id="assignment.129.1" lang="nolang" no>**Advanced > Settings**</span>に移動し、以下を確認します。</span>
 
 <div class="cred">
 
@@ -330,12 +291,10 @@ backup-target
 ```
 
 </div>
-<span id="assignment.130" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.130.1" lang="nolang" no>**Edit Setting**</span>, add the following:
+<span id="assignment.130" lang="ja" no>2. その行の  をクリックし、<span id="assignment.130.1" lang="nolang" no>**Edit Setting**</span>を選択し、以下を追加します。
 
 - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <span id="assignment.130.2" lang="nolang" no><b class="highlightcopy">NFS</b></span>
-- <span id="assignment.130.3" lang="nolang" no>**Endpoint**</span>:
-</span>
+- <span id="assignment.130.3" lang="nolang" no>**Endpoint**</span>:</span>
 
 <div class="cred">
 
@@ -345,42 +304,27 @@ backup-target
 
 </div>
 
-<span id="assignment.131" lang="en" no>
-3. Click <span id="assignment.114.7" lang="nolang" no>**Save**</span>
+<span id="assignment.131" lang="ja" no>3. <span id="assignment.114.7" lang="nolang" no>**Save**</span>をクリック
 
-The cluster can now ship complete VM backups off the cluster, the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production deployment this would point to a physically separated facility.
+これでクラスターはVMの完全なバックアップをクラスター外に送信できるようになりました。真夜中のテープ交換作業の現代版、ただし真夜中抜きです。**S3**バケットはエンドポイントとして問題なく機能します。本番環境では、物理的に離れた施設を指定することになるでしょう。
 
 
-⏰ Task 4: Put backups on a schedule
-====================================
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video4.gif"/>
-</div>
-</span>
+⏰ タスク4：バックアップのスケジュール設定
+====================================</span>
 
 <div id="602" class="story">
-<span id="assignment.132" lang="en" hist="vertrex-bank">
-Ad-hoc snapshots can the day once; policy keeps the bank safe every day after.
-</span>
+<span id="assignment.132" lang="ja" hist="vertrex-bank">アドホックスナップショットはその日を一度だけ守れるが、ポリシーは毎日確実にバンクを安全に保つ。</span>
 </div>
 
-<span id="assignment.133" lang="en" no>
-Put <b class="highlightcopy">core-services</b> itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
-
-
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.134" lang="en" no>:
-
-1. Go to <span id="assignment.134.1" lang="nolang" no>**Backup & Snapshot > Virtual Machine Schedules**</span> and click <span id="assignment.134.2" lang="nolang" no>**Create schedule**</span>
-2. Set the following details:
+<span id="assignment.133" lang="ja" no>core-services自体を自動バックアップスケジュールの対象にし、二度と誰も手動で行うことを覚えておく必要がないようにしましょう。</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.134" lang="ja" no>1. <span id="assignment.134.1" lang="nolang" no>**Backup & Snapshot > Virtual Machine Schedules**</span>に移動し、<span id="assignment.134.2" lang="nolang" no>**Create schedule**</span>をクリックします
+2. 次の詳細を設定します:
 
   - <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>
   - <span id="assignment.134.3" lang="nolang" no>**Virtual Machine Name**</span>: <span id="assignment.134.4" lang="nolang" no><b class="highlightcopy">core-services</b></span>
   - <span id="assignment.134.5" lang="nolang" no>**Basics**</span>:
-    - <span id="assignment.134.6" lang="nolang" no>**Retain:**</span> <b class="highlightcopy">5</b>
-    - <span id="assignment.134.7" lang="nolang" no>**Max Failure:**</span> <b class="highlightcopy">2</b>
-    - <span id="assignment.134.8" lang="nolang" no>**Cron Schedule:**</span> (at minute 00, every 5 hours)
-</span>
+    - <span id="assignment.134.6" lang="nolang" no>**Retain:**</span> 5
+    - <span id="assignment.134.7" lang="nolang" no>**Max Failure:**</span> 2
+    - <span id="assignment.134.8" lang="nolang" no>**Cron Schedule:**</span>(0分、5時間ごと)</span>
 
 <div class="cred">
 
@@ -391,34 +335,30 @@ In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) 
 </div>
 
 
-<span id="assignment.135" lang="en" no>
-4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.135" lang="ja" no>4. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします
 
-From now on the platform backs the VM up to the NFS vault every five hours, keeps the five most recent copies, and pauses the schedule if two consecutive runs fail. Set once, protected forever.
-
+これ以降、プラットフォームは5時間ごとにVMをNFSボールトにバックアップし、直近5件のコピーを保持し、2回連続で失敗した場合はスケジュールを一時停止します。一度設定すれば、永続的に保護されます。
 
 
-🔍 Task 5: Verify the data in the staging sandbox
+
+🔍 タスク5: ステージングサンドボックスのデータを検証する
 =================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video5.gif"/>
-</div>
 
-Now that <b class="highlightcopy">core-services-staging-verify</b> is up and running, let's verify the file is there.
+  
 
-This time we will use the graphical console, since the VM has no network.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.136" lang="en" no>:
+core-services-staging-verifyが起動して実行中になったので、ファイルが存在することを確認しましょう。
 
-1. Go to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>
-2. Click <span id="assignment.61.1" lang="nolang" no>**Console**</span> drop-down and select <span id="assignment.136.1" lang="nolang" no>**Open in WebVNC**</span>, a new window will appear with the terminal, feel free to resize it.
-3. Login using the following credentials:
+今回は、VMにネットワークがないため、グラフィカルコンソールを使用します。
+
+その中で</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.136" lang="ja" no>1. <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>に移動します
+2. <span id="assignment.61.1" lang="nolang" no>**Console**</span>ドロップダウンをクリックして<span id="assignment.136.1" lang="nolang" no>**Open in WebVNC**</span>を選択すると、ターミナルを含む新しいウィンドウが表示されます。サイズは自由に変更できます。
+3. 以下の認証情報でログインします:
    - <span id="assignment.136.2" lang="nolang" no>**username**</span>: 'sles'
    - <span id="assignment.136.3" lang="nolang" no>**password**</span>: '1234'
 
-4. Once inside run the following command:
-</span>
+4. 中に入ったら、以下のコマンドを実行します:</span>
 
 
 <div class="cred">
@@ -429,70 +369,68 @@ cat /home/sles/ledger.txt
 
 </div>
 
-<span id="assignment.137" lang="en" no>
-5. It should return:
+<span id="assignment.137" lang="ja" no>5. 次のように返されるはずです:
 
 **CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED**
 
 
-The text prints flawlessly. <span id="assignment.137.1" lang="en" hist="vertrex-bank">**The data is safe.**</span>
+テキストが完璧に表示されます。<span id="assignment.137.1" lang="ja" hist="vertrex-bank">データは安全です。</span>
 
 
-Now let's delete the clone we no longer need.
+それでは、不要になったクローンを削除しましょう。
 
-1. Close the window with the console.
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on **core-services-staging-verify** row and select <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, and again <span id="assignment.137.2" lang="nolang" no>**Delete**</span>.
+1. コンソールのウィンドウを閉じます。
+2. **core-services-staging-verify** 行の  をクリックし、<span id="assignment.137.2" lang="nolang" no>**Delete**</span>を選択し、もう一度<span id="assignment.137.2" lang="nolang" no>**Delete**</span>を選択します。
 
 
 
-♻️ Task 6: Restore the production system
+♻️ タスク6: 本番システムを復元する
 =========================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video6.gif"/>
-</div>
 
-Now that you have verified the snapshot's integrity, proceed to restore the production system:
-
-1. Go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>**
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on **core-services** row and select <span id="assignment.137.3" lang="nolang" no>**Stop**</span>, and again <span id="assignment.74.2" lang="nolang" no>**Apply**</span>.
-3. Once it has completely stopped, navigate to <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>, then click on <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>
-
-4. Click on **pre-disaster-backup** snapshot:
-
-5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> next to it and select <span id="assignment.137.4" lang="nolang" no>**Replace Existing**</span>
-
-6. Click on <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-
-The VM will power itself back up because that is what the run strategy defines.
-
-Optionally, SSH back and `cat` the file one last time, then logout of the VM. <span id="assignment.137.5" lang="en" hist="vertrex-bank">The record is back where it belongs.</span>
+  
 
 
-🏋️ Bonus Drills: see the machinery behind the safety net (optional)
+スナップショットの整合性を確認したので、本番システムの復元に進みます:
+
+1. **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>**に移動します
+2. **core-services** 行の  をクリックし、<span id="assignment.137.3" lang="nolang" no>**Stop**</span>を選択し、もう一度<span id="assignment.74.2" lang="nolang" no>**Apply**</span>を選択します。
+3. 完全に停止したら、<span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>に移動し、<span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>をクリックします
+
+4. **pre-disaster-backup** スナップショットをクリックします:
+
+5. その隣の をクリックし、<span id="assignment.137.4" lang="nolang" no>**Replace Existing**</span>を選択します
+
+6. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします
+
+VMは自動的に起動します。これは実行戦略で定義されているためです。
+
+必要であれば、SSHで再接続してファイルをもう一度 `cat` し、VMからログアウトしてください。<span id="assignment.137.5" lang="ja" hist="vertrex-bank">記録は元あるべき場所に戻った。</span>
+
+
+🏋️ ボーナスドリル: セーフティネットの仕組みを見る(任意)
 ======================================================================
 
-- **For the command-line curious:** each VM snapshot is built from volume-level snapshots, and every one of them is an API object, as is your new backup schedule:
+- **コマンドラインに興味がある方へ:** 各VMスナップショットはボリュームレベルのスナップショットから構築されており、それぞれがAPIオブジェクトです。新しいバックアップスケジュールも同様です:
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
 ```
 
 > [!NOTE]
-> Make sure you logout of the VM before running this commands.
+> このコマンドを実行する前に、必ずVMからログアウトしてください。
 
 
-💼 Why does this matter?
+💼 なぜこれが重要なのか?
 ==============================================
 
-- **Human error stops being catastrophic.** Recovery went from "wait for midnight tapes and pray" to a five-minute, self-service rollback.
-- **Verify before you overwrite.** Restoring to a clone means you never gamble production on an unverified backup, a pattern your auditors and your junior admins will both sleep better with.
-- **Protection is now policy, not heroics.** An off-cluster NFS backup vault and a five-hourly backup schedule mean the safety net runs itself from here on.
+- **人的ミスが致命的でなくなります。** 復旧は「深夜のテープを待って祈る」から、5分間のセルフサービスによるロールバックへと変わりました。
+- **上書きする前に検証する。** クローンに復元するということは、未検証のバックアップに本番環境を賭けることが決してないということです。これは監査担当者にも新米管理者にも安心してもらえるパターンです。
+- **保護は今や英雄的行為ではなく、方針です。** クラスタ外のNFSバックアップボールトと5時間ごとのバックアップスケジュールにより、これ以降セーフティネットは自動的に機能します。
 
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. 🤠
+続けるには<span id="assignment.32.1" lang="nolang" no>**Check**</span>をクリックしてください。🤠
 
-📚 More information
-===================
-</span>
+📚 詳細情報
+===================</span>
 
 - [Virtual Machine Backup and Restore](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)

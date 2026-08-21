@@ -2,10 +2,8 @@
 slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
-title: "<span id="assignment.138" lang="en" no>\U0001F920 Chapter 7: The Stampede</span>"
-teaser: <span id="assignment.139" lang="en" hist="vertrex-bank">The markets are in freefall and the quants need the calculation fleet scaled
-  from three nodes to five, now. Forge a golden VM template and stamp out identical
-  machines on demand.</span>
+title: "<span id="assignment.138" lang="ja" no>🐤 第7章:スタンピード</span>"
+teaser: <span id="assignment.139" lang="ja" hist="vertrex-bank">市場は暴落しており、クオンツは計算用フリートを3ノードから5ノードへ今すぐスケールする必要がある。ゴールデンVMテンプレートを作成し、必要に応じて同一のマシンを量産せよ。</span>
 tabs:
 - id: xxc2ymjtxzih
   title: SUSE Virtualization UI
@@ -28,11 +26,8 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.140" lang="en" no>
-
-🤠 Chapter 7: The Stampede
-===========================
-</span>
+<span id="assignment.140" lang="ja" no>🤠 第7章:大暴走
+===========================</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -140,35 +135,32 @@ enhanced_loading: null
 
 <div id="701" class="story">
 
-<span id="assignment.141" lang="en" hist="vertrex-bank">
-A sudden, aggressive shift in global interest rates sends the financial markets into a chaotic frenzy. <b class="bank">Vertex Trust Bank</b>'s risk analysis algorithms are screaming for more compute capacity to process the incoming flood of volatile market data.
+<span id="assignment.141" lang="ja" hist="vertrex-bank">突然の、激しい世界的な金利変動が金融市場を大混乱に陥れる。ヴァーテックス・トラスト銀行のリスク分析アルゴリズムは、押し寄せる不安定な市場データを処理するために、さらなる計算能力を求めて悲鳴を上げている。
 
-*"One calculation engine is not enough anymore!"* the **Head of Quant** shouts across the room, waving a printed report. *"I need a fleet of <span class="danger">five identical engines immediately</span>, or we fly blind into this market crash!"*
+*「計算エンジンが一台だけではもう足りない!」* **クオンツ部門長**が印刷されたレポートを振りかざしながら、部屋の向こうから叫ぶ。*「今すぐ同一構成のエンジンを5台用意してくれ、さもないとこの市場暴落の中を計器なしで飛ぶことになる!」*
 
-Building five machines by hand, one screen at a time, invites exactly what you cannot afford right now: a mistyped memory size here, a forgotten network there. Configuration drift under pressure — and right now, human error costs millions of dollars **per second**.
+5台のマシンを手作業で、一画面ずつ構築することは、今まさに避けなければならない事態を招く。ここでのメモリサイズの入力ミス、あそこでのネットワークの設定漏れ。プレッシャーの中での構成のズレ——そして今、ヒューマンエラーは**1秒ごとに**数百万ドルの損失を生む。
 
-You crack your knuckles. What the bank needs is a **golden blueprint**: define the perfect machine once, then stamp out identical copies on demand.
-</span>
+あなたは指の関節を鳴らす。銀行が必要としているのは**黄金の設計図**だ。完璧なマシンを一度定義すれば、あとは要求に応じて同一のコピーを量産できる。</span>
 
 </div>
 
-<span id="assignment.142" lang="en" no><b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> has exactly that: **VM Templates**. A template captures CPU, memory, disks, networks, and cloud-init in a single versioned object. Combined with **multi-instance creation**, one blueprint becomes an entire fleet in a single click.
+<span id="assignment.142" lang="ja" no><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>には、まさにそれがあります: **VMテンプレート**。テンプレートは、CPU、メモリ、ディスク、ネットワーク、cloud-initを単一のバージョン管理されたオブジェクトにキャプチャします。**マルチインスタンス作成**と組み合わせることで、1つの設計図がワンクリックで完全なフリートになります。
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Forge the golden template
-2. Scale the fleet under pressure
-3. Stand the fleet down
+## 🎯 クエストの目標
 
-</div>
+1. 黄金のテンプレートを鍛える
+2. プレッシャーの中でフリートをスケールする
+3. フリートを停止する
 
-🔐 Login Credentials
+
+
+🔐 ログイン認証情報
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span>のUIと**Rancher Prime**のUIは、同じ認証情報を使用します。</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -192,19 +184,18 @@ admin
 
 
 
-<span id="assignment.143" lang="en" no>📜 Task 1: Forge the golden template
+<span id="assignment.143" lang="ja" no>📜 タスク1：ゴールデンテンプレートを作成する
 ====================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-prod-vm-template.gif"/>
-</div>
 
-You need a template that speeds up the deployment of virtual machines and standardizes them.
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.144" lang="en" no> navigate to <span id="assignment.144.1" lang="nolang" no>**Advanced > Templates**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.144.2" lang="nolang" no>**Template Name**</span>:
-</span>
+
+仮想マシンのデプロイを高速化し、標準化するためのテンプレートが必要です。
+In</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.144" lang="ja" no><span id="assignment.144.1" lang="nolang" no>**Advanced > Templates**</span>に移動し、<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックしてから、以下の詳細を入力します。
+
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.144.2" lang="nolang" no>**Template Name**</span>:</span>
 
 <div class="cred">
 
@@ -214,34 +205,32 @@ prod-basic
 
 </div>
 
-<span id="assignment.145" lang="en" no>
-We need to minimize resource usage, and all the VMs should be reachable using the production SSH key, which is securely guarded.
+<span id="assignment.145" lang="ja" no>リソース使用量を最小限に抑える必要があり、すべてのVMは厳重に保護された本番SSHキーを使ってアクセスできる必要があります。
 
-- Basics:
-  - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: <b class="highlightcopy">1</b>
-  - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: <b class="highlightcopy">1</b>
-  - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: <b class="highlightcopy">prod/default</b>
+- 基本設定:
+  - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: 1
+  - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: 1
+  - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
 
-Our default base OS is SLES 16.
+デフォルトのベースOSはSLES 16です。
 
 - <span id="assignment.6.4" lang="nolang" no>Volumes</span>:
-  - <span id="assignment.45.2" lang="nolang" no>**Image**</span>: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
-  - <span id="assignment.45.3" lang="nolang" no>**Size**</span>: <b class="highlightcopy">5</b>
+  - <span id="assignment.45.2" lang="nolang" no>**Image**</span>: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2
+  - <span id="assignment.45.3" lang="nolang" no>**Size**</span>: 5
 
-We want production servers to offer their services on the production service network.
+本番サーバーには、本番サービスネットワーク上でサービスを提供させたいと考えています。
 
 - <span id="assignment.49.1" lang="nolang" no>Networks</span>:
-  - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <b class="highlightcopy">prod/service</b>
+  - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: prod/service
 
-All production VMs should run only on production-ready hosts.
+すべての本番VMは、本番運用可能なホスト上でのみ稼働させる必要があります。
 
 - <span id="assignment.51.1" lang="nolang" no>Node Scheduling</span>:
-  1. Select <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
-  2. Click <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>, then <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
+  1. <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span> を選択します
+  2. <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span> をクリックし、続いて <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
 
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 
 <div class="cred">
 
@@ -251,9 +240,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="en" no>
-- **Value**:
-</span>
+<span id="assignment.52" lang="ja" no>- **値**:</span>
 
 <div class="cred">
 
@@ -264,15 +251,13 @@ prod
 </div>
 
 
-<span id="assignment.146" lang="en" no>
-We want the VMs to be properly labeled:
+<span id="assignment.146" lang="ja" no>VMのラベルを適切に設定します:
 
 - <span id="assignment.53.1" lang="nolang" no>Labels</span>:
-  - Click <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
+  - クリック <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
 
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -281,9 +266,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="en" no>
-- **Value**:
-</span>
+<span id="assignment.52" lang="ja" no>- **値**:</span>
 <div class="cred">
 
 ```txt
@@ -293,36 +276,34 @@ prod
 </div>
 
 
-<span id="assignment.147" lang="en" no>
-Finally, we want all production machines standardized on a set of packages and settings:
+<span id="assignment.147" lang="ja" no>最終的に、すべての本番マシンをパッケージと設定の統一セットに標準化したいと考えています。
 
 - <span id="assignment.54.1" lang="nolang" no>Advanced Options</span>:
-  - <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>: <b class="highlightcopy">prod/prod</b>
+  - <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>: prod/prod
 
-To finalize, click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
+完了するには、<span id="assignment.19.3" lang="nolang" no>**Create**</span> をクリックします。
 
-Can you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency, and inconsistency makes further automation even more difficult.
+これらすべての詳細を毎回入力することを想像できますか？ 誰もが諦めてしまい、環境には一貫性のなさが蔓延し、その一貫性のなさがさらなる自動化をより困難にしてしまうでしょう。
 
 
 > [!NOTE]
-> Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage: a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
+> テンプレートは**バージョン管理**されています。後でテンプレートを編集すると、新しいバージョンが作成されますが、古いバージョンから構築されたマシンはその系統を保持します。つまり、どのブループリントから何がデプロイされたかの完全な監査証跡が残り、規制当局もこれを歓迎するでしょう。
 
 
-📈 Task 2: Scale the fleet under pressure
+📈 タスク2：負荷下でのフリート拡張
 =========================================
 
-Because the template already exists, deploying multiple servers takes just a few clicks.
+テンプレートがすでに存在するため、複数のサーバーをデプロイするのはほんの数クリックで済みます。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-fleet-vms.gif"/>
-</div>
 
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.148" lang="en" no> go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-1. Select <span id="assignment.148.1" lang="nolang" no>**Multiple Instance**</span>
-2. Set the <span id="assignment.39.3" lang="nolang" no>**Namespace**</span> to <b class="highlightcopy">prod</b>
-3. Set the <span id="assignment.148.2" lang="nolang" no>**Name Prefix**</span> to:
-</span>
+
+In</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.148" lang="ja" no>**<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** に移動し、<span id="assignment.19.3" lang="nolang" no>**Create**</span> をクリックして、以下の詳細を入力します。
+
+1. <span id="assignment.148.1" lang="nolang" no>**Multiple Instance**</span> を選択します
+2. <span id="assignment.39.3" lang="nolang" no>**Namespace**</span> を prod に設定します
+3. <span id="assignment.148.2" lang="nolang" no>**Name Prefix**</span> を次のように設定します。</span>
 
 <div class="cred">
 
@@ -333,74 +314,56 @@ appcluster
 </div>
 
 
-<span id="assignment.149" lang="en" no>
-4. Set the <span id="assignment.149.1" lang="nolang" no>**Count**</span> to <b class="highlightcopy">2</b>
-5. Tick <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span> and set the <span id="assignment.149.3" lang="nolang" no>**Template**</span> to <b class="highlightcopy">prod/prod-basic</b>
-6. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-</span>
+<span id="assignment.149" lang="ja" no>4. <span id="assignment.149.1" lang="nolang" no>**Count**</span>を2に設定します
+5. <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span>にチェックを入れ、<span id="assignment.149.3" lang="nolang" no>**Template**</span>をprod/prod-basicに設定します
+6. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします</span>
 
 
 
 
 <div id="702" class="story">
 
-<span id="assignment.150" lang="en" hist="vertrex-bank">
-The risk analysis team begins feeding data into the expanded fleet, stabilizing the bank's market position just in time.
-</span>
+<span id="assignment.150" lang="ja" hist="vertrex-bank">リスク分析チームは拡大した艦隊にデータを投入し始め、間一髪のところで銀行の市場での地位を安定させた。</span>
 
 </div>
 
 
-<span id="assignment.151" lang="en" no>🧹 Task 3: Stand the fleet down
-===============================
-</span>
+<span id="assignment.151" lang="ja" no>🧹タスク3:艦隊を停止する
+===============================</span>
 
 <div id="703" class="story">
 
-<span id="assignment.152" lang="en" hist="vertrex-bank">
-The market surge subsides. The virtual machines sit idle, waiting for the next wave — but will it come today? Tomorrow? Next month? For these noble servers, waiting is more painful than doing all the number crunching.
-</span>
+<span id="assignment.152" lang="ja" hist="vertrex-bank">市場の急騰は静まる。仮想マシンは次の波を待ちながらアイドル状態にある――だが、それは今日来るのか?明日か?それとも来月か?この高潔なサーバーたちにとって、待つことは数値計算をすべてこなすことよりも辛いのだ。</span>
 
 </div>
 
-<span id="assignment.153" lang="en" no>
-You no longer need so many virtual machines, delete them all at once (don't worry if they are still starting).
+<span id="assignment.153" lang="ja" no>もう仮想マシンはそんなに必要ありません。まだ起動中でも構わないので、すべて一度に削除してください。</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.154" lang="ja" no><span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>のセクションに移動します:
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-fleet-vms-delete.gif"/>
-</div>
-
-
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.154" lang="en" no> navigate to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> section:
-
-1. Tick the <span id="assignment.154.1" lang="nolang" no>**checkboxes**</span> next to all the new virtual machines you created
-2. Click <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, tick <span id="assignment.154.2" lang="nolang" no>**Delete All**</span>, and click <span id="assignment.154.3" lang="nolang" no>**Delete**
-</span>
-</span>
+1. 作成したすべての新しい仮想マシンの横にある<span id="assignment.154.1" lang="nolang" no>**checkboxes**</span>にチェックを入れます
+2. <span id="assignment.137.2" lang="nolang" no>**Delete**</span>をクリックし、<span id="assignment.154.2" lang="nolang" no>**Delete All**</span>にチェックを入れて、<span id="assignment.154.3" lang="nolang" no>**Delete**
+</span>をクリックします</span>
 
 <div id="704" class="story">
 
-<span id="assignment.155" lang="en" hist="vertrex-bank">
-The suffering of these noble virtual machines has stopped. You see the flames, my child? Now they rest in Valhalla.
-</span>
+<span id="assignment.155" lang="ja" hist="vertrex-bank">これら高貴な仮想マシンたちの苦しみは終わった。炎が見えるか、我が子よ。今、彼らはヴァルハラで安らいでいる。</span>
 
 </div>
 
 
 
 
-<span id="assignment.156" lang="en" no>🏋️ Bonus Drills: for the command-line curious (optional)
+<span id="assignment.156" lang="ja" no>🏋️ ボーナスドリル：コマンドラインに興味がある方へ（任意）
 ==========================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise, prove in the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="en" no> that the UI, the fleet, and the API all agree:
+<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>が初めての方は、**遠慮なく読み飛ばしてください。** そうでない方は、以下で証明してください</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="ja" no>UI、フリート、APIがすべて一致していることを確認するには：
 
-- **Inspect the template as an API object**: templates and their versions are resources too:
+- **テンプレートをAPIオブジェクトとして確認する**：テンプレートとそのバージョンもリソースです：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod
 ```
 
-- **Retrieve the template definition in yaml format**:
+- **テンプレート定義をyaml形式で取得する**：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic -o yaml > template_prod-basic.yaml
@@ -408,7 +371,7 @@ template_version_name=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virt
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get -n prod ${template_version_name} -o yaml >> template_prod-basic.yaml
 ```
 
-You can examine the file `template_prod-basic.yaml`:
+`template_prod-basic.yaml`ファイルを確認できます：
 
 
 ```bash,wrap,run
@@ -416,22 +379,21 @@ less template_prod-basic.yaml
 ```
 
 
-It contains a definition similar to the one you used to create the template in Task 2.
+これには、タスク2でテンプレートを作成する際に使用したものと似た定義が含まれています。
 
 
 
-💼 Why does this matter?
+💼 なぜこれが重要なのか？
 ==============================================
 
-- **Elasticity on owned hardware.** <span id="assignment.157.1" lang="en" hist="vertrex-bank">Cloud-style scale-out (and scale-in) on the bank's own datacenter: no data residency questions, no egress bills.</span>
-- **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle: configuration drift cannot happen at 2 AM.
-- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost, the exact opposite of the old <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> sprawl.
+- **自社ハードウェア上での弾力性。** <span id="assignment.157.1" lang="ja" hist="vertrex-bank">銀行自身のデータセンター上でのクラウド型スケールアウト(およびスケールイン)により、データレジデンシーの問題やエグレス料金の心配がありません。</span>
+- **ヒューマンエラーが設計上排除されている。** マシンはバージョン管理されたゴールデンブループリントから作成されるものであり、記憶や手作業からではありません。つまり、午前2時に構成ドリフトが発生することはあり得ません。
+- **ライフサイクル全体の経済性。** 廃棄はチェックボックスとクリックひとつで完了するため、一時的なキャパシティが恒久的なコストになることはなく、これは古い<span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>の乱立とは正反対です。
 
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⚔️
+続けるには<span id="assignment.32.1" lang="nolang" no>**Check**</span>をクリックしてください。⚔️
 
-📚 More information
-===================
-</span>
+📚 詳細情報
+===================</span>
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)

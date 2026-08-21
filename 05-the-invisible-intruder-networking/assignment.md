@@ -2,10 +2,8 @@
 slug: the-invisible-intruder-networking
 id: 6y9uhwn9zyll
 type: challenge
-title: "<span id="assignment.100" lang="en" hist="vertrex-bank">\U0001F575️ Chapter 5: The Invisible Intruder</span>"
-teaser: <span id="assignment.101" lang="en" hist="vertrex-bank">A 2 AM security alert. The public web server shares a flat network with the
-  bank's most sensitive database. Build a software-defined vault and lock the database
-  inside.</span>
+title: "<span id="assignment.100" lang="ja" hist="vertrex-bank">第5章:見えない侵入者</span>"
+teaser: <span id="assignment.101" lang="ja" hist="vertrex-bank">午前2時のセキュリティアラート。公開Webサーバーが、銀行の最重要データベースとフラットネットワークを共有している。ソフトウェア定義のボールトを構築し、データベースをその中に隔離せよ。</span>
 tabs:
 - id: 69jpoti7gjds
   title: SUSE Virtualization UI
@@ -28,12 +26,8 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.102" lang="en" hist="vertrex-bank">
-
-🕵️ Chapter 5: The Invisible Intruder
-=====================================
-
-</span>
+<span id="assignment.102" lang="ja" hist="vertrex-bank">🕵️ 第5章:見えない侵入者
+=====================================</span>
 
 <style type="text/css">
   * {
@@ -158,43 +152,39 @@ enhanced_loading: null
 
 <div id="501" class="story">
 
-<span id="assignment.103" lang="en" hist="vertrex-bank">
-It is now two in the morning. The datacenter is quiet, save for the rhythmic humming of the cooling fans. You are drinking stale coffee and reviewing the daily telemetry logs when your screen flashes <span class="danger">red</span>. A critical, high-priority alert from the Security Operations Center overrides your dashboard.
+<span id="assignment.103" lang="ja" hist="vertrex-bank">午前二時。データセンターは静まり返り、冷却ファンのリズミカルな唸り音だけが響いている。あなたは古くなったコーヒーを飲みながら日次テレメトリログを確認していると、画面が赤く点滅する。セキュリティオペレーションセンターからの重大かつ最優先のアラートが、ダッシュボードを上書きする。
 
-An automated vulnerability scan has detected a severe architectural flaw: the bank's public-facing marketing **web server** is sitting on the exact same flat network layer as the highly classified <b class="highlightcopy">insider-threat-db</b> virtual machine.
+自動脆弱性スキャンにより、深刻なアーキテクチャ上の欠陥が検出された。銀行の一般公開向けマーケティング**ウェブサーバー**が、極めて機密性の高いインサイダー脅威データベース仮想マシンとまったく同じフラットなネットワーク層に存在しているのだ。
 
-If a threat actor were to compromise the public website, they would have a direct, unimpeded lateral path straight into the bank's most sensitive internal security database. In a traditional infrastructure, fixing this would require waking up the senior network engineering team, physically re-cabling switch ports in the dark, and risking catastrophic routing loops.
+もし脅威アクターが公開ウェブサイトを侵害すれば、銀行の最も機密性の高い内部セキュリティデータベースへの直接的で無防備な横方向の経路を得ることになる。従来のインフラであれば、これを修正するにはシニアネットワークエンジニアリングチームを深夜に叩き起こし、暗闇の中で物理的にスイッチポートの配線をやり直し、壊滅的なルーティングループのリスクを冒す必要があっただろう。
 
-You don't need physical cables. You have the power of **software-defined networking** at your fingertips. You must construct an impenetrable digital vault and lock the database inside it — before an intrusion can occur.
-</span>
+物理ケーブルは不要だ。あなたの手の中には**ソフトウェア定義ネットワーキング**の力がある。侵入が発生する前に、難攻不落のデジタル金庫を構築し、データベースをその中に封じ込めなければならない。</span>
 
 </div>
 
-<span id="assignment.104" lang="en" no>
-## <b class="hovereffect">Two layers of software-defined networking</b>
+<span id="assignment.104" lang="ja" no>## 2 種類のソフトウェア定義ネットワーキング
 
-<b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN, capabilities the bank used to pay a separate closed-source SDN license for:
+<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> は、古典的な VLAN セグメンテーションからエンタープライズ SDN まで、その全領域をカバーします。これは銀行がかつて別途クローズドソースの SDN ライセンス費用を払っていた機能です。
 
-| Layer | Technology | Use tonight |
+| レイヤー | 技術 | 今夜使うもの |
 |-------|-----------|-------------|
-| L2 / VLAN bridging | **<span id="assignment.2.14" lang="nolang" no>Multus</span>** | The vault VLAN isolating the database |
-| SDN / isolated overlay zones | **<span id="assignment.2.13" lang="nolang" no>Kube-OVN</span>** | Private subnets with no external path, even overlapping CIDRs |
+| L2 / VLAN ブリッジング | **<span id="assignment.2.14" lang="nolang" no>Multus</span>** | データベースを隔離するボールト VLAN |
+| SDN / 分離オーバーレイゾーン | **<span id="assignment.2.13" lang="nolang" no>Kube-OVN</span>** | 外部への経路を持たないプライベートサブネット、CIDR が重複していても可 |
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Connect a closed-loop physical network for production
-2. Build an equally isolated SDN for development
-3. Learn how to move VMs into the new networks
+## 🎯 クエストの目標
 
-</div>
+1. 本番用のクローズドループ物理ネットワークを接続する
+2. 開発用に同等に隔離された SDN を構築する
+3. VM を新しいネットワークに移行する方法を学ぶ
 
-🔐 Login Credentials
+
+
+🔐 ログイン認証情報
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.
-  </span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI と <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI は同じ認証情報を使用します。</span>
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
 
@@ -218,33 +208,15 @@ admin
 
 
 
-<span id="assignment.106" lang="en" no>
-🧱 Task 1: Connect a closed loop physical network
+<span id="assignment.106" lang="ja" no>🧱 タスク1: 閉ループ物理ネットワークを接続する
 =================================================
 
-Our team has set up the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> nodes with an extra dedicated NIC that is connected in a physically closed loop. Let's use it for our most precious traffic and create an isolated production network.
+私たちのチームは、物理的に閉ループで接続された専用の追加NICを備えた<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>ノードを構築しました。この最も重要なトラフィックのためにこれを使用し、分離された本番ネットワークを作成しましょう。
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.107" lang="en" no>, navigate to <span id="assignment.107.1" lang="nolang" no>**Networks**</span> in the left menu, then select <span id="assignment.107.2" lang="nolang" no>**Cluster Network Configuration**</span>:
+この中で</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.107" lang="ja" no>左メニューの<span id="assignment.107.1" lang="nolang" no>**Networks**</span>に移動し、<span id="assignment.107.2" lang="nolang" no>**Cluster Network Configuration**</span>を選択します。
 
-1. Click <span id="assignment.107.3" lang="nolang" no>**Create a Cluster Network**</span>
-2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
-
-<div class="cred">
-
-```txt
-closed-loop
-```
-
-</div>
-
-<span id="assignment.108" lang="en" no>
-3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-
-The new cluster network appears in the list. Now assign it a physical interface: click <span id="assignment.108.1" lang="nolang" no>**Create Network Configuration**</span> on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
-
-1. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+1. <span id="assignment.107.3" lang="nolang" no>**Create a Cluster Network**</span>をクリックします
+2. <span id="assignment.19.4" lang="nolang" no>**Name**</span>を次のように設定します:</span>
 
 <div class="cred">
 
@@ -254,23 +226,35 @@ closed-loop
 
 </div>
 
-<span id="assignment.109" lang="en" no>
-Notice the <span id="assignment.27" lang="nolang" no>**Node Selector**</span> section, in here we can specify where the network will be available.
+<span id="assignment.108" lang="ja" no>3. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします
 
-2. Under <span id="assignment.109.1" lang="nolang" no>**Uplink**</span>, set <span id="assignment.109.2" lang="nolang" no>**NICs**</span> to <b class="highlightcopy">ens5</b>
+一覧に新しいクラスターネットワークが表示されます。次に、物理インターフェースを割り当てます。閉ループクラスターネットワークと同じ行にある<span id="assignment.108.1" lang="nolang" no>**Create Network Configuration**</span>をクリックし、以下の詳細を入力します。
 
-3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+1. <span id="assignment.19.4" lang="nolang" no>**Name**</span>を次のように設定します。</span>
 
+<div class="cred">
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-closed-loop.gif"/>
+```txt
+closed-loop
+```
+
 </div>
 
-Now define the VM-facing network on top of it. Select <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span> to define a new secure perimeter:
+<span id="assignment.109" lang="ja" no><span id="assignment.27" lang="nolang" no>**Node Selector**</span>のセクションに注目してください。ここでネットワークを利用可能にする場所を指定できます。
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+2. <span id="assignment.109.1" lang="nolang" no>**Uplink**</span>の下で、<span id="assignment.109.2" lang="nolang" no>**NICs**</span>をens5に設定します
+
+3. <span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします
+
+
+
+  
+
+
+次に、その上にVM向けネットワークを定義します。<span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span>を選択し、<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックして新しいセキュアペリメーターを定義します:
+
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -280,35 +264,33 @@ secure-loop-prod
 
 </div>
 
-<span id="assignment.110" lang="en" no>
-- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
-  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <b class="highlightcopy">UntaggedNetwork</b>
-  - <span id="assignment.110.3" lang="nolang" no>**Cluster Network**</span>: <b class="highlightcopy">closed-loop</b>
+<span id="assignment.110" lang="ja" no>- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
+  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: UntaggedNetwork
+  - <span id="assignment.110.3" lang="nolang" no>**Cluster Network**</span>: closed-loop
 
-Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
-</div>
-
-Back in the <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> list, <b class="highlightcopy">secure-loop-prod</b> appears with <span id="assignment.110.4" lang="nolang" no>**Active**</span> status.
+<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします。
 
 
+  
 
-🔒 Task 2: Create a closed loop SDN
+
+<span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span>のリストに戻ると、secure-loop-prod が<span id="assignment.110.4" lang="nolang" no>**Active**</span>ステータスで表示されます。
+
+
+
+🔒 タスク2: クローズドループSDNの作成
 ===================================
 
-Now create the same type of isolation for the development environment. <span id="assignment.110.5" lang="en" hist="vertrex-bank">Adding new NICs and cabling is expensive, a development environment does not need that many dedicated resources, so this time you will use a **software-defined network**.</span>
+次に、開発環境に対して同じ種類の分離を作成します。<span id="assignment.110.5" lang="ja" hist="vertrex-bank">新しいNICの追加や配線には費用がかかります。開発環境ではそれほど多くの専用リソースは必要ないため、今回は**ソフトウェア定義ネットワーク**を使用します。</span>
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-dev.gif"/>
-</div>
 
-Go to <span id="assignment.110.6" lang="nolang" no>**Networks > Virtual Machine Networks**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+
+<span id="assignment.110.6" lang="nolang" no>**Networks > Virtual Machine Networks**</span>に移動して<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックし、以下の詳細を入力します。
+
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -318,20 +300,18 @@ secure-loop-dev
 
 </div>
 
-<span id="assignment.111" lang="en" no>
-- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
-  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <b class="highlightcopy">OverlayNetwork</b>
+<span id="assignment.111" lang="ja" no>- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
+  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: OverlayNetwork
 
-Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
+<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-vpc-dev.gif"/>
-</div>
 
-Now create the SDN subnet. Go to <span id="assignment.111.1" lang="nolang" no>**Virtual Private Cloud**</span>, and on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.111.2" lang="nolang" no>**Create Subnet**</span>, then fill in the following details:
+  
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+
+次に、SDNサブネットを作成します。<span id="assignment.111.1" lang="nolang" no>**Virtual Private Cloud**</span>に移動し、ovn-cluster仮想プライベートクラウドのタブで<span id="assignment.111.2" lang="nolang" no>**Create Subnet**</span>をクリックし、次の詳細を入力します。
+
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -341,10 +321,8 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.112" lang="en" no>
-- <span id="assignment.112.1" lang="nolang" no>Basic</span>:
-  - <span id="assignment.112.2" lang="nolang" no>**CIDR**</span>:
-</span>
+<span id="assignment.112" lang="ja" no>- <span id="assignment.112.1" lang="nolang" no>Basic</span>:
+  - <span id="assignment.112.2" lang="nolang" no>**CIDR**</span>:</span>
 
 <div class="cred">
 
@@ -354,10 +332,8 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.113" lang="en" no>
-  - <span id="assignment.113.1" lang="nolang" no>**Provider**</span>: <b class="highlightcopy">prod/secure-loop-dev</b>
-  - <span id="assignment.113.2" lang="nolang" no>**Gateway IP**</span>:
-</span>
+<span id="assignment.113" lang="ja" no>- <span id="assignment.113.1" lang="nolang" no>**Provider**</span>: prod/secure-loop-dev
+  - <span id="assignment.113.2" lang="nolang" no>**Gateway IP**</span>:</span>
 
 <div class="cred">
 
@@ -367,53 +343,52 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.114" lang="en" no>
-  - <span id="assignment.114.1" lang="nolang" no>**Dynamic Host Configuration Protocol (DHCP)**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
+<span id="assignment.114" lang="ja" no>- <span id="assignment.114.1" lang="nolang" no>**Dynamic Host Configuration Protocol (DHCP)**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
   - <span id="assignment.114.3" lang="nolang" no>**Private Subnet**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
 
-Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
+<span id="assignment.19.3" lang="nolang" no>**Create**</span>をクリックします。
 
-Now you can assign the network <b class="highlightcopy">prod/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
-
-
-If you are curious to see the topology on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.114.4" lang="nolang" no>**Topology**</span>, this is specially useful when having multiple subnets,
+これで、ネットワーク prod/secure-loop-dev を任意の VM に割り当てることができ、そのVMは同じネットワーク上の VM とのみ通信できるようになります。
 
 
-🎯 Task 3: Configure VMs with the new networks
+ovn-cluster仮想プライベートクラウドのタブでトポロジーを確認したい場合は<span id="assignment.114.4" lang="nolang" no>**Topology**</span>をクリックしてください。これは複数のサブネットがある場合に特に便利です。
+
+
+🎯 タスク3: 新しいネットワークでVMを設定する
 =====================================================
 
 
-You have two new isolated networks. Now it is time to show your peers how to attach them to a VM.
+新しく分離された2つのネットワークができました。次は、それらをVMにアタッチする方法を仲間に示す番です。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-webserver-secure-network.gif"/>
-</div>
 
-<span id="assignment.114.5" lang="en" hist="vertrex-bank">You are not making the change yourself, just walking through how it is done, for that we will choose the production server:</span>
+  
 
-Return to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> dashboard and locate the target virtual machine ( **webserver-prod** ):
 
-1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.114.6" lang="nolang" no>**Edit Config**</span>
-2. Go to the <span id="assignment.107.1" lang="nolang" no>**Networks**</span> tab
-3. Select the network <b class="highlightcopy">prod/secure-loop-prod</b> for production systems, or <b class="highlightcopy">prod/secure-loop-dev</b> for development systems
-4. Click <span id="assignment.114.7" lang="nolang" no>**Save**</span>
-5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> again and select <span id="assignment.114.8" lang="nolang" no>**Restart**</span>
+<span id="assignment.114.5" lang="ja" hist="vertrex-bank">あなたが変更を行うわけではなく、その手順を説明するだけです。そのために、本番サーバーを選択します。</span>
 
-The VM boots connected to the new network. Don't wait for it to finish.
+<span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>ダッシュボードに戻り、対象の仮想マシン(**webserver-prod**)を見つけます:
+
+1. その行の をクリックし、<span id="assignment.114.6" lang="nolang" no>**Edit Config**</span>を選択します
+2. <span id="assignment.107.1" lang="nolang" no>**Networks**</span>タブに移動します
+3. 本番システムの場合はネットワーク prod/secure-loop-prod を、開発システムの場合は prod/secure-loop-dev を選択します
+4. <span id="assignment.114.7" lang="nolang" no>**Save**</span>をクリックします
+5. 再度 をクリックし、<span id="assignment.114.8" lang="nolang" no>**Restart**</span>を選択します
+
+VMは新しいネットワークに接続された状態で起動します。完了を待つ必要はありません。
 
 
 
 > [!IMPORTANT]
-> For most cases if a VM is currently running, you must **stop it first** to activate the hardware modification.
+> ほとんどの場合、VMが現在実行中であれば、ハードウェアの変更を有効にするために**まず停止する**必要があります。
 
 
 
-🏋️ Bonus Drills: for the command-line curious (optional)
+🏋️ ボーナスドリル: コマンドライン派のための(任意)
 ==========================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely**: we have the isolated networks already created. These optional drills add an extra isolated network with pure <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> tooling.
+<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>は初めてですか?**遠慮なく読み飛ばしてください**: 分離ネットワークはすでに作成済みです。このオプションのドリルでは、純粋な<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>ツールを使って分離ネットワークをもう一つ追加します。
 
-**An extra isolated network is needed for QA: <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.115" lang="en" no>, apply a default deny-all ingress policy to the secure namespace:
+**QA用に分離されたネットワークがもう一つ必要です: <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>ネットワークポリシー。** 本番環境に移行する際にサプライズがないことを確認するため、この構成をQAで再現できる必要があります。VLAN分離の下層で、ポッドレベルで不正なトラフィックを遮断する厳格なポリシーを適用します。以下の</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.115" lang="ja" no>、セキュアな名前空間にデフォルトの全拒否ingressポリシーを適用します。
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -429,14 +404,14 @@ spec:
 EOF
 ```
 
-Confirm the policy is enforced:
+ポリシーが適用されていることを確認します。
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get networkpolicy -n prod
 ```
 
 
-Create a completely independent zone for the forensics team:
+フォレンジックチーム用に完全に独立したゾーンを作成します。
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -473,27 +448,26 @@ EOF
 ```
 
 > [!NOTE]
-> Each zone gets its own dedicated network (and therefore its own isolated logical switch), which is what makes the isolation real. <span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> still enforces one rule per VPC: no two subnets in the same VPC (`ovn-cluster`) may share a CIDR, even on different networks, which is why `forensics-zone` uses a different block. True overlapping address space between zones is possible too, it just requires a second custom VPC, out of scope for this drill.
+> それぞれのゾーンには専用のネットワーク(つまり独立した論理スイッチ)が割り当てられており、これが本当の意味での分離を実現しています。<span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> は依然としてVPCごとに1つのルールを強制します。つまり、同じVPC(`ovn-cluster`)内の2つのサブネットは、たとえ異なるネットワーク上にあっても同じCIDRを共有できません。そのため`forensics-zone`は別のブロックを使用しています。ゾーン間で本当にアドレス空間を重複させることも可能ですが、それには2つ目のカスタムVPCが必要になり、この演習の範囲外です。
 
-Verify both zones exist with `natOutgoing: false`: no path out, no path in:
+両方のゾーンが `natOutgoing: false` で存在することを確認します。外への経路も内への経路もありません。
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
 ```
 
-Two vaults, two independent private networks, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else**: micro-segmentation without a proprietary SDN license, built and torn down entirely in software.
+2つの金庫、2つの独立したプライベートネットワーク、共有パケットはゼロ。いずれかのゾーンに接続されたVMは、同じサブネット内の隣接VMとは通信できますが、**それ以外とは一切通信できません**。専有SDNライセンスなしで実現するマイクロセグメンテーション、すべてソフトウェアで構築・破棄が完結します。
 
-💼 Why does this matter?
+💼 なぜこれが重要なのか?
 ==============================================
 
-- **Segmentation at 2 AM, in software.** What used to be a re-cabling project with change-control meetings became three minutes of configuration, while the threat window was still closed.
-- **Defense-in-depth by default.** VLAN isolation at layer 2, network policies at the pod layer, and private SDN subnets: three independent walls from one platform.
-- **Compliance evidence built in.** Every network, policy, and subnet is a versionable YAML object: the security auditors get proof, not promises.
+- **深夜2時のセグメンテーションも、ソフトウェアで。** かつては変更管理会議を伴う配線のやり直しプロジェクトだったものが、脅威の窓が閉じたままわずか3分の設定作業になりました。
+- **デフォルトで多層防御。** レイヤー2のVLAN分離、ポッド層のネットワークポリシー、プライベートSDNサブネット:1つのプラットフォームから3つの独立した壁が生まれます。
+- **コンプライアンス証跡が標準装備。** すべてのネットワーク、ポリシー、サブネットはバージョン管理可能なYAMLオブジェクトです。セキュリティ監査担当者に約束ではなく証拠を提供できます。
 
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⏪
+続けるには <span id="assignment.32.1" lang="nolang" no>**Check**</span> をクリックしてください。⏪
 
-📚 More information
-===================
-</span>
+📚 詳細情報
+===================</span>
 
 - [Cluster Networking](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)

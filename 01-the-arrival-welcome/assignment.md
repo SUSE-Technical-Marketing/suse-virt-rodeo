@@ -2,20 +2,15 @@
 slug: the-arrival-welcome
 id: ermykdy1tbse
 type: challenge
-title: "<span id="assignment.7" lang="en" hist="vertrex-bank">\U0001F3E6 Chapter 1: The Arrival</span>"
-teaser: <span id="assignment.8" lang="en" hist="vertrex-bank">Vertex Trust Bank is drowning in legacy <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>
-  costs. Step into the boardroom, take command of SUSE Virtualization,
-  and inspect your new command center.</span>
+title: "<span id="assignment.7" lang="ja" hist="vertrex-bank">🏦 第1章:到着</span>"
+teaser: <span id="assignment.8" lang="ja" hist="vertrex-bank">Vertex Trust Bank はレガシー<span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>コストに溺れています。役員会議室に足を踏み入れ、SUSE Virtualization の指揮を執り、新しいコマンドセンターを点検してください。</span>
 notes:
 - type: text
   contents: |
-    <span id="assignment.1" lang="en" no>
-    # Welcome to the <span id="assignment.1.1"  lang="nolang" no>SUSE Virtualization Rodeo!</span>
+    <span id="assignment.1" lang="ja" no># <span id="assignment.1.1"  lang="nolang" no>SUSE Virtualization Rodeo!</span>へようこそ
 
-    Please wait while we prepare your lab environment.
-
-    </span><span lang="en" id="ch1.waiting1" hist="vertrex-bank">The rain is lashing against the windows of Vertex Trust Bank headquarters...
-    Sarah, the CTO, is waiting for you in the boardroom.</span>
+    ラボ環境を準備していますので、しばらくお待ちください。</span><span lang="ja" id="ch1.waiting1" hist="vertrex-bank">バーテックス・トラスト銀行本社の窓に、雨が激しく打ちつけている……
+    CTOのサラが役員会議室であなたを待っている。</span>
     <img class="logos" src="../assets/logos/suse_logo.svg"/>
 tabs:
 - id: 3veafppy6ial
@@ -40,7 +35,7 @@ timelimit: 2400
 enhanced_loading: null
 ---
 
-<span id="assignment.9" lang="en" hist="vertrex-bank">🏦 Chapter 1: The Arrival</span>
+<span id="assignment.9" lang="ja" hist="vertrex-bank">🏦 第1章:到着</span>
 ==========================
 
 <style type="text/css">
@@ -152,71 +147,65 @@ enhanced_loading: null
 
 
 <div id="101" class="story">
-<span lang="en" id="ch1.intro1" hist="vertrex-bank">
-The rain lashed against the floor-to-ceiling windows of <b class="bank">Vertex Trust Bank</b> headquarters, distorting the city skyline into a gray, watery blur. Inside the glass-walled executive boardroom, the atmosphere was equally turbulent. Sarah, the Chief Technology Officer, paced the length of the room, her eyes fixed on a massive overhead monitor projecting a sea of <b class="danger">red alerts</b> and performance warnings.
+<span lang="ja" id="ch1.intro1" hist="vertrex-bank">雨がヴァーテックス・トラスト銀行本社の床から天井まである窓に打ちつけ、街の輪郭を灰色の水っぽいぼやけた像に歪ませていた。ガラス張りの役員会議室の中も、同様に荒れた雰囲気だった。最高技術責任者のサラは部屋を端から端まで歩き回り、その目は赤いアラートとパフォーマンス警告の海を映し出す巨大な天井モニターに釘付けになっていた。
 
-She turned to you, her voice tight with exhaustion. *"We are losing precious milliseconds on every single market transaction. Our legacy <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>s are buckling under the sheer volume of modern digital banking traffic. The infrastructure is brittle, the storage arrays are constantly falling out of synchronization, and our licensing costs are bleeding our engineering budget completely dry. We cannot survive another year chained to these monolithic, antiquated systems."*
+彼女はあなたの方を振り向き、疲労で張り詰めた声で言った。*「私たちは、あらゆる市場取引で貴重なミリ秒を失い続けています。うちのレガシー<span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>は、現代のデジタルバンキングの膨大なトラフィック量に耐えきれず崩れかけています。インフラは脆弱で、ストレージアレイは絶えず同期が崩れ、ライセンス費用はエンジニアリング予算を完全に食いつぶしています。この老朽化したモノリシックなシステムに縛られたままでは、あと一年も持ちません」*
 
-You sit quietly at the end of the mahogany table, reviewing the architectural schematics she provided. As an elite **Infrastructure Architect**, you have been brought in for one specific purpose: to save <b class="bank">Vertex Trust Bank</b> from total operational gridlock. They need a bridge to the cloud-native world without rebuilding their entire application stack from scratch.
+あなたはマホガニーのテーブルの端に静かに座り、彼女が提供したアーキテクチャの図面に目を通す。エリート**インフラストラクチャ・アーキテクト**として、あなたはただ一つの目的のために招かれた——ヴァーテックス・トラスト銀行を完全な業務停止から救うことだ。彼らはアプリケーションスタック全体をゼロから作り直すことなく、クラウドネイティブの世界への橋渡しを必要としている。
 
-*"We have a plan, Sarah,"* you finally say, closing your laptop with a reassuring click. *"We are going to transition the entire datacenter to <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b>. We will bring your legacy systems into the modern era, and we will do it without missing a beat."*
-</span>
+*「サラ、私たちには計画があります」*ようやくあなたはそう言い、安心させるような音を立ててノートパソコンを閉じる。*「データセンター全体を<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>へ移行します。あなた方のレガシーシステムを現代へと導き、しかも一切の停滞なくやり遂げます」*</span>
 </div>
 
 
-<span id="assignment.2" lang=en no>
-Your journey begins right now. Before you can begin dismantling the old world, you need to establish a foothold in the new one and dig into the environment.
+<span id="assignment.2" lang=ja no>あなたの旅はまさに今始まります。古い世界を解体し始める前に、新しい世界に足場を築き、環境を深く掘り下げる必要があります。
 
 
 
-## <b class="hovereffect">What is <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>?</b>
+## <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>とは?
 
-<b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> (also known as **<span id="assignment.2.1" lang="nolang" no>Harvester</span>**) is a modern, open-source hyperconverged infrastructure (HCI) platform built on <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>. It runs directly on bare metal and gives the bank enterprise-grade **virtual machines** on a cloud-native foundation, <span id="ch1.intro2"  lang="en" hist="vertrex-bank">exactly the bridge <b class="bank">Vertex Trust Bank</b> needs</span>:
+<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>(別名**<span id="assignment.2.1" lang="nolang" no>Harvester</span>**)は、<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>上に構築されたモダンなオープンソースのハイパーコンバージドインフラストラクチャ(HCI)プラットフォームです。ベアメタル上で直接動作し、クラウドネイティブな基盤の上でエンタープライズグレードの**仮想マシン**を銀行に提供します、<span id="ch1.intro2"  lang="ja" hist="vertrex-bank">ヴァーテックス・トラスト銀行が必要としているまさにその架け橋</span>:
 
-- **<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**: enterprise virtualization as native <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> workloads. Underneath sits the same battle-hardened **<span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>** pair that has powered <span id="assignment.2.6" lang="nolang" no>Linux</span> virtualization for decades, which is why the platform can run a huge variety of guest operating systems, <span id="ch1.intro3"  lang="en" hist="vertrex-bank">including the very old ones still serving in the bank's dustiest legacy corners, patiently waiting for their migration</span>
-- **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)**: distributed, replicated block storage across every node, set up and ready out of the box. <span id="ch1.intro4"  lang="en" hist="vertrex-bank">And if the bank ever prefers different storage</span>, **any <span id="assignment.2.9" lang="nolang" no>CSI</span>-compatible storage driver plugs right in**, freedom of choice, never lock-in
-- **<span id="assignment.2.10" lang="nolang" no>Software-defined networking</span>**: VLANs and isolated overlay networks without touching a cable
-- **One open-source bill**: no per-socket <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> tax
-- **<span id="assignment.2.11" lang="nolang" no>Support</span> that actually listens**: SUSE customers consistently rate **SUSE <span id="assignment.2.11" lang="nolang" no>Support</span>** among the best in the industry, and their feedback directly shapes where the products go next. Try asking a closed-source vendor for a seat at that table
+- **<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**: ネイティブな<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>ワークロードとしてのエンタープライズ仮想化。その下には、数十年にわたり<span id="assignment.2.6" lang="nolang" no>Linux</span>仮想化を支えてきた実戦で鍛え抜かれた**<span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**の組み合わせが存在しており、それゆえにこのプラットフォームは実に多様なゲストOSを実行できます、<span id="ch1.intro3"  lang="ja" hist="vertrex-bank">古い遺産システムの片隅で今も稼働し続け、移行の日を辛抱強く待っている非常に古いものも含めて</span>
+- **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>(<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)**: すべてのノードにまたがる分散・複製型ブロックストレージで、初期状態からすぐに使える形でセットアップ済みです。<span id="ch1.intro4"  lang="ja" hist="vertrex-bank">そして、もし銀行が別のストレージを好むようになった場合は</span>、**<span id="assignment.2.9" lang="nolang" no>CSI</span>互換のストレージドライバーであればどれでもそのまま接続可能**、選択の自由があり、ロックインは一切ありません
+- **<span id="assignment.2.10" lang="nolang" no>Software-defined networking</span>**: ケーブルに一切手を触れずにVLANや隔離されたオーバーレイネットワークを構築
+- **オープンソースの請求書は一本だけ**: ソケット単位の<span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>税は不要
+- **本当に耳を傾ける<span id="assignment.2.11" lang="nolang" no>Support</span>**: SUSEの顧客は**SUSE<span id="assignment.2.11" lang="nolang" no>Support</span>**を業界最高クラスと一貫して評価しており、その声が製品の今後の方向性を直接形作っています。クローズドソースのベンダーにそのような席を求めてみるといいでしょう
 
-Because the platform runs *on* <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>, containerized workloads can run on the very same cluster. Keep the division of labor straight from day one: the <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> UI manages **virtual machines**; managing containers (and managing whole fleets of clusters) is the job of <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span>, which you will meet in a moment.
+このプラットフォームは<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>*上で*動作するため、コンテナ化されたワークロードも同じクラスタ上で実行できます。最初から役割分担をはっきりさせておきましょう。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>のUIは**仮想マシン**を管理するものであり、コンテナの管理(および複数クラスタ全体の管理)はこれから紹介する<span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span>の役目です。
 
-<span id="ch1.intro5"  lang="en" hist="vertrex-bank">Every proprietary component bleeding the bank's budget dry has a modern, open-source replacement:</span>
+<span id="ch1.intro5"  lang="ja" hist="vertrex-bank">銀行の予算を圧迫しているすべての独自コンポーネントには、モダンなオープンソースの代替製品があります。</span>
 
-| The old world (per-socket licensing) | <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
+| 旧世界(ソケット単位のライセンス) | <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
 |--------------------------------------|---------------------|
-| ISAware proprietary <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> | <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span> |
-| Proprietary storage array |  SUSE storage, or any <span id="assignment.2.9" lang="nolang" no>CSI</span> driver <span id="ch1.intro6"  lang="en" hist="vertrex-bank">the bank chooses</span> |
-| Closed-source SDN | <span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> + <span id="assignment.2.14" lang="nolang" no>Multus</span> |
+| ISAware独自の<span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> | <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span> |
+| 独自仕様のストレージアレイ | SUSEストレージ、または任意の<span id="assignment.2.9" lang="nolang" no>CSI</span>ドライバー<span id="ch1.intro6"  lang="ja" hist="vertrex-bank">銀行が選ぶ</span> |
+| クローズドソースのSDN | <span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> + <span id="assignment.2.14" lang="nolang" no>Multus</span> |
 | ISAware Command Throne | <span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span> |
 
-No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform, one bill**, <span id="ch1.intro7"  lang="en" hist="vertrex-bank">exactly what you promised Sarah in the boardroom</span>.
-
-<div class="missionbox">
-
-## 🎯 Your Quest Objectives
-
-1. Log in and inspect the unified dashboard
-2. Meet Rancher Prime, the command center!
-3. Validate the distributed storage fabric
-4. Test your administrative terminal access
-
-</div>
+ベンダーロックインなし。仮想化税なし。独自仕様のカーネルなし。**プラットフォームは一つ、請求書も一つ**、<span id="ch1.intro7"  lang="ja" hist="vertrex-bank">ボードルームでサラに約束した通りのことです</span>。
 
 
-<span id="ch1.intro8"  lang="en" hist="vertrex-bank">
-> [!NOTE]
-> Disclaimer: This lab is meant to be educational and not to provide instructions on how to configure a production environment for a 'bank', most decisions made are with the limitations and purpose of this environment.
-</span>
+
+## 🎯 クエストの目標
+
+1. ログインして統合ダッシュボードを確認する
+2. コマンドセンターであるRancher Primeと出会う!
+3. 分散ストレージ基盤を検証する
+4. 管理者用ターミナルアクセスをテストする
 
 
 
 
-🔐 Your Architect Credentials
+<span id="ch1.intro8"  lang="ja" hist="vertrex-bank">> [!NOTE]
+> 免責事項:本ラボは教育目的のものであり、「銀行」の本番環境を構築するための手順を提供するものではありません。ここで下された決定の多くは、この環境の制約と目的に基づいています。</span>
+
+
+
+
+🔐 あなたのアーキテクト認証情報
 =============================
 
-For your records, your Architect Credentials are as follows:
-</span>
+記録のため、あなたのアーキテクト認証情報は以下の通りです:</span>
 
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
@@ -240,233 +229,230 @@ admin
 </div>
 
 
-<span id="assignment.3" lang=en>
+<span id="assignment.3" lang=ja> [!NOTE]
+> UIは自己署名証明書を使用しています。表示されたらブラウザのセキュリティ警告を承諾してください。ページがすぐに読み込まれない場合、ラボ環境がまだ起動中である可能性があります。1分ほど待ってからタブを更新してください。
 
 > [!NOTE]
-> The UIs use self-signed certificates. Accept the browser security warning when it appears. If a page does not load right away, the lab environment may still be booting. Wait a minute and refresh the tab.
-
-> [!NOTE]
-> If you prefer to work in your own browser instead of the embedded tabs, the lab host is reachable directly at:
-> <a href="https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443">https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443</a>
+> 埋め込みタブではなく自分のブラウザで作業したい場合、ラボホストには以下から直接アクセスできます:
+> https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443
 
 
 
 
-📊 Task 1: Log in and inspect the unified dashboard
+📊 タスク1: ログインして統合ダッシュボードを確認する
 ===================================================
 
-Navigate to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=en> tab and log in using your credentials.
+以下に移動します</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=ja[タブ]をクリックし、認証情報を使用してログインしてください。
 
 ![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
-Take a moment to look at the main </span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=en>: this is your command center for the entire mission.
+少し時間を取って、メインの</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=ja: これはミッション全体のコマンドセンターです。
 
 
 > [!NOTE]
-> Don't make any changes yet. We are just getting familiar with the environment.
+> まだ変更は加えないでください。今は環境に慣れているところです。
 
 
-- The first section contains the overall numbers:
-  - **<span id="assignment.6.1" lang="nolang" no>Hosts</span>** the cluster is made of
-  - **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** (running and stopped)
-  - **<span id="assignment.6.3" lang="nolang" no>Images</span>** available to deploy new VMs
-  - **<span id="assignment.6.4" lang="nolang" no>Volumes</span>** in use
-  - **<span id="assignment.6.5" lang="nolang" no>Disks</span>** available
+- 最初のセクションには全体の数値が表示されています:
+  - **<span id="assignment.6.1" lang="nolang" no>Hosts</span>** クラスターの構成
+  - **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>**(実行中および停止中)
+  - **<span id="assignment.6.3" lang="nolang" no>Images</span>** 新しいVMをデプロイするために利用可能
+  - **<span id="assignment.6.4" lang="nolang" no>Volumes</span>** 使用中
+  - **<span id="assignment.6.5" lang="nolang" no>Disks</span>** 利用可能
 
-Clicking on each of them takes you to a dedicated section with further information. Click on **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**:
+それぞれをクリックすると、詳細情報を含む専用セクションに移動します。**<span id="assignment.6.1" lang="nolang" no>Hosts</span>** をクリックしてください:
 
-You see a detailed view of each host's reserved and used resources, as well as the host's IP addresses and other details.
+各ホストの予約済みリソースと使用済みリソース、ホストのIPアドレス、その他の詳細情報を確認できます。
 
-Notice the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> at the end of each row: clicking them opens a menu with different actions for that host.
+各行の末尾にある をご覧ください: これをクリックすると、そのホストに対するさまざまな操作を行うメニューが開きます。
 
-Go back to the **<span id="assignment.6.6" lang="nolang" no>Dashboard</span>** and look at what else is there:
+**<span id="assignment.6.6" lang="nolang" no>Dashboard</span>** に戻り、他に何があるか見てみましょう:
 
-- The second section, **<span id="assignment.6.7" lang="nolang" no>Capacity</span>**, lists the resources currently reserved and available in the cluster.
+- 2番目のセクション **<span id="assignment.6.7" lang="nolang" no>Capacity</span>** には、クラスター内で現在予約されているリソースと利用可能なリソースが一覧表示されます。
 
-- Below it sits a section with two tabs:
+- その下に2つのタブを持つセクションがあります:
 
-  - **<span id="assignment.6.8" lang="nolang" no>Cluster Metrics</span>**: real-time metrics about the cluster; these come in handy when troubleshooting performance issues.
+  - **<span id="assignment.6.8" lang="nolang" no>Cluster Metrics</span>**: クラスターに関するリアルタイムのメトリクス。パフォーマンスの問題をトラブルシューティングする際に役立ちます。
 
-  - **<span id="assignment.6.9" lang="nolang" no>Virtual Machine Metrics</span>**: real-time metrics for virtual machines; note that if no VM is running there is no data to show.
+  - **<span id="assignment.6.9" lang="nolang" no>Virtual Machine Metrics</span>**: 仮想マシンに関するリアルタイムのメトリクス。VMが実行されていない場合は表示するデータがないことに注意してください。
 
-- At the bottom, the last section, **<span id="assignment.6.10" lang="nolang" no>Events</span>**, shows the latest events happening in the cluster.
+- 一番下のセクション **<span id="assignment.6.10" lang="nolang" no>Events</span>** には、クラスターで発生した最新のイベントが表示されます。
 
-Now look further around the UI. At the top right there is a drop-down menu with **All Namespaces** selected. It lets you focus on specific namespaces. Namespaces here are <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> namespaces: a way to organize resources and assign dedicated permissions to everything inside them, a concept similar to a "group". At the bottom of this chapter you will find links with more information; many of the concepts you find in <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> apply directly to <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
+さらにUIの他の部分も見てみましょう。右上には **All Namespaces** が選択されたドロップダウンメニューがあります。これを使うと特定のネームスペースに絞り込むことができます。ここでのネームスペースは <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> のネームスペースです: リソースを整理し、その中のすべてのものに専用の権限を割り当てる方法で、「グループ」に似た概念です。この章の最後には詳細情報へのリンクがあります。<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> にある多くの概念は <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> に直接当てはまります。
 
-The **bell** holds notifications and alerts, and further right the **user icon** leads you to user settings and keys for automated access.
+**ベル** アイコンには通知とアラートが表示され、さらに右にある **ユーザーアイコン** からユーザー設定と自動アクセス用のキーに移動できます。
 
-On the left side there is a column with different sections. We are not going through all of them now. You will look at many in the coming chapters. Note that these sections change depending on which plugins are enabled or disabled.
+左側にはさまざまなセクションからなるカラムがあります。今はすべてを確認しませんが、今後の章で多くを見ていきます。これらのセクションは有効/無効になっているプラグインによって変わることに注意してください。
 
-Finally, in the bottom-left corner, click on **<span id="assignment.2.11" lang="nolang" no>Support</span>**.
-It takes you to a page with links to documentation and other support resources, plus two important sections:
+最後に、左下隅にある **<span id="assignment.2.11" lang="nolang" no>Support</span>** をクリックしてください。
+ドキュメントやその他のサポートリソースへのリンクがあるページと、2つの重要なセクションに移動します:
 
-- **<span id="assignment.6.11" lang="nolang" no>Generate a <span id="assignment.2.11" lang="nolang" no>Support</span> Bundle</span>**: produces a file that helps SUSE <span id="assignment.2.11" lang="nolang" no>Support</span> troubleshoot your environment without having to access it directly.
-- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**: gives you the kubeconfig file you can use to manage this cluster with kubectl and other tools from a console.
+- **<span id="assignment.6.11" lang="nolang" no>Generate a <span id="assignment.2.11" lang="nolang" no>Support</span> Bundle</span>**: SUSE <span id="assignment.2.11" lang="nolang" no>Support</span> が直接アクセスすることなく環境をトラブルシューティングするのに役立つファイルを生成します。
+- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**: kubectlなどのツールをコンソールから使ってこのクラスターを管理するためのkubeconfigファイルを提供します。
 
-If you still have time, familiarize yourself with the sections before moving on to the next task.
+まだ時間があれば、次のタスクに進む前にこれらのセクションに慣れておいてください。
 
 
 > [!NOTE]
-> Everything you see in this dashboard (VMs, volumes, networks) is a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> resource under the hood. The UI is your primary tool for this mission; a terminal stands ready for the optional bonus drills, if you are curious about the machinery.
+> このダッシュボードに表示されるもの(VM、ボリューム、ネットワーク)はすべて、裏側では <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> のリソースです。UIはこのミッションの主要なツールですが、興味があればオプションのボーナスドリル用にターミナルも用意されています。
 
 
 
-🐮 Task 2: Meet Rancher Prime, the command center
+🐮 タスク2: コマンドセンター、Rancher Primeとの出会い
 =================================================
 
-The platform can also be connected to **Rancher Prime**, <span id="ch1.task2a"  lang="en" hist="vertrex-bank">and it is important to understand who does what in the bank's new world:</span>
+このプラットフォームは **Rancher Prime** にも接続できます。<span id="ch1.task2a"  lang="ja" hist="vertrex-bank">銀行の新しい世界において誰が何をするかを理解することが重要です。</span>
 
-- <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> manages the **virtual machines** on this cluster.
-- **Rancher Prime** manages **many clusters at once** (every <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> cluster in every branch datacenter), plus centralized **users, roles, and access control (<span id="assignment.6.13" lang="nolang" no>RBAC</span>)**, and the **container workloads** the bank will run alongside its VMs.
+- <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> はこのクラスター上の **仮想マシン** を管理します。
+- **Rancher Prime** は **複数のクラスターを一度に**(各支店データセンターのすべての <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> クラスター)管理し、さらに **ユーザー、ロール、アクセス制御(<span id="assignment.6.13" lang="nolang" no>RBAC</span>)** を一元管理するとともに、銀行がVMと並行して実行する **コンテナワークロード** も管理します。
 
-Let's see what is inside Rancher.
+では、Rancherの中身を見てみましょう。
 
-Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** from the left menu.
+[button label="Rancher Prime UI" variant="success"](tab-2) を開き、同じ認証情報でログインし、左メニューから **Virtualization Management** を選択してください。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter1-import_harvester.gif"/>
-</div>
 
-From here you can manage multiple <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> clusters. Import the existing one:
+  
 
-1. Click **Import Existing**
-2. Set the **Cluster Name** to
-<div class="cred">
+
+ここから複数の <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> クラスターを管理できます。既存のクラスターをインポートしましょう:
+
+1. **Import Existing** をクリック
+2. **Cluster Name** を次のように設定します
+
 
 ```txt
 mysusevirt1
 ```
 
-</div>
-
-3. Click **Create**
-4. A new screen appears. On it a url shows up, copy that url for the next steps.
-5. Below it you can see the registration instructions. Follow them, and remember to select **<span id="assignment.6.14" lang="nolang" no>Insecure Skip TLS Verify</span>** when editing the <b class="highlightcopy">cluster-registration-url</b> setting. This should be done in [button label="SUSE Virtualization UI" variant="success"](tab-0).
-
-6. Switch back to [button label="Rancher Prime UI" variant="success"](tab-2) and click on "<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters" on the top left of the UI.
-
-Notice the state next to the cluster name: **<span id="assignment.6.15" lang="nolang" no>Pending</span>**. It is waiting for the cluster to finish the registration process.
-
-Remain in the Rancher UI and watch the state change from **<span id="assignment.6.15" lang="nolang" no>Pending</span>** to **<span id="assignment.6.16" lang="nolang" no>Waiting</span>**, then finally to **<span id="assignment.6.17" lang="nolang" no>Active</span>**.
-
-Now go back to **<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters**: the cluster appears in the list.
-
-Let's see what else you can do here. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> at the end of the cluster's row; a menu drops down with some options:
-
-- **<span id="assignment.6.18" lang="nolang" no>Kubectl Shell</span>**: opens a shell connected to the cluster, where you can run kubectl commands against it.
-- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**: same as what you already saw in the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI.
-- **<span id="assignment.6.19" lang="nolang" no>Download YAML</span>**: downloads the cluster definition in YAML format; you can use it as a template to import new clusters in an automated fashion (it also needs one extra step in the cluster UI).
-
-Finally, click on the cluster name itself
-- it takes you to the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI embedded within the Rancher UI
-- Notice on the left column a '<span id="assignment.6.13" lang="nolang" no>RBAC</span>' entry appears on the menu, we can control who can do what on our clusters.
 
 
-With Rancher you can easily operate multiple clusters from one place.
+3. **Create** をクリック
+4. 新しい画面が表示されます。そこにURLが表示されるので、次の手順のためにそのURLをコピーしてください。
+5. その下に登録手順が表示されています。それに従い、cluster-registration-url 設定を編集する際は **<span id="assignment.6.14" lang="nolang" no>Insecure Skip TLS Verify</span>** を選択することを忘れないでください。これは [button label="SUSE Virtualization UI" variant="success"](tab-0) で行います。
+
+6. [button label="Rancher Prime UI" variant="success"](tab-2) に戻り、UIの左上にある「<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters」をクリックしてください。
+
+クラスター名の横にある状態を確認してください: **<span id="assignment.6.15" lang="nolang" no>Pending</span>**。これはクラスターが登録プロセスを完了するのを待っている状態です。
+
+Rancher UIにとどまり、状態が **<span id="assignment.6.15" lang="nolang" no>Pending</span>** から **<span id="assignment.6.16" lang="nolang" no>Waiting</span>** に変わり、最終的に **<span id="assignment.6.17" lang="nolang" no>Active</span>** になるのを見届けてください。
+
+再び **<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters** に戻ると、クラスターが一覧に表示されています。
+
+ここでできる他のことも見てみましょう。クラスターの行の末尾にある をクリックすると、いくつかのオプションを含むメニューが表示されます:
+
+- **<span id="assignment.6.18" lang="nolang" no>Kubectl Shell</span>**: クラスターに接続されたシェルを開き、それに対してkubectlコマンドを実行できます。
+- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UIで既に見たものと同じです。
+- **<span id="assignment.6.19" lang="nolang" no>Download YAML</span>**: クラスター定義をYAML形式でダウンロードします。これをテンプレートとして使い、自動化された方法で新しいクラスターをインポートできます(クラスターUI側で追加の手順が1つ必要です)。
+
+最後に、クラスター名自体をクリックすると
+- Rancher UI内に埋め込まれた <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UIに移動します
+- 左側のカラムに「<span id="assignment.6.13" lang="nolang" no>RBAC</span>」という項目がメニューに追加されていることに注目してください。これでクラスター上で誰が何をできるかを制御できます。
+
+
+Rancherを使えば、複数のクラスターを1か所から簡単に操作できます。
 
 
 
 > [!NOTE]
-> There is a dedicated rodeo for SUSE Rancher Prime, feel free to join!
+> SUSE Rancher Prime専用のrodeoもありますので、ぜひ参加してみてください!
 
 
 
-⌨️ Task 3: Test your administrative terminal access
+⌨️ タスク3: 管理用ターミナルアクセスをテストする
 ===================================================
 
-You will spend most of this mission in the UI, <span id="ch1.task3a"  lang="en" hist="vertrex-bank">but an architect always verifies their emergency access</span>. Click on the [button label="Cluster Terminal" variant="success"](tab-1) tab and run one command to check that your connection to the underlying <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> engine is active:
+このミッションのほとんどはUI上で過ごしますが、<span id="ch1.task3a"  lang="ja" hist="vertrex-bank">しかし、アーキテクトは常に緊急アクセスを確認する。</span>。[button label="Cluster Terminal" variant="success"](tab-1) タブをクリックし、次のコマンドを実行して、基盤となる <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> エンジンへの接続がアクティブであることを確認してください:
 
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachine -A
 ```
 
-You should see the list of <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span> present in every namespace.
+すべてのネームスペースに存在する **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** の一覧が表示されるはずです。
 
 
 
-💾 Bonus Drill: validate the distributed storage fabric (optional)
+💾 ボーナスドリル: 分散ストレージファブリックを検証する(任意)
 ====================================================================
 
-<span id="ch1.bonus1a"  lang="en" hist="vertrex-bank">A healthy storage backend is key for banking operations</span>. <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> uses **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>** to replicate every volume across the cluster.
+<span id="ch1.bonus1a"  lang="ja" hist="vertrex-bank">銀行業務にとって、安定したストレージバックエンドは不可欠です</span>。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> は **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>** を使って、すべてのボリュームをクラスター全体に複製します。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter1-longhorn-ui.gif"/>
-</div>
 
-The [button label="SUSE Virtualization UI" variant="success"](tab-0) already shows information about the storage health, but it is also possible to access the <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>) dashboard by enabling the **Extension developer features**:
+  
 
-1. Click on your **user icon** in the top-right corner
-2. Select **Preferences**
-3. Tick **Enable Extension developer features**
 
-Go back to **Home**, and in the bottom-left corner click on **<span id="assignment.2.11" lang="nolang" no>Support</span>**.
+[button label="SUSE Virtualization UI" variant="success"](tab-0) には既にストレージの健全性に関する情報が表示されていますが、**Extension developer features** を有効にすることで、<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>(<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)ダッシュボードにアクセスすることもできます:
 
-You will now see two new sections:
+1. 右上の **ユーザーアイコン** をクリック
+2. **Preferences** を選択
+3. **Enable Extension developer features** にチェックを入れる
+
+**Home** に戻り、左下隅にある **<span id="assignment.2.11" lang="nolang" no>Support</span>** をクリックしてください。
+
+2つの新しいセクションが表示されます:
 
 - **<span id="assignment.6.20" lang="nolang" no>Access Embedded</span> Rancher UI**
-- **<span id="assignment.6.20" lang="nolang" no>Access Embedded</span> <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>) UI**
+- **<span id="assignment.6.20" lang="nolang" no>Access Embedded</span> <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>(<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)UI**
 
-Click on the **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> UI** section.
+**<span id="assignment.2.8" lang="nolang" no>Longhorn</span> UI** セクションをクリックしてください。
 
-It will take you to the <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> <span id="assignment.6.6" lang="nolang" no>Dashboard</span>, all should be green.
-If a node were unschedulable or a volume degraded, <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> would already be rebuilding replicas elsewhere, but you always confirm your ground truth.
+<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> の <span id="assignment.6.6" lang="nolang" no>Dashboard</span> に移動し、すべてが緑色になっているはずです。
+もしノードがスケジュール不可になったり、ボリュームが劣化した場合、<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> はすでに他の場所でレプリカを再構築しているはずですが、常に自分の目で状況を確認してください。
 
 
-🏋️ Bonus Drills: for the command-line curious (optional)
+🏋️ ボーナスドリル: コマンドラインに興味のある方向け(任意)
 ==========================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely**: everything that matters is in the UI. If you want to peek at the machinery, run these extra checks in the [button label="Cluster Terminal" variant="success"](tab-1):
+<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> に不慣れですか?**自由に読み飛ばしてください**: 重要なことはすべてUIに含まれています。仕組みを少し覗いてみたい場合は、[button label="Cluster Terminal" variant="success"](tab-1) で次の追加チェックを実行してみてください:
 
-- **See the <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> control plane and CoreDNS endpoints:**
+- **<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> コントロールプレーンとCoreDNSのエンドポイントを確認する:**
 
 ```bash,wrap,run
 kubectl cluster-info --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
-- **Check cluster component health**: query the control plane's health endpoint; every check (etcd, informers, shutdown hooks) should report `ok`:
+- **クラスターコンポーネントの健全性を確認する**: コントロールプレーンのヘルスエンドポイントに問い合わせます。すべてのチェック(etcd、informers、shutdown hooks)が `ok` を返すはずです:
 
 ```bash,wrap,run
 kubectl get --raw='/readyz?verbose' --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
-- **Confirm every node in the fabric is ready:**
+- **ファブリック内のすべてのノードが準備完了状態であることを確認する:**
 
 ```bash,wrap,run
 kubectl get nodes --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
-  All nodes should show `Ready`.
+  すべてのノードが `Ready` と表示されるはずです。
 
-- **Verify the core virtualization services are running:**
+- **コアとなる仮想化サービスが実行中であることを確認する:**
 
 ```bash,wrap,run
 kubectl get pods -n harvester-system --kubeconfig .rodeo/harvester-kubeconfig | grep -v Completed
 ```
 
-  All pods should be `Running`.
+  すべてのPodが `Running` であるはずです。
 
-- **Confirm the exact platform version the bank is running:**
+- **銀行が実行している正確なプラットフォームバージョンを確認する:**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get settings.harvesterhci.io server-version
 ```
 
-💼 Why does this matter?
+💼 なぜこれが重要なのか?
 ==============================================
 
-- **One command center.** VMs, storage, and networking are visible from a single dashboard, no more juggling three separate management consoles with three separate licenses.
-- **<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>-native from day one.** Everything in the dashboard is a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> resource under the hood. The container team's existing skills transfer directly, while the VM team gets a friendly point-and-click UI.
-- **Fleet management and <span id="assignment.6.13" lang="nolang" no>RBAC</span> included.** Rancher Prime is <span id="ch1.why1"  lang="en" hist="vertrex-bank">ready to command every cluster the bank will ever run, with one login and one set of access rules.</span>
-- **Distributed storage out of the box.** <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> replicates data across nodes automatically.
+- **統一されたコマンドセンター。** VM、ストレージ、ネットワークが単一のダッシュボードから可視化され、3つの異なるライセンスを持つ3つの別々の管理コンソールを使い分ける必要はもうありません。
+- **最初から<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>ネイティブ。** ダッシュボードに表示されるものはすべて、裏側では <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> のリソースです。コンテナチームの既存のスキルがそのまま活かせる一方、VMチームは使いやすいポイント&クリックのUIを得られます。
+- **フリート管理と<span id="assignment.6.13" lang="nolang" no>RBAC</span>も含まれています。** Rancher Primeは <span id="ch1.why1"  lang="ja" hist="vertrex-bank">銀行が今後運用するすべてのクラスターを、1つのログインと1組のアクセスルールで指揮する準備が整っています。</span>
+- **標準で分散ストレージを提供。** <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> はノード間でデータを自動的に複製します。
 
-Once you confirm the control plane is responding, the storage is healthy, and your administrative access is secured, you are ready to proceed deeper into the facility.
+コントロールプレーンが応答していること、ストレージが健全であること、そして管理アクセスが確保されていることを確認したら、施設のさらに奥へ進む準備は完了です。
 
-Click **Check** to descend into the datacenter. 🛗
+**Check** をクリックしてデータセンターへ降りてください。🛗
 
-📚 More information
-===================
-</span>
+📚 詳細情報
+===================</span>
 
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
