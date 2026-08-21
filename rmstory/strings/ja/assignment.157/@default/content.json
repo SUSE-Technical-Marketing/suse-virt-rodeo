@@ -1,0 +1,8 @@
+{
+  "content": "UI、フリート、APIがすべて一致していることを確認するには：\n\n- **テンプレートをAPIオブジェクトとして確認する**：テンプレートとそのバージョンもリソースです：\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod\n```\n\n- **テンプレート定義をyaml形式で取得する**：\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic -o yaml > template_prod-basic.yaml\ntemplate_version_name=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplateversions -n prod -o name |grep '/prod-basic-'`\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get -n prod ${template_version_name} -o yaml >> template_prod-basic.yaml\n```\n\n`template_prod-basic.yaml`ファイルを確認できます：\n\n\n```bash,wrap,run\nless template_prod-basic.yaml\n```\n\n\nこれには、タスク2でテンプレートを作成する際に使用したものと似た定義が含まれています。\n\n\n\n💼 なぜこれが重要なのか？\n==============================================\n\n- **自社ハードウェア上での弾力性。** <span id=\"assignment.157.1\"/>\n- **ヒューマンエラーが設計上排除されている。** マシンはバージョン管理されたゴールデンブループリントから作成されるものであり、記憶や手作業からではありません。つまり、午前2時に構成ドリフトが発生することはあり得ません。\n- **ライフサイクル全体の経済性。** 廃棄はチェックボックスとクリックひとつで完了するため、一時的なキャパシティが恒久的なコストになることはなく、これは古い<span id=\"ch1.intro1.1\"/>の乱立とは正反対です。\n\n続けるには<span id=\"assignment.32.1\"/>をクリックしてください。⚔️\n\n📚 詳細情報\n===================",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:09:58.785628+00:00"
+}

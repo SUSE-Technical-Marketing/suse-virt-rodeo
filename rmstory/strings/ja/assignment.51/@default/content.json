@@ -1,0 +1,8 @@
+{
+  "content": "このクラスターは混在環境なので、VMが本番ノードでのみ実行されるようにしましょう。\n\n<span id=\"assignment.51.1\"/>をクリックすると、<span id=\"ch1.intro1.2\"/>で3つの選択肢が表示されます:\n\n- <span id=\"assignment.51.2\"/>: <span id=\"assignment.2.2\"/>スケジューラーがVMの配置場所を選択し、**ライブマイグレーションは有効のまま**になります\n- <span id=\"assignment.51.3\"/>: VMを1つのノードに固定します(マイグレーションは不可)\n- <span id=\"assignment.51.4\"/>: ノードラベル(GPU機能、NUMAトポロジー、ネットワークゾーンなど)に基づくアフィニティルール\n\n本番用ルールを設定します:\n\n1. <span id=\"assignment.51.5\"/>を選択\n2. <span id=\"assignment.51.6\"/>をクリックし、続いて<span id=\"assignment.51.7\"/>をクリック:\n\n- <span id=\"assignment.51.8\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:59:09.411741+00:00"
+}

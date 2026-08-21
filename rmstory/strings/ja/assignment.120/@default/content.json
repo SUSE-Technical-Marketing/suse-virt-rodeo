@@ -1,0 +1,8 @@
+{
+  "content": "## 🎯 あなたのクエストの目標\n\n1. レコードの作成と削除をシミュレートする\n2. スナップショットからステージング環境をクローンする\n3. ステージングサンドボックスでデータを確認する\n4. 本番システムを復元する\n5. <span id=\"assignment.120.1\"/>を接続する\n6. バックアップのスケジュールを設定する\n\n\n\n🔐 ログイン認証情報\n====================\n\n<span id=\"assignment.69.1\"/> UI と **Rancher Prime** UI は同じ認証情報を使用します。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:06:05.722149+00:00"
+}

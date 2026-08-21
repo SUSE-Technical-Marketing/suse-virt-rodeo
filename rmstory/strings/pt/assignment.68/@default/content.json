@@ -1,0 +1,8 @@
+{
+  "content": "A adrenalina do incidente na sala de negociação mal tinha desaparecido do teu sistema quando um gemido metálico e profundo ecoa pelas paredes do datacenter. Tu e a Sarah viram-se simultaneamente para o **Rack 4**. Uma válvula de refrigerante principal rebentou por cima, e um fluxo constante de água refrigerada e tratada quimicamente está a cair diretamente sobre o chassis do servidor físico que aloja o **Payment Gateway** principal do banco.\n\n*\"Se esse servidor entrar em curto-circuito, o gateway cai,\"* diz a Sarah, o pânico genuíno a instalar-se na sua voz enquanto observa a poça de água a formar-se. *\"Se o gateway cair, todas e cada uma das transações de cartão de crédito do Vertex Trust Bank falham. Vamos enfrentar investigações regulatórias federais até de manhã.\"*\n\n*\"Não vamos deixar que isso caia,\"* respondes tu, os teus dedos a voar pelo teclado.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:59:43.696823+00:00"
+}

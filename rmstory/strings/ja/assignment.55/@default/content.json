@@ -1,0 +1,8 @@
+{
+  "content": "<span id=\"assignment.55.1\"/>には、以下を入力します。\n\n```yaml\n#cloud-config\npackages:\n  - qemu-guest-agent\nruncmd:\n  - - systemctl\n    - enable\n    - --now\n    - qemu-guest-agent.service\nwrite_files:\n  - path: /etc/issue\n    content: |\n      \\e{red}Production\\e{reset}\n    append: true\nssh_authorized_keys:\n  - ssh-ed25519\n    AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa\n```\n\n<span id=\"assignment.19.3\"/>（テンプレートボックス内）をクリックして、テンプレートを保存します。\n\n\nこのテンプレートは<span id=\"assignment.55.2\"/>名前空間に存在し、それ自体が<span id=\"assignment.55.2\"/>という名前であるため、prod/prodとなります。これはあらゆるVMに使用できる、本番環境の標準テンプレートです。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:59:25.751399+00:00"
+}

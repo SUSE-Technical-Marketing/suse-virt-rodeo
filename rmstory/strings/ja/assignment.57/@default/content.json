@@ -1,0 +1,8 @@
+{
+  "content": "エンジンは DHCP が割り当てるアドレスではなく、**予測可能なアドレス**で起動する必要があります。<span id=\"assignment.57.1\"/> フィールドに、次を入力します。\n\n```yaml\nversion: 2\nethernets:\n  enp1s0:\n    addresses:\n      - 192.168.122.50/24\n    gateway4: 192.168.122.1\n    nameservers:\n      addresses:\n        - 192.168.122.1\n```\n\nCloud-init は初回起動時に両方を適用します。<span id=\"assignment.57.2\"/> はデプロイ後の手動設定を一切行うことなく、`192.168.122.50` でオンラインになります。\n\n> [!NOTE]\n> これは**cloud-init**であり、あらゆる主要パブリッククラウドで使用されている業界標準の仕組みと同じものです。\n> 実際のケースでは、このサーバーの用途に応じたより完全な自動化と専用テンプレートが用意されるでしょう。\n\n\n設定が完了しましたので、<span id=\"assignment.19.3\"/> をクリックして仮想マシンのデプロイを開始してください。\n\n起動が完了するのを待たずに、次のタスクに進んでください。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:59:36.343901+00:00"
+}

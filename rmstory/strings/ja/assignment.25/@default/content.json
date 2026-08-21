@@ -1,0 +1,8 @@
+{
+  "content": "ホストの<span id=\"ch1.intro1.2\"/>のいずれかにSSHで接続します:\n```bash,run\nrodeo ssh harvester1\n```\n2. <span id=\"assignment.25.1\"/>ノードの<span id=\"assignment.2.8\"/>フォルダを確認します。いくつかのフォルダとファイルが表示されます:\n```bash,run\nls /var/lib/harvester/defaultdisk\n```\n3. replicasフォルダの中には、このノードが保持するボリュームレプリカごとに1つのフォルダがあります:\n```bash,wrap,run\nls /var/lib/harvester/defaultdisk/replicas/\n```\n4. exitと入力してホストから抜けます:\n```bash,run\nexit\n```\n\n> [!NOTE]\n> レプリカが3つあるということは、ディスクの使用量が3倍になるということです。これは本番環境の予算においては正しいトレードオフです。しかし、金曜日には削除される開発者の使い捨てテストVMにとっては無駄です。レプリカ数は物理法則ではなく**ポリシー**であり、ポリシーはワークロードごとに調整可能です。\n\n🧅 タスク4: 開発チーム向けのコスト階層ストレージクラスを構築する\n=====================================================================\n\n\n\n  \n\n\n\n開発チームはサンドボックス用に本番グレードのレプリケーションを必要とせず、安価で高速なイテレーションを必要としています。<span id=\"assignment.25.2\"/>\n\nに",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:57:09.618396+00:00"
+}

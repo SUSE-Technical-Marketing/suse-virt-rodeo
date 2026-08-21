@@ -5,14 +5,36 @@
 "challenges: (teaser: the length must be no more than 255.)", well after validation has
 already passed. Run this first so a too-long teaser fails fast with the offending file
 and length, instead of a bare server-side error during push.
+
+`teaser` is pulled out with a targeted line scan instead of `yaml.safe_load()`-ing the
+whole frontmatter block. Several chapters' `title` fields contain markup baked in by the
+rmstory tagging tool that isn't strictly valid YAML (a stray backslash / unescaped inner
+quotes, e.g. `title: "\\<span id="..." lang="ja" ...>第2章:...</span>"`), in both the
+English and Japanese content — a full-document parse throws on those before it ever gets
+to `teaser`, even though `teaser` itself is fine. Scanning just for the `teaser:` key
+keeps this check working regardless of language or what shape the rest of the
+frontmatter is in.
 """
 import glob
 import re
 import sys
 
-import yaml
-
 LIMIT = 255
+
+
+def extract_teaser(frontmatter):
+    lines = frontmatter.splitlines()
+    for i, line in enumerate(lines):
+        if not line.startswith("teaser:"):
+            continue
+        value = line[len("teaser:") :].strip()
+        parts = [value] if value else []
+        for cont in lines[i + 1 :]:
+            if not cont[:1].isspace():
+                break
+            parts.append(cont.strip())
+        return " ".join(p for p in parts if p)
+    return None
 
 
 def main() -> int:
@@ -22,8 +44,7 @@ def main() -> int:
         match = re.match(r"^---\n(.*?)\n---\n", text, re.S)
         if not match:
             continue
-        frontmatter = yaml.safe_load(match.group(1))
-        teaser = frontmatter.get("teaser")
+        teaser = extract_teaser(match.group(1))
         if teaser is None:
             continue
         length = len(teaser)

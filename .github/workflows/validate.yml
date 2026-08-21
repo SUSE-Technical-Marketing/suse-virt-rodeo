@@ -60,9 +60,6 @@ jobs:
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
 
-      - name: Install PyYAML
-        run: pip install --quiet pyyaml
-
       - name: Check teaser lengths
         run: python3 .github/scripts/check-teaser-length.py
 

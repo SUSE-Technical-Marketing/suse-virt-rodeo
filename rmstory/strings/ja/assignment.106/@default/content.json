@@ -1,0 +1,8 @@
+{
+  "content": "🧱 タスク1: 閉ループ物理ネットワークを接続する\n=================================================\n\n私たちのチームは、物理的に閉ループで接続された専用の追加NICを備えた<span id=\"ch1.intro1.2\"/>ノードを構築しました。この最も重要なトラフィックのためにこれを使用し、分離された本番ネットワークを作成しましょう。\n\nこの中で",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:04:12.863973+00:00"
+}

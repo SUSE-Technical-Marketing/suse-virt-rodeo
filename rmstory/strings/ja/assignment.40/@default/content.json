@@ -1,0 +1,8 @@
+{
+  "content": "2. <span id=\"assignment.19.3\"/>をクリックします\n\n作成したばかりのイメージが、状態<span id=\"assignment.40.1\"/>で一覧に表示されます。進捗列でその状況を確認できます。\n\n次のタスクに進んでください。ダウンロードが完了すると、画面右上の**通知ベル**にアラートが表示されます。\n\n\n> [!NOTE]\n> ダウンロードはサーバー側で、このラボ自身のネットワーク上にあるローカルミラーから実行されるため、数秒で完了します。イメージは<span id=\"assignment.2.8\"/>にレプリケートされると**<span id=\"assignment.6.17\"/>**になります。\n\n\n🚀 タスク2: 計算エンジンをプロビジョニングする\n===========================================\n\n\nこのタスクでは、最初のVMを作成します。\n\n\n> [!NOTE]\n> 指示があるまで<span id=\"assignment.19.3\"/>をクリックしないでください。\n\n\n  \n\n\n\n<span id=\"assignment.40.2\"/>に移動し、<span id=\"assignment.19.3\"/>ボタンをクリックします。\n\n<span id=\"assignment.40.3\"/>\n\n- <span id=\"assignment.19.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:58:27.290225+00:00"
+}

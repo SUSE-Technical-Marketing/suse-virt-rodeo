@@ -1,0 +1,8 @@
+{
+  "content": "継続的なハートビートモニターが必要です。避難中もネットワーク接続が切断されていないことを証明するためです。\n\n<span id=\"assignment.76.1\"/> からハートビートモニターを起動してください。\n\n```bash,run\nssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key=\"PAYMENT_GATEWAY_IP\" hostname=\"kvm-host\" ]] 'ping 192.168.122.1'\n\n```\n\n> [!IMPORTANT]\n> pingはターミナルで継続的に実行させたままにしてください。**停止しないでください。** この流れ続ける応答は、ダウンタイムがゼロであることの証拠です。<span id=\"ch1.intro1.2\"/> UIに再びフォーカスを戻してください。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:01:20.921629+00:00"
+}
