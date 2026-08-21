@@ -3,7 +3,9 @@ slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
 title: "<span id="assignment.12" lang="en" hist="sky-telco">🛗 Chapter 2: The Subterranean Divide</span>"
-teaser: <span lang="en" hist="sky-telco" id="ts2">🛗 Chapter 2: The Subterranean Divide</span>
+teaser: <span lang="en" hist="sky-telco" id="ts2">Two hardware silos, two teams that barely speak. Descend into the datacenter,
+  map the node topology, and give every disk in the fabric a price tag the network can
+  live with.</span>
 tabs:
 - id: gix6w5fqkxd6
   title: SUSE Virtualization UI
