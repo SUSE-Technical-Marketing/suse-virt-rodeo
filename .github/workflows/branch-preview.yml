@@ -1,0 +1,148 @@
+name: Branch Preview Track
+
+# Creates (or updates) a maintenance-mode Instruqt track for every branch, so branch work
+# can be tested on Instruqt without ever touching the real production track (the one
+# identified by the `id` in the repo-root track.yml). Publishing that one stays the
+# deliberate manual step described in CONTRIBUTING.md — this workflow never pushes to it.
+#
+# Each branch gets its own preview track, slug `<production-slug>-<branch, slugified>`,
+# so repeat pushes to the same branch update the same preview track instead of minting a
+# new one every run. Title is the production title with " (branch: <branch>)" appended —
+# except on main, whose preview keeps the bare production title with no branch suffix.
+# maintenance: true is force-set on every push so no preview track is ever
+# learner-visible/bookable in the catalog.
+#
+# Only git-tracked files are synced into the preview track (via `git ls-files`), so
+# local/untracked scratch content never leaks into it.
+#
+# NOT YET VERIFIED against a live run: this repo has no INSTRUQT_TOKEN secret yet (same
+# blocker documented in validate.yml's history), and `instruqt track pull` / `track
+# create --from` haven't been exercised against this org. Commands follow
+# https://docs.instruqt.com/reference/cli/commands and
+# https://docs.instruqt.com/tracks/manage/maintain-a-developer-workflow, but neither
+# CLI's output-directory naming is documented, so the "locate the new directory" steps
+# below are deliberately defensive (before/after listing diff) rather than assuming a
+# flag. Treat the first real run as the validation pass this needs, and fix forward the
+# same way validate.yml's/publish.yml's history did.
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual preview run"
+        required: false
+        default: "manual preview run"
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Instruqt CLI
+        uses: instruqt/cli/setup@v1
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Compute preview track slug and title
+        id: meta
+        run: |
+          set -e
+          BRANCH="${GITHUB_REF_NAME}"
+          # slugify: lowercase, collapse '/', '_', spaces to '-', drop anything else
+          BRANCH_SLUG=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g')
+
+          PROD_SLUG=$(python3 -c "import yaml; print(yaml.safe_load(open('track.yml'))['slug'])")
+          OWNER=$(python3 -c "import yaml; print(yaml.safe_load(open('track.yml'))['owner'])")
+          BASE_TITLE=$(python3 -c "import yaml; print(yaml.safe_load(open('track.yml'))['title'])")
+
+          SLUG="${PROD_SLUG}-${BRANCH_SLUG}"
+          if [ "$BRANCH" = "main" ]; then
+            TITLE="$BASE_TITLE"
+          else
+            TITLE="$BASE_TITLE (branch: $BRANCH)"
+          fi
+
+          {
+            echo "slug=$SLUG"
+            echo "title=$TITLE"
+            echo "owner=$OWNER"
+            echo "prod_slug=$PROD_SLUG"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Fetch or create the branch preview track
+        env:
+          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+          OWNER: ${{ steps.meta.outputs.owner }}
+          PROD_SLUG: ${{ steps.meta.outputs.prod_slug }}
+          TITLE: ${{ steps.meta.outputs.title }}
+        run: |
+          set -e
+          before=$(ls -1d */ 2>/dev/null | sort)
+
+          if instruqt track pull "$OWNER/$SLUG"; then
+            echo "Found existing preview track $OWNER/$SLUG"
+          else
+            echo "No existing preview track for $OWNER/$SLUG — creating one from production"
+            instruqt track create --from "$OWNER/$PROD_SLUG" --title "$TITLE"
+          fi
+
+          after=$(ls -1d */ 2>/dev/null | sort)
+          newdir=$(comm -13 <(echo "$before") <(echo "$after") | head -n1)
+          if [ -z "$newdir" ]; then
+            echo "Could not determine the directory instruqt wrote the track into" >&2
+            exit 1
+          fi
+          mv "$newdir" preview-track
+
+      - name: Sync branch content into the preview track, keep its own id/slug
+        env:
+          TITLE: ${{ steps.meta.outputs.title }}
+        run: |
+          set -e
+          python3 - <<'PYEOF'
+          import os
+          import shutil
+          import subprocess
+
+          import yaml
+
+          files = subprocess.run(
+              ["git", "ls-files"], capture_output=True, text=True, check=True
+          ).stdout.splitlines()
+
+          for src in files:
+              if src == "track.yml" or src.startswith("preview-track/"):
+                  continue
+              dst = os.path.join("preview-track", src)
+              os.makedirs(os.path.dirname(dst) or ".", exist_ok=True)
+              shutil.copy2(src, dst)
+
+          src_track = yaml.safe_load(open("track.yml"))
+          dst_track = yaml.safe_load(open("preview-track/track.yml"))
+
+          # id/slug belong to the preview track itself — never overwrite them with the
+          # production track's identity.
+          src_track["id"] = dst_track["id"]
+          src_track["slug"] = dst_track["slug"]
+          src_track["title"] = os.environ["TITLE"]
+          src_track["maintenance"] = True
+
+          with open("preview-track/track.yml", "w") as f:
+              yaml.safe_dump(src_track, f, sort_keys=False)
+          PYEOF
+
+      - name: Validate preview track
+        working-directory: preview-track
+        run: instruqt track validate
+
+      - name: Push preview track
+        working-directory: preview-track
+        env:
+          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+        run: instruqt track push --force
