@@ -1,27 +1,29 @@
 name: Branch Preview Track
 
-# Rebrands the one Instruqt track this repo owns (fixed `id` in track.yml, already
-# maintenance: true) with the pushing branch's name, then pushes it — so branch content
-# can be reviewed on Instruqt without a separate manual publish step. On main, the branch
-# suffix is stripped back to nothing, so the track reads with its plain production name.
+# Rebrands the one Instruqt track this repo owns (fixed `id` in track.yml) with the
+# pushing branch's name, forces it into maintenance mode, then pushes it — so branch
+# content can be reviewed on Instruqt without a separate manual publish step. On main,
+# the branch suffix is stripped back to nothing, so the track reads with its plain
+# production name.
 #
-# track.yml's `slug` and `title` carry a literal `__BRANCH__` placeholder. This workflow
-# replaces every occurrence of it with `-<branch, lowercased and slugified>` (e.g. `-dev`),
-# or with nothing when the branch is main. The substitution happens only on the
-# CI runner's checked-out working tree — nothing is committed back to git, so the
-# placeholder stays in the repo for the next run.
+# track.yml's `slug` and `title` already carry their own separator around a literal
+# `__BRANCH__` placeholder (`suse-virt-rodeo-__BRANCH__`, `SUSE Virtualization Rodeo
+# __BRANCH__`), so this workflow does a plain substitution: the branch name, lowercased
+# and slugified, or nothing at all on main. The substitution — and forcing
+# `maintenance: true` (track.yml carries no static maintenance field as of 2026-08-21, so
+# this workflow sets it explicitly rather than relying on it) — happens only on the CI
+# runner's checked-out working tree; nothing is committed back to git, so the placeholder
+# stays in the repo for the next run.
 #
 # Because this always targets the SAME track id, every branch's push relabels the one
-# track (last push wins) rather than creating a separate track per branch. That's
-# deliberate: track.yml already carries maintenance: true, so the track isn't
-# learner-visible/bookable regardless of which branch most recently pushed to it.
+# track (last push wins) rather than creating a separate track per branch.
 #
-# NOTE: track.yml's slug/title now permanently contain `__BRANCH__` in git. A manual
+# NOTE: track.yml's slug/title permanently contain `__BRANCH__` in git. A manual
 # `instruqt track push` from a local checkout (the flow CONTRIBUTING.md/README.md
-# document for publishing to production) would push that literal placeholder text unless
-# it's stripped first — this workflow's substitution only happens on the CI runner. If
-# manual production publishing is still expected to work, CONTRIBUTING.md/README.md need
-# a matching "replace __BRANCH__ with nothing" step added to those instructions.
+# document for publishing to production) would push that literal placeholder text, and
+# would leave maintenance mode untouched, unless both are handled first — this workflow's
+# substitution only happens on the CI runner. If manual production publishing is still
+# expected to work, CONTRIBUTING.md/README.md need matching steps added.
 
 on:
   push:
@@ -64,8 +66,7 @@ jobs:
           if [ "$BRANCH" = "main" ]; then
             REPL=""
           else
-            BRANCH_LOWER=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g')
-            REPL="-${BRANCH_LOWER}"
+            REPL=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g')
           fi
           python3 - "$REPL" <<'PYEOF'
           import pathlib
@@ -75,6 +76,31 @@ jobs:
           path = pathlib.Path("track.yml")
           path.write_text(path.read_text().replace("__BRANCH__", repl))
           PYEOF
+
+      - name: Force maintenance mode
+        # track.yml carries no static `maintenance:` field as of 2026-08-21 — set (or
+        # overwrite) it explicitly rather than trusting the committed file, so a preview
+        # push can never leave the track learner-visible/bookable.
+        run: |
+          set -e
+          python3 - <<'PYEOF'
+          import pathlib
+          import re
+
+          path = pathlib.Path("track.yml")
+          text = path.read_text()
+          if re.search(r"^maintenance:.*$", text, re.M):
+              text = re.sub(r"^maintenance:.*$", "maintenance: true", text, flags=re.M)
+          else:
+              text += "maintenance: true\n"
+          path.write_text(text)
+          PYEOF
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Check teaser lengths
+        run: python3 .github/scripts/check-teaser-length.py
 
       - name: Validate track
         run: instruqt track validate
