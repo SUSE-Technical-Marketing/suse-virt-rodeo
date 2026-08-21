@@ -2,7 +2,7 @@
 slug: the-rising-tide-live-migration
 id: xjv2r0tfyztq
 type: challenge
-title: "<span lang="en" no>\U0001F30A Chapter 4: The Rising Tide</span>"
+title: "<span lang=\"en\" no>\U0001F30A Chapter 4: The Rising Tide</span>"
 teaser: <span lang="en" hist="vertrex-bank">A coolant leak is flooding the rack hosting the Payment Gateway. Execute a
   zero-downtime live migration before the hardware shorts out, while transactions
   keep flowing.</span>

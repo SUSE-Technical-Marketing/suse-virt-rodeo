@@ -2,7 +2,7 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: "<span lang="en" no>\U0001F305 Chapter 8: A New Horizon</span>"
+title: "<span lang=\"en\" no>\U0001F305 Chapter 8: A New Horizon</span>"
 teaser: <span lang="en" hist="vertrex-bank">The bank runs entirely on <span lang="nolang" no>SUSE Virtualization</span>.
   Take a victory lap, review everything you mastered, and chart where your new skills
   can take your own datacenter.</span>

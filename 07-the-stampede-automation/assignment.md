@@ -2,7 +2,7 @@
 slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
-title: "<span lang="en" no>\U0001F920 Chapter 7: The Stampede</span>"
+title: "<span lang=\"en\" no>\U0001F920 Chapter 7: The Stampede</span>"
 teaser: <span lang="en" hist="vertrex-bank">The markets are in freefall and the quants need the calculation fleet scaled
   from three nodes to five, now. Forge a golden VM template and stamp out identical
   machines on demand.</span>
