@@ -1,0 +1,8 @@
+{
+  "content": "\n\n\n## 🎯 Your Quest Objectives\n\n1. Simulate the creation and destruction of the record\n2. Clone a staging environment from the snapshot\n3. Verify the data in the staging sandbox\n4. Restore the production system\n5. Connect the <span id=\"assignment.120.1\"/>\n6. Put backups on a schedule\n\n\n\n🔐 Login Credentials\n====================\n\nThe <span id=\"assignment.69.1\"/> UI and **Rancher Prime** UI use the same credentials.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.341134+00:00"
+}

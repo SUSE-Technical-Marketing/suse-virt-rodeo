@@ -1,0 +1,8 @@
+{
+  "content": "\n\n> [!NOTE]\n> The UIs use self-signed certificates. Accept the browser security warning when it appears. If a page does not load right away, the lab environment may still be booting. Wait a minute and refresh the tab.\n\n> [!NOTE]\n> If you prefer to work in your own browser instead of the embedded tabs, the lab host is reachable directly at:\n> https://kvm-host.[[ Instruqt-Var key=\"_SANDBOX_ID\" hostname=\"kvm-host\" ]].instruqt.io:8443\n\n\n\n\n📊 Task 1: Log in and inspect the unified dashboard\n===================================================\n\nNavigate to the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.330447+00:00"
+}

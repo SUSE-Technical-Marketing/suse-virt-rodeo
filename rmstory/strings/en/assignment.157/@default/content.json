@@ -1,0 +1,8 @@
+{
+  "content": " that the UI, the fleet, and the API all agree:\n\n- **Inspect the template as an API object**: templates and their versions are resources too:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod\n```\n\n- **Retrieve the template definition in yaml format**:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic -o yaml > template_prod-basic.yaml\ntemplate_version_name=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplateversions -n prod -o name |grep '/prod-basic-'`\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get -n prod ${template_version_name} -o yaml >> template_prod-basic.yaml\n```\n\nYou can examine the file `template_prod-basic.yaml`:\n\n\n```bash,wrap,run\nless template_prod-basic.yaml\n```\n\n\nIt contains a definition similar to the one you used to create the template in Task 2.\n\n\n\n💼 Why does this matter?\n==============================================\n\n- **Elasticity on owned hardware.** <span id=\"assignment.157.1\"/>\n- **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle: configuration drift cannot happen at 2 AM.\n- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost, the exact opposite of the old <span id=\"ch1.intro1.1\"/> sprawl.\n\nClick <span id=\"assignment.32.1\"/> to continue. ⚔️\n\n📚 More information\n===================\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.344563+00:00"
+}

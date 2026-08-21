@@ -2,10 +2,10 @@
 slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
-title: "\U0001F920 Chapter 7: The Stampede"
-teaser: The markets are in freefall and the quants need the calculation fleet scaled
+title: "<span id="assignment.138" lang="en" no>\U0001F920 Chapter 7: The Stampede</span>"
+teaser: <span id="assignment.139" lang="en" hist="vertrex-bank">The markets are in freefall and the quants need the calculation fleet scaled
   from three nodes to five, now. Forge a golden VM template and stamp out identical
-  machines on demand.
+  machines on demand.</span>
 tabs:
 - id: xxc2ymjtxzih
   title: SUSE Virtualization UI
@@ -28,10 +28,11 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
+<span id="assignment.140" lang="en" no>
 
 🤠 Chapter 7: The Stampede
 ===========================
-
+</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -139,6 +140,7 @@ enhanced_loading: null
 
 <div id="701" class="story">
 
+<span id="assignment.141" lang="en" hist="vertrex-bank">
 A sudden, aggressive shift in global interest rates sends the financial markets into a chaotic frenzy. <b class="bank">Vertex Trust Bank</b>'s risk analysis algorithms are screaming for more compute capacity to process the incoming flood of volatile market data.
 
 *"One calculation engine is not enough anymore!"* the **Head of Quant** shouts across the room, waving a printed report. *"I need a fleet of <span class="danger">five identical engines immediately</span>, or we fly blind into this market crash!"*
@@ -146,10 +148,11 @@ A sudden, aggressive shift in global interest rates sends the financial markets 
 Building five machines by hand, one screen at a time, invites exactly what you cannot afford right now: a mistyped memory size here, a forgotten network there. Configuration drift under pressure — and right now, human error costs millions of dollars **per second**.
 
 You crack your knuckles. What the bank needs is a **golden blueprint**: define the perfect machine once, then stamp out identical copies on demand.
+</span>
 
 </div>
 
-<b class="virt">SUSE Virtualization</b> has exactly that: **VM Templates**. A template captures CPU, memory, disks, networks, and cloud-init in a single versioned object. Combined with **multi-instance creation**, one blueprint becomes an entire fleet in a single click.
+<span id="assignment.142" lang="en" no><b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> has exactly that: **VM Templates**. A template captures CPU, memory, disks, networks, and cloud-init in a single versioned object. Combined with **multi-instance creation**, one blueprint becomes an entire fleet in a single click.
 
 <div class="missionbox">
 
@@ -164,9 +167,10 @@ You crack your knuckles. What the bank needs is a **golden blueprint**: define t
 🔐 Login Credentials
 ====================
 
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
+</span>
 
-Username:
+<span id="assignment.70" lang="nolang" no>Username:</span>
 
 <div class="cred">
 
@@ -176,7 +180,7 @@ admin
 
 </div>
 
-Password:
+<span id="assignment.71" lang="nolang" no>Password:</span>
 
 <div class="cred">
 
@@ -188,7 +192,7 @@ Password:
 
 
 
-📜 Task 1: Forge the golden template
+<span id="assignment.143" lang="en" no>📜 Task 1: Forge the golden template
 ====================================
 
 <div style='align: middle; margin: 15px;'>
@@ -196,10 +200,11 @@ Password:
 </div>
 
 You need a template that speeds up the deployment of virtual machines and standardizes them.
-In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate to **Advanced > Templates** and click **Create**, then fill in the following details:
+In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.144" lang="en" no> navigate to <span id="assignment.144.1" lang="nolang" no>**Advanced > Templates**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
 
-- **Namespace**: <b class="highlightcopy">prod</b>
-- **Template Name**:
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
+- <span id="assignment.144.2" lang="nolang" no>**Template Name**</span>:
+</span>
 
 <div class="cred">
 
@@ -209,32 +214,34 @@ prod-basic
 
 </div>
 
+<span id="assignment.145" lang="en" no>
 We need to minimize resource usage, and all the VMs should be reachable using the production SSH key, which is securely guarded.
 
 - Basics:
-  - **CPU**: <b class="highlightcopy">1</b>
-  - **Memory**: <b class="highlightcopy">1</b>
-  - **SSHKey**: <b class="highlightcopy">prod/default</b>
+  - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: <b class="highlightcopy">1</b>
+  - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: <b class="highlightcopy">1</b>
+  - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: <b class="highlightcopy">prod/default</b>
 
 Our default base OS is SLES 16.
 
-- Volumes:
-  - **Image**: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
-  - **Size**: <b class="highlightcopy">5</b>
+- <span id="assignment.6.4" lang="nolang" no>Volumes</span>:
+  - <span id="assignment.45.2" lang="nolang" no>**Image**</span>: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
+  - <span id="assignment.45.3" lang="nolang" no>**Size**</span>: <b class="highlightcopy">5</b>
 
 We want production servers to offer their services on the production service network.
 
-- Networks:
-  - **Network**: <b class="highlightcopy">prod/service</b>
+- <span id="assignment.49.1" lang="nolang" no>Networks</span>:
+  - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <b class="highlightcopy">prod/service</b>
 
 All production VMs should run only on production-ready hosts.
 
-- Node Scheduling:
-  1. Select **Run virtual machine on node(s) matching scheduling rules**
-  2. Click **Add Node Selector**, then **Add Rule**:
+- <span id="assignment.51.1" lang="nolang" no>Node Scheduling</span>:
+  1. Select <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
+  2. Click <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>, then <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
 
 
-- **Key**:
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
+</span>
 
 <div class="cred">
 
@@ -244,7 +251,9 @@ stage
 
 </div>
 
+<span id="assignment.52" lang="en" no>
 - **Value**:
+</span>
 
 <div class="cred">
 
@@ -255,13 +264,15 @@ prod
 </div>
 
 
+<span id="assignment.146" lang="en" no>
 We want the VMs to be properly labeled:
 
-- Labels:
-  - Click **Add Label**:
+- <span id="assignment.53.1" lang="nolang" no>Labels</span>:
+  - Click <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
 
 
-- **Key**:
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
+</span>
 <div class="cred">
 
 ```txt
@@ -270,7 +281,9 @@ stage
 
 </div>
 
+<span id="assignment.52" lang="en" no>
 - **Value**:
+</span>
 <div class="cred">
 
 ```txt
@@ -280,12 +293,13 @@ prod
 </div>
 
 
+<span id="assignment.147" lang="en" no>
 Finally, we want all production machines standardized on a set of packages and settings:
 
-- Advanced Options:
-  - **User Data Template**: <b class="highlightcopy">prod/prod</b>
+- <span id="assignment.54.1" lang="nolang" no>Advanced Options</span>:
+  - <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>: <b class="highlightcopy">prod/prod</b>
 
-To finalize, click **Create**.
+To finalize, click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
 
 Can you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency, and inconsistency makes further automation even more difficult.
 
@@ -303,11 +317,12 @@ Because the template already exists, deploying multiple servers takes just a few
   <img class="animatedgif" src="../assets/chapter7-fleet-vms.gif"/>
 </div>
 
-In [button label="SUSE Virtualization UI" variant="success"](tab-0) go to **Virtual Machines** and click **Create**, then fill in the following details:
+In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.148" lang="en" no> go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
 
-1. Select **Multiple Instance**
-2. Set the **Namespace** to <b class="highlightcopy">prod</b>
-3. Set the **Name Prefix** to:
+1. Select <span id="assignment.148.1" lang="nolang" no>**Multiple Instance**</span>
+2. Set the <span id="assignment.39.3" lang="nolang" no>**Namespace**</span> to <b class="highlightcopy">prod</b>
+3. Set the <span id="assignment.148.2" lang="nolang" no>**Name Prefix**</span> to:
+</span>
 
 <div class="cred">
 
@@ -318,30 +333,37 @@ appcluster
 </div>
 
 
-4. Set the **Count** to <b class="highlightcopy">2</b>
-5. Tick **Use VM Template** and set the **Template** to <b class="highlightcopy">prod/prod-basic</b>
-6. Click **Create**
-
+<span id="assignment.149" lang="en" no>
+4. Set the <span id="assignment.149.1" lang="nolang" no>**Count**</span> to <b class="highlightcopy">2</b>
+5. Tick <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span> and set the <span id="assignment.149.3" lang="nolang" no>**Template**</span> to <b class="highlightcopy">prod/prod-basic</b>
+6. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+</span>
 
 
 
 
 <div id="702" class="story">
 
+<span id="assignment.150" lang="en" hist="vertrex-bank">
 The risk analysis team begins feeding data into the expanded fleet, stabilizing the bank's market position just in time.
+</span>
 
 </div>
 
 
-🧹 Task 3: Stand the fleet down
+<span id="assignment.151" lang="en" no>🧹 Task 3: Stand the fleet down
 ===============================
+</span>
 
 <div id="703" class="story">
 
+<span id="assignment.152" lang="en" hist="vertrex-bank">
 The market surge subsides. The virtual machines sit idle, waiting for the next wave — but will it come today? Tomorrow? Next month? For these noble servers, waiting is more painful than doing all the number crunching.
+</span>
 
 </div>
 
+<span id="assignment.153" lang="en" no>
 You no longer need so many virtual machines, delete them all at once (don't worry if they are still starting).
 
 <div style='align: middle; margin: 15px;'>
@@ -349,25 +371,28 @@ You no longer need so many virtual machines, delete them all at once (don't worr
 </div>
 
 
-In [button label="SUSE Virtualization UI" variant="success"](tab-0) navigate to the **Virtual Machines** section:
+In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.154" lang="en" no> navigate to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> section:
 
-1. Tick the **checkboxes** next to all the new virtual machines you created
-2. Click **Delete**, tick **Delete All**, and click **Delete**
-
+1. Tick the <span id="assignment.154.1" lang="nolang" no>**checkboxes**</span> next to all the new virtual machines you created
+2. Click <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, tick <span id="assignment.154.2" lang="nolang" no>**Delete All**</span>, and click <span id="assignment.154.3" lang="nolang" no>**Delete**
+</span>
+</span>
 
 <div id="704" class="story">
 
+<span id="assignment.155" lang="en" hist="vertrex-bank">
 The suffering of these noble virtual machines has stopped. You see the flames, my child? Now they rest in Valhalla.
+</span>
 
 </div>
 
 
 
 
-🏋️ Bonus Drills: for the command-line curious (optional)
+<span id="assignment.156" lang="en" no>🏋️ Bonus Drills: for the command-line curious (optional)
 ==========================================================
 
-New to Kubernetes? **Skip ahead freely.** Otherwise, prove in the [button label="Cluster Terminal" variant="success"](tab-1) that the UI, the fleet, and the API all agree:
+New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise, prove in the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="en" no> that the UI, the fleet, and the API all agree:
 
 - **Inspect the template as an API object**: templates and their versions are resources too:
 
@@ -398,14 +423,15 @@ It contains a definition similar to the one you used to create the template in T
 💼 Why does this matter?
 ==============================================
 
-- **Elasticity on owned hardware.** Cloud-style scale-out (and scale-in) on the bank's own datacenter: no data residency questions, no egress bills.
+- **Elasticity on owned hardware.** <span id="assignment.157.1" lang="en" hist="vertrex-bank">Cloud-style scale-out (and scale-in) on the bank's own datacenter: no data residency questions, no egress bills.</span>
 - **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle: configuration drift cannot happen at 2 AM.
-- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost, the exact opposite of the old hypervisor sprawl.
+- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost, the exact opposite of the old <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> sprawl.
 
-Click **Check** to continue. ⚔️
+Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⚔️
 
 📚 More information
 ===================
+</span>
 
-- [SUSE Virtualization: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
-- [Creating Virtual Machines](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
+- [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)

@@ -1,0 +1,8 @@
+{
+  "content": "<span id=\"ch1.intro1.2\"/> has exactly that: **VM Templates**. A template captures CPU, memory, disks, networks, and cloud-init in a single versioned object. Combined with **multi-instance creation**, one blueprint becomes an entire fleet in a single click.\n\n\n\n## 🎯 Your Quest Objectives\n\n1. Forge the golden template\n2. Scale the fleet under pressure\n3. Stand the fleet down\n\n\n\n🔐 Login Credentials\n====================\n\nThe <span id=\"assignment.69.1\"/> UI and **Rancher Prime** UI use the same credentials.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.343170+00:00"
+}

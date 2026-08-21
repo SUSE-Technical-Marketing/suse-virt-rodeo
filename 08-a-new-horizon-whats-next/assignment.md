@@ -2,9 +2,10 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: "\U0001F305 Chapter 8: A New Horizon"
-teaser: The bank runs entirely on SUSE Virtualization. Take a victory lap, review
-  everything you mastered, and chart where your new skills can take your own datacenter.
+title: "<span id="assignment.158" lang="en" no>\U0001F305 Chapter 8: A New Horizon</span>"
+teaser: <span id="assignment.159" lang="en" hist="vertrex-bank">The bank runs entirely on <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
+  Take a victory lap, review everything you mastered, and chart where your new skills
+  can take your own datacenter.</span>
 tabs:
 - id: jw4tji5y1jbv
   title: SUSE Virtualization UI
@@ -27,10 +28,10 @@ difficulty: basic
 timelimit: 1800
 enhanced_loading: null
 ---
-
+<span id="assignment.160" lang="en" no>
 🌅 Chapter 8: A New Horizon
 ============================
-
+</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -129,44 +130,52 @@ enhanced_loading: null
 
 <div id="901" class="story">
 
-The dust has finally settled. The datacenter is quiet, bathed in the soft green glow of the <b class="virt">SUSE Virtualization</b> nodes operating in perfect harmony.
+<span id="assignment.161" lang="en" hist="vertrex-bank">
+The dust has finally settled. The datacenter is quiet, bathed in the soft green glow of the <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> nodes operating in perfect harmony.
 
 <b class="bank">Vertex Trust Bank</b> is no longer shackled to the past. It is now running entirely on a lean, high-performance, cloud-native virtualization stack.
 
 Sarah stands beside you, looking at the unified dashboard on the main screen. *"I didn't think it was possible,"* she admits, shaking her head in disbelief. *"We are running containerized microservices and monolithic ledgers on the exact same fabric. Our storage is distributed, our networks are software-defined, and our licensing costs have just plummeted."*
 
 She turns to you and extends her hand. *"Thank you. You didn't just save our infrastructure — you saved the bank."*
+</span>
 
 </div>
 
+<span id="assignment.162" lang="en" no>
 ## <b class="hovereffect">🏆 Your Deeds</b>
 
 You conquered incredible odds during your time here:
 
 | Chapter | Crisis | Skill you mastered |
 |:--------|:-------|:-------------------|
-| 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform dashboard, Longhorn storage, and Rancher Prime |
-| 🛗 The Subterranean Divide | Two warring hardware silos | Uniting VMs and containers on one Kubernetes fabric |
+| 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform dashboard, <span id="assignment.2.8" lang="nolang" no>Longhorn</span> storage, and Rancher Prime |
+| 🛗 The Subterranean Divide | Two warring hardware silos | Uniting VMs and containers on one <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> fabric |
 | ⚡ The Flash Crash | A market meltdown | Deploying VMs in minutes with images, volumes, and cloud-init |
 | 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and one-click node evacuation |
 | 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |
 | ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, staging clones, storage tiers, and scheduled off-cluster backups |
 | 🤠 The Stampede | A compute famine | Golden VM templates, stamping out identical fleets on demand |
+</span>
 
 
 <div id="902" class="story">
 
+<span id="assignment.163" lang="en" hist="vertrex-bank">
 Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digital frontier is vast and constantly evolving. There are always new architectures to design and new systems to modernize.
+</span>
 
 </div>
 
 
+<span id="assignment.164" lang="en" no>
 🔐 Login Credentials
 ====================
 
-The **SUSE Virtualization** UI and **Rancher Prime** UI use the same credentials.
+The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
+</span>
 
-Username:
+<span id="assignment.70" lang="nolang" no>Username:</span>
 
 <div class="cred">
 
@@ -176,7 +185,7 @@ admin
 
 </div>
 
-Password:
+<span id="assignment.71" lang="nolang" no>Password:</span>
 
 <div class="cred">
 
@@ -188,12 +197,13 @@ Password:
 
 
 
+<span id="assignment.165" lang="en" no>
 🧭 Victory lap: the lab is still yours
 =======================================
 
 The lab environment will remain active until your timer expires. Feel free to dig into the dashboard and experiment with the infrastructure you have built. Some ideas:
 
-- **Take a final inventory of the empire you built.** Tour the [button label="SUSE Virtualization UI" variant="success"](tab-0): the **Virtual Machines** page, the **Networks** you defined, the **Templates** blueprint, and the **Backup & Snapshot** history: every crisis of the week left its mark here.
+- **Take a final inventory of the empire you built.** Tour the </span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="en" no>: the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> page, the **Networks** you defined, the **Templates** blueprint, and the **Backup & Snapshot** history: every crisis of the week left its mark here.
 
 - **Design your own crisis.** Create a new VM from scratch: pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
 
@@ -202,34 +212,41 @@ The lab environment will remain active until your timer expires. Feel free to di
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A
 ```
+</span>
 
 
+<span id="assignment.167" lang="en" no>
 🚀 What's next on your horizon?
 ===============================
 
 - 📖 Keep your skills sharp by digging into the deep technical architecture in the [SUSE Virtualization Documentation](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).
 
-- 🐮 Learn how to manage **fleets of these clusters at scale** (one Rancher Prime managing every SUSE Virtualization cluster in every branch datacenter) with [SUSE Rancher Prime](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
+- 🐮 Learn how to manage **fleets of these clusters at scale** (one Rancher Prime managing every <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> cluster in every branch datacenter) with [<span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
 
-- 🧪 Rebuild this at home: <b class="virt">SUSE Virtualization</b> is open source. Grab the ISO, install it on any spare x86 box, and run your own VMs.
+- 🧪 Rebuild this at home: <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> is open source. Grab the ISO, install it on any spare x86 box, and run your own VMs.
 
-- 🤝 You are never alone on this trail: SUSE customers consistently rate **SUSE Support** among the best in the industry, and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
+- 🤝 You are never alone on this trail: SUSE customers consistently rate <span id="assignment.167.1" lang="nolang" no>**SUSE Support**</span> among the best in the industry, and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
 
 - 💬 Talk to your <b class="suse">SUSE</b> representative about what this story would look like with **your** legacy cluster in the darkest corner of the room.
+</span>
 
 <div id="903" class="story">
 
+<span id="assignment.168" lang="en" hist="vertrex-bank">
 It has been an absolute honor working alongside you!
 
 **Happy migrating!** 🎉
+</span>
 
 </div>
 
+<span id="assignment.169" lang="en" no>
 📚 More information
 ===================
 
-- [SUSE Virtualization: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
-- [Creating Virtual Machines](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
+- [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
 - [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
 - [Backup and Restore](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)
 - [Cluster Networking](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)
+</span>

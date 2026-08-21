@@ -1,0 +1,8 @@
+{
+  "content": "2. 行の右側にある をクリックします\n3. <span id=\"assignment.74.1\"/> を選択し、確認を求められたら <span id=\"assignment.74.2\"/> をクリックします。\n4. 状態が <span id=\"assignment.74.3\"/> に変わるまで待ちます\n\nこれによりCPUサイクルが停止し、緊急操作に最大限のハードウェアリソースが割り当てられます。\n\n> [!NOTE]\n> これは実際には必要ありません。ライブマイグレーショントラフィック用の専用ネットワークはすでに設定済みです。ここでは教育目的のために記載しています",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:01:10.509367+00:00"
+}

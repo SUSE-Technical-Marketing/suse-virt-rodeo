@@ -1,0 +1,8 @@
+{
+  "content": "1. Vá até <span id=\"assignment.40.2\"/>\n2. Clique no menu suspenso <span id=\"assignment.61.1\"/> e selecione <span id=\"assignment.136.1\"/>, uma nova janela aparecerá com o terminal, sinta-se à vontade para redimensioná-la.\n3. Faça login usando as seguintes credenciais:\n   - <span id=\"assignment.136.2\"/>: 'sles'\n   - <span id=\"assignment.136.3\"/>: '1234'\n\n4. Uma vez dentro, execute o seguinte comando:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:05:39.435021+00:00"
+}

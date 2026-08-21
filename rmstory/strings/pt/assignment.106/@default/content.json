@@ -1,0 +1,8 @@
+{
+  "content": "🧱 Tarefa 1: Ligar uma rede física em loop fechado\n=================================================\n\nA nossa equipa configurou os nós <span id=\"ch1.intro1.2\"/> com uma placa de rede (NIC) dedicada adicional, ligada num loop fisicamente fechado. Vamos usá-la para o nosso tráfego mais precioso e criar uma rede de produção isolada.\n\nNo",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:02:40.720199+00:00"
+}

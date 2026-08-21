@@ -1,0 +1,8 @@
+{
+  "content": "> [!NOTE]\n> UIは自己署名証明書を使用しています。表示されたらブラウザのセキュリティ警告を承諾してください。ページがすぐに読み込まれない場合、ラボ環境がまだ起動中である可能性があります。1分ほど待ってからタブを更新してください。\n\n> [!NOTE]\n> 埋め込みタブではなく自分のブラウザで作業したい場合、ラボホストには以下から直接アクセスできます:\n> https://kvm-host.[[ Instruqt-Var key=\"_SANDBOX_ID\" hostname=\"kvm-host\" ]].instruqt.io:8443\n\n\n\n\n📊 タスク1: ログインして統合ダッシュボードを確認する\n===================================================\n\n以下に移動します",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-18T22:45:16.935481+00:00"
+}

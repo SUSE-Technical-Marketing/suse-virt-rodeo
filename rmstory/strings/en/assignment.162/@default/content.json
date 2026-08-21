@@ -1,0 +1,8 @@
+{
+  "content": "\n## 🏆 Your Deeds\n\nYou conquered incredible odds during your time here:\n\n| Chapter | Crisis | Skill you mastered |\n|:--------|:-------|:-------------------|\n| 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform dashboard, <span id=\"assignment.2.8\"/> storage, and Rancher Prime |\n| 🛗 The Subterranean Divide | Two warring hardware silos | Uniting VMs and containers on one <span id=\"assignment.2.2\"/> fabric |\n| ⚡ The Flash Crash | A market meltdown | Deploying VMs in minutes with images, volumes, and cloud-init |\n| 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and one-click node evacuation |\n| 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |\n| ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, staging clones, storage tiers, and scheduled off-cluster backups |\n| 🤠 The Stampede | A compute famine | Golden VM templates, stamping out identical fleets on demand |\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.345016+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": "\n3. Click <span id=\"assignment.114.7\"/>\n\nThe cluster can now ship complete VM backups off the cluster, the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production deployment this would point to a physically separated facility.\n\n\n⏰ Task 4: Put backups on a schedule\n====================================\n\n\n  \n\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.342023+00:00"
+}

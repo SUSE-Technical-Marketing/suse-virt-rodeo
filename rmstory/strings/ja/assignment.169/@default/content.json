@@ -1,0 +1,8 @@
+{
+  "content": "📚 詳細情報\n===================\n\n- [<span id=\"ch1.intro1.2\"/>: 概要](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)\n- [<span id=\"assignment.6.2\"/>の作成](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)\n- [ライブマイグレーション](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)\n- [バックアップとリストア](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)\n- [クラスタネットワーキング](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:11:14.666384+00:00"
+}

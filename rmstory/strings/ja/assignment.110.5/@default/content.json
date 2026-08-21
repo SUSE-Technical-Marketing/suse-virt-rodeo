@@ -1,0 +1,8 @@
+{
+  "content": "新しいNICの追加や配線には費用がかかります。開発環境ではそれほど多くの専用リソースは必要ないため、今回は**ソフトウェア定義ネットワーク**を使用します。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:04:41.258466+00:00"
+}

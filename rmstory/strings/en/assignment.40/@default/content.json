@@ -1,0 +1,8 @@
+{
+  "content": "\n\n2. Click <span id=\"assignment.19.3\"/>\n\nThe image you just created appears in the list with the state <span id=\"assignment.40.1\"/>. You can follow it in the progress column.\n\nMove on to the next task; once the download completes, an alert shows up in the **notification bell** at the top right of the screen.\n\n\n> [!NOTE]\n> The download runs server-side, from a local mirror on this lab's own network, so it lands in seconds. The image becomes **<span id=\"assignment.6.17\"/>** once <span id=\"assignment.2.8\"/> has it replicated.\n\n\n🚀 Task 2: Provision the calculation engine\n===========================================\n\n\nFor this task we are going to create our first VM.\n\n\n> [!NOTE]\n> Please don't click <span id=\"assignment.19.3\"/> until instructed.\n\n\n  \n\n\n\nNavigate to <span id=\"assignment.40.2\"/> and click the <span id=\"assignment.19.3\"/> button.\n\n<span id=\"assignment.40.3\"/>\n\n- <span id=\"assignment.19.4\"/>:\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.334479+00:00"
+}

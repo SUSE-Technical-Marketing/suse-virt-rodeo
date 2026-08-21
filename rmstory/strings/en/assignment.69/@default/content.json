@@ -1,0 +1,8 @@
+{
+  "content": "\nYou cannot shut the machine down to move it; the transaction stream is too critical, processing thousands of requests a second. You must execute a **live migration**, moving a running VM, memory and all, to a different physical node with **zero downtime**.\n\nBut first, to ensure maximum bandwidth is available for the emergency migration, you decide to suspend a nearby non-critical batch processing server.\n\n\n\n## 🎯 Your Quest Objectives\n\n1. Suspend non-critical workloads to free resources\n2. Establish a service heartbeat\n3. Execute the Live Migration\n4. Monitor the seamless transfer\n5. Resume normal operations\n6. Hand the damaged rack to the repair crew\n\n\n\n🔐 Login Credentials\n====================\n\nThe <span id=\"assignment.69.1\"/> UI and **Rancher Prime** UI use the same credentials.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.336810+00:00"
+}

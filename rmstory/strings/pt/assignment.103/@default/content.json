@@ -1,0 +1,8 @@
+{
+  "content": "São agora duas da manhã. O datacenter está silencioso, exceto pelo zumbido rítmico das ventoinhas de refrigeração. Está a beber café frio e a rever os registos diários de telemetria quando o seu ecrã pisca a vermelho. Um alerta crítico e de alta prioridade do Centro de Operações de Segurança sobrepõe-se ao seu painel de controlo.\n\nUma verificação automática de vulnerabilidades detetou uma falha arquitetónica grave: o **servidor web** de marketing do banco, voltado para o público, encontra-se exatamente na mesma camada de rede plana que a máquina virtual altamente classificada insider-threat-db.\n\nSe um agente de ameaça conseguisse comprometer o site público, teria um caminho lateral direto e sem obstáculos até à base de dados de segurança interna mais sensível do banco. Numa infraestrutura tradicional, corrigir isto exigiria acordar a equipa sénior de engenharia de redes, recablear fisicamente as portas dos switches no escuro, e arriscar loops de encaminhamento catastróficos.\n\nNão precisa de cabos físicos. Tem ao seu alcance o poder das **redes definidas por software**. Tem de construir um cofre digital impenetrável e trancar a base de dados lá dentro — antes que uma intrusão possa ocorrer.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:02:30.268959+00:00"
+}

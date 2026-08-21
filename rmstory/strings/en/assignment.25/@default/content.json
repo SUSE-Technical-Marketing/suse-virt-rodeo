@@ -1,0 +1,8 @@
+{
+  "content": " and SSH into one of the <span id=\"ch1.intro1.2\"/> hosts:\n```bash,run\nrodeo ssh harvester1\n```\n2. Check the <span id=\"assignment.2.8\"/> folder on the <span id=\"assignment.25.1\"/> node: you will see some folders and files:\n```bash,run\nls /var/lib/harvester/defaultdisk\n```\n3. Inside the replicas folder, find one folder per volume replica this node holds:\n```bash,wrap,run\nls /var/lib/harvester/defaultdisk/replicas/\n```\n4. Leave the host by typing exit:\n```bash,run\nexit\n```\n\n> [!NOTE]\n> Three replicas means three times the disk footprint. That is the correct trade for production money. It is wasteful for a developer's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics, and policies can be tuned per workload.\n\n🧅 Task 4: Build a cost-tier storage class for the development team\n=====================================================================\n\n\n\n  \n\n\n\nThe development team does not need production-grade replication for their sandboxes, they need cheap, fast iteration. <span id=\"assignment.25.2\"/>\n\nIn the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.333165+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": "\n2. Click the  on its row and select <span id=\"assignment.96.1\"/>, then <span id=\"assignment.96.2\"/>\n\nNow watch the **<span id=\"assignment.6.2\"/>** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty. No spreadsheets, no manual target-picking, no forgotten VM.\n\n> [!NOTE]\n> This may take some time in this lab environment.\n\nOnce the node shows <span id=\"assignment.96.3\"/> and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:\n\n3. Click the  on its row again and select <span id=\"assignment.96.4\"/> and then <span id=\"assignment.96.5\"/>\n\nThe node rejoins the fabric, ready to accept workloads again.\n\n> [!NOTE]\n> The same intelligence works in the other direction, too: every time a new VM is created, the scheduler places it on the least-loaded suitable node, keeping the cluster naturally balanced, no manual Tetris required. Between automatic placement on the way in and automatic evacuation on the way out, the humans only decide *what* should run; the platform decides *where*.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.338831+00:00"
+}

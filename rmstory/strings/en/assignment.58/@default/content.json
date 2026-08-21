@@ -1,0 +1,8 @@
+{
+  "content": "\nScheduling rules let you separate critical systems from other workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping \"any available node\" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.335706+00:00"
+}

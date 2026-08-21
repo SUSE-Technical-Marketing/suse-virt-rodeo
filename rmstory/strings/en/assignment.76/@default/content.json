@@ -1,0 +1,8 @@
+{
+  "content": ". You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.\n\nStart the heartbeat monitor from <span id=\"assignment.76.1\"/>:\n\n```bash,run\nssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key=\"PAYMENT_GATEWAY_IP\" hostname=\"kvm-host\" ]] 'ping 192.168.122.1'\n\n```\n\n> [!IMPORTANT]\n> Leave the ping running continuously in the terminal. **Do not stop it.** This scrolling stream of replies is your proof of zero downtime. Switch your focus back to the <span id=\"ch1.intro1.2\"/> UI.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.337175+00:00"
+}

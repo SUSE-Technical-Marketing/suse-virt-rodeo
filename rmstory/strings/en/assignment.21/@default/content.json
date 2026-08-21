@@ -1,0 +1,8 @@
+{
+  "content": "\n4. Click <span id=\"assignment.19.3\"/>\n\nThe developers workspace now stand ready, in the future we can assign to it quotas, policies, and access controls.\n\n💾 Task 3: Understand how <span id=\"assignment.2.8\"/> replicates your data\n========================================================\n\n\n\n  \n\n\nLet's look at *how* the storage backend stays healthy. Every disk <span id=\"ch1.intro1.2\"/> hands to a VM or a pod is a **<span id=\"assignment.2.8\"/> volume**, and every <span id=\"assignment.2.8\"/> volume is created from a <span id=\"assignment.21.1\"/>: a policy that decides, among other things, how many copies of your data exist at any given time.\n\nIn the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.332785+00:00"
+}

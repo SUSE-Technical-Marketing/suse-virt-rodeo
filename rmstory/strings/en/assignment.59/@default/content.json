@@ -1,0 +1,8 @@
+{
+  "content": "\n> [!NOTE]\n> **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <span id=\"ch1.intro1.2\"/> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.335783+00:00"
+}

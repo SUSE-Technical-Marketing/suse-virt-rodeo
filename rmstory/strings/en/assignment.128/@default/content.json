@@ -1,0 +1,8 @@
+{
+  "content": "\n5. Click <span id=\"assignment.19.3\"/>\n\n\n> [!Note]\n> Due to the hardware used in this lab this process will take longer than in normal conditions please continue to the next task.\n\n\n\n🏦 Task 3: Connect the off-cluster backup vault\n======================================================\n\n\n  \n\n\nSnapshots saved us this morning, but snapshots live on the **same cluster** as the workload. They protect against fat fingers, but not against physical damage or cyber attacks. For real disaster recovery we operate an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.\n\nIn the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.341799+00:00"
+}

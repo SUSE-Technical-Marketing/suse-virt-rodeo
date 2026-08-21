@@ -1,0 +1,8 @@
+{
+  "content": ", go to <span id=\"assignment.22.1\"/> and click on harvester-longhorn.\n\nNote the <span id=\"assignment.22.2\"/> field: it is set to **3**. Every volume created from this class gets three full copies, spread across three different nodes.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.332932+00:00"
+}

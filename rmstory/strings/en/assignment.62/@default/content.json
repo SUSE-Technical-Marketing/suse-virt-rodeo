@@ -1,0 +1,8 @@
+{
+  "content": ", look at what the platform actually created for you:\n\n- **The golden images are API objects too:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -A\n```\n\n- **The VM is a <span id=\"assignment.2.2\"/> resource:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachines -n prod\n```\n\n- **The running instance, with its node and IP** (the same IP you used for SSH):\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide\n```\n\n- **The disks are ordinary <span id=\"assignment.62.1\"/> backed by <span id=\"assignment.2.8\"/>:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod\n```\n\nYou should recognize `market-data-vol` in the list: <span id=\"assignment.62.2\"/>.\n\n💼 Why does this matter?\n========================\n\n- **Days become minutes.** A ticket-driven, multi-team provisioning process collapsed into a two-minute self-service workflow, <span id=\"assignment.62.3\"/>\n- **Consistency by construction.** Golden images plus cloud-init mean every engine the quants request boots identical, configured, and ready.\n- **No stranded storage.** <span id=\"assignment.6.4\"/> are carved from the shared <span id=\"assignment.2.8\"/> pool on demand.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.336066+00:00"
+}

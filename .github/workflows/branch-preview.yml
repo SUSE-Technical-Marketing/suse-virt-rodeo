@@ -1,0 +1,119 @@
+name: Branch Preview Track
+
+# Rebrands the one Instruqt track this repo owns (fixed `id` in track.yml) with the
+# pushing branch's name, forces it into maintenance mode, then pushes it — so branch
+# content can be reviewed on Instruqt without a separate manual publish step. On main,
+# the branch suffix is stripped back to nothing, so the track reads with its plain
+# production name.
+#
+# track.yml's `slug` and `title` already carry their own separator around a literal
+# `__BRANCH__` placeholder (`suse-virt-rodeo-__BRANCH__`, `SUSE Virtualization Rodeo
+# __BRANCH__`), so this workflow does a plain substitution: the branch name, lowercased
+# and slugified, or nothing at all on main. The substitution — and forcing
+# `maintenance: true` (track.yml carries no static maintenance field as of 2026-08-21, so
+# this workflow sets it explicitly rather than relying on it) — happens only on the CI
+# runner's checked-out working tree; nothing is committed back to git, so the placeholder
+# stays in the repo for the next run.
+#
+# Because this always targets the SAME track id, every branch's push relabels the one
+# track (last push wins) rather than creating a separate track per branch.
+#
+# NOTE: track.yml's slug/title permanently contain `__BRANCH__` in git. A manual
+# `instruqt track push` from a local checkout (the flow CONTRIBUTING.md/README.md
+# document for publishing to production) would push that literal placeholder text, and
+# would leave maintenance mode untouched, unless both are handled first — this workflow's
+# substitution only happens on the CI runner. If manual production publishing is still
+# expected to work, CONTRIBUTING.md/README.md need matching steps added.
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual preview run"
+        required: false
+        default: "manual preview run"
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Instruqt CLI
+        uses: instruqt/cli/setup@v1
+
+      - name: Configure Instruqt default team
+        # `instruqt track create` failed CI with "Default team not configured. Use
+        # `instruqt auth login` to set it." (confirmed via a live run, 2026-08-21) —
+        # `auth login` is interactive-only, so the team is set non-interactively via
+        # `instruqt config set team` instead. This workflow no longer calls `track
+        # create`, but keeping this is cheap insurance in case `validate`/`push` need it
+        # too.
+        env:
+          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+        run: |
+          set -e
+          OWNER=$(grep '^owner:' track.yml | awk '{print $2}')
+          instruqt config set team "$OWNER"
+
+      - name: Replace __BRANCH__ placeholder in track.yml
+        run: |
+          set -e
+          BRANCH="${GITHUB_REF_NAME}"
+          if [ "$BRANCH" = "main" ]; then
+            REPL=""
+          else
+            REPL=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g')
+          fi
+          python3 - "$REPL" <<'PYEOF'
+          import pathlib
+          import sys
+
+          repl = sys.argv[1]
+          path = pathlib.Path("track.yml")
+          path.write_text(path.read_text().replace("__BRANCH__", repl))
+          PYEOF
+
+      - name: Force maintenance mode
+        # track.yml carries no static `maintenance:` field as of 2026-08-21 — set (or
+        # overwrite) it explicitly rather than trusting the committed file, so a preview
+        # push can never leave the track learner-visible/bookable.
+        run: |
+          set -e
+          python3 - <<'PYEOF'
+          import pathlib
+          import re
+
+          path = pathlib.Path("track.yml")
+          text = path.read_text()
+          if re.search(r"^maintenance:.*$", text, re.M):
+              text = re.sub(r"^maintenance:.*$", "maintenance: true", text, flags=re.M)
+          else:
+              text += "maintenance: true\n"
+          path.write_text(text)
+          PYEOF
+
+      - name: Strip rmstory tagging spans
+        # Chapter content is tagged for the separate rmstory translation/story-variant
+        # tool (<span lang="...">, <span hist="...">, <span ... no>). Instruqt's renderer
+        # doesn't understand those custom attributes and renders some of the tags as
+        # visible literal text instead of invisible wrappers, so they're stripped from
+        # the CI runner's working tree right before validate/push. Only the git-tracked
+        # files (which rmstory needs) keep the tags — this never gets committed back.
+        # Must run before "Check teaser lengths"/"Validate track"/"Push track" so both
+        # the length check and what's pushed reflect the same, tag-free content.
+        run: python3 .github/scripts/strip-rmstory-spans.py
+
+      - name: Check teaser lengths
+        run: python3 .github/scripts/check-teaser-length.py
+
+      - name: Validate track
+        run: instruqt track validate
+
+      - name: Push track
+        env:
+          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+        run: instruqt track push --force

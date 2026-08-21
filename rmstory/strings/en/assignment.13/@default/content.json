@@ -1,0 +1,8 @@
+{
+  "content": "\nSarah leads you out of the quiet executive suites, into a secure elevator, and down into the bank's subterranean datacenter. The ambient temperature drops sharply as the heavy steel biometric doors lock behind you. The room hums with the deafening, relentless roar of industrial cooling systems.\n\nShe gestures to the left side of the room, where rows of sleek, densely packed server chassis blink with rapid blue lights. *\"Those run our mobile banking APIs,\"* she shouts over the fan noise. *\"Pure microservices. Fully containerized and agile.\"*\n\nShe then points to the right side of the room, dominated by hulking, archaic server cabinets radiating an uncomfortable amount of heat. *\"And those are the legacy monolithic virtual machines holding the core transaction ledgers. Two completely different worlds. Two different hardware silos. Two different engineering teams that barely even speak to each other.\"*\n\nYou walk between the two rows, feeling the distinct temperature differential. *\"That divide ends today,\"* you tell her.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.331475+00:00"
+}

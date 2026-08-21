@@ -1,0 +1,8 @@
+{
+  "content": "\n- <span id=\"assignment.110.1\"/>:\n  - <span id=\"assignment.110.2\"/>: UntaggedNetwork\n  - <span id=\"assignment.110.3\"/>: closed-loop\n\nClick <span id=\"assignment.19.3\"/>.\n\n\n  \n\n\nBack in the <span id=\"assignment.109.3\"/> list, secure-loop-prod appears with <span id=\"assignment.110.4\"/> status.\n\n\n\n🔒 Task 2: Create a closed loop SDN\n===================================\n\nNow create the same type of isolation for the development environment. <span id=\"assignment.110.5\"/>\n\n\n  \n\n\nGo to <span id=\"assignment.110.6\"/> and click <span id=\"assignment.19.3\"/>, then fill in the following details:\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.339868+00:00"
+}

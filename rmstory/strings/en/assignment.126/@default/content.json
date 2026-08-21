@@ -1,0 +1,8 @@
+{
+  "content": " and simulate the junior admin's terrible mistake:\n\n```bash,run\nrm -f /home/sles/ledger.txt\n```\n\nOne hundred million dollars, gone from the disk. Leave the VM console:\n\n```bash,run\nexit\n```\n\n\n🧪 Task 2: Clone a staging environment from the snapshot\n========================================================\n\n\n  \n\n\nInstead of immediately restoring production, you will build a **clone** to verify the data first, non-destructive recovery is always advised.\n\nIn the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.341599+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": "\n4. Click <span id=\"assignment.19.3\"/>\n\nFrom now on the platform backs the VM up to the NFS vault every five hours, keeps the five most recent copies, and pauses the schedule if two consecutive runs fail. Set once, protected forever.\n\n\n\n🔍 Task 5: Verify the data in the staging sandbox\n=================================================\n\n\n  \n\n\nNow that core-services-staging-verify is up and running, let's verify the file is there.\n\nThis time we will use the graphical console, since the VM has no network.\n\nIn the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.342407+00:00"
+}

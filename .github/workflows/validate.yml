@@ -33,6 +33,12 @@ name: Validate Instruqt Track
 # docs.instruqt.com) is the real CI auth mechanism for `track push` — but
 # this repo's INSTRUQT_TOKEN secret doesn't exist, and per the note above,
 # push was removed from this workflow entirely rather than fixing that.
+#
+# ADDED 2026-08-21: `instruqt track validate` does not catch a too-long teaser —
+# that only surfaces later, at `track push`, as "challenges: (teaser: the length
+# must be no more than 255.)" (confirmed via a live run against
+# branch-preview.yml). Checking it here catches it at PR time instead of at
+# push time.
 
 on:
   push:
@@ -49,10 +55,13 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
+
+      - name: Check teaser lengths
+        run: python3 .github/scripts/check-teaser-length.py
 
       - name: Validate track
         run: instruqt track validate

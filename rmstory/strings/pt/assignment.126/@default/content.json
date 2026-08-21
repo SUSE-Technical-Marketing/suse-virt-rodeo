@@ -1,0 +1,8 @@
+{
+  "content": "e simule o erro terrível do administrador júnior:\n\n```bash,run\nrm -f /home/sles/ledger.txt\n```\n\nCem milhões de dólares, perdidos do disco. Saia do console da VM:\n\n```bash,run\nexit\n```\n\n\n🧪 Tarefa 2: Clonar um ambiente de staging a partir do snapshot\n================================================================\n\n\n  \n\n\nEm vez de restaurar imediatamente a produção, você criará um **clone** para verificar os dados primeiro; a recuperação não destrutiva é sempre recomendada.\n\nNo",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:04:53.265621+00:00"
+}

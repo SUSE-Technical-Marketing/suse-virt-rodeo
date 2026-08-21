@@ -1,0 +1,8 @@
+{
+  "content": "\nThat is exactly right for the transaction ledgers — lose a node, even lose a disk mid-write, and the data survives untouched.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.333017+00:00"
+}

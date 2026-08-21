@@ -1,0 +1,8 @@
+{
+  "content": "🚀 次の目標は？\n===============================\n\n- 📖 [SUSE Virtualization Documentation](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)で深い技術アーキテクチャを掘り下げ、スキルを磨き続けましょう。\n\n- 🐮 [<span id=\"assignment.2.15\"/>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html)を使って、**大規模なクラスタ群**（各支社データセンターのあらゆる<span id=\"ch1.intro1.2\"/>クラスタを一つのRancher Primeで管理する）の管理方法を学びましょう。\n\n- 🧪 自宅で再現してみましょう：<span id=\"ch1.intro1.2\"/>はオープンソースです。ISOを入手し、余っているx86マシンにインストールして、自分自身のVMを動かしてみてください。\n\n- 🤝 この道のりであなたは決して一人ではありません：SUSEの顧客は<span id=\"assignment.167.1\"/>を業界最高水準と評価し続けており、顧客からのフィードバックは製品の進化に直接反映されます。SUSEと共に歩むということは、行列に並ぶチケットではなく、テーブルに着く席を得るということです。それがオープンソースならではの違いです。\n\n- 💬 部屋の一番暗い隅にある**あなたの**レガシークラスタを使ったら、このストーリーがどうなるか、SUSEの担当者に相談してみましょう。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:11:05.171865+00:00"
+}

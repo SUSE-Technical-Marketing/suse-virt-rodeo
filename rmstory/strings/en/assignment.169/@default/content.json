@@ -1,0 +1,8 @@
+{
+  "content": "\n📚 More information\n===================\n\n- [<span id=\"ch1.intro1.2\"/>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)\n- [Creating <span id=\"assignment.6.2\"/>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)\n- [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)\n- [Backup and Restore](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)\n- [Cluster Networking](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T17:49:39.345608+00:00"
+}
