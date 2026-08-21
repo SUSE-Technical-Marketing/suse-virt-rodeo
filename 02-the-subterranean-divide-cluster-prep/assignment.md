@@ -2,7 +2,7 @@
 slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
-title: "\U0001F6D7 Chapter 2: The Subterranean Divide"
+title: "\<span lang="en" hist="vertrex-bank">U0001F6D7 Chapter 2: The Subterranean Divide</span>"
 teaser: <span lang="en" hist="vertrex-bank" id="ts2">Two hardware silos, two teams that barely speak. Descend into the datacenter,
   map the node topology, and give every disk in the fabric a price tag the bank can
   live with.</span>
@@ -28,9 +28,12 @@ difficulty: basic
 timelimit: 2400
 enhanced_loading: null
 ---
+<span lang="en" hist="vertrex-bank" id="ts2">
 
 🛗 Chapter 2: The Subterranean Divide
 ======================================
+
+</span>
 
 <style type="text/css">
   * {
@@ -202,7 +205,7 @@ That last row is where you start. Every VM disk, every container's persistent vo
 The **<span lang="nolang" no>SUSE Virtualization</span>** UI and <span lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.
 </span>
 
-Username:
+<span lang="nolang" no>Username</span>:
 
 <div class="cred">
 
@@ -212,7 +215,7 @@ admin
 
 </div>
 
-Password:
+<span lang="nolang" no>Password</span>:
 
 <div class="cred">
 

@@ -2,7 +2,7 @@
 slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
-title: '<span lang="en" no>⏪ Chapter 6: The Unthinkable Error</span>'
+title: '<span lang="en" hist="vertrex-bank">⏪ Chapter 6: The Unthinkable Error</span>'
 teaser: <span lang="en" hist="vertrex-bank">A slipped cursor just deleted a $100M settlement record. Turn back the clock
   with VM snapshots, verify the recovery in a safe staging clone, then make protection
   permanent with scheduled off-cluster backups.</span>
@@ -28,9 +28,12 @@ difficulty: intermediate
 timelimit: 3600
 enhanced_loading: null
 ---
+<span lang="en" hist="vertrex-bank">
 
 ⏪ Chapter 6: <span lang="en" no>The Unthinkable Error</span>
 ===================================
+
+</span>
 
 <style type="text/css">
   * {

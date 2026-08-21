@@ -2,7 +2,7 @@
 slug: the-arrival-welcome
 id: ermykdy1tbse
 type: challenge
-title: "\U0001F3E6 Chapter 1: The Arrival"
+title: "<span lang="en" hist="vertrex-bank">\U0001F3E6 Chapter 1: The Arrival</span>"
 teaser: <span lang="en" hist="vertrex-bank">Vertex Trust Bank is drowning in legacy <span lang="nolang" no>hypervisor</span>
   costs. Step into the boardroom, take command of SUSE Virtualization,
   and inspect your new command center.</span>
@@ -40,7 +40,7 @@ timelimit: 2400
 enhanced_loading: null
 ---
 
-🏦 Chapter 1: <span lang="en" id="ch1.waiting1" hist="vertrex-bank">The Arrival</span>
+<span lang="en" hist="vertrex-bank">🏦 Chapter 1: The Arrival</span>
 ==========================
 
 <style type="text/css">
@@ -219,7 +219,7 @@ For your records, your Architect Credentials are as follows:
 </span>
 
 
-Username:
+<span lang="nolang" no>Username</span>:
 
 <div class="cred">
 
@@ -229,7 +229,7 @@ admin
 
 </div>
 
-Password:
+<span lang="nolang" no>Password</span>:
 
 <div class="cred">
 

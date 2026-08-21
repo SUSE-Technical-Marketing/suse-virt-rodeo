@@ -2,7 +2,7 @@
 slug: the-invisible-intruder-networking
 id: 6y9uhwn9zyll
 type: challenge
-title: "\U0001F575️ Chapter 5: The Invisible Intruder"
+title: "<span lang="en" hist="vertrex-bank">\U0001F575️ Chapter 5: The Invisible Intruder</span>"
 teaser: <span lang="en" hist="vertrex-bank">A 2 AM security alert. The public web server shares a flat network with the
   bank's most sensitive database. Build a software-defined vault and lock the database
   inside.</span>
@@ -28,9 +28,12 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
+<span lang="en" hist="vertrex-bank">
 
 🕵️ Chapter 5: The Invisible Intruder
 =====================================
+
+</span>
 
 <style type="text/css">
   * {
@@ -193,7 +196,7 @@ You don't need physical cables. You have the power of **software-defined network
 The <span lang="nolang" no>**SUSE Virtualization**</span> UI and <span lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.
   </span>
 
-Username:
+<span lang="nolang" no>Username</span>:
 
 <div class="cred">
 
@@ -203,7 +206,7 @@ admin
 
 </div>
 
-Password:
+<span lang="nolang" no>*Password</span>:
 
 <div class="cred">
 

@@ -2,7 +2,7 @@
 slug: the-flash-crash-first-vm
 id: 09d4eiczcvaw
 type: challenge
-title: '⚡ Chapter 3: The Flash Crash'
+title: '<span lang="en" hist="vertrex-bank">⚡ Chapter 3: The Flash Crash</span>'
 teaser: <span lang="en" hist="vertrex-bank">The Asian markets are melting down and the quants need a calculation engine
   NOW. Deploy a fully configured VM with storage and credentials in minutes, not days.</span>
 tabs:
@@ -27,9 +27,12 @@ difficulty: basic
 timelimit: 3000
 enhanced_loading: null
 ---
+<span lang="en" hist="vertrex-bank">
 
 ⚡ Chapter 3: The Flash Crash
 =============================
+
+</span>
 
 <style type="text/css">
   * {
@@ -189,7 +192,7 @@ You bypass the legacy ticketing system entirely and prepare to deploy a fully co
 The **<span lang="nolang" no>SUSE Virtualization</span>** UI and **Rancher Prime** UI use the same credentials.
 </span>
 
-Username:
+<span lang="nolang" no>Username</span>:
 
 <div class="cred">
 
@@ -199,7 +202,7 @@ admin
 
 </div>
 
-Password:
+<span lang="nolang" no>Password</span>:
 
 <div class="cred">
 
