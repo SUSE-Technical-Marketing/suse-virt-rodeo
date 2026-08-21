@@ -3,8 +3,8 @@ slug: the-arrival-welcome
 id: ermykdy1tbse
 type: challenge
 title: "\U0001F3E6 Chapter 1: The Arrival"
-teaser: <span lang="en" hist="vertrex-bank" id="teaser1">Vertex Trust Bank is drowning in legacy <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>
-  costs. Step into the boardroom, take command of <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>,
+teaser: <span lang="en" hist="vertrex-bank" id="ts1">Vertex Trust Bank is drowning in legacy <span lang="nolang" no>hypervisor</span>
+  costs. Step into the boardroom, take command of <span lang="nolang" no>SUSE Virtualization</span>,
   and inspect your new command center.</span>
 notes:
 - type: text

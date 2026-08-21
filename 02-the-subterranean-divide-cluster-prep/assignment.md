@@ -3,7 +3,7 @@ slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
 title: "\U0001F6D7 Chapter 2: The Subterranean Divide"
-teaser: <span lang="en" hist="vertrex-bank" id="teaser1">Two hardware silos, two teams that barely speak. Descend into the datacenter,
+teaser: <span lang="en" hist="vertrex-bank" id="ts2">Two hardware silos, two teams that barely speak. Descend into the datacenter,
   map the node topology, and give every disk in the fabric a price tag the bank can
   live with.</span>
 tabs:
