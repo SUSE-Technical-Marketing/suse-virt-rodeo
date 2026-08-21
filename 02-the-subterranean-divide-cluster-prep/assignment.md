@@ -2,7 +2,7 @@
 slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
-title: "\<span id="assignment.12" lang="en" hist="sky-telco">🛗 Chapter 2: The Subterranean Divide</span>"
+title: "<span id="assignment.12" lang="en" hist="sky-telco">🛗 Chapter 2: The Subterranean Divide</span>"
 teaser: <span lang="en" hist="sky-telco" id="ts2">🛗 Chapter 2: The Subterranean Divide
 ======================================</span>
 tabs:
