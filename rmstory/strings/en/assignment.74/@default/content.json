@@ -1,0 +1,8 @@
+{
+  "content": "\n2. Click the  on the right side of its row\n3. Select <span id=\"assignment.74.1\"/> then click <span id=\"assignment.74.2\"/> after prompted to confirm.\n4. Wait for its state to change to <span id=\"assignment.74.3\"/>\n\nThis halts its CPU cycles, dedicating maximum hardware resources to your emergency operation.\n\n> [!NOTE]\n> This is not really necessary, we have setup already a dedicated network for live migration traffic, is here for educational purposes\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.970904+00:00"
+}

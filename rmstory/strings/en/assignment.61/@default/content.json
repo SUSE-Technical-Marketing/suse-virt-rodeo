@@ -1,0 +1,8 @@
+{
+  "content": " until the virtual machine transitions to the **Running** state.\n\n\n  \n\n\n\n1. Click the <span id=\"assignment.61.1\"/> button on the virtual machine row to open the VNC web console\n2. Observe we can access the system without a connection by using this method, **don't wait for the installation to finish just move on to the next**.\n3. Close the console window\n\n\n\n🏋️ Bonus Drills: see through the abstraction (optional, for the command-line curious)\n========================================================================================\n\nNew to <span id=\"assignment.2.2\"/>? **Skip ahead freely.** Otherwise, back in the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.969361+00:00"
+}

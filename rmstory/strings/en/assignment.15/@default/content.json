@@ -1,0 +1,8 @@
+{
+  "content": "\n☁️ What is <span id=\"assignment.2.8\"/>?\n====================\n\n<span id=\"assignment.2.8\"/> is the distributed storage system built into <span id=\"ch1.intro1.2\"/> that you can use. It pools the raw disks sitting on every node and turns them into one shared storage fabric.\n\nBy default every volume it creates is replicated across multiple nodes, so a disk failure or a node reboot never makes you lose the data. No SAN, no separate storage team, one system for VMs and containers alike.\n\nIt is ready for you to use but if you want to use other <span id=\"assignment.2.9\"/> you are free to use it, no vendor lock-in.\n\n\n🖥️ Task 1: Inspect the physical node topology\n=============================================\n\n\n\n  \n\n\n\nGo to the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.964341+00:00"
+}

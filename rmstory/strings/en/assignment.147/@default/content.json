@@ -1,0 +1,8 @@
+{
+  "content": "\nFinally, we want all production machines standardized on a set of packages and settings:\n\n- <span id=\"assignment.54.1\"/>:\n  - <span id=\"assignment.54.4\"/>: prod/prod\n\nTo finalize, click <span id=\"assignment.19.3\"/>.\n\nCan you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency, and inconsistency makes further automation even more difficult.\n\n\n> [!NOTE]\n> Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage: a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.\n\n\n📈 Task 2: Scale the fleet under pressure\n=========================================\n\nBecause the template already exists, deploying multiple servers takes just a few clicks.\n\n\n  \n\n\nIn ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.979675+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": ", navigate to **<span id=\"assignment.6.3\"/>** on the left side panel, and confirm that the base <span id=\"assignment.39.1\"/> operating system image is present and marked as **<span id=\"assignment.6.17\"/>**.\n\n> [!NOTE]\n> <span id=\"assignment.6.3\"/> in <span id=\"ch1.intro1.2\"/> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk. The image itself is never modified.\n\n**If the image were missing**, you could add it yourself in seconds, no waiting for a storage admin.\n\nImages can be created from a URL, uploaded from your workstation, or exported from an existing volume via <span id=\"assignment.39.2\"/>:\n\n\n  \n\n\nFor example, let's add a new image:\n\n1. Go to **<span id=\"assignment.6.3\"/>** on the left panel and click <span id=\"assignment.19.3\"/>, then fill in the following details:\n   - <span id=\"assignment.39.3\"/>: official-images\n   - <span id=\"assignment.19.4\"/>: filled in automatically\n   - Basics:\n     - <span id=\"assignment.39.4\"/>:\n\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.967293+00:00"
+}

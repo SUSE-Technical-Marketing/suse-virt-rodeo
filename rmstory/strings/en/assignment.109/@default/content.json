@@ -1,0 +1,8 @@
+{
+  "content": "\nNotice the <span id=\"assignment.27\"/> section, in here we can specify where the network will be available.\n\n2. Under <span id=\"assignment.109.1\"/>, set <span id=\"assignment.109.2\"/> to ens5\n\n3. Click <span id=\"assignment.19.3\"/>\n\n\n\n  \n\n\nNow define the VM-facing network on top of it. Select <span id=\"assignment.109.3\"/> and click <span id=\"assignment.19.3\"/> to define a new secure perimeter:\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.974964+00:00"
+}

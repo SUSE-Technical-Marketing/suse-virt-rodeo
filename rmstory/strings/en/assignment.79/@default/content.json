@@ -1,0 +1,8 @@
+{
+  "content": "\n1. Read the <span id=\"assignment.79.1\"/> column and **write down** which node the gateway is running on: you will want proof it moved\n2. Click the  on the far right side of its row\n3. Select <span id=\"assignment.79.2\"/> from the context menu\n4. Choose a different, safe target node from the dropdown list\n5. Click <span id=\"assignment.74.2\"/>\n\nBehind the scenes, <span id=\"assignment.2.3\"/> copies the VM's live memory pages to the target node over the network, tracking and re-copying any pages the busy gateway dirties mid-flight, until it can freeze, flip, and resume execution on the new node in a fraction of a second.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.971543+00:00"
+}

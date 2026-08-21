@@ -1,0 +1,8 @@
+{
+  "content": ", log into the virtual machine (it may take a couple of minutes until the VM starts):\n\n```bash,wrap,run\nwhile [[ \"${IPA}\" ==  \"\" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'|grep -v ':'`; sleep 5; echo -n '.'; done ; while [[ \"$?\" != \"0\" ]] ; do ssh -T -o StrictHostKeyChecking=accept-new sles@${IPA} 2>/dev/null ; sleep 5; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}\n\n```\n\nGenerate the highly sensitive transaction record onto the disk by typing exactly this:\n\n```bash,wrap,run\necho \"CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED\" > /home/sles/ledger.txt\n```\n\n**Now capture the baseline.** Switch to the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.976782+00:00"
+}

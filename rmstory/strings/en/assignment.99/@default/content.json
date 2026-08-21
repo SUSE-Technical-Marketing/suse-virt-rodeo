@@ -1,0 +1,8 @@
+{
+  "content": "\n💼 Why does this matter?\n==============================================\n\n- **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots: workloads simply slide to healthy nodes while your services are working.\n- **Planned maintenance without midnight windows.** One click on **Maintenance Mode** drains an entire node automatically. Routine patching happens at 2 PM instead of 2 AM, and nobody keeps a spreadsheet of which VM lives where.\n- **An audit trail regulators can read.** Every migration is a recorded API object, no more reconstructing what happened from console screenshots.\n\nClick **Check** to continue. 🕵️\n\n📚 More information\n===================\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.974042+00:00"
+}

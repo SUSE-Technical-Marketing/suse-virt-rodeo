@@ -1,0 +1,8 @@
+{
+  "content": "\n## Two layers of software-defined networking\n\n<span id=\"ch1.intro1.2\"/> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN, capabilities the bank used to pay a separate closed-source SDN license for:\n\n| Layer | Technology | Use tonight |\n|-------|-----------|-------------|\n| L2 / VLAN bridging | **<span id=\"assignment.2.14\"/>** | The vault VLAN isolating the database |\n| SDN / isolated overlay zones | **<span id=\"assignment.2.13\"/>** | Private subnets with no external path, even overlapping CIDRs |\n\n\n\n## 🎯 Your Quest Objectives\n\n1. Connect a closed-loop physical network for production\n2. Build an equally isolated SDN for development\n3. Learn how to move VMs into the new networks\n\n\n\n🔐 Login Credentials\n====================\n\nThe <span id=\"assignment.69.1\"/> UI and <span id=\"assignment.2.12\"/> UI use the same credentials.\n  ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.974574+00:00"
+}

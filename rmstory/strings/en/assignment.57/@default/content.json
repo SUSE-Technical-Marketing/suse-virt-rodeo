@@ -1,0 +1,8 @@
+{
+  "content": "\nThe engine must come up on a **predictable address**, not whatever DHCP hands out. In the <span id=\"assignment.57.1\"/> field, enter:\n\n```yaml\nversion: 2\nethernets:\n  enp1s0:\n    addresses:\n      - 192.168.122.50/24\n    gateway4: 192.168.122.1\n    nameservers:\n      addresses:\n        - 192.168.122.1\n```\n\nCloud-init applies both on first boot: <span id=\"assignment.57.2\"/> will come online at `192.168.122.50` with zero post-deployment manual setup.\n\n> [!NOTE]\n> This is **cloud-init**, the same industry-standard mechanism used by every major public cloud.\n> In a real-case scenario there would be more complete automation and dedicated templates for this server's purpose.\n\n\nNow we have finished the configuration please click <span id=\"assignment.19.3\"/> to initialize the deployment of the Virtual Machine.\n\nDon't wait for it to finish booting, please proceed to the next task.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.968955+00:00"
+}

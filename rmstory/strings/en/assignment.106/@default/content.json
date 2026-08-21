@@ -1,0 +1,8 @@
+{
+  "content": "\n🧱 Task 1: Connect a closed loop physical network\n=================================================\n\nOur team has set up the <span id=\"ch1.intro1.2\"/> nodes with an extra dedicated NIC that is connected in a physically closed loop. Let's use it for our most precious traffic and create an isolated production network.\n\nIn the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.974675+00:00"
+}

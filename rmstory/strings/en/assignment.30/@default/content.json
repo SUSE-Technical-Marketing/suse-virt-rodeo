@@ -1,0 +1,8 @@
+{
+  "content": ":\n\n\n- **See your UI storage classes as API objects**: the workspace and both storage tiers:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;\n```\n\n- **Label the new workspace** so future automation can target it easily:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev\n```\n\n💼 Why does this matter?\n==============================================\n\n- **The silos disappear.** VMs and containers share nodes, storage, and one operations team. The datacenter's \"temperature divide\" is gone.\n- **No retraining cliff.** The container team's <span id=\"assignment.2.2\"/> skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by <span id=\"assignment.2.2\"/> API.\n- **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls. Auditors will love it.\n- **Storage has a price list now.** Replication is a dial, not a default. Production data gets three copies because it must; disposable sandboxes get one because they should not cost more than they need to.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.966047+00:00"
+}

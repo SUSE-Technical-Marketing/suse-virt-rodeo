@@ -1,0 +1,8 @@
+{
+  "content": "\n> [!IMPORTANT]\n> Since this lab runs on a **nested configuration**, I/O performance is a bit slower than usual, and the provisioning process will take a few minutes. While your VM spins up, we have some entertainment lined up for you! Head over to Bonus Drills to learn how to interact with the <span id=\"ch1.intro1.2\"/> API using the CLI. Everything in <span id=\"ch1.intro1.2\"/> is a <span id=\"assignment.2.2\"/> object, which means you can manage it via the <span id=\"assignment.2.2\"/> API through the underlying RKE2 cluster.\n> Once you're done, jump back into Task 3.\n\n🖥️ Task 3: Access the Web Console\n=================================\n\nMonitor the ",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.969254+00:00"
+}

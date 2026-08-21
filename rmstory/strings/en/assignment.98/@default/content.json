@@ -1,0 +1,8 @@
+{
+  "content": ":\n\n- **Review the migration record** (who moved, when, from where to where):\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A\n```\n\n- **Inspect the details of the completed migration:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 \"Status\"\n```\n\n- **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy: <span id=\"ch1.intro1.2\"/> can reschedule VMs from a failed host automatically:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy\n```\n\n> [!NOTE]\n> **Beyond compute:** the same zero-downtime idea also applies to *disks*. <span id=\"ch1.intro1.2\"/> supports **in-place storage live migration** (moving a running VM's volumes between storage backends, for example from <span id=\"assignment.2.8\"/> to an external <span id=\"assignment.2.9\"/> array) without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.973930+00:00"
+}

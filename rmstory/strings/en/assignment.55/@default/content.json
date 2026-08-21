@@ -1,0 +1,8 @@
+{
+  "content": "\nFor the <span id=\"assignment.55.1\"/>, enter:\n\n```yaml\n#cloud-config\npackages:\n  - qemu-guest-agent\nruncmd:\n  - - systemctl\n    - enable\n    - --now\n    - qemu-guest-agent.service\nwrite_files:\n  - path: /etc/issue\n    content: |\n      \\e{red}Production\\e{reset}\n    append: true\nssh_authorized_keys:\n  - ssh-ed25519\n    AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa\n```\n\nSave the template by clicking in <span id=\"assignment.19.3\"/> (inside the template box)\n\n\nSince the template lives in the <span id=\"assignment.55.2\"/> namespace and is itself named <span id=\"assignment.55.2\"/>, it becomes prod/prod: the production standard, ready to use for every VM.\n\n\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.extract",
+  "date_updated": "2026-08-21T16:51:11.968748+00:00"
+}
