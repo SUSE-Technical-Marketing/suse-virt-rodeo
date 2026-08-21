@@ -2,8 +2,8 @@
 slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
-title: '<span id="assignment.116" lang="en" hist="vertrex-bank">⏪ Chapter 6: The Unthinkable Error</span>'
-teaser: <span id="assignment.117" lang="en" hist="vertrex-bank">A slipped cursor just deleted a $100M settlement record. Turn back the clock
+title: '<span id="assignment.116" lang="en" hist="sky-telco">⏪ Chapter 6: The Unthinkable Error</span>'
+teaser: <span id="assignment.117" lang="en" hist="sky-telco">A slipped cursor just wiped out a $100M carrier interconnect settlement record. Turn back the clock
   with VM snapshots, verify the recovery in a safe staging clone, then make protection
   permanent with scheduled off-cluster backups.</span>
 tabs:
@@ -28,12 +28,8 @@ difficulty: intermediate
 timelimit: 3600
 enhanced_loading: null
 ---
-<span id="assignment.118" lang="en" hist="vertrex-bank">
-
-⏪ Chapter 6: <span id="assignment.118.1" lang="en" no>The Unthinkable Error</span>
-===================================
-
-</span>
+<span id="assignment.118" lang="en" hist="sky-telco">⏪ Chapter 6: <span id="assignment.118.1" lang="en" no>The Unthinkable Error</span>
+===================================</span>
 
 <style type="text/css">
   * {
@@ -143,43 +139,37 @@ enhanced_loading: null
 
 <div id="601" class="story">
 
-<span id="assignment.119" lang="en" hist="vertrex-bank">
-The next morning, the exhausted silence of the night shift is abruptly broken by a muffled job coming from the junior database administrator's desk.
+<span id="assignment.119" lang="en" hist="sky-telco">The next morning, the exhausted silence of the night shift is abruptly broken by a muffled groan coming from the junior network operations engineer's desk.
 
-You and Sarah walk over immediately. The junior admin is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary <b class="highlightcopy">transaction-ledger</b> server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
+You and Sarah walk over immediately. The junior engineer is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary billing-ledger server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
 
-A <b class="danger">one hundred million dollar</b> corporate transaction settlement record, finalized only moments before, has been wiped entirely from the disk.
+A one hundred million dollar carrier interconnect settlement record, finalized only moments before, has been wiped entirely from the disk.
 
-*"I destroyed it,"* the admin whispers, trembling. *"The backup tape run does not happen until midnight. The data is just gone."*
+*"I destroyed it,"* the engineer whispers, trembling. *"The backup tape run does not happen until midnight. The data is just gone."*
 
-Sarah closes her eyes, rubbing her temples, bracing for the devastating impact this will have on the bank's stock price and reputation. But you place a steady hand on the admin's shoulder.
+Sarah closes her eyes, rubbing her temples, bracing for the devastating impact this will have on the provider's regulatory standing and reputation with roaming partners. But you place a steady hand on the engineer's shoulder.
 
 *"The data isn't gone,"* you say calmly. *"Our new storage architecture relies on distributed block-level snapshots. I took a baseline state capture right before the morning shift started."*
 
-You step up to his terminal. It is time to turn back the clock. But you must be careful: you want to **verify the restored data in a safe sandbox before overwriting production**.
-</span>
+You step up to his terminal. It is time to turn back the clock. But you must be careful: you want to **verify the restored data in a safe sandbox before overwriting production**.</span>
 
 </div>
 
-<span id="assignment.120" lang="en" no>
-<div class="missionbox">
-
-## 🎯 Your Quest Objectives
+<span id="assignment.120" lang="en" no>## 🎯 Your Quest Objectives
 
 1. Simulate the creation and destruction of the record
 2. Clone a staging environment from the snapshot
 3. Verify the data in the staging sandbox
 4. Restore the production system
-5. Connect the <span id="assignment.120.1" lang="nolang" hist="vertrex-bank">bank's off-cluster backup vault</span>
+5. Connect the <span id="assignment.120.1" lang="nolang" hist="sky-telco">bank's off-cluster backup vault</span>
 6. Put backups on a schedule
 
-</div>
+
 
 🔐 Login Credentials
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -203,33 +193,31 @@ admin
 
 
 
-<span id="assignment.121" lang="en" no>
-💥 Task 1: Simulate the creation and destruction of the record
+<span id="assignment.121" lang="en" no>💥 Task 1: Simulate the creation and destruction of the record
 ==============================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video1.gif"/>
-</div>
+
+  
+
 
 You will replay this morning's events yourself, so you understand exactly what the snapshot protects.
 
-In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.122" lang="en" no>, log into the virtual machine (it may take a couple of minutes until the VM starts):
+In the</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.122" lang="en" no>, log into the virtual machine (it may take a couple of minutes until the VM starts):
 
 ```bash,wrap,run
 while [[ "${IPA}" ==  "" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'|grep -v ':'`; sleep 5; echo -n '.'; done ; while [[ "$?" != "0" ]] ; do ssh -T -o StrictHostKeyChecking=accept-new sles@${IPA} 2>/dev/null ; sleep 5; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}
 
 ```
 
-Generate the highly sensitive transaction record onto the disk by typing exactly this:
+Generate the highly sensitive interconnect settlement record onto the disk by typing exactly this:
 
 ```bash,wrap,run
-echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/ledger.txt
+echo "CARRIER: WAYNE MOBILE | SETTLEMENT: 100,000,000 | STATUS: CLEARED" > /home/sles/ledger.txt
 ```
 
-**Now capture the baseline.** Switch to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.123" lang="en" no>:
+**Now capture the baseline.** Switch to the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.123" lang="en" no>:
 
-1. Navigate to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>, then locate the following VM and click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> button next to it:
-</span>
+1. Navigate to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>, then locate the following VM and click the  button next to it:</span>
 
 <div class="cred">
 
@@ -238,10 +226,8 @@ core-services
 ```
 
 </div>
-<span id="assignment.124" lang="en" no>
-2. Click on <span id="assignment.124.1" lang="nolang" no>**Take Virtual Machine Snapshot**</span>
-3. Name it:
-</span>
+<span id="assignment.124" lang="en" no>2. Click on <span id="assignment.124.1" lang="nolang" no>**Take Virtual Machine Snapshot**</span>
+3. Name it:</span>
 
 <div class="cred">
 
@@ -251,19 +237,18 @@ pre-disaster-backup
 
 </div>
 
-<span id="assignment.125" lang="en" no>
-4. Click on <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.125" lang="en" no>4. Click on <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 5. Navigate to <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>, then click on <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span> and wait for one we just created to have the state <span id="assignment.125.3" lang="nolang" no>**Ready**</span>: the rollback point is set
 
 
-Return to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.126" lang="en" no> and simulate the junior admin's terrible mistake:
+Return to the</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.126" lang="en" no>and simulate the junior engineer's terrible mistake:
 
 ```bash,run
 rm -f /home/sles/ledger.txt
 ```
 
-One hundred million dollars, gone from the disk. Leave the VM console:
+One hundred million dollars in settlement money, gone from the disk. Leave the VM console:
 
 ```bash,run
 exit
@@ -273,22 +258,21 @@ exit
 🧪 Task 2: Clone a staging environment from the snapshot
 ========================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video2.gif"/>
-</div>
+
+  
+
 
 Instead of immediately restoring production, you will build a **clone** to verify the data first, non-destructive recovery is always advised.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.127" lang="en" no>.
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.127" lang="en" no>.
 
 1. Navigate to <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>, then click on <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>
 
 2. Click on <span id="assignment.127.1" lang="nolang" no>**pre-disaster-backup**</span> snapshot:
 
-3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> next to it and select <span id="assignment.127.2" lang="nolang" no>**Restore New**</span>
+3. Click the  next to it and select <span id="assignment.127.2" lang="nolang" no>**Restore New**</span>
 
-4. Name the new virtual machine:
-</span>
+4. Name the new virtual machine:</span>
 
 
 <div class="cred">
@@ -300,8 +284,7 @@ core-services-staging-verify
 </div>
 
 
-<span id="assignment.128" lang="en" no>
-5. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.128" lang="en" no>5. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 
 > [!Note]
@@ -309,19 +292,18 @@ core-services-staging-verify
 
 
 
-🏦 Task 3: Connect the off-cluster backup vault
+📡 Task 3: Connect the off-cluster backup vault
 ======================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video3.gif"/>
-</div>
+
+  
+
 
 Snapshots saved us this morning, but snapshots live on the **same cluster** as the workload. They protect against fat fingers, but not against physical damage or cyber attacks. For real disaster recovery we operate an off-cluster **backup vault**: an NFS share on a separate storage system. Time to plug it in.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.129" lang="en" no>:
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.129" lang="en" no>:
 
-1. Go to <span id="assignment.129.1" lang="nolang" no>**Advanced > Settings**</span> and locate:
-</span>
+1. Go to <span id="assignment.129.1" lang="nolang" no>**Advanced > Settings**</span> and locate:</span>
 
 <div class="cred">
 
@@ -330,12 +312,10 @@ backup-target
 ```
 
 </div>
-<span id="assignment.130" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.130.1" lang="nolang" no>**Edit Setting**</span>, add the following:
+<span id="assignment.130" lang="en" no>2. Click the  on its row and select <span id="assignment.130.1" lang="nolang" no>**Edit Setting**</span>, add the following:
 
 - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <span id="assignment.130.2" lang="nolang" no><b class="highlightcopy">NFS</b></span>
-- <span id="assignment.130.3" lang="nolang" no>**Endpoint**</span>:
-</span>
+- <span id="assignment.130.3" lang="nolang" no>**Endpoint**</span>:</span>
 
 <div class="cred">
 
@@ -345,31 +325,22 @@ backup-target
 
 </div>
 
-<span id="assignment.131" lang="en" no>
-3. Click <span id="assignment.114.7" lang="nolang" no>**Save**</span>
+<span id="assignment.131" lang="en" no>3. Click <span id="assignment.114.7" lang="nolang" no>**Save**</span>
 
 The cluster can now ship complete VM backups off the cluster, the modern equivalent of the midnight tape run, minus the midnight. An **S3** bucket works just as well as an endpoint; in a production deployment this would point to a physically separated facility.
 
 
 ⏰ Task 4: Put backups on a schedule
-====================================
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video4.gif"/>
-</div>
-</span>
+====================================</span>
 
 <div id="602" class="story">
-<span id="assignment.132" lang="en" hist="vertrex-bank">
-Ad-hoc snapshots can the day once; policy keeps the bank safe every day after.
-</span>
+<span id="assignment.132" lang="en" hist="sky-telco">Ad-hoc snapshots can save the day once; policy keeps the network safe every day after.</span>
 </div>
 
-<span id="assignment.133" lang="en" no>
-Put <b class="highlightcopy">core-services</b> itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
+<span id="assignment.133" lang="en" no>Put core-services itself under an automatic backup schedule so nobody ever has to remember to do this by hand again.
 
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.134" lang="en" no>:
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.134" lang="en" no>:
 
 1. Go to <span id="assignment.134.1" lang="nolang" no>**Backup & Snapshot > Virtual Machine Schedules**</span> and click <span id="assignment.134.2" lang="nolang" no>**Create schedule**</span>
 2. Set the following details:
@@ -377,10 +348,9 @@ In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) 
   - <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>
   - <span id="assignment.134.3" lang="nolang" no>**Virtual Machine Name**</span>: <span id="assignment.134.4" lang="nolang" no><b class="highlightcopy">core-services</b></span>
   - <span id="assignment.134.5" lang="nolang" no>**Basics**</span>:
-    - <span id="assignment.134.6" lang="nolang" no>**Retain:**</span> <b class="highlightcopy">5</b>
-    - <span id="assignment.134.7" lang="nolang" no>**Max Failure:**</span> <b class="highlightcopy">2</b>
-    - <span id="assignment.134.8" lang="nolang" no>**Cron Schedule:**</span> (at minute 00, every 5 hours)
-</span>
+    - <span id="assignment.134.6" lang="nolang" no>**Retain:**</span> 5
+    - <span id="assignment.134.7" lang="nolang" no>**Max Failure:**</span> 2
+    - <span id="assignment.134.8" lang="nolang" no>**Cron Schedule:**</span> (at minute 00, every 5 hours)</span>
 
 <div class="cred">
 
@@ -391,8 +361,7 @@ In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) 
 </div>
 
 
-<span id="assignment.135" lang="en" no>
-4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.135" lang="en" no>4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 From now on the platform backs the VM up to the NFS vault every five hours, keeps the five most recent copies, and pauses the schedule if two consecutive runs fail. Set once, protected forever.
 
@@ -401,15 +370,15 @@ From now on the platform backs the VM up to the NFS vault every five hours, keep
 🔍 Task 5: Verify the data in the staging sandbox
 =================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video5.gif"/>
-</div>
 
-Now that <b class="highlightcopy">core-services-staging-verify</b> is up and running, let's verify the file is there.
+  
+
+
+Now that core-services-staging-verify is up and running, let's verify the file is there.
 
 This time we will use the graphical console, since the VM has no network.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.136" lang="en" no>:
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.136" lang="en" no>:
 
 1. Go to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>
 2. Click <span id="assignment.61.1" lang="nolang" no>**Console**</span> drop-down and select <span id="assignment.136.1" lang="nolang" no>**Open in WebVNC**</span>, a new window will appear with the terminal, feel free to resize it.
@@ -417,8 +386,7 @@ In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) 
    - <span id="assignment.136.2" lang="nolang" no>**username**</span>: 'sles'
    - <span id="assignment.136.3" lang="nolang" no>**password**</span>: '1234'
 
-4. Once inside run the following command:
-</span>
+4. Once inside run the following command:</span>
 
 
 <div class="cred">
@@ -429,44 +397,43 @@ cat /home/sles/ledger.txt
 
 </div>
 
-<span id="assignment.137" lang="en" no>
-5. It should return:
+<span id="assignment.137" lang="en" no>5. It should return:
 
-**CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED**
+**CARRIER: WAYNE MOBILE | SETTLEMENT: 100,000,000 | STATUS: CLEARED**
 
 
-The text prints flawlessly. <span id="assignment.137.1" lang="en" hist="vertrex-bank">**The data is safe.**</span>
+The text prints flawlessly. <span id="assignment.137.1" lang="en" hist="sky-telco">**The data is safe.**</span>
 
 
 Now let's delete the clone we no longer need.
 
 1. Close the window with the console.
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on **core-services-staging-verify** row and select <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, and again <span id="assignment.137.2" lang="nolang" no>**Delete**</span>.
+2. Click the  on **core-services-staging-verify** row and select <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, and again <span id="assignment.137.2" lang="nolang" no>**Delete**</span>.
 
 
 
 ♻️ Task 6: Restore the production system
 =========================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter6_video6.gif"/>
-</div>
+
+  
+
 
 Now that you have verified the snapshot's integrity, proceed to restore the production system:
 
 1. Go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>**
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on **core-services** row and select <span id="assignment.137.3" lang="nolang" no>**Stop**</span>, and again <span id="assignment.74.2" lang="nolang" no>**Apply**</span>.
+2. Click the  on **core-services** row and select <span id="assignment.137.3" lang="nolang" no>**Stop**</span>, and again <span id="assignment.74.2" lang="nolang" no>**Apply**</span>.
 3. Once it has completely stopped, navigate to <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>, then click on <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>
 
 4. Click on **pre-disaster-backup** snapshot:
 
-5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> next to it and select <span id="assignment.137.4" lang="nolang" no>**Replace Existing**</span>
+5. Click the  next to it and select <span id="assignment.137.4" lang="nolang" no>**Replace Existing**</span>
 
 6. Click on <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 The VM will power itself back up because that is what the run strategy defines.
 
-Optionally, SSH back and `cat` the file one last time, then logout of the VM. <span id="assignment.137.5" lang="en" hist="vertrex-bank">The record is back where it belongs.</span>
+Optionally, SSH back and `cat` the file one last time, then logout of the VM. <span id="assignment.137.5" lang="en" hist="sky-telco">The record is back where it belongs.</span>
 
 
 🏋️ Bonus Drills: see the machinery behind the safety net (optional)
@@ -482,17 +449,16 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; ku
 > Make sure you logout of the VM before running this commands.
 
 
-💼 Why does this matter?
+📶 Why does this matter?
 ==============================================
 
 - **Human error stops being catastrophic.** Recovery went from "wait for midnight tapes and pray" to a five-minute, self-service rollback.
-- **Verify before you overwrite.** Restoring to a clone means you never gamble production on an unverified backup, a pattern your auditors and your junior admins will both sleep better with.
+- **Verify before you overwrite.** Restoring to a clone means you never gamble production on an unverified backup, a pattern your auditors and your junior engineers will both sleep better with.
 - **Protection is now policy, not heroics.** An off-cluster NFS backup vault and a five-hourly backup schedule mean the safety net runs itself from here on.
 
 Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. 🤠
 
 📚 More information
-===================
-</span>
+===================</span>
 
 - [Virtual Machine Backup and Restore](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)

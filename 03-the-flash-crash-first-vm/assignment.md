@@ -2,9 +2,8 @@
 slug: the-flash-crash-first-vm
 id: 09d4eiczcvaw
 type: challenge
-title: '<span id="assignment.33" lang="en" hist="vertrex-bank">⚡ Chapter 3: The Flash Crash</span>'
-teaser: <span id="assignment.34" lang="en" hist="vertrex-bank">The Asian markets are melting down and the quants need a calculation engine
-  NOW. Deploy a fully configured VM with storage and credentials in minutes, not days.</span>
+title: '<span id="assignment.33" lang="en" hist="sky-telco">⚡ Chapter 3: The Signal Storm</span>'
+teaser: <span id="assignment.34" lang="en" hist="sky-telco">Cell towers across the region are dropping calls by the thousands and the network engineers need a routing engine NOW. Deploy a fully configured VM with storage and credentials in minutes, not days.</span>
 tabs:
 - id: 6byxu4pxkfpm
   title: SUSE Virtualization UI
@@ -27,12 +26,8 @@ difficulty: basic
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.35" lang="en" hist="vertrex-bank">
-
-⚡ Chapter 3: The Flash Crash
-=============================
-
-</span>
+<span id="assignment.35" lang="en" hist="sky-telco">⚡ Chapter 3: The Signal Storm
+=============================</span>
 
 <style type="text/css">
   * {
@@ -159,38 +154,32 @@ enhanced_loading: null
 
 <div id="301" class="story">
 
-<span id="assignment.36" lang="en" hist="vertrex-bank">
-You are sitting in a makeshift office just outside the datacenter, halfway through reviewing the network topology, when the overhead emergency lights suddenly pulse a harsh yellow. Your radio crackles to life. It is the **Head of Quantitative Trading**, and he sounds panicked.
+<span id="assignment.36" lang="en" hist="sky-telco">You are sitting in a makeshift office just outside the datacenter, halfway through reviewing the network topology, when the overhead emergency lights suddenly pulse a harsh yellow. Your radio crackles to life. It is the **Head of Network Operations**, and he sounds panicked.
 
-*"We have a <span class="danger">massive anomaly</span> in the Asian markets!"* he shouts over the chaotic background noise of a frenzied trading floor. *"Our current algorithmic models are failing to parse the incoming data stream fast enough. We need a new, dedicated high-performance calculation engine deployed immediately, complete with a secondary high-speed data volume, or we are going to bleed millions in the next ten minutes!"*
+*"We have a massive anomaly hitting the eastern cell sites!"* he shouts over the chaotic background noise of a frenzied Network Operations Center. *"Our current routing algorithms are failing to parse the incoming signaling traffic fast enough. We need a new, dedicated high-performance routing engine deployed immediately, complete with a secondary high-speed data volume, or we are going to drop millions of calls in the next ten minutes!"*
 
-In the past, fulfilling this emergency request at <b class="bank">Vertex Trust Bank</b> meant opening a priority ticket, waiting for the infrastructure team to carve out storage allocations, and manually installing an operating system. It was a process that took **days**.
+In the past, fulfilling this emergency request at Comet Telecom meant opening a priority ticket, waiting for the infrastructure team to carve out storage allocations, and manually installing an operating system. It was a process that took **days**.
 
 You do not have days. **You have minutes.**
 
 
 
-You bypass the legacy ticketing system entirely and prepare to deploy a fully configured <span id="assignment.2.6" lang="nolang" no>Linux</span> virtual machine (with injected security credentials and attached storage) in mere seconds.
-</span>
+You bypass the legacy ticketing system entirely and prepare to deploy a fully configured <span id="assignment.2.6" lang="nolang" no>Linux</span> virtual machine (with injected security credentials and attached storage) in mere seconds.</span>
 </div>
 
 
-<span id="assignment.37" lang="en" no>
-<div class="missionbox">
-
-## 🎯 Your Quest Objectives
+<span id="assignment.37" lang="en" no>## 🎯 Your Quest Objectives
 
 1. Verify the operating system image
-2. Provision the <span id="assignment.37.1" lang="en" hist="vertrex-bank">calculation engine</span>
+2. Provision the <span id="assignment.37.1" lang="en" hist="sky-telco">routing engine</span>
 3. Access the Web Console
 
-</div>
+
 
 🔐 Login Credentials
 ====================
 
-The **<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UI and **Rancher Prime** UI use the same credentials.
-</span>
+The **<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UI and **Rancher Prime** UI use the same credentials.</span>
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
 
@@ -215,32 +204,29 @@ admin
 
 
 
-<span id="assignment.38" lang="en" no>
-📀 Task 1: Verify the operating system image
+<span id="assignment.38" lang="en" no>📀 Task 1: Verify the operating system image
 ============================================
 
-Go to the </span> [button label="<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI" variant="success"](tab-0) <span id="assignment.39" lang="en" no>, navigate to **<span id="assignment.6.3" lang="nolang" no>Images</span>** on the left side panel, and confirm that the base <span id="assignment.39.1" lang="nolang" no>**SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2**</span> operating system image is present and marked as **<span id="assignment.6.17" lang="nolang" no>Active</span>**.
+Go to the</span> [button label="<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI" variant="success"](tab-0) <span id="assignment.39" lang="en" no>, navigate to **<span id="assignment.6.3" lang="nolang" no>Images</span>** on the left side panel, and confirm that the base <span id="assignment.39.1" lang="nolang" no>**SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2**</span> operating system image is present and marked as **<span id="assignment.6.17" lang="nolang" no>Active</span>**.
 
 > [!NOTE]
-> <span id="assignment.6.3" lang="nolang" no>Images</span> in <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk. The image itself is never modified.
+> <span id="assignment.6.3" lang="nolang" no>Images</span> in <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> are cluster-wide golden masters. Every VM you boot from this image gets its own copy-on-write disk. The image itself is never modified.
 
 **If the image were missing**, you could add it yourself in seconds, no waiting for a storage admin.
 
 Images can be created from a URL, uploaded from your workstation, or exported from an existing volume via <span id="assignment.39.2" lang="nolang" no>**Images > Create**</span>:
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter3-new-image.gif"/>
-</div>
+
+  
+
 
 For example, let's add a new image:
 
 1. Go to **<span id="assignment.6.3" lang="nolang" no>Images</span>** on the left panel and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
-   - <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">official-images</b>
+   - <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: official-images
    - <span id="assignment.19.4" lang="nolang" no>**Name**</span>: filled in automatically
-   - <b style="color:#30ba78;">Basics</b>:
-     - <span id="assignment.39.4" lang="nolang" no>**URL**</span>:
-
-</span>
+   - Basics:
+     - <span id="assignment.39.4" lang="nolang" no>**URL**</span>:</span>
 
 <div class="cred">
 
@@ -251,9 +237,7 @@ http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2
 </div>
 
 
-<span id="assignment.40" lang="en" no>
-
-2. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.40" lang="en" no>2. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 The image you just created appears in the list with the state <span id="assignment.40.1" lang="nolang" no>**Downloading**</span>. You can follow it in the progress column.
 
@@ -264,8 +248,8 @@ Move on to the next task; once the download completes, an alert shows up in the 
 > The download runs server-side, from a local mirror on this lab's own network, so it lands in seconds. The image becomes **<span id="assignment.6.17" lang="nolang" no>Active</span>** once <span id="assignment.2.8" lang="nolang" no>Longhorn</span> has it replicated.
 
 
-🚀 Task 2: Provision the calculation engine
-===========================================
+🚀 Task 2: Provision the routing engine
+========================================
 
 
 For this task we are going to create our first VM.
@@ -274,17 +258,16 @@ For this task we are going to create our first VM.
 > [!NOTE]
 > Please don't click <span id="assignment.19.3" lang="nolang" no>**Create**</span> until instructed.
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter3-new-vm.gif"/>
-</div>
+
+  
+
 
 
 Navigate to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> and click the <span id="assignment.19.3" lang="nolang" no>**Create**</span> button.
 
-<span id="assignment.40.3" lang="en" hist="vertrex-bank">Configure the engine exactly as the quants need it:</span>
+<span id="assignment.40.3" lang="en" hist="sky-telco">Configure the engine exactly as the network engineers need it:</span>
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -305,11 +288,9 @@ prod
 </div>
 
 
-<span id="assignment.42" lang="en" no>
-  If the namespace does not exist, create it.
+<span id="assignment.42" lang="en" no>If the namespace does not exist, create it.
 
-- <span id="assignment.42.1" lang="nolang" no>**CPU**</span>:
-</span>
+- <span id="assignment.42.1" lang="nolang" no>**CPU**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -331,21 +312,17 @@ prod
 </div>
 
 
-<span id="assignment.44" lang="en" hist="vertrex-bank">
-Notice the very low resources: our future crew of quants is highly skilled, and their application is extremely optimized for low latency and low resource usage.
-</span>
+<span id="assignment.44" lang="en" hist="sky-telco">Notice the very low resources: our future crew of network engineers is highly skilled, and their application is extremely optimized for low latency and low resource usage.</span>
 
-<span id="assignment.45" lang="en" no>
-- <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: <b class="highlightcopy">prod/default</b>
+<span id="assignment.45" lang="en" no>- <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
 
 
 
 
-Under the <b style="color:#30ba78;"><span id="assignment.6.4" lang="nolang" no>Volumes</span></b> tab (green, not to be confused with the one in black), fill in the following details:
+Under the <span id="assignment.6.4" lang="nolang" no>Volumes</span> tab (green, not to be confused with the one in black), fill in the following details:
 
-- <span id="assignment.45.2" lang="nolang" no>**Image**</span>: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
-- <span id="assignment.45.3" lang="nolang" no>**Size**</span>:
-</span>
+- <span id="assignment.45.2" lang="nolang" no>**Image**</span>: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2
+- <span id="assignment.45.3" lang="nolang" no>**Size**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -354,11 +331,9 @@ Under the <b style="color:#30ba78;"><span id="assignment.6.4" lang="nolang" no>V
 
 </div>
 
-<span id="assignment.46" lang="en" no>
-Then add a new volume by clicking <span id="assignment.46.1" lang="nolang" no>**Add Volume**</span>, and fill in the following details:
+<span id="assignment.46" lang="en" no>Then add a new volume by clicking <span id="assignment.46.1" lang="nolang" no>**Add Volume**</span>, and fill in the following details:
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -378,29 +353,18 @@ market-data-vol
 
 </div>
 
-<span id="assignment.48" lang="en" hist="vertrex-bank">
-Now wire the engine into the bank's network.</span><span id="assignment.49" lang="en" no>Under the <span id="assignment.49.1" lang="nolang" no><b style="color:#30ba78;">Networks</b></span> tab (green, not to be confused with the one in black):
+<span id="assignment.48" lang="en" hist="sky-telco">Now wire the engine into the carrier's network.</span><span id="assignment.49" lang="en" no>Under the <span id="assignment.49.1" lang="nolang" no><b style="color:#30ba78;">Networks</b></span> tab (green, not to be confused with the one in black):
 
-- <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <span id="assignment.49.3" lang="nolang" no><b class="highlightcopy">prod/service</b></span>
-
-
-
-
-</span>
+- <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <span id="assignment.49.3" lang="nolang" no><b class="highlightcopy">prod/service</b></span></span>
 <div id="302" class="story">
 
 
-<span id="assignment.50" lang="en" hist="vertrex-bank">
-This fulfills the trader's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated <span id="assignment.2.8" lang="nolang" no>Longhorn</span> volumes, the market data survives even if a physical disk dies mid-trade.
-</span>
+<span id="assignment.50" lang="en" hist="sky-telco">This fulfills the network engineer's request for a secondary high-speed data drive. Behind the scenes, both disks become replicated <span id="assignment.2.8" lang="nolang" no>Longhorn</span> volumes, the call records survive even if a physical disk dies mid-outage.</span>
 
 </div>
 
 
-<span id="assignment.51" lang="en" no>
-
-
-Since this is a mixed-environment cluster, let's make sure the VM runs only on production nodes.
+<span id="assignment.51" lang="en" no>Since this is a mixed-environment cluster, let's make sure the VM runs only on production nodes.
 
 Click on <span id="assignment.51.1" lang="nolang" no><b style="color:#30ba78;">Node Scheduling</b></span>: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> offers three choices:
 
@@ -413,8 +377,7 @@ Configure the production rule:
 1. Select <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
 2. Click <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>, then <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -435,13 +398,11 @@ prod
 </div>
 
 
-<span id="assignment.53" lang="en" no>
-Now assign it a label:
+<span id="assignment.53" lang="en" no>Now assign it a label:
 
 Go to the <span id="assignment.53.1" lang="nolang" no><b style="color:#30ba78;">Labels</b></span> tab (not to be confused with <span id="assignment.53.2" lang="nolang" no>"Instance Labels"</span>) and click <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -461,16 +422,14 @@ prod
 
 </div>
 
-<span id="assignment.54" lang="en" no>
-This will help us manage the VM with future automation.
+<span id="assignment.54" lang="en" no>This will help us manage the VM with future automation.
 
 
 Navigate to <span id="assignment.54.1" lang="nolang" no><b style="color:#30ba78;">Advanced Options</b></span> (don't mistake it with <span id="assignment.54.2" lang="nolang" no>'Advanced'</span> on the left column), then select <span id="assignment.54.3" lang="nolang" no>**Cloud Configuration**</span>, to make sure the system comes up with all the required settings and packages installed.
 
 Click on <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span> and select <span id="assignment.54.5" lang="nolang" no>**Create New**</span> to define a standard template. Name it:
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -480,8 +439,7 @@ prod
 </div>
 
 
-<span id="assignment.55" lang="en" no>
-For the <span id="assignment.55.1" lang="nolang" no>**User Data**</span>, enter:
+<span id="assignment.55" lang="en" no>For the <span id="assignment.55.1" lang="nolang" no>**User Data**</span>, enter:
 
 ```yaml
 #cloud-config
@@ -505,18 +463,12 @@ ssh_authorized_keys:
 Save the template by clicking in <span id="assignment.19.3" lang="nolang" no>**Create**</span> (inside the template box)
 
 
-Since the template lives in the <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span> namespace and is itself named <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>, it becomes <b class="highlightcopy">prod/prod</b>: the production standard, ready to use for every VM.
-
-
-</span>
+Since the template lives in the <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span> namespace and is itself named <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>, it becomes prod/prod: the production standard, ready to use for every VM.</span>
 <div id="303" class="story">
-<span id="assignment.56" lang="en" hist="vertrex-bank">
-The trading desk's firewall team has one more demand:
-</span>
+<span id="assignment.56" lang="en" hist="sky-telco">The network operations firewall team has one more demand:</span>
 </div>
 
-<span id="assignment.57" lang="en" no>
-The engine must come up on a **predictable address**, not whatever DHCP hands out. In the <span id="assignment.57.1" lang="nolang" no>**Network Data**</span> field, enter:
+<span id="assignment.57" lang="en" no>The engine must come up on a **predictable address**, not whatever DHCP hands out. In the <span id="assignment.57.1" lang="nolang" no>**Network Data**</span> field, enter:
 
 ```yaml
 version: 2
@@ -539,33 +491,28 @@ Cloud-init applies both on first boot: <span id="assignment.57.2" lang="nolang" 
 
 Now we have finished the configuration please click <span id="assignment.19.3" lang="nolang" no>**Create**</span> to initialize the deployment of the Virtual Machine.
 
-Don't wait for it to finish booting, please proceed to the next task.
-</span>
+Don't wait for it to finish booting, please proceed to the next task.</span>
 
 <div id="304" class="story">
-<span id="assignment.58" lang="en" hist="vertrex-bank">
-Scheduling rules let you separate critical systems from other workloads, for example, pinning the trading engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.
-</span>
+<span id="assignment.58" lang="en" hist="sky-telco">Scheduling rules let you separate critical systems from other workloads, for example, pinning the routing engines to low-latency nodes while batch jobs share the rest. Keeping "any available node" here matters: it is what makes the zero-downtime evacuation in the next chapter possible.</span>
 
 </div>
 
-<span id="assignment.59" lang="en" hist="vertrex-bank">
-> [!NOTE]
-> **When microseconds are money:** the high-frequency trading desk will demand more than placement rules and dedicated hardware. <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to setup a high-frequency trading application.</span>
+<span id="assignment.59" lang="en" hist="sky-telco">> [!NOTE]
+> **When milliseconds mean dropped calls:** the real-time voice and 5G core team will demand more than placement rules and dedicated hardware. <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> can **pin dedicated CPU cores** to a VM, pass hardware straight through, virtualize hardware using **SR-IOV** (for both NICs and GPUs), and slice datacenter GPUs into hardware-isolated **MIG partitions** so several VMs share one GPU with no noisy neighbors. Dedicating physical resources to a VM buys **predictable, consistent latency**. This exercise is just for educational purposes and not a recommendation for how to set up a real-time telecom core network function.</span>
 
-<span id="assignment.60" lang="en" no>
-> [!IMPORTANT]
+<span id="assignment.60" lang="en" no>> [!IMPORTANT]
 > Since this lab runs on a **nested configuration**, I/O performance is a bit slower than usual, and the provisioning process will take a few minutes. While your VM spins up, we have some entertainment lined up for you! Head over to Bonus Drills to learn how to interact with the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> API using the CLI. Everything in <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> is a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> object, which means you can manage it via the <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API through the underlying RKE2 cluster.
 > Once you're done, jump back into Task 3.
 
 🖥️ Task 3: Access the Web Console
 =================================
 
-Monitor the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.61" lang="en" no> until the virtual machine transitions to the **Running** state.
+Monitor the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.61" lang="en" no>until the virtual machine transitions to the **Running** state.
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter3-vm-vnc.gif"/>
-</div>
+
+  
+
 
 
 1. Click the <span id="assignment.61.1" lang="nolang" no>**Console**</span> button on the virtual machine row to open the VNC web console
@@ -577,7 +524,7 @@ Monitor the </span> [button label="SUSE Virtualization UI" variant="success"](ta
 🏋️ Bonus Drills: see through the abstraction (optional, for the command-line curious)
 ========================================================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise, back in the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.62" lang="en" no>, look at what the platform actually created for you:
+New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise, back in the</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.62" lang="en" no>, look at what the platform actually created for you:
 
 - **The golden images are API objects too:**
 
@@ -603,30 +550,25 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod
 ```
 
-You should recognize `market-data-vol` in the list: <span id="assignment.62.2" lang="en" hist="vertrex-bank">a banking data drive, expressed as cloud-native storage</span>.
+You should recognize `network-telemetry-vol` in the list: <span id="assignment.62.2" lang="en" hist="sky-telco">a carrier data drive, expressed as cloud-native storage</span>.
 
 💼 Why does this matter?
 ========================
 
-- **Days become minutes.** A ticket-driven, multi-team provisioning process collapsed into a two-minute self-service workflow, <span id="assignment.62.3" lang="en" hist="vertrex-bank">during a live market crisis.</span>
-- **Consistency by construction.** Golden images plus cloud-init mean every engine the quants request boots identical, configured, and ready.
-- **No stranded storage.** <span id="assignment.6.4" lang="nolang" no>Volumes</span> are carved from the shared <span id="assignment.2.8" lang="nolang" no>Longhorn</span> pool on demand.
-</span>
+- **Days become minutes.** A ticket-driven, multi-team provisioning process collapsed into a two-minute self-service workflow, <span id="assignment.62.3" lang="en" hist="sky-telco">during a live network outage.</span>
+- **Consistency by construction.** Golden images plus cloud-init mean every engine the network team requests boots identical, configured, and ready.
+- **No stranded storage.** <span id="assignment.6.4" lang="nolang" no>Volumes</span> are carved from the shared <span id="assignment.2.8" lang="nolang" no>Longhorn</span> pool on demand.</span>
 
 <div id="305" class="story">
 
-<span id="assignment.63" lang="en" hist="vertrex-bank">
-You radio back to the trading floor. *"Your engine is online and the data volume is attached."* The crisis is averted — but the day is far from over.
-</span>
+<span id="assignment.63" lang="en" hist="sky-telco">You radio back to the Network Operations Center. *"Your engine is online and the data volume is attached."* The crisis is averted — but the day is far from over.</span>
 
 </div>
 
-<span id="assignment.64" lang="en" no>
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. 🌊
+<span id="assignment.64" lang="en" no>Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. 🌊
 
 📚 More information
-===================
-</span>
+===================</span>
 
 - [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)

@@ -2,10 +2,9 @@
 slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
-title: "\<span id="assignment.12" lang="en" hist="vertrex-bank">U0001F6D7 Chapter 2: The Subterranean Divide</span>"
-teaser: <span lang="en" hist="vertrex-bank" id="ts2">Two hardware silos, two teams that barely speak. Descend into the datacenter,
-  map the node topology, and give every disk in the fabric a price tag the bank can
-  live with.</span>
+title: "\<span id="assignment.12" lang="en" hist="sky-telco">🛗 Chapter 2: The Subterranean Divide</span>"
+teaser: <span lang="en" hist="sky-telco" id="ts2">🛗 Chapter 2: The Subterranean Divide
+======================================</span>
 tabs:
 - id: gix6w5fqkxd6
   title: SUSE Virtualization UI
@@ -28,12 +27,8 @@ difficulty: basic
 timelimit: 2400
 enhanced_loading: null
 ---
-<span lang="en" hist="vertrex-bank" id="ts2">
-
-🛗 Chapter 2: The Subterranean Divide
-======================================
-
-</span>
+<span lang="en" hist="sky-telco" id="ts2">🛗 Chapter 2: The Subterranean Divide
+======================================</span>
 
 <style type="text/css">
   * {
@@ -163,22 +158,19 @@ document.querySelectorAll('.cred .my-3 > div:first-child button').forEach(functi
 
 <div id="201" class="story">
 
-<span id="assignment.13" lang="en" hist="vertrex-bank">
-Sarah leads you out of the quiet executive suites, into a secure elevator, and down into the bank's subterranean datacenter. The ambient temperature drops sharply as the heavy steel biometric doors lock behind you. The room hums with the deafening, relentless roar of industrial cooling systems.
+<span id="assignment.13" lang="en" hist="sky-telco">Sarah leads you out of the quiet executive suites, into a secure elevator, and down into the telco's underground datacenter. The ambient temperature drops sharply as the heavy steel biometric doors lock behind you. The room hums with the deafening, relentless roar of industrial cooling systems.
 
-She gestures to the left side of the room, where rows of sleek, densely packed server chassis blink with rapid blue lights. *"Those run our mobile banking APIs,"* she shouts over the fan noise. *"Pure microservices. Fully containerized and agile."*
+She gestures to the left side of the room, where rows of sleek, densely packed server chassis blink with rapid blue lights. *"Those run our customer self-care app APIs,"* she shouts over the fan noise. *"Pure microservices. Fully containerized and agile."*
 
-She then points to the right side of the room, dominated by hulking, archaic server cabinets radiating an uncomfortable amount of heat. *"And those are the legacy monolithic virtual machines holding the core transaction ledgers. Two completely different worlds. Two different hardware silos. Two different engineering teams that barely even speak to each other."*
+She then points to the right side of the room, dominated by hulking, archaic server cabinets radiating an uncomfortable amount of heat. *"And those are the legacy monolithic virtual machines holding the core billing and call-detail records. Two completely different worlds. Two different hardware silos. Two different engineering teams that barely even speak to each other."*
 
-You walk between the two rows, feeling the distinct temperature differential. *"That divide ends today,"* you tell her.
-</span>
+You walk between the two rows, feeling the distinct temperature differential. *"That divide ends today,"* you tell her.</span>
 
 </div>
 
-<span id="assignment.14" lang="en" no>
-## <b class="hovereffect">One fabric for two worlds</b>
+<span id="assignment.14" lang="en" no>## One fabric for two worlds
 
-You explain the elegant architecture of <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b>: by using advanced open-source technologies on a **<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> foundation**, the platform does not just *tolerate* virtual machines: it treats them as **native citizens of the container ecosystem**. The heavy virtual machines will run side-by-side with the nimble containers, managed by the exact same orchestration engine:
+You lay out the elegant blueprint of <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: by using advanced open-source technologies on a **<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> foundation**, the platform does not just *tolerate* virtual machines: it treats them as **native citizens of the container ecosystem**. The heavy virtual machines will run side-by-side with the nimble containers, managed by the exact same orchestration engine:
 
 | Virtualization world | <span id="assignment.14.1" lang="nolang" no>Container</span> World | Unified on <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
 |---------------------|----------------|-------------------------------|
@@ -188,7 +180,7 @@ You explain the elegant architecture of <b class="virt"><span id="ch1.intro1.2" 
 
 That last row is where you start. Every VM disk, every container's persistent volume, all of it rides on the same distributed storage fabric, and not every workload deserves the same price tag.
 
-<div class="missionbox">
+
 
 ## 🎯 Your Quest Objectives
 
@@ -197,13 +189,12 @@ That last row is where you start. Every VM disk, every container's persistent vo
 3. Understand how <span id="assignment.2.8" lang="nolang" no>Longhorn</span> replicates your data
 4. Build a cost-tier storage class for the development team
 
-</div>
+
 
 🔐 Login Credentials
 ====================
 
-The **<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UI and <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.
-</span>
+The **<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UI and <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.</span>
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
 
@@ -226,11 +217,10 @@ admin
 </div>
 
 
-<span id="assignment.15" lang="en" no>
-☁️ What is <span id="assignment.2.8" lang="nolang" no>Longhorn</span>?
+<span id="assignment.15" lang="en" no>☁️ What is <span id="assignment.2.8" lang="nolang" no>Longhorn</span>?
 ====================
 
-<b class="highlightcopy"><span id="assignment.2.8" lang="nolang" no>Longhorn</span></b> is the distributed storage system built into <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> that you can use. It pools the raw disks sitting on every node and turns them into one shared storage fabric.
+<span id="assignment.2.8" lang="nolang" no>Longhorn</span> is the distributed storage system built into <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> that you can use. It pools the raw disks sitting on every node and turns them into one shared storage fabric.
 
 By default every volume it creates is replicated across multiple nodes, so a disk failure or a node reboot never makes you lose the data. No SAN, no separate storage team, one system for VMs and containers alike.
 
@@ -241,43 +231,38 @@ It is ready for you to use but if you want to use other <span id="assignment.2.9
 =============================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video1.gif"/>
-</div>
+
+  
 
 
-Go to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.16" lang="en" no>, navigate to the left-hand menu, and click on **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**.
+
+Go to the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.16" lang="en" no>, navigate to the left-hand menu, and click on **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**.
 
 1. Click on the name of **one of the hosts** in the list
-2. Navigate around the UI and check the different options to understand better how things work. Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the <span id="assignment.2.8" lang="nolang" no>Longhorn</span> distributed storage pool <span id="assignment.16.1" lang="en" hist="vertrex-bank">that will hold the bank's ledgers</span>.
-</span>
+2. Navigate around the UI and check the different options to understand better how things work. Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the <span id="assignment.2.8" lang="nolang" no>Longhorn</span> distributed storage pool <span id="assignment.16.1" lang="en" hist="sky-telco">that will hold the telco's billing and call-detail records</span>.</span>
 
 
 <div id="203" class="story">
-<span id="assignment.17" lang="en" hist="vertrex-bank">
-Banks grow, and so does this fabric. Running low on space is not a complex upgrade anymore. Rack a new node, add its raw disks to the pool, and <span id="assignment.2.8" lang="nolang" no>Longhorn</span> rebalances replicas across the expanded fabric automatically with no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
-</span>
+<span id="assignment.17" lang="en" hist="sky-telco">Telcos grow, and so does this fabric. Running low on space is not a complex upgrade anymore. Rack a new node, add its raw disks to the pool, and <span id="assignment.2.8" lang="nolang" no>Longhorn</span> rebalances replicas across the expanded fabric automatically with no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.</span>
 </div>
 
 
-<span id="assignment.18" lang="en" no>
-🏗️ Task 2: Prepare a dedicated workspace
+<span id="assignment.18" lang="en" no>🏗️ Task 2: Prepare a dedicated workspace
 ========================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video2.gif"/>
-</div>
+
+  
+
 
 The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.19" lang="en" no>, select <span id="assignment.19.1" lang="nolang" no>**Namespaces**</span> from the left-hand menu. You will notice <b class="highlightcopy">prod</b> already sitting in the list. <span id="assignment.19.2" lang="en" hist="vertrex-bank">The platform team provisioned it before you arrived, and it is where the bank's production workloads will live.</span>
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.19" lang="en" no>, select <span id="assignment.19.1" lang="nolang" no>**Namespaces**</span> from the left-hand menu. You will notice prod already sitting in the list. <span id="assignment.19.2" lang="en" hist="sky-telco">The platform team provisioned it before you arrived, and it is where the telco's production workloads will live.</span>
 
 Now create its counterpart for development:
 
 1. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:</span>
 
 <div class="cred">
 
@@ -287,9 +272,7 @@ dev
 
 </div>
 
-<span id="assignment.20" lang="en" no>
-3. Set the <span id="assignment.20.1" lang="nolang" no>**Description**</span> to:
-</span>
+<span id="assignment.20" lang="en" no>3. Set the <span id="assignment.20.1" lang="nolang" no>**Description**</span> to:</span>
 
 <div class="cred">
 
@@ -300,8 +283,7 @@ VMs from dev
 </div>
 
 
-<span id="assignment.21" lang="en" no>
-4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.21" lang="en" no>4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 The developers workspace now stand ready, in the future we can assign to it quotas, policies, and access controls.
 
@@ -309,27 +291,23 @@ The developers workspace now stand ready, in the future we can assign to it quot
 ========================================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video3.gif"/>
-</div>
 
-Let's look at *how* the storage backend stays healthy. Every disk <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> hands to a VM or a pod is a **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> volume**, and every <span id="assignment.2.8" lang="nolang" no>Longhorn</span> volume is created from a <span id="assignment.21.1" lang="nolang" no>**StorageClass**</span>: a policy that decides, among other things, how many copies of your data exist at any given time.
+  
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.22" lang="en" no>, go to <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span> and click on <b class="highlightcopy">harvester-longhorn</b>.
 
-Note the <span id="assignment.22.2" lang="nolang" no>**Number Of Replicas**</span> field: it is set to **3**. Every volume created from this class gets three full copies, spread across three different nodes.
-</span>
+Let's look at *how* the storage backend stays healthy. Every disk <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> hands to a VM or a pod is a **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> volume**, and every <span id="assignment.2.8" lang="nolang" no>Longhorn</span> volume is created from a <span id="assignment.21.1" lang="nolang" no>**StorageClass**</span>: a policy that decides, among other things, how many copies of your data exist at any given time.
+
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.22" lang="en" no>, go to <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span> and click on harvester-longhorn.
+
+Note the <span id="assignment.22.2" lang="nolang" no>**Number Of Replicas**</span> field: it is set to **3**. Every volume created from this class gets three full copies, spread across three different nodes.</span>
 
 <div id="204" class="story">
-<span id="assignment.23" lang="en" hist="vertrex-bank">
-That is exactly right for the transaction ledgers — lose a node, even lose a disk mid-write, and the data survives untouched.
-</span>
+<span id="assignment.23" lang="en" hist="sky-telco">That is exactly right for the billing and call-detail records — lose a node, even lose a disk mid-write, and the data survives untouched.</span>
 </div>
 
-<span id="assignment.24" lang="en" no>
-Let's look under the hood and see how <span id="assignment.2.8" lang="nolang" no>Longhorn</span> stores the data:
+<span id="assignment.24" lang="en" no>Let's look under the hood and see how <span id="assignment.2.8" lang="nolang" no>Longhorn</span> stores the data:
 
-1. Go to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.25" lang="en" no> and SSH into one of the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> hosts:
+1. Go to the</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.25" lang="en" no>and SSH into one of the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> hosts:
 ```bash,run
 rodeo ssh harvester1
 ```
@@ -347,24 +325,23 @@ exit
 ```
 
 > [!NOTE]
-> Three replicas means three times the disk footprint. That is the correct trade for production money. It is wasteful for a developer's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics, and policies can be tuned per workload.
+> Three replicas means three times the disk footprint. That is the correct trade for a paying customer's billing history. It is wasteful for a developer's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics, and policies can be tuned per workload.
 
 🧅 Task 4: Build a cost-tier storage class for the development team
 =====================================================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video4.gif"/>
-</div>
+
+  
 
 
-The development team does not need production-grade replication for their sandboxes, they need cheap, fast iteration. <span id="assignment.25.2" lang="en" hist="vertrex-bank">You will give them their own storage tier, priced for what it actually is: disposable.</span>
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.26" lang="en" no>, under <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span>:
+The development team does not need production-grade replication for their sandboxes, they need cheap, fast iteration. <span id="assignment.25.2" lang="en" hist="sky-telco">You will give them their own storage tier, priced for what it actually is: disposable.</span>
+
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.26" lang="en" no>, under <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span>:
 
 1. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:</span>
 
 <div class="cred">
 
@@ -391,7 +368,7 @@ harvester-longhorn-1rep
 
 5. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
-Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas, production) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). <span id="assignment.29" lang="en" hist="vertrex-bank">The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.</span>
+Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas, production) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). <span id="assignment.29" lang="en" hist="sky-telco">The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.</span>
 
 > [!NOTE]
 > One replica means **zero redundancy**, lose that single node and the volume is gone. That is an acceptable risk for a sandbox nobody depends on overnight, and a very deliberate trade-off you are making on the record, not an accident. Storage classes can also encode disk tags to steer workloads to specific hardware, production on fast NVMe, development on cheaper spindles.
@@ -424,25 +401,20 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev
 
 - **The silos disappear.** VMs and containers share nodes, storage, and one operations team. The datacenter's "temperature divide" is gone.
 - **No retraining cliff.** The container team's <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API.
-- **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls. Auditors will love it.
-- **Storage has a price list now.** Replication is a dial, not a default. Production data gets three copies because it must; disposable sandboxes get one because they should not cost more than they need to.
-</span>
+- **Namespaces bring governance.** Billing and network-core workloads live in `prod` with their own quotas, policies, and access controls. Regulators will love it.
+- **Storage has a price list now.** Replication is a dial, not a default. Production data gets three copies because it must; disposable sandboxes get one because they should not cost more than they need to.</span>
 
 <div id="202" class="story">
 
-<span id="assignment.31" lang="en" hist="vertrex-bank">
-Sarah watches over your shoulder as the new workspace and the two storage tiers appear on the dashboard, one after another. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*
-</span>
+<span id="assignment.31" lang="en" hist="sky-telco">Sarah watches over your shoulder as the new workspace and the two storage tiers appear on the dashboard, one after another. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*</span>
 
 </div>
 
-<span id="assignment.32" lang="en" no>
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⚡
+<span id="assignment.32" lang="en" no>Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⚡
 
 
 📚 More information
-===================
-</span>
+===================</span>
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Storage: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/storage/overview.html)

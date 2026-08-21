@@ -2,9 +2,9 @@
 slug: the-invisible-intruder-networking
 id: 6y9uhwn9zyll
 type: challenge
-title: "<span id="assignment.100" lang="en" hist="vertrex-bank">\U0001F575️ Chapter 5: The Invisible Intruder</span>"
-teaser: <span id="assignment.101" lang="en" hist="vertrex-bank">A 2 AM security alert. The public web server shares a flat network with the
-  bank's most sensitive database. Build a software-defined vault and lock the database
+title: "<span id="assignment.100" lang="en" hist="sky-telco">📡 Chapter 5: The Invisible Intruder</span>"
+teaser: <span id="assignment.101" lang="en" hist="sky-telco">A 2 AM security alert. The public web server shares a flat network with the
+  telco's most sensitive subscriber database. Build a software-defined vault and lock the database
   inside.</span>
 tabs:
 - id: 69jpoti7gjds
@@ -28,12 +28,8 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.102" lang="en" hist="vertrex-bank">
-
-🕵️ Chapter 5: The Invisible Intruder
-=====================================
-
-</span>
+<span id="assignment.102" lang="en" hist="sky-telco">📡 Chapter 5: The Invisible Intruder
+=====================================</span>
 
 <style type="text/css">
   * {
@@ -158,29 +154,26 @@ enhanced_loading: null
 
 <div id="501" class="story">
 
-<span id="assignment.103" lang="en" hist="vertrex-bank">
-It is now two in the morning. The datacenter is quiet, save for the rhythmic humming of the cooling fans. You are drinking stale coffee and reviewing the daily telemetry logs when your screen flashes <span class="danger">red</span>. A critical, high-priority alert from the Security Operations Center overrides your dashboard.
+<span id="assignment.103" lang="en" hist="sky-telco">It is now two in the morning. The Network Operations Center is quiet, save for the rhythmic humming of the cooling fans. You are drinking stale coffee and reviewing the daily telemetry logs when your screen flashes red. A critical, high-priority alert from the Security Operations Center overrides your dashboard.
 
-An automated vulnerability scan has detected a severe architectural flaw: the bank's public-facing marketing **web server** is sitting on the exact same flat network layer as the highly classified <b class="highlightcopy">insider-threat-db</b> virtual machine.
+An automated vulnerability scan has detected a severe architectural flaw: the telco's public-facing customer self-care **web server** is sitting on the exact same flat network layer as the highly classified subscriber-fraud-db virtual machine.
 
-If a threat actor were to compromise the public website, they would have a direct, unimpeded lateral path straight into the bank's most sensitive internal security database. In a traditional infrastructure, fixing this would require waking up the senior network engineering team, physically re-cabling switch ports in the dark, and risking catastrophic routing loops.
+If a threat actor were to compromise the public website, they would have a direct, unimpeded lateral path straight into the carrier's most sensitive internal database — the one holding call detail records, billing data, and SIM-swap fraud flags for every subscriber on the network. In a traditional infrastructure, fixing this would require waking up the senior network engineering team, physically re-cabling switch ports in the dark, and risking a routing loop that could take down voice service for half the city.
 
-You don't need physical cables. You have the power of **software-defined networking** at your fingertips. You must construct an impenetrable digital vault and lock the database inside it — before an intrusion can occur.
-</span>
+You don't need physical cables. You have the power of **software-defined networking** at your fingertips. You must construct an impenetrable digital vault and lock the database inside it — before an intrusion can occur.</span>
 
 </div>
 
-<span id="assignment.104" lang="en" no>
-## <b class="hovereffect">Two layers of software-defined networking</b>
+<span id="assignment.104" lang="en" no>## Two layers of software-defined networking
 
-<b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN, capabilities the bank used to pay a separate closed-source SDN license for:
+<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN, capabilities the telco used to pay a separate closed-source SDN license for:
 
 | Layer | Technology | Use tonight |
 |-------|-----------|-------------|
 | L2 / VLAN bridging | **<span id="assignment.2.14" lang="nolang" no>Multus</span>** | The vault VLAN isolating the database |
 | SDN / isolated overlay zones | **<span id="assignment.2.13" lang="nolang" no>Kube-OVN</span>** | Private subnets with no external path, even overlapping CIDRs |
 
-<div class="missionbox">
+
 
 ## 🎯 Your Quest Objectives
 
@@ -188,13 +181,12 @@ You don't need physical cables. You have the power of **software-defined network
 2. Build an equally isolated SDN for development
 3. Learn how to move VMs into the new networks
 
-</div>
+
 
 🔐 Login Credentials
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.
-  </span>
+The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.</span>
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
 
@@ -218,17 +210,15 @@ admin
 
 
 
-<span id="assignment.106" lang="en" no>
-🧱 Task 1: Connect a closed loop physical network
+<span id="assignment.106" lang="en" no>🧱 Task 1: Connect a closed loop physical network
 =================================================
 
-Our team has set up the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> nodes with an extra dedicated NIC that is connected in a physically closed loop. Let's use it for our most precious traffic and create an isolated production network.
+Our team has set up the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> nodes with an extra dedicated NIC that is connected in a physically closed loop. Let's use it for our most precious traffic — billing and fraud-detection — and create an isolated production network.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.107" lang="en" no>, navigate to <span id="assignment.107.1" lang="nolang" no>**Networks**</span> in the left menu, then select <span id="assignment.107.2" lang="nolang" no>**Cluster Network Configuration**</span>:
+In the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.107" lang="en" no>, navigate to <span id="assignment.107.1" lang="nolang" no>**Networks**</span> in the left menu, then select <span id="assignment.107.2" lang="nolang" no>**Cluster Network Configuration**</span>:
 
 1. Click <span id="assignment.107.3" lang="nolang" no>**Create a Cluster Network**</span>
-2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:</span>
 
 <div class="cred">
 
@@ -238,13 +228,11 @@ closed-loop
 
 </div>
 
-<span id="assignment.108" lang="en" no>
-3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.108" lang="en" no>3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
-The new cluster network appears in the list. Now assign it a physical interface: click <span id="assignment.108.1" lang="nolang" no>**Create Network Configuration**</span> on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
+The new cluster network appears in the list. Now assign it a physical interface: click <span id="assignment.108.1" lang="nolang" no>**Create Network Configuration**</span> on the same row as the closed-loop cluster network, then fill in the following details:
 
-1. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+1. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:</span>
 
 <div class="cred">
 
@@ -254,23 +242,21 @@ closed-loop
 
 </div>
 
-<span id="assignment.109" lang="en" no>
-Notice the <span id="assignment.27" lang="nolang" no>**Node Selector**</span> section, in here we can specify where the network will be available.
+<span id="assignment.109" lang="en" no>Notice the <span id="assignment.27" lang="nolang" no>**Node Selector**</span> section, in here we can specify where the network will be available.
 
-2. Under <span id="assignment.109.1" lang="nolang" no>**Uplink**</span>, set <span id="assignment.109.2" lang="nolang" no>**NICs**</span> to <b class="highlightcopy">ens5</b>
+2. Under <span id="assignment.109.1" lang="nolang" no>**Uplink**</span>, set <span id="assignment.109.2" lang="nolang" no>**NICs**</span> to ens5
 
 3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-closed-loop.gif"/>
-</div>
+
+  
+
 
 Now define the VM-facing network on top of it. Select <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span> to define a new secure perimeter:
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -280,35 +266,33 @@ secure-loop-prod
 
 </div>
 
-<span id="assignment.110" lang="en" no>
-- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
-  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <b class="highlightcopy">UntaggedNetwork</b>
-  - <span id="assignment.110.3" lang="nolang" no>**Cluster Network**</span>: <b class="highlightcopy">closed-loop</b>
+<span id="assignment.110" lang="en" no>- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
+  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: UntaggedNetwork
+  - <span id="assignment.110.3" lang="nolang" no>**Cluster Network**</span>: closed-loop
 
 Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
-</div>
 
-Back in the <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> list, <b class="highlightcopy">secure-loop-prod</b> appears with <span id="assignment.110.4" lang="nolang" no>**Active**</span> status.
+  
+
+
+Back in the <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> list, secure-loop-prod appears with <span id="assignment.110.4" lang="nolang" no>**Active**</span> status.
 
 
 
 🔒 Task 2: Create a closed loop SDN
 ===================================
 
-Now create the same type of isolation for the development environment. <span id="assignment.110.5" lang="en" hist="vertrex-bank">Adding new NICs and cabling is expensive, a development environment does not need that many dedicated resources, so this time you will use a **software-defined network**.</span>
+Now create the same type of isolation for the development environment. <span id="assignment.110.5" lang="en" hist="sky-telco">Running new fiber and NICs to every rack is expensive, and a development environment doesn't need that kind of dedicated hardware, so this time you will use a **software-defined network**.</span>
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-dev.gif"/>
-</div>
+
+  
+
 
 Go to <span id="assignment.110.6" lang="nolang" no>**Networks > Virtual Machine Networks**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -318,20 +302,18 @@ secure-loop-dev
 
 </div>
 
-<span id="assignment.111" lang="en" no>
-- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
-  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <b class="highlightcopy">OverlayNetwork</b>
+<span id="assignment.111" lang="en" no>- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
+  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: OverlayNetwork
 
 Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-vpc-dev.gif"/>
-</div>
 
-Now create the SDN subnet. Go to <span id="assignment.111.1" lang="nolang" no>**Virtual Private Cloud**</span>, and on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.111.2" lang="nolang" no>**Create Subnet**</span>, then fill in the following details:
+  
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+
+Now create the SDN subnet. Go to <span id="assignment.111.1" lang="nolang" no>**Virtual Private Cloud**</span>, and on the tab of the ovn-cluster Virtual Private Cloud click <span id="assignment.111.2" lang="nolang" no>**Create Subnet**</span>, then fill in the following details:
+
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -341,10 +323,8 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.112" lang="en" no>
-- <span id="assignment.112.1" lang="nolang" no>Basic</span>:
-  - <span id="assignment.112.2" lang="nolang" no>**CIDR**</span>:
-</span>
+<span id="assignment.112" lang="en" no>- <span id="assignment.112.1" lang="nolang" no>Basic</span>:
+  - <span id="assignment.112.2" lang="nolang" no>**CIDR**</span>:</span>
 
 <div class="cred">
 
@@ -354,10 +334,8 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.113" lang="en" no>
-  - <span id="assignment.113.1" lang="nolang" no>**Provider**</span>: <b class="highlightcopy">prod/secure-loop-dev</b>
-  - <span id="assignment.113.2" lang="nolang" no>**Gateway IP**</span>:
-</span>
+<span id="assignment.113" lang="en" no>- <span id="assignment.113.1" lang="nolang" no>**Provider**</span>: prod/secure-loop-dev
+  - <span id="assignment.113.2" lang="nolang" no>**Gateway IP**</span>:</span>
 
 <div class="cred">
 
@@ -367,16 +345,15 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.114" lang="en" no>
-  - <span id="assignment.114.1" lang="nolang" no>**Dynamic Host Configuration Protocol (DHCP)**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
+<span id="assignment.114" lang="en" no>- <span id="assignment.114.1" lang="nolang" no>**Dynamic Host Configuration Protocol (DHCP)**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
   - <span id="assignment.114.3" lang="nolang" no>**Private Subnet**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
 
 Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
 
-Now you can assign the network <b class="highlightcopy">prod/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
+Now you can assign the network prod/secure-loop-dev to any VM, and it will only be able to communicate with the VMs on the same network.
 
 
-If you are curious to see the topology on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.114.4" lang="nolang" no>**Topology**</span>, this is specially useful when having multiple subnets,
+If you are curious to see the topology on the tab of the ovn-cluster Virtual Private Cloud click <span id="assignment.114.4" lang="nolang" no>**Topology**</span>, this is specially useful when having multiple subnets,
 
 
 🎯 Task 3: Configure VMs with the new networks
@@ -385,19 +362,19 @@ If you are curious to see the topology on the tab of the <b class="highlightcopy
 
 You have two new isolated networks. Now it is time to show your peers how to attach them to a VM.
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-webserver-secure-network.gif"/>
-</div>
 
-<span id="assignment.114.5" lang="en" hist="vertrex-bank">You are not making the change yourself, just walking through how it is done, for that we will choose the production server:</span>
+  
 
-Return to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> dashboard and locate the target virtual machine ( **webserver-prod** ):
 
-1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.114.6" lang="nolang" no>**Edit Config**</span>
+<span id="assignment.114.5" lang="en" hist="sky-telco">You are not making the change yourself, just walking through how it is done, for that we will choose the customer portal production server:</span>
+
+Return to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> dashboard and locate the target virtual machine ( **custportal-prod** ):
+
+1. Click the  on its row and select <span id="assignment.114.6" lang="nolang" no>**Edit Config**</span>
 2. Go to the <span id="assignment.107.1" lang="nolang" no>**Networks**</span> tab
-3. Select the network <b class="highlightcopy">prod/secure-loop-prod</b> for production systems, or <b class="highlightcopy">prod/secure-loop-dev</b> for development systems
+3. Select the network prod/secure-loop-prod for production systems, or prod/secure-loop-dev for development systems
 4. Click <span id="assignment.114.7" lang="nolang" no>**Save**</span>
-5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> again and select <span id="assignment.114.8" lang="nolang" no>**Restart**</span>
+5. Click the  again and select <span id="assignment.114.8" lang="nolang" no>**Restart**</span>
 
 The VM boots connected to the new network. Don't wait for it to finish.
 
@@ -413,7 +390,7 @@ The VM boots connected to the new network. Don't wait for it to finish.
 
 New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely**: we have the isolated networks already created. These optional drills add an extra isolated network with pure <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> tooling.
 
-**An extra isolated network is needed for QA: <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.115" lang="en" no>, apply a default deny-all ingress policy to the secure namespace:
+**An extra isolated network is needed for QA: <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when we roll this out network-wide, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.115" lang="en" no>, apply a default deny-all ingress policy to the secure namespace:
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -486,14 +463,13 @@ Two vaults, two independent private networks, zero shared packets. A VM attached
 💼 Why does this matter?
 ==============================================
 
-- **Segmentation at 2 AM, in software.** What used to be a re-cabling project with change-control meetings became three minutes of configuration, while the threat window was still closed.
+- **Segmentation at 2 AM, in software.** What used to be a re-cabling project with change-control meetings and a possible truck roll became three minutes of configuration, while the threat window was still closed.
 - **Defense-in-depth by default.** VLAN isolation at layer 2, network policies at the pod layer, and private SDN subnets: three independent walls from one platform.
-- **Compliance evidence built in.** Every network, policy, and subnet is a versionable YAML object: the security auditors get proof, not promises.
+- **Compliance evidence built in.** Every network, policy, and subnet is a versionable YAML object: the telecom regulators and security auditors get proof, not promises.
 
 Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⏪
 
 📚 More information
-===================
-</span>
+===================</span>
 
 - [Cluster Networking](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)
