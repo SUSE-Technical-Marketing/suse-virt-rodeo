@@ -4,7 +4,7 @@ id: ermykdy1tbse
 type: challenge
 title: "\U0001F3E6 Chapter 1: The Arrival"
 teaser: <span lang="en" hist="vertrex-bank">Vertex Trust Bank is drowning in legacy <span lang="nolang" no>hypervisor</span>
-  costs. Step into the boardroom, take command of <span lang="nolang" no>SUSE Virtualization</span>,
+  costs. Step into the boardroom, take command of SUSE Virtualization,
   and inspect your new command center.</span>
 notes:
 - type: text
