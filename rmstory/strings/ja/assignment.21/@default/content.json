@@ -1,0 +1,8 @@
+{
+  "content": "4. <span id=\"assignment.19.3\"/>をクリックします\n\n開発者用ワークスペースがこれで準備完了となり、今後はクォータ、ポリシー、アクセス制御を割り当てることができます。\n\n💾 タスク3: <span id=\"assignment.2.8\"/>がデータをどのように複製するかを理解する\n========================================================\n\n\n\n  \n\n\nストレージバックエンドがどのように健全性を保っているか、その*仕組み*を見てみましょう。<span id=\"ch1.intro1.2\"/>がVMやPodに渡すすべてのディスクは**<span id=\"assignment.2.8\"/>ボリューム**であり、すべての<span id=\"assignment.2.8\"/>ボリュームは<span id=\"assignment.21.1\"/>から作成されます。これは、とりわけ、常時データのコピーがいくつ存在するかを決定するポリシーです。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:56:46.548580+00:00"
+}

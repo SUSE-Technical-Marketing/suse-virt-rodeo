@@ -1,0 +1,8 @@
+{
+  "content": "> [!IMPORTANT]\n> このラボは**ネスト構成**で動作しているため、I/Oパフォーマンスは通常より少し遅く、プロビジョニングプロセスには数分かかります。VMが起動する間、皆さんを楽しませるコンテンツをご用意しました!Bonus Drillsに移動して、CLIを使って<span id=\"ch1.intro1.2\"/> APIを操作する方法を学びましょう。<span id=\"ch1.intro1.2\"/>内のすべては<span id=\"assignment.2.2\"/>オブジェクトであるため、基盤となるRKE2クラスターを通じて<span id=\"assignment.2.2\"/> API経由で管理できます。\n> 完了したら、Task 3に戻りましょう。\n\n🖥️ Task 3: Access the Web Console\n=================================\n\nMonitor the",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:59:57.524812+00:00"
+}

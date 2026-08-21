@@ -1,0 +1,8 @@
+{
+  "content": "、実際にプラットフォームがあなたのために何を作成したかを見てみましょう:\n\n- **ゴールデンイメージもAPIオブジェクトです:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -A\n```\n\n- **VMは<span id=\"assignment.2.2\"/>リソースです:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachines -n prod\n```\n\n- **実行中のインスタンス、そのノードとIP**(SSHで使用したものと同じIP):\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide\n```\n\n- **ディスクは<span id=\"assignment.2.8\"/>にバックアップされた通常の<span id=\"assignment.62.1\"/>です:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod\n```\n\nリストの中に`market-data-vol`があることに気づくはずです: <span id=\"assignment.62.2\"/>。\n\n💼 なぜこれが重要なのか?\n========================\n\n- **数日が数分に変わる。** チケット駆動型の複数チームにまたがるプロビジョニングプロセスが、2分間のセルフサービスワークフローに凝縮されました。<span id=\"assignment.62.3\"/>\n- **構造による一貫性。** ゴールデンイメージとcloud-initにより、クオンツが要求するすべてのエンジンが同一の構成で起動し、すぐに使用可能になります。\n- **孤立したストレージがない。** <span id=\"assignment.6.4\"/>は、共有された<span id=\"assignment.2.8\"/>プールからオンデマンドで切り出されます。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:00:13.508133+00:00"
+}

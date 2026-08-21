@@ -1,0 +1,8 @@
+{
+  "content": "## 2 種類のソフトウェア定義ネットワーキング\n\n<span id=\"ch1.intro1.2\"/> は、古典的な VLAN セグメンテーションからエンタープライズ SDN まで、その全領域をカバーします。これは銀行がかつて別途クローズドソースの SDN ライセンス費用を払っていた機能です。\n\n| レイヤー | 技術 | 今夜使うもの |\n|-------|-----------|-------------|\n| L2 / VLAN ブリッジング | **<span id=\"assignment.2.14\"/>** | データベースを隔離するボールト VLAN |\n| SDN / 分離オーバーレイゾーン | **<span id=\"assignment.2.13\"/>** | 外部への経路を持たないプライベートサブネット、CIDR が重複していても可 |\n\n\n\n## 🎯 クエストの目標\n\n1. 本番用のクローズドループ物理ネットワークを接続する\n2. 開発用に同等に隔離された SDN を構築する\n3. VM を新しいネットワークに移行する方法を学ぶ\n\n\n\n🔐 ログイン認証情報\n====================\n\n<span id=\"assignment.69.1\"/> UI と <span id=\"assignment.2.12\"/> UI は同じ認証情報を使用します。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:04:00.604698+00:00"
+}

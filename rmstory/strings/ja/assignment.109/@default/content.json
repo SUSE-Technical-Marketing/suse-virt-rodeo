@@ -1,0 +1,8 @@
+{
+  "content": "<span id=\"assignment.27\"/>のセクションに注目してください。ここでネットワークを利用可能にする場所を指定できます。\n\n2. <span id=\"assignment.109.1\"/>の下で、<span id=\"assignment.109.2\"/>をens5に設定します\n\n3. <span id=\"assignment.19.3\"/>をクリックします\n\n\n\n  \n\n\n次に、その上にVM向けネットワークを定義します。<span id=\"assignment.109.3\"/>を選択し、<span id=\"assignment.19.3\"/>をクリックして新しいセキュアペリメーターを定義します:\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:04:27.683806+00:00"
+}

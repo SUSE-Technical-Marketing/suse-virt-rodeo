@@ -1,0 +1,8 @@
+{
+  "content": "- **UI ストレージクラスを API オブジェクトとして確認する**: ワークスペースと両方のストレージ階層を確認します:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;\n```\n\n- **新しいワークスペースにラベルを付ける** ことで、今後の自動化がこのワークスペースを簡単に対象にできるようにします:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev\n```\n\n💼 なぜこれが重要なのか？\n==============================================\n\n- **サイロが消滅します。** VM とコンテナはノード、ストレージ、そして一つの運用チームを共有します。データセンターの「温度の分断」はなくなります。\n- **再教育の崖はありません。** コンテナチームの <span id=\"assignment.2.2\"/> スキルが VM 資産の管理も行えるようになり、VM チームは <span id=\"assignment.2.2\"/> API に支えられた使い慣れたポイント＆クリック UI を手に入れます。\n- **ネームスペースがガバナンスをもたらします。** 財務ワークロードは独自のクォータ、ポリシー、アクセス制御を持つ `prod` に配置されます。監査担当者はこれを気に入るでしょう。\n- **ストレージには今や価格表があります。** レプリケーションはデフォルトではなくダイヤルです。本番データは必要だから3つのコピーを持ち、使い捨てのサンドボックスは必要以上のコストをかけるべきではないので1つだけ持ちます。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:57:31.961867+00:00"
+}

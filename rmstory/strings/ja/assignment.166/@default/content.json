@@ -1,0 +1,8 @@
+{
+  "content": "<span id=\"assignment.40.2\"/> ページ、あなたが定義した**ネットワーク**、**テンプレート**のブループリント、そして**バックアップとスナップショット**の履歴:今週のあらゆる危機がここに痕跡を残しています。\n\n- **自分だけの危機をデザインしよう。** ゼロから新しいVMを作成:イメージを選び、サイズを決め、cloud-initを設定し、スナップショットを取り、ライブマイグレーションを行います。今回は手順書なし。あなたはもう道を知っています。\n\n- **コマンドラインが気になる方へ(任意):** APIはあなたのものです:\n\n```bash,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A\n```",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "manual-fix",
+  "date_updated": "2026-08-21T17:35:16.610020+00:00"
+}

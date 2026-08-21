@@ -1,0 +1,8 @@
+{
+  "content": "- <span id=\"assignment.110.1\"/>:\n  - <span id=\"assignment.110.2\"/>: UntaggedNetwork\n  - <span id=\"assignment.110.3\"/>: closed-loop\n\n<span id=\"assignment.19.3\"/>をクリックします。\n\n\n  \n\n\n<span id=\"assignment.109.3\"/>のリストに戻ると、secure-loop-prod が<span id=\"assignment.110.4\"/>ステータスで表示されます。\n\n\n\n🔒 タスク2: クローズドループSDNの作成\n===================================\n\n次に、開発環境に対して同じ種類の分離を作成します。<span id=\"assignment.110.5\"/>\n\n\n  \n\n\n<span id=\"assignment.110.6\"/>に移動して<span id=\"assignment.19.3\"/>をクリックし、以下の詳細を入力します。\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:04:37.946887+00:00"
+}

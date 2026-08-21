@@ -1,0 +1,8 @@
+{
+  "content": "トレーダーの高速セカンドデータドライブの要求はこれで満たされます。裏側では、両方のディスクがレプリケートされた<span id=\"assignment.2.8\"/>ボリュームになり、取引中に物理ディスクが1台故障しても、市場データは失われません。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T16:59:02.233406+00:00"
+}

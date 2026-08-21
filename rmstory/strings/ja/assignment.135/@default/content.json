@@ -1,0 +1,8 @@
+{
+  "content": "4. <span id=\"assignment.19.3\"/>をクリックします\n\nこれ以降、プラットフォームは5時間ごとにVMをNFSボールトにバックアップし、直近5件のコピーを保持し、2回連続で失敗した場合はスケジュールを一時停止します。一度設定すれば、永続的に保護されます。\n\n\n\n🔍 タスク5: ステージングサンドボックスのデータを検証する\n=================================================\n\n\n  \n\n\ncore-services-staging-verifyが起動して実行中になったので、ファイルが存在することを確認しましょう。\n\n今回は、VMにネットワークがないため、グラフィカルコンソールを使用します。\n\nその中で",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:07:42.146122+00:00"
+}
