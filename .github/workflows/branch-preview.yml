@@ -40,7 +40,7 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
@@ -95,6 +95,17 @@ jobs:
               text += "maintenance: true\n"
           path.write_text(text)
           PYEOF
+
+      - name: Strip rmstory tagging spans
+        # Chapter content is tagged for the separate rmstory translation/story-variant
+        # tool (<span lang="...">, <span hist="...">, <span ... no>). Instruqt's renderer
+        # doesn't understand those custom attributes and renders some of the tags as
+        # visible literal text instead of invisible wrappers, so they're stripped from
+        # the CI runner's working tree right before validate/push. Only the git-tracked
+        # files (which rmstory needs) keep the tags — this never gets committed back.
+        # Must run before "Check teaser lengths"/"Validate track"/"Push track" so both
+        # the length check and what's pushed reflect the same, tag-free content.
+        run: python3 .github/scripts/strip-rmstory-spans.py
 
       - name: Install PyYAML
         run: pip install --quiet pyyaml
