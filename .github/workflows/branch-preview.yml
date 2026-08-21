@@ -15,15 +15,16 @@ name: Branch Preview Track
 # Only git-tracked files are synced into the preview track (via `git ls-files`), so
 # local/untracked scratch content never leaks into it.
 #
-# NOT YET VERIFIED against a live run: this repo has no INSTRUQT_TOKEN secret yet (same
-# blocker documented in validate.yml's history), and `instruqt track pull` / `track
-# create --from` haven't been exercised against this org. Commands follow
-# https://docs.instruqt.com/reference/cli/commands and
-# https://docs.instruqt.com/tracks/manage/maintain-a-developer-workflow, but neither
-# CLI's output-directory naming is documented, so the "locate the new directory" steps
-# below are deliberately defensive (before/after listing diff) rather than assuming a
-# flag. Treat the first real run as the validation pass this needs, and fix forward the
-# same way validate.yml's/publish.yml's history did.
+# PARTIALLY VERIFIED against a live run (2026-08-21): INSTRUQT_TOKEN now exists as a repo
+# secret. First run confirmed `instruqt track pull` correctly reports "Entity not found"
+# (exit non-zero) for a slug that doesn't exist yet, and confirmed `instruqt track create`
+# additionally requires a default team, set non-interactively via `instruqt config set
+# team` (see "Configure Instruqt default team" step) — `instruqt auth login` is
+# interactive-only and not usable in CI. Still unconfirmed: a full create+push actually
+# succeeding end to end, and what directory name `track pull`/`track create` write into
+# (undocumented — the "locate the new directory" steps below stay defensive, a
+# before/after listing diff, rather than assuming a flag). Fix forward the same way
+# validate.yml's/publish.yml's history did.
 
 on:
   push:
@@ -73,6 +74,17 @@ jobs:
             echo "owner=$OWNER"
             echo "prod_slug=$PROD_SLUG"
           } >> "$GITHUB_OUTPUT"
+
+      - name: Configure Instruqt default team
+        # `instruqt track create` fails CI with "Default team not configured. Use
+        # `instruqt auth login` to set it." — auth login is interactive-only (confirmed
+        # via a live run, 2026-08-21), so the team has to be set non-interactively via
+        # `instruqt config set team`, documented at
+        # https://docs.instruqt.com/reference/cli/commands.
+        env:
+          INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+          OWNER: ${{ steps.meta.outputs.owner }}
+        run: instruqt config set team "$OWNER"
 
       - name: Fetch or create the branch preview track
         env:
