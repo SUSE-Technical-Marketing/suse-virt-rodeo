@@ -242,11 +242,11 @@ admin
 📊 タスク1: ログインして統合ダッシュボードを確認する
 ===================================================
 
-以下に移動します</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=ja[タブ]をクリックし、認証情報を使用してログインしてください。
+以下に移動します</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang="ja">[タブ]をクリックし、認証情報を使用してログインしてください。
 
 ![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
-少し時間を取って、メインの</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=ja: これはミッション全体のコマンドセンターです。
+少し時間を取って、メインの</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang="ja">: これはミッション全体のコマンドセンターです。
 
 
 > [!NOTE]
