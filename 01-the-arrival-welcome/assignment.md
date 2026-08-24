@@ -242,11 +242,11 @@ admin
 📊 Task 1: Log in and inspect the unified dashboard
 ===================================================
 
-Navigate to the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=entab and log in using your credentials.
+Navigate to the</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang="en">tab and log in using your credentials.
 
 ![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
-Take a moment to look at the main</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=en: this is your command center for the entire mission.
+Take a moment to look at the main</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang="en">: this is your command center for the entire mission.
 
 
 > [!NOTE]
