@@ -1,8 +1,0 @@
-{
-  "content": "Precisamos minimizar o uso de recursos, e todas as VMs devem ser acessíveis usando a chave SSH de produção, que é protegida com segurança.\n\n- Básico:\n  - <span id=\"assignment.42.1\"/>: 1\n  - <span id=\"assignment.145.1\"/>: 1\n  - <span id=\"assignment.45.1\"/>: prod/default\n\nO nosso sistema operativo base predefinido é o SLES 16.\n\n- <span id=\"assignment.6.4\"/>:\n  - <span id=\"assignment.45.2\"/>: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2\n  - <span id=\"assignment.45.3\"/>: 5\n\nQueremos que os servidores de produção disponibilizem os seus serviços na rede de serviços de produção.\n\n- <span id=\"assignment.49.1\"/>:\n  - <span id=\"assignment.49.2\"/>: prod/service\n\nTodas as VMs de produção devem ser executadas apenas em hosts prontos para produção.\n\n- <span id=\"assignment.51.1\"/>:\n  1. Selecione <span id=\"assignment.51.5\"/>\n  2. Clique em <span id=\"assignment.51.6\"/> e depois em <span id=\"assignment.51.7\"/>:\n\n\n- <span id=\"assignment.51.8\"/>:",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T18:06:35.181803+00:00"
-}

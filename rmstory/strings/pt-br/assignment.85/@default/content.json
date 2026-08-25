@@ -1,0 +1,8 @@
+{
+  "content": "Estritamente falando, *há* sim um momento de transferência: uma vez que a cópia de memória converge, a VM congela por um último instante enquanto a execução muda para o novo nó, uma microinterrupção. Em uma infraestrutura devidamente dimensionada, isso passa completamente despercebido; mesmo neste laboratório, que roda virtualização *dentro* de virtualização *dentro* de virtualização, o máximo que você poderia ter notado seriam tempos de latência ligeiramente mais altos nos pings.\n\nVoltando ao",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:49:01.453745+00:00"
+}

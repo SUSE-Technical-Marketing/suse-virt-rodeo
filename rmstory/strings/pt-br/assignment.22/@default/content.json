@@ -1,0 +1,8 @@
+{
+  "content": ", vá até <span id=\"assignment.22.1\"/> e clique em harvester-longhorn.\n\nObserve o campo <span id=\"assignment.22.2\"/>: ele está definido como **3**. Cada volume criado a partir dessa classe recebe três cópias completas, distribuídas em três nós diferentes.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:44:33.187595+00:00"
+}

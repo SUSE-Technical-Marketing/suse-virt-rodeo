@@ -1,8 +1,0 @@
-{
-  "content": "- <span id=\"assignment.110.1\"/>:\n  - <span id=\"assignment.110.2\"/>: UntaggedNetwork\n  - <span id=\"assignment.110.3\"/>: closed-loop\n\nClique em <span id=\"assignment.19.3\"/>.\n\n\n  \n\n\nDe volta à lista <span id=\"assignment.109.3\"/>, secure-loop-prod aparece com o status <span id=\"assignment.110.4\"/>.\n\n\n\n🔒 Tarefa 2: Criar uma SDN de circuito fechado\n===================================\n\nAgora crie o mesmo tipo de isolamento para o ambiente de desenvolvimento. <span id=\"assignment.110.5\"/>\n\n\n  \n\n\nVá até <span id=\"assignment.110.6\"/> e clique em <span id=\"assignment.19.3\"/>, depois preencha os seguintes detalhes:\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T18:02:58.510560+00:00"
-}

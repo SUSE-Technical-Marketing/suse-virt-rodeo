@@ -1,8 +1,0 @@
-{
-  "content": "🚀 Que próximos passos te esperam?\n===============================\n\n- 📖 Mantém as tuas competências afiadas aprofundando a arquitetura técnica na [Documentação do SUSE Virtualization](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).\n\n- 🐮 Aprende a gerir **frotas destes clusters em grande escala** (um único Rancher Prime a gerir todos os clusters <span id=\"ch1.intro1.2\"/> em todos os datacenters de filial) com o [<span id=\"assignment.2.15\"/>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).\n\n- 🧪 Reconstrói isto em casa: o <span id=\"ch1.intro1.2\"/> é open source. Obtém a ISO, instala-o em qualquer máquina x86 disponível e executa as tuas próprias VMs.\n\n- 🤝 Nunca estás sozinho neste percurso: os clientes da SUSE avaliam consistentemente o <span id=\"assignment.167.1\"/> entre os melhores da indústria, e o feedback dos clientes molda diretamente a evolução dos produtos. Trabalhar com a SUSE significa ter um lugar à mesa, não um bilhete numa fila. Essa é a diferença do open source.\n\n- 💬 Fala com o teu representante SUSE sobre como esta história se aplicaria ao **teu** cluster legado no canto mais escuro da sala.",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T18:08:25.553809+00:00"
-}

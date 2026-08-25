@@ -1,8 +1,0 @@
-{
-  "content": "e SSH para uma das hosts <span id=\"ch1.intro1.2\"/>:\n```bash,run\nrodeo ssh harvester1\n```\n2. Verifique a pasta <span id=\"assignment.2.8\"/> no nó <span id=\"assignment.25.1\"/>: verá algumas pastas e ficheiros:\n```bash,run\nls /var/lib/harvester/defaultdisk\n```\n3. Dentro da pasta replicas, encontre uma pasta por cada réplica de volume que este nó contém:\n```bash,wrap,run\nls /var/lib/harvester/defaultdisk/replicas/\n```\n4. Saia do host digitando exit:\n```bash,run\nexit\n```\n\n> [!NOTE]\n> Três réplicas significam três vezes o espaço em disco ocupado. Essa é a troca correta para dinheiro de produção. É um desperdício para uma VM de teste descartável de um developer que será eliminada até sexta-feira. O número de réplicas é uma **política**, não uma lei da física, e as políticas podem ser ajustadas por carga de trabalho.\n\n🧅 Tarefa 4: Construir uma storage class de custo reduzido para a equipa de desenvolvimento\n=====================================================================\n\n\n\n  \n\n\n\nA equipa de desenvolvimento não precisa de replicação de nível produção para os seus sandboxes, precisa de iteração barata e rápida. <span id=\"assignment.25.2\"/>\n\nNo",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T17:56:10.948492+00:00"
-}

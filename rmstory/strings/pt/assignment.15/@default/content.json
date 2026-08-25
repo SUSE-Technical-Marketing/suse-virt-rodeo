@@ -1,8 +1,0 @@
-{
-  "content": "☁️ O que é <span id=\"assignment.2.8\"/>?\n====================\n\n<span id=\"assignment.2.8\"/> é o sistema de armazenamento distribuído integrado no <span id=\"ch1.intro1.2\"/> que pode ser utilizado. Ele agrupa os discos brutos presentes em cada nó e transforma-os numa única infraestrutura de armazenamento partilhada.\n\nPor predefinição, cada volume que cria é replicado por vários nós, para que uma falha de disco ou o reinício de um nó nunca resulte em perda de dados. Sem SAN, sem equipa de armazenamento separada, um único sistema tanto para VMs como para contentores.\n\nEstá pronto a ser utilizado, mas se preferir usar outro <span id=\"assignment.2.9\"/> é livre de o fazer, sem dependência de fornecedor.\n\n\n🖥️ Tarefa 1: Inspecionar a topologia física dos nós\n=============================================\n\n\n\n  \n\n\n\nVá até",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T17:55:15.910626+00:00"
-}

@@ -1,0 +1,8 @@
+{
+  "content": "O engine precisa subir com um **endereço previsível**, não o que o DHCP fornecer. No campo <span id=\"assignment.57.1\"/>, insira:\n\n```yaml\nversion: 2\nethernets:\n  enp1s0:\n    addresses:\n      - 192.168.122.50/24\n    gateway4: 192.168.122.1\n    nameservers:\n      addresses:\n        - 192.168.122.1\n```\n\nO cloud-init aplica ambos na primeira inicialização: <span id=\"assignment.57.2\"/> ficará online em `192.168.122.50` sem nenhuma configuração manual pós-implantação.\n\n> [!NOTE]\n> Isso é **cloud-init**, o mesmo mecanismo padrão da indústria usado por todas as grandes nuvens públicas.\n> Em um cenário real haveria automação mais completa e templates dedicados para a finalidade deste servidor.\n\n\nAgora que terminamos a configuração, clique em <span id=\"assignment.19.3\"/> para iniciar a implantação da Máquina Virtual.\n\nNão espere que ela termine de inicializar, prossiga para a próxima tarefa.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:46:56.545731+00:00"
+}

@@ -1,8 +1,0 @@
-{
-  "content": "As regras de agendamento permitem separar sistemas críticos de outras cargas de trabalho, por exemplo, fixando os motores de negociação a nós de baixa latência enquanto as tarefas em lote partilham o resto. Manter \"qualquer nó disponível\" aqui é importante: é isso que torna possível a evacuação sem tempo de inatividade no próximo capítulo.",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T17:58:45.838085+00:00"
-}

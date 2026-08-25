@@ -1,8 +1,0 @@
-{
-  "content": "## 🏆 Suas Ações Heroicas\n\nVocê superou desafios incríveis durante sua estadia aqui:\n\n| Capítulo | Crise | Habilidade que você dominou |\n|:--------|:-------|:-------------------|\n| 🏦 A Chegada | Um datacenter legado à beira do colapso | Inspecionando o painel da plataforma, <span id=\"assignment.2.8\"/> armazenamento e Rancher Prime |\n| 🛗 A Divisão Subterrânea | Dois silos de hardware em guerra | Unindo VMs e contêineres em uma única <span id=\"assignment.2.2\"/> |\n| ⚡ O Flash Crash | Um colapso de mercado | Implantando VMs em minutos com imagens, volumes e cloud-init |\n| 🌊 A Maré Crescente | Um rack de servidores inundado | Migração ao vivo sem downtime e evacuação de nós com um clique |\n| 🕵️ O Intruso Invisível | Um caminho de ataque lateral | VLANs definidas por software e sub-redes SDN isoladas |\n| ⏪ O Erro Inimaginável | Um registro de $100 milhões apagado | Snapshots, clones de staging, camadas de armazenamento e backups agendados fora do cluster |\n| 🤠 A Debandada | Uma fome de computação | Templates de VM padrão, criando frotas idênticas sob demanda |",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T18:08:00.651148+00:00"
-}

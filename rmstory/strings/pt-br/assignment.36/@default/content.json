@@ -1,0 +1,8 @@
+{
+  "content": "Você está sentado em um escritório improvisado logo fora do datacenter, no meio da revisão da topologia de rede, quando as luzes de emergência do teto de repente piscam num amarelo intenso. Seu rádio ganha vida com um estalo. É o **Chefe de Trading Quantitativo**, e ele parece em pânico.\n\n*\"Temos uma anomalia enorme nos mercados asiáticos!\"* ele grita por cima do barulho caótico de um pregão em polvorosa. *\"Nossos modelos algorítmicos atuais estão falhando em processar o fluxo de dados recebido rápido o suficiente. Precisamos de um novo mecanismo de cálculo de alto desempenho, dedicado, implantado imediatamente, com um volume de dados secundário de alta velocidade, ou vamos sangrar milhões nos próximos dez minutos!\"*\n\nNo passado, atender a essa solicitação de emergência no Vertex Trust Bank significava abrir um chamado prioritário, esperar a equipe de infraestrutura reservar alocações de armazenamento e instalar manualmente um sistema operacional. Era um processo que levava **dias**.\n\nVocê não tem dias. **Você tem minutos.**\n\nVocê ignora completamente o sistema de chamados legado e se prepara para implantar uma máquina virtual <span id=\"assignment.2.6\"/> totalmente configurada (com credenciais de segurança injetadas e armazenamento anexado) em meros segundos.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:45:33.898101+00:00"
+}

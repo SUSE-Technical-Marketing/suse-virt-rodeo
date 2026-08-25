@@ -1,0 +1,8 @@
+{
+  "content": "Um vazamento de refrigerante está inundando o rack que hospeda o Payment Gateway. Execute uma migração ao vivo sem downtime antes que o hardware entre em curto, enquanto as transações continuam fluindo.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:47:46.489422+00:00"
+}

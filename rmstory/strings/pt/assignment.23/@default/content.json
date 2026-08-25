@@ -1,8 +1,0 @@
-{
-  "content": "É exatamente isso para os livros-razão de transações — perde-se um nó, ou até um disco a meio de uma escrita, e os dados sobrevivem intactos.",
-  "original_language": null,
-  "status": "draft",
-  "source_checksum": null,
-  "updated_by": "rmstory.engines:claude-code",
-  "date_updated": "2026-08-21T17:55:59.273770+00:00"
-}

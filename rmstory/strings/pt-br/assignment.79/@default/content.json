@@ -1,0 +1,8 @@
+{
+  "content": "1. Anote na coluna <span id=\"assignment.79.1\"/> em qual node o gateway está rodando: você vai querer provar que ele foi movido\n2. Clique no ícone do lado direito da linha correspondente\n3. Selecione <span id=\"assignment.79.2\"/> no menu de contexto\n4. Escolha um node de destino diferente e seguro na lista suspensa\n5. Clique em <span id=\"assignment.74.2\"/>\n\nNos bastidores, o <span id=\"assignment.2.3\"/> copia as páginas de memória ativa da VM para o node de destino pela rede, rastreando e recopiando quaisquer páginas que o gateway ocupado altere durante o processo, até conseguir congelar, alternar e retomar a execução no novo node em uma fração de segundo.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:48:39.219721+00:00"
+}
