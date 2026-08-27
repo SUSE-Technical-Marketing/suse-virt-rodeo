@@ -1,0 +1,8 @@
+{
+  "content": "\n\nComo este é um cluster de ambiente misto, vamos garantir que a VM seja executada apenas em nós de produção.\n\nClique em <span id=\"assignment.51.1\"/>: o <span id=\"ch1.intro1.2\"/> oferece três opções:\n\n- <span id=\"assignment.51.2\"/>: o agendador do <span id=\"assignment.2.2\"/> escolhe onde posicionar a VM, e **a migração ao vivo permanece ativada**\n- <span id=\"assignment.51.3\"/>: fixa a VM em um nó (migração não é possível)\n- <span id=\"assignment.51.4\"/>: regras de afinidade baseadas em etiquetas de nó (capacidade de GPU, topologia NUMA, zona de rede…)\n\nConfigure a regra de produção:\n\n1. Selecione <span id=\"assignment.51.5\"/>\n2. Clique em <span id=\"assignment.51.6\"/>, depois em <span id=\"assignment.51.7\"/>:\n\n- <span id=\"assignment.51.8\"/>:\n",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:58:03.874565+00:00"
+}

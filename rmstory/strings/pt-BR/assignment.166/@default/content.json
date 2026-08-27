@@ -1,0 +1,8 @@
+{
+  "content": "a página <span id=\"assignment.40.2\"/>, as **Redes** que você definiu, o modelo de **Templates**, e o histórico de **Backup & Snapshot**: cada crise da semana deixou aqui sua marca.\n\n- **Crie sua própria crise.** Crie uma nova VM do zero: escolha a imagem, defina o tamanho, configure o cloud-init, tire um snapshot, faça live-migrate. Desta vez sem instruções. Você já sabe o caminho.\n\n- **Para os curiosos de linha de comando (opcional):** a API é toda sua:\n\n```bash,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A\n```",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:08:17.476901+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": ":\n\n\n- **Vê as tuas classes de armazenamento da interface como objetos de API**: o espaço de trabalho e ambos os níveis de armazenamento:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;\n```\n\n- **Etiqueta o novo espaço de trabalho** para que a automação futura o consiga visar facilmente:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev\n```\n\n💼 Porque é que isto importa?\n==============================================\n\n- **Os silos desaparecem.** VMs e contentores partilham nós, armazenamento e uma única equipa de operações. A \"divisão de temperatura\" do datacenter acabou.\n- **Sem penhasco de reciclagem de competências.** As competências <span id=\"assignment.2.2\"/> da equipa de contentores gerem agora também o parque de VMs; a equipa de VMs ganha uma interface familiar de apontar e clicar apoiada na API do <span id=\"assignment.2.2\"/>.\n- **Os namespaces trazem governação.** As cargas de trabalho financeiras residem em `prod` com as suas próprias quotas, políticas e controlos de acesso. Os auditores vão adorar.\n- **O armazenamento agora tem uma lista de preços.** A replicação é um botão regulável, não uma predefinição. Os dados de produção obtêm três cópias porque têm de a ter; os sandboxes descartáveis obtêm uma porque não devem custar mais do que o necessário.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:56:30.022542+00:00"
+}

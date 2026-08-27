@@ -1,0 +1,8 @@
+{
+  "content": "Observe a seção <span id=\"assignment.27\"/>, aqui podemos especificar onde a rede estará disponível.\n\n2. Em <span id=\"assignment.109.1\"/>, defina <span id=\"assignment.109.2\"/> como ens5\n\n3. Clique em <span id=\"assignment.19.3\"/>\n\n\n\n  \n\n\nAgora defina a rede voltada para as VMs sobre ela. Selecione <span id=\"assignment.109.3\"/> e clique em <span id=\"assignment.19.3\"/> para definir um novo perímetro seguro:\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:02:53.056358+00:00"
+}
