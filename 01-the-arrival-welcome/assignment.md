@@ -11,8 +11,8 @@ notes:
   contents: |
     <span id="assignment.1" lang="pt-BR" no># Bem-vindo ao <span id="assignment.1.1"  lang="nolang" no>SUSE Virtualization Rodeo!</span>
 
-Aguarde enquanto preparamos seu ambiente de laboratório.</span><span lang="pt-BR" id="ch1.waiting1" hist="vertrex-bank">A chuva bate contra as janelas da sede do Vertex Trust Bank...
-Sarah, a CTO, está esperando por você na sala de reuniões.</span>
+    Aguarde enquanto preparamos seu ambiente de laboratório.</span><span lang="pt-BR" id="ch1.waiting1" hist="vertrex-bank">A chuva bate contra as janelas da sede do Vertex Trust Bank...
+    Sarah, a CTO, está esperando por você na sala de reuniões.</span>
     <img class="logos" src="../assets/logos/suse_logo.svg"/>
 tabs:
 - id: 3veafppy6ial
