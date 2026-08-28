@@ -17,6 +17,7 @@ owner: suse
 developers:
 - andres.valero@suse.com
 - raul.mahiques@suse.com
+- erico.mendonca@suse.com
 skipping_enabled: true
 idle_timeout: 6000
 timelimit: 10800
