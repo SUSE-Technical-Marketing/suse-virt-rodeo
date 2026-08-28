@@ -1,0 +1,8 @@
+{
+  "content": "1. Consulte a coluna <span id=\"assignment.79.1\"/> e **anote** em que nó o gateway está sendo executado: você vai querer provar que ele se moveu\n2. Clique em na extremidade direita da linha correspondente\n3. Selecione <span id=\"assignment.79.2\"/> no menu de contexto\n4. Escolha um nó de destino diferente e seguro na lista suspensa\n5. Clique em <span id=\"assignment.74.2\"/>\n\nNos bastidores, <span id=\"assignment.2.3\"/> copia as páginas de memória ativa da VM para o nó de destino pela rede, rastreando e recopiando quaisquer páginas que o gateway ocupado altere durante o processo, até conseguir congelar, alternar e retomar a execução no novo nó em uma fração de segundo.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:00:33.707865+00:00"
+}

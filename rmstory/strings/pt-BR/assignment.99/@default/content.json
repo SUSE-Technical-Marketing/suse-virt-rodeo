@@ -1,0 +1,8 @@
+{
+  "content": "💼 Por que isso importa?\n==============================================\n\n- **As falhas de hardware deixam de ser interrupções.** Vazamentos de refrigerante, atualizações de firmware, reinicializações de host: as cargas de trabalho simplesmente migram para nós saudáveis enquanto os seus serviços continuam funcionando.\n- **Manutenção planejada sem janelas à meia-noite.** Um clique em **Maintenance Mode** esvazia automaticamente um nó inteiro. As correções de rotina acontecem às 14h em vez de às 2h da manhã, e ninguém precisa manter uma planilha com a localização de cada VM.\n- **Um registro de auditoria que os reguladores conseguem ler.** Cada migração é um objeto de API registrado, sem necessidade de reconstruir o que aconteceu a partir de capturas de tela do console.\n\nClique em **Check** para continuar. 🕵️\n\n📚 Mais informações\n===================",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:02:11.096735+00:00"
+}

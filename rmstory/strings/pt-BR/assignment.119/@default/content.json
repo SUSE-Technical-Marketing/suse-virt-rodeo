@@ -1,0 +1,8 @@
+{
+  "content": "Na manhã seguinte, o silêncio exausto do turno da noite é abruptamente quebrado por um palavrão abafado vindo da mesa do administrador júnior de banco de dados.\n\nVocê e Sarah vão até lá imediatamente. O administrador júnior está encarando a tela com horror absoluto, as mãos tremendo sobre o teclado. Enquanto tentava limpar arquivos temporários obsoletos no servidor primário de registro de transações, o cursor dele escorregou. Ele executou acidentalmente um comando de exclusão recursiva no diretório errado.\n\nUm registro de liquidação de transação corporativa de cem milhões de dólares, finalizado apenas momentos antes, foi completamente apagado do disco.\n\n*\"Eu destruí,\"* sussurra o administrador, trêmulo. *\"A execução da fita de backup só acontece à meia-noite. Os dados simplesmente sumiram.\"*\n\nSarah fecha os olhos, esfregando as têmporas, se preparando para o impacto devastador que isso terá no preço das ações do banco e em sua reputação. Mas você coloca uma mão firme no ombro do administrador.\n\n*\"Os dados não sumiram,\"* você diz calmamente. *\"Nossa nova arquitetura de armazenamento depende de snapshots distribuídos em nível de bloco. Eu tirei uma captura do estado de referência pouco antes do início do turno da manhã.\"*\n\nVocê se aproxima do terminal dele. É hora de voltar no tempo. Mas é preciso ter cuidado: você quer **verificar os dados restaurados em um ambiente isolado seguro antes de sobrescrever a produção**.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:04:04.200403+00:00"
+}

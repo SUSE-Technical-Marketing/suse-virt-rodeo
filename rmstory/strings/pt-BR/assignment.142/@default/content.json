@@ -1,0 +1,8 @@
+{
+  "content": "<span id=\"ch1.intro1.2\"/> tem exatamente isso: **Templates de VM**. Um template captura CPU, memória, discos, redes e cloud-init num único objeto versionado. Combinado com a **criação multi-instância**, um único blueprint transforma-se numa frota inteira com um único clique.\n\n\n\n## 🎯 Objetivos da Sua Missão\n\n1. Forjar o template dourado\n2. Escalar a frota sob pressão\n3. Desativar a frota\n\n\n\n🔐 Credenciais de Login\n====================\n\nA interface do <span id=\"assignment.69.1\"/> e a interface do **Rancher Prime** utilizam as mesmas credenciais.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:06:21.035912+00:00"
+}

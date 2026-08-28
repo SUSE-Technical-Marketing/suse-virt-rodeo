@@ -1,0 +1,8 @@
+{
+  "content": ", vê o que a plataforma realmente criou para ti:\n\n- **As imagens de ouro também são objetos de API:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -A\n```\n\n- **A VM é um recurso <span id=\"assignment.2.2\"/>:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachines -n prod\n```\n\n- **A instância em execução, com o seu nó e IP** (o mesmo IP que usaste para SSH):\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide\n```\n\n- **Os discos são <span id=\"assignment.62.1\"/> comuns, suportados por <span id=\"assignment.2.8\"/>:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod\n```\n\nDeves reconhecer `market-data-vol` na lista: <span id=\"assignment.62.2\"/>.\n\n💼 Porque é que isto importa?\n========================\n\n- **Dias tornam-se minutos.** Um processo de provisionamento multiequipa, orientado por tickets, transformou-se num fluxo de autosserviço de dois minutos, <span id=\"assignment.62.3\"/>\n- **Consistência por construção.** Imagens de ouro somadas ao cloud-init significam que todo o motor que os quants pedem inicializa idêntico, configurado e pronto.\n- **Nenhum armazenamento isolado.** <span id=\"assignment.6.4\"/> são retirados sob demanda do pool partilhado de <span id=\"assignment.2.8\"/>.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:59:11.561912+00:00"
+}

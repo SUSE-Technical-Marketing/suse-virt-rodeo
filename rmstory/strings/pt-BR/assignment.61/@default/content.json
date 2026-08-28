@@ -1,0 +1,8 @@
+{
+  "content": "até que a máquina virtual passe para o estado de **Em execução**.\n\n\n  \n\n\n\n1. Clique no botão <span id=\"assignment.61.1\"/> na linha da máquina virtual para abrir o console web VNC\n2. Repare que podemos acessar o sistema sem conexão usando este método, **não espere a instalação terminar, avance já para o próximo passo**.\n3. Feche a janela do console\n\n\n\n🏋️ Exercícios Bônus: ver através da abstração (opcional, para os curiosos de linha de comando)\n========================================================================================\n\nNovo em <span id=\"assignment.2.2\"/>? **Avance à vontade.** Caso contrário, de volta ao",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:59:03.163598+00:00"
+}

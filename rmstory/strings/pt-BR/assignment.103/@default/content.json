@@ -1,0 +1,8 @@
+{
+  "content": "São agora duas da manhã. O datacenter está silencioso, exceto pelo zumbido rítmico das ventoinhas de refrigeração. Você está bebendo café frio e revisando os registros diários de telemetria quando sua tela pisca em vermelho. Um alerta crítico e de alta prioridade do Centro de Operações de Segurança sobrepõe-se ao seu painel de controle.\n\nUma verificação automática de vulnerabilidades detectou uma falha arquitetônica grave: o **servidor web** de marketing do banco, voltado para o público, está exatamente na mesma camada de rede plana que a máquina virtual altamente classificada insider-threat-db.\n\nSe um agente de ameaça conseguisse comprometer o site público, teria um caminho lateral direto e sem obstáculos até o banco de dados de segurança interna mais sensível do banco. Em uma infraestrutura tradicional, corrigir isso exigiria acordar a equipe sênior de engenharia de redes, recabear fisicamente as portas dos switches no escuro, e arriscar loops de roteamento catastróficos.\n\nVocê não precisa de cabos físicos. Tem ao seu alcance o poder das **redes definidas por software**. Você precisa construir um cofre digital impenetrável e trancar o banco de dados lá dentro — antes que uma intrusão possa ocorrer.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T18:02:30.268959+00:00"
+}

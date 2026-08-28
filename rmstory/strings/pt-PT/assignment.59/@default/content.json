@@ -1,0 +1,8 @@
+{
+  "content": "> [!NOTE]\n> **Quando os microssegundos são dinheiro:** a mesa de negociação de alta frequência vai exigir mais do que regras de posicionamento e hardware dedicado. O <span id=\"ch1.intro1.2\"/> pode **fixar núcleos de CPU dedicados** a uma VM, passar hardware diretamente, virtualizar hardware usando **SR-IOV** (tanto para NICs como para GPUs), e dividir as GPU do datacenter em **partições MIG** isoladas por hardware para que várias VMs partilhem uma GPU sem vizinhos ruidosos. Dedicar recursos físicos a uma VM garante **latência previsível e consistente**. Este exercício é apenas para fins educativos e não é uma recomendação sobre como configurar uma aplicação de negociação de alta frequência.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:58:52.218377+00:00"
+}
