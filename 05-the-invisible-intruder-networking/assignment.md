@@ -2,7 +2,7 @@
 slug: the-invisible-intruder-networking
 id: 6y9uhwn9zyll
 type: challenge
-title: "<span id="assignment.100" lang="pt-BR" hist="vertrex-bank">🕵️ Capítulo 5: O Intruso Invisível</span>"
+title: '<span id="assignment.100" lang="pt-BR" hist="vertrex-bank">🕵️ Capítulo 5: O Intruso Invisível</span>'
 teaser: <span id="assignment.101" lang="pt-BR" hist="vertrex-bank">Um alerta de segurança às 2h da manhã. O servidor web público compartilha uma rede plana com o banco de dados mais sensível do banco. Construa um cofre definido por software e tranque o banco de dados dentro dele.</span>
 tabs:
 - id: 69jpoti7gjds

@@ -2,7 +2,7 @@
 slug: the-rising-tide-live-migration
 id: xjv2r0tfyztq
 type: challenge
-title: "<span id="assignment.65" lang="pt-BR" hist="vertrex-bank">🌊 Capítulo 4: A Maré Crescente</span>"
+title: '<span id="assignment.65" lang="pt-BR" hist="vertrex-bank">🌊 Capítulo 4: A Maré Crescente</span>'
 teaser: <span id="assignment.66" lang="pt-BR" hist="vertrex-bank">Um vazamento de refrigerante está inundando o rack que hospeda o Payment Gateway. Execute uma migração ao vivo sem downtime antes que o hardware entre em curto, enquanto as transações continuam fluindo.</span>
 tabs:
 - id: fpgxlmifoynn

@@ -2,7 +2,7 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: "<span id="assignment.158" lang="pt-BR" no>🌅 Capítulo 8: Um Novo Horizonte</span>"
+title: '<span id="assignment.158" lang="pt-BR" no>🌅 Capítulo 8: Um Novo Horizonte</span>'
 teaser: <span id="assignment.159" lang="pt-BR" hist="vertrex-bank">O banco funciona inteiramente em <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
   Dê uma volta da vitória, revise tudo o que você dominou e trace para onde suas novas habilidades
   podem levar o seu próprio datacenter.</span>

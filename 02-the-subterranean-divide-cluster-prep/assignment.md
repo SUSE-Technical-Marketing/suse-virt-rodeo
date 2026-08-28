@@ -2,7 +2,7 @@
 slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
-title: "\<span id="assignment.12" lang="pt-BR" hist="vertrex-bank">🛗 Capítulo 2: A Divisão Subterrânea</span>"
+title: "<span id="assignment.12" lang="pt-BR" hist="vertrex-bank">🛗 Capítulo 2: A Divisão Subterrânea</span>"
 teaser: <span lang="pt-BR" hist="vertrex-bank" id="ts2">Dois silos de hardware, duas equipes que praticamente não se falam. Desça ao datacenter, mapeie a topologia dos nós e dê a cada disco do fabric um preço que o banco consiga bancar.</span>
 tabs:
 - id: gix6w5fqkxd6

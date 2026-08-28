@@ -2,7 +2,7 @@
 slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
-title: "<span id="assignment.138" lang="pt-BR" no>🤠 Capítulo 7: A Debandada</span>"
+title: '<span id="assignment.138" lang="pt-BR" no>🤠 Capítulo 7: A Debandada</span>'
 teaser: <span id="assignment.139" lang="pt-BR" hist="vertrex-bank">Os mercados estão em queda livre e os quants precisam que a frota de cálculo seja escalada de três nós para cinco, agora. Forje um template de VM padrão e produza máquinas idênticas sob demanda.</span>
 tabs:
 - id: xxc2ymjtxzih
