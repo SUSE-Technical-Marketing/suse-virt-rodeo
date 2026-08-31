@@ -1,5 +1,5 @@
 {
-  "content": "Isso ajudará a gerenciar a VM com automação futura.\n\nNavegue até <span id=\"assignment.54.1\"/> (não confunda com <span id=\"assignment.54.2\"/> na coluna da esquerda), depois selecione <span id=\"assignment.54.3\"/>, para garantir que o sistema arranca com todas as configurações e pacotes necessários instalados.\n\nClique em <span id=\"assignment.54.4\"/> e selecione <span id=\"assignment.54.5\"/> para definir um template padrão. Dê-lhe o nome:\n\n- <span id=\"assignment.19.4\"/>:",
+  "content": "Isso ajudará a gerenciar a VM com automação futura.\n\nNavegue até <span id=\"assignment.54.1\"/> (não confunda com <span id=\"assignment.54.2\"/> na coluna da esquerda), depois selecione <span id=\"assignment.54.3\"/>, para garantir que o sistema inicializa com todas as configurações e pacotes necessários instalados.\n\nClique em <span id=\"assignment.54.4\"/> e selecione <span id=\"assignment.54.5\"/> para definir um template padrão. Dê-lhe o nome:\n\n- <span id=\"assignment.19.4\"/>:",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,
