@@ -1,0 +1,8 @@
+{
+  "content": "> [!NOTE]\n> As interfaces usam certificados autoassinados. Aceite o aviso de segurança do navegador quando ele aparecer. Se uma página não carregar de imediato, o ambiente do laboratório pode ainda estar inicializando. Aguarde um minuto e atualize a aba.\n\n> [!NOTE]\n> Se preferir trabalhar no seu próprio navegador em vez das abas incorporadas, o host do laboratório está acessível diretamente em:\n> https://kvm-host.[[ Instruqt-Var key=\"_SANDBOX_ID\" hostname=\"kvm-host\" ]].instruqt.io:8443\n\n\n\n\n📊 Tarefa 1: Fazer login e inspecionar o painel unificado\n===================================================\n\nNavegue até o",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:53:47.511785+00:00"
+}

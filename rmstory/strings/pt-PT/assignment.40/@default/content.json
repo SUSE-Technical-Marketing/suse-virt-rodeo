@@ -1,0 +1,8 @@
+{
+  "content": "2. Clique em <span id=\"assignment.19.3\"/>\n\nA imagem que acabaste de criar aparece na lista com o estado <span id=\"assignment.40.1\"/>. Podes acompanhá-la na coluna de progresso.\n\nAvança para a próxima tarefa; assim que o download for concluído, um alerta aparece no **sino de notificações** no canto superior direito do ecrã.\n\n> [!NOTE]\n> O download acontece do lado do servidor, a partir de um espelho local na rede deste laboratório, por isso é concluído em segundos. A imagem torna-se **<span id=\"assignment.6.17\"/>** assim que <span id=\"assignment.2.8\"/> a tiver replicado.\n\n🚀 Tarefa 2: Provisionar o mecanismo de cálculo\n===========================================\n\nPara esta tarefa vamos criar a nossa primeira VM.\n\n> [!NOTE]\n> Por favor, não cliques em <span id=\"assignment.19.3\"/> até que sejas instruído.\n\nNavega até <span id=\"assignment.40.2\"/> e clica no botão <span id=\"assignment.19.3\"/>.\n\n<span id=\"assignment.40.3\"/>\n\n- <span id=\"assignment.19.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-21T17:57:21.798759+00:00"
+}

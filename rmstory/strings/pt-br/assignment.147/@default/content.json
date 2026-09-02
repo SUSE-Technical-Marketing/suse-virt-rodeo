@@ -1,0 +1,8 @@
+{
+  "content": "Finalmente, queremos padronizar todas as máquinas de produção em um conjunto de pacotes e configurações:\n\n- <span id=\"assignment.54.1\"/>:\n  - <span id=\"assignment.54.4\"/>: prod/prod\n\nPara finalizar, clique em <span id=\"assignment.19.3\"/>.\n\nConsegue imaginar preencher todos esses detalhes toda vez? As pessoas desistiriam, e o ambiente ficaria cheio de inconsistências, e a inconsistência torna a automação ainda mais difícil.\n\n\n> [!NOTE]\n> Os templates são **versionados**. Se você editar o template mais tarde, uma nova versão é criada, enquanto as máquinas construídas a partir de versões anteriores mantêm sua linhagem: um registro de auditoria completo do que foi implantado a partir de qual blueprint, o que seus reguladores vão apreciar.\n\n\n📈 Tarefa 2: Escale a frota sob pressão\n=========================================\n\nComo o template já existe, implantar múltiplos servidores leva apenas alguns cliques.\n\n\n  \n\n\nEm",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:54:34.347205+00:00"
+}

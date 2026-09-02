@@ -1,0 +1,8 @@
+{
+  "content": "## Duas camadas de rede definida por software\n\n<span id=\"ch1.intro1.2\"/> oferece todo o espectro, da segmentação clássica por VLAN até o SDN empresarial, recursos pelos quais o banco costumava pagar uma licença de SDN de código fechado separada:\n\n| Camada | Tecnologia | Uso desta noite |\n|-------|-----------|-------------|\n| L2 / bridging VLAN | **<span id=\"assignment.2.14\"/>** | A VLAN do cofre isolando o banco de dados |\n| SDN / zonas de overlay isoladas | **<span id=\"assignment.2.13\"/>** | Sub-redes privadas sem caminho externo, mesmo com CIDRs sobrepostos |\n\n\n\n## 🎯 Objetivos da sua Missão\n\n1. Conectar uma rede física de circuito fechado para produção\n2. Construir um SDN igualmente isolado para desenvolvimento\n3. Aprender como mover VMs para as novas redes\n\n\n\n🔐 Credenciais de Login\n====================\n\nA interface do <span id=\"assignment.69.1\"/> e a interface do <span id=\"assignment.2.12\"/> usam as mesmas credenciais.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:50:32.959387+00:00"
+}

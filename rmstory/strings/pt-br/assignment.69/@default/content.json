@@ -1,0 +1,8 @@
+{
+  "content": "Você não pode desligar a máquina para movê-la; o fluxo de transações é muito crítico, processando milhares de requisições por segundo. Você deve executar uma **migração ao vivo**, movendo uma VM em execução, memória e tudo mais, para um nó físico diferente com **zero downtime**.\n\nMas antes, para garantir a máxima largura de banda disponível para a migração de emergência, você decide suspender um servidor de processamento em lote não crítico nas proximidades.\n\n## 🎯 Objetivos da sua Missão\n\n1. Suspender cargas de trabalho não críticas para liberar recursos\n2. Estabelecer um heartbeat de serviço\n3. Executar a Migração ao Vivo\n4. Monitorar a transferência perfeita\n5. Retomar as operações normais\n6. Entregar o rack danificado para a equipe de reparo\n\n🔐 Credenciais de Login\n====================\n\nA interface do <span id=\"assignment.69.1\"/> e a interface do **Rancher Prime** usam as mesmas credenciais.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:48:03.741099+00:00"
+}

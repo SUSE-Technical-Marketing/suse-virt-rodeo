@@ -1,0 +1,8 @@
+{
+  "content": "## 🎯 Seus Objetivos da Missão\n\n1. Simule a criação e a destruição do registro\n2. Clone um ambiente de staging a partir do snapshot\n3. Verifique os dados na sandbox de staging\n4. Restaure o sistema de produção\n5. Conecte o <span id=\"assignment.120.1\"/>\n6. Coloque os backups em uma programação\n\n\n\n🔐 Credenciais de Login\n====================\n\nA interface do <span id=\"assignment.69.1\"/> e a interface do **Rancher Prime** usam as mesmas credenciais.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:52:10.861537+00:00"
+}

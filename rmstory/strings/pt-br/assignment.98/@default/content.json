@@ -1,0 +1,8 @@
+{
+  "content": "- **Revise o registro de migração** (quem migrou, quando, de onde para onde):\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A\n```\n\n- **Inspecione os detalhes da migração concluída:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 \"Status\"\n```\n\n- **Pense adiante:** o que acontece se um *nó* falhar sem aviso, antes que alguém consiga migrar? Verifique a estratégia de execução de cada VM: <span id=\"ch1.intro1.2\"/> pode reagendar VMs de um host com falha automaticamente:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy\n```\n\n> [!NOTE]\n> **Além da computação:** a mesma ideia de zero downtime também se aplica a *discos*. <span id=\"ch1.intro1.2\"/> oferece suporte à **migração ao vivo de armazenamento in-place** (mover os volumes de uma VM em execução entre backends de armazenamento, por exemplo de <span id=\"assignment.2.8\"/> para um array externo <span id=\"assignment.2.9\"/>) sem parar a VM. Computação evacuada hoje à noite, armazenamento evacuado no próximo trimestre, e o gateway nunca percebe nenhuma das duas.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-08-24T23:50:02.841227+00:00"
+}
