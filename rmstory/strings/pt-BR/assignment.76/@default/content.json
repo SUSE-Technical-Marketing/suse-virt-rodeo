@@ -1,5 +1,5 @@
 {
-  "content": "Você precisa de um monitor de batimento contínuo para comprovar que a ligação de rede permanece intacta durante a evacuação.\n\nInicie o monitor de batimento a partir de <span id=\"assignment.76.1\"/>:\n\n```bash,run\nssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key=\"PAYMENT_GATEWAY_IP\" hostname=\"kvm-host\" ]] 'ping 192.168.122.1'\n\n```\n\n> [!IMPORTANT]\n> Deixe o ping a correr continuamente no terminal. **Não o pare.** Este fluxo contínuo de respostas é a sua prova de zero tempo de inatividade. Volte a focar-se na interface <span id=\"ch1.intro1.2\"/>.",
+  "content": "Você precisa de um monitor de batimento contínuo para comprovar que a conexão de rede permanece intacta durante a evacuação.\n\nInicie o monitor de batimento a partir de <span id=\"assignment.76.1\"/>:\n\n```bash,run\nssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key=\"PAYMENT_GATEWAY_IP\" hostname=\"kvm-host\" ]] 'ping 192.168.122.1'\n\n```\n\n> [!IMPORTANT]\n> Deixe o ping rodando continuamente no terminal. **Não o pare.** Este fluxo contínuo de respostas é a sua prova de zero tempo de inatividade. Volte a se concentrar na interface <span id=\"ch1.intro1.2\"/>.",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,
