@@ -2,8 +2,8 @@
 slug: the-flash-crash-first-vm
 id: 09d4eiczcvaw
 type: challenge
-title: '<span id="assignment.33" lang="pt-BR" hist="vertrex-bank">⚡ Capítulo 3: O Flash Crash</span>'
-teaser: <span id="assignment.34" lang="pt-BR" hist="vertrex-bank">Os mercados asiáticos estão em colapso e os quants precisam de um mecanismo de cálculo AGORA. Implante uma VM totalmente configurada com armazenamento e credenciais em minutos, não em dias.</span>
+title: '<span id="assignment.33" lang="pt-br" hist="vertrex-bank">⚡ Capítulo 3: O Flash Crash</span>'
+teaser: <span id="assignment.34" lang="pt-br" hist="vertrex-bank">Os mercados asiáticos estão em colapso e os quants precisam de um mecanismo de cálculo AGORA. Implante uma VM totalmente configurada com armazenamento e credenciais em minutos, não em dias.</span>
 tabs:
 - id: 6byxu4pxkfpm
   title: SUSE Virtualization UI
@@ -26,7 +26,7 @@ difficulty: basic
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.35" lang="pt-BR" hist="vertrex-bank">⚡ Capítulo 3: O Crash Relâmpago
+<span id="assignment.35" lang="pt-br" hist="vertrex-bank">⚡ Capítulo 3: O Crash Relâmpago
 =============================</span>
 
 <style type="text/css">
@@ -154,7 +154,7 @@ enhanced_loading: null
 
 <div id="301" class="story">
 
-<span id="assignment.36" lang="pt-BR" hist="vertrex-bank">Você está sentado em um escritório improvisado logo fora do datacenter, no meio da revisão da topologia de rede, quando as luzes de emergência do teto de repente piscam num amarelo intenso. Seu rádio ganha vida com um estalo. É o **Chefe de Trading Quantitativo**, e ele parece em pânico.
+<span id="assignment.36" lang="pt-br" hist="vertrex-bank">Você está sentado em um escritório improvisado logo fora do datacenter, no meio da revisão da topologia de rede, quando as luzes de emergência do teto de repente piscam num amarelo intenso. Seu rádio ganha vida com um estalo. É o **Chefe de Trading Quantitativo**, e ele parece em pânico.
 
 *"Temos uma anomalia enorme nos mercados asiáticos!"* ele grita por cima do barulho caótico de um pregão em polvorosa. *"Nossos modelos algorítmicos atuais estão falhando em processar o fluxo de dados recebido rápido o suficiente. Precisamos de um novo mecanismo de cálculo de alto desempenho, dedicado, implantado imediatamente, com um volume de dados secundário de alta velocidade, ou vamos sangrar milhões nos próximos dez minutos!"*
 
@@ -166,10 +166,10 @@ Você ignora completamente o sistema de chamados legado e se prepara para implan
 </div>
 
 
-<span id="assignment.37" lang="pt-BR" no>## 🎯 Seus Objetivos da Missão
+<span id="assignment.37" lang="pt-br" no>## 🎯 Seus Objetivos da Missão
 
 1. Verifique a imagem do sistema operacional
-2. Provisione o <span id="assignment.37.1" lang="pt-BR" hist="vertrex-bank">motor de cálculo</span>
+2. Provisione o <span id="assignment.37.1" lang="pt-br" hist="vertrex-bank">motor de cálculo</span>
 3. Acesse o Console Web
 
 
@@ -202,10 +202,10 @@ admin
 
 
 
-<span id="assignment.38" lang="pt-BR" no>📀 Tarefa 1: Verifique a imagem do sistema operacional
+<span id="assignment.38" lang="pt-br" no>📀 Tarefa 1: Verifique a imagem do sistema operacional
 ========================================================
 
-Vá até o</span> [button label="<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI" variant="success"](tab-0) <span id="assignment.39" lang="pt-BR" no>, navegue até **<span id="assignment.6.3" lang="nolang" no>Images</span>** no painel lateral esquerdo e confirme que a imagem do sistema operacional base <span id="assignment.39.1" lang="nolang" no>**SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2**</span> está presente e marcada como **<span id="assignment.6.17" lang="nolang" no>Active</span>**.
+Vá até o</span> [button label="<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI" variant="success"](tab-0) <span id="assignment.39" lang="pt-br" no>, navegue até **<span id="assignment.6.3" lang="nolang" no>Images</span>** no painel lateral esquerdo e confirme que a imagem do sistema operacional base <span id="assignment.39.1" lang="nolang" no>**SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2**</span> está presente e marcada como **<span id="assignment.6.17" lang="nolang" no>Active</span>**.
 
 > [!NOTE]
 > <span id="assignment.6.3" lang="nolang" no>Images</span> em <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> são imagens-mestre globais para todo o cluster. Cada VM que você inicializar a partir dessa imagem obtém seu próprio disco copy-on-write. A imagem em si nunca é modificada.
@@ -235,7 +235,7 @@ http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2
 </div>
 
 
-<span id="assignment.40" lang="pt-BR" no>2. Clique em <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.40" lang="pt-br" no>2. Clique em <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 A imagem que você acabou de criar aparece na lista com o estado <span id="assignment.40.1" lang="nolang" no>**Downloading**</span>. Você pode acompanhá-la na coluna de progresso.
 
@@ -263,7 +263,7 @@ Para esta tarefa, vamos criar nossa primeira VM.
 
 Navegue até <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> e clique no botão <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
 
-<span id="assignment.40.3" lang="pt-BR" hist="vertrex-bank">Configure o motor exatamente como os quants precisam.</span>
+<span id="assignment.40.3" lang="pt-br" hist="vertrex-bank">Configure o motor exatamente como os quants precisam.</span>
 
 - <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
@@ -286,7 +286,7 @@ prod
 </div>
 
 
-<span id="assignment.42" lang="pt-BR" no>Se o namespace não existir, crie-o.
+<span id="assignment.42" lang="pt-br" no>Se o namespace não existir, crie-o.
 
 - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>:</span>
 <div class="cred">
@@ -310,9 +310,9 @@ prod
 </div>
 
 
-<span id="assignment.44" lang="pt-BR" hist="vertrex-bank">Perceba os recursos muito baixos: nossa futura equipe de quants é altamente qualificada, e sua aplicação é extremamente otimizada para baixa latência e baixo uso de recursos.</span>
+<span id="assignment.44" lang="pt-br" hist="vertrex-bank">Perceba os recursos muito baixos: nossa futura equipe de quants é altamente qualificada, e sua aplicação é extremamente otimizada para baixa latência e baixo uso de recursos.</span>
 
-<span id="assignment.45" lang="pt-BR" no>- <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
+<span id="assignment.45" lang="pt-br" no>- <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
 
 Na aba <span id="assignment.6.4" lang="nolang" no>Volumes</span> (verde, não confundir com a preta), preencha os seguintes detalhes:
 
@@ -326,7 +326,7 @@ Na aba <span id="assignment.6.4" lang="nolang" no>Volumes</span> (verde, não co
 
 </div>
 
-<span id="assignment.46" lang="pt-BR" no>Em seguida, adicione um novo volume clicando em <span id="assignment.46.1" lang="nolang" no>**Add Volume**</span> e preencha os seguintes detalhes:
+<span id="assignment.46" lang="pt-br" no>Em seguida, adicione um novo volume clicando em <span id="assignment.46.1" lang="nolang" no>**Add Volume**</span> e preencha os seguintes detalhes:
 
 - <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 <div class="cred">
@@ -348,18 +348,18 @@ market-data-vol
 
 </div>
 
-<span id="assignment.48" lang="pt-BR" hist="vertrex-bank">Agora conecte o motor à rede do banco.</span><span id="assignment.49" lang="pt-BR" no>Na aba <span id="assignment.49.1" lang="nolang" no><b style="color:#30ba78;">Networks</b></span> (verde, para não confundir com a preta):
+<span id="assignment.48" lang="pt-br" hist="vertrex-bank">Agora conecte o motor à rede do banco.</span><span id="assignment.49" lang="pt-br" no>Na aba <span id="assignment.49.1" lang="nolang" no><b style="color:#30ba78;">Networks</b></span> (verde, para não confundir com a preta):
 
 - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <span id="assignment.49.3" lang="nolang" no><b class="highlightcopy">prod/service</b></span></span>
 <div id="302" class="story">
 
 
-<span id="assignment.50" lang="pt-BR" hist="vertrex-bank">Isso atende ao pedido do trader por um segundo disco de dados de alta velocidade. Nos bastidores, ambos os discos se tornam volumes <span id="assignment.2.8" lang="nolang" no>Longhorn</span> replicados, os dados de mercado sobrevivem mesmo que um disco físico falhe durante uma negociação.</span>
+<span id="assignment.50" lang="pt-br" hist="vertrex-bank">Isso atende ao pedido do trader por um segundo disco de dados de alta velocidade. Nos bastidores, ambos os discos se tornam volumes <span id="assignment.2.8" lang="nolang" no>Longhorn</span> replicados, os dados de mercado sobrevivem mesmo que um disco físico falhe durante uma negociação.</span>
 
 </div>
 
 
-<span id="assignment.51" lang="pt-BR" no>Já que este é um cluster de ambiente misto, vamos garantir que a VM seja executada apenas em nós de produção.
+<span id="assignment.51" lang="pt-br" no>Já que este é um cluster de ambiente misto, vamos garantir que a VM seja executada apenas em nós de produção.
 
 Clique em <span id="assignment.51.1" lang="nolang" no><b style="color:#30ba78;">Node Scheduling</b></span>: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> oferece três opções:
 
@@ -393,7 +393,7 @@ prod
 </div>
 
 
-<span id="assignment.53" lang="pt-BR" no>Agora atribua uma etiqueta a ele:
+<span id="assignment.53" lang="pt-br" no>Agora atribua uma etiqueta a ele:
 
 Vá até a aba <span id="assignment.53.1" lang="nolang" no><b style="color:#30ba78;">Labels</b></span> (não confundir com <span id="assignment.53.2" lang="nolang" no>"Instance Labels"</span>) e clique em <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
 
@@ -417,7 +417,7 @@ prod
 
 </div>
 
-<span id="assignment.54" lang="pt-BR" no>Isso ajudará a gerenciar a VM com automação futura.
+<span id="assignment.54" lang="pt-br" no>Isso ajudará a gerenciar a VM com automação futura.
 
 
 Navegue até <span id="assignment.54.1" lang="nolang" no><b style="color:#30ba78;">Advanced Options</b></span> (não confunda com <span id="assignment.54.2" lang="nolang" no>'Advanced'</span>, na coluna da esquerda) e, em seguida, selecione <span id="assignment.54.3" lang="nolang" no>**Cloud Configuration**</span>, para garantir que o sistema seja iniciado com todas as configurações e pacotes necessários instalados.
@@ -434,7 +434,7 @@ prod
 </div>
 
 
-<span id="assignment.55" lang="pt-BR" no>Para o <span id="assignment.55.1" lang="nolang" no>**User Data**</span>, insira:
+<span id="assignment.55" lang="pt-br" no>Para o <span id="assignment.55.1" lang="nolang" no>**User Data**</span>, insira:
 
 ```yaml
 #cloud-config
@@ -459,10 +459,10 @@ Salve o template clicando em <span id="assignment.19.3" lang="nolang" no>**Creat
 
 Como o template está no namespace <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span> e tem o nome <span id="assignment.55.2" lang="nolang" no><b class="highlightcopy">prod</b></span>, ele se torna prod/prod: o padrão de produção, pronto para ser usado em todas as VMs.</span>
 <div id="303" class="story">
-<span id="assignment.56" lang="pt-BR" hist="vertrex-bank">A equipe de firewall da mesa de operações tem mais uma exigência:</span>
+<span id="assignment.56" lang="pt-br" hist="vertrex-bank">A equipe de firewall da mesa de operações tem mais uma exigência:</span>
 </div>
 
-<span id="assignment.57" lang="pt-BR" no>O engine precisa subir com um **endereço previsível**, não o que o DHCP fornecer. No campo <span id="assignment.57.1" lang="nolang" no>**Network Data**</span>, insira:
+<span id="assignment.57" lang="pt-br" no>O engine precisa subir com um **endereço previsível**, não o que o DHCP fornecer. No campo <span id="assignment.57.1" lang="nolang" no>**Network Data**</span>, insira:
 
 ```yaml
 version: 2
@@ -488,21 +488,21 @@ Agora que terminamos a configuração, clique em <span id="assignment.19.3" lang
 Não espere que ela termine de inicializar, prossiga para a próxima tarefa.</span>
 
 <div id="304" class="story">
-<span id="assignment.58" lang="pt-BR" hist="vertrex-bank">As regras de escalonamento permitem separar sistemas críticos de outras cargas de trabalho, por exemplo, fixando os motores de negociação em nós de baixa latência enquanto os jobs em lote compartilham o restante. Manter "qualquer nó disponível" aqui é importante: é isso que torna possível a evacuação com zero downtime no próximo capítulo.</span>
+<span id="assignment.58" lang="pt-br" hist="vertrex-bank">As regras de escalonamento permitem separar sistemas críticos de outras cargas de trabalho, por exemplo, fixando os motores de negociação em nós de baixa latência enquanto os jobs em lote compartilham o restante. Manter "qualquer nó disponível" aqui é importante: é isso que torna possível a evacuação com zero downtime no próximo capítulo.</span>
 
 </div>
 
-<span id="assignment.59" lang="pt-BR" hist="vertrex-bank">> [!NOTE]
+<span id="assignment.59" lang="pt-br" hist="vertrex-bank">> [!NOTE]
 > **Quando microssegundos valem dinheiro:** a mesa de negociação de alta frequência vai exigir mais do que regras de posicionamento e hardware dedicado. <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> pode **fixar núcleos de CPU dedicados** em uma VM, repassar hardware diretamente, virtualizar hardware usando **SR-IOV** (tanto para NICs quanto para GPUs) e dividir GPUs de datacenter em partições **MIG** isoladas por hardware, para que várias VMs compartilhem uma única GPU sem interferência entre vizinhos. Dedicar recursos físicos a uma VM garante **latência previsível e consistente**. Este exercício tem apenas fins educacionais e não é uma recomendação de como configurar uma aplicação de negociação de alta frequência.</span>
 
-<span id="assignment.60" lang="pt-BR" no>> [!IMPORTANT]
+<span id="assignment.60" lang="pt-br" no>> [!IMPORTANT]
 > Já que este laboratório roda em uma **configuração aninhada**, o desempenho de I/O é um pouco mais lento que o normal, e o processo de provisionamento levará alguns minutos. Enquanto sua VM é inicializada, preparamos um pouco de entretenimento para você! Acesse os Bonus Drills para aprender a interagir com a API do <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> usando a CLI. Tudo em <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> é um objeto <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>, o que significa que você pode gerenciá-lo por meio da API do <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> através do cluster RKE2 subjacente.
 > Quando terminar, volte para a Tarefa 3.
 
 🖥️ Tarefa 3: Acessar o Console Web
 =================================
 
-Monitore o</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.61" lang="pt-BR" no>até que a máquina virtual passe para o estado **Em execução**.
+Monitore o</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.61" lang="pt-br" no>até que a máquina virtual passe para o estado **Em execução**.
 
 
   
@@ -518,7 +518,7 @@ Monitore o</span> [button label="SUSE Virtualization UI" variant="success"](tab-
 🏋️ Exercícios bônus: enxergando através da abstração (opcional, para os curiosos de linha de comando)
 ========================================================================================
 
-Novo em <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Pule à vontade.** Caso contrário, de volta ao</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.62" lang="pt-BR" no>, dê uma olhada no que a plataforma realmente criou para você:
+Novo em <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Pule à vontade.** Caso contrário, de volta ao</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.62" lang="pt-br" no>, dê uma olhada no que a plataforma realmente criou para você:
 
 - **As imagens douradas também são objetos de API:**
 
@@ -544,22 +544,22 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod
 ```
 
-Você deve reconhecer `market-data-vol` na lista: <span id="assignment.62.2" lang="pt-BR" hist="vertrex-bank">uma unidade de dados bancários, expressa como armazenamento nativo em nuvem</span>.
+Você deve reconhecer `market-data-vol` na lista: <span id="assignment.62.2" lang="pt-br" hist="vertrex-bank">uma unidade de dados bancários, expressa como armazenamento nativo em nuvem</span>.
 
 💼 Por que isso importa?
 ========================
 
-- **Dias se tornam minutos.** Um processo de provisionamento multiequipe orientado por tickets se transformou em um fluxo de autoatendimento de dois minutos, <span id="assignment.62.3" lang="pt-BR" hist="vertrex-bank">durante uma crise de mercado ao vivo.</span>
+- **Dias se tornam minutos.** Um processo de provisionamento multiequipe orientado por tickets se transformou em um fluxo de autoatendimento de dois minutos, <span id="assignment.62.3" lang="pt-br" hist="vertrex-bank">durante uma crise de mercado ao vivo.</span>
 - **Consistência por construção.** Imagens douradas mais cloud-init significam que cada engine que os quants solicitam inicializa idêntica, configurada e pronta.
 - **Sem armazenamento órfão.** <span id="assignment.6.4" lang="nolang" no>Volumes</span> são extraídos sob demanda do pool compartilhado de <span id="assignment.2.8" lang="nolang" no>Longhorn</span>.</span>
 
 <div id="305" class="story">
 
-<span id="assignment.63" lang="pt-BR" hist="vertrex-bank">Você chama a equipe de operações pelo rádio. *"Seu motor está online e o volume de dados está anexado."* A crise foi evitada — mas o dia está longe de terminar.</span>
+<span id="assignment.63" lang="pt-br" hist="vertrex-bank">Você chama a equipe de operações pelo rádio. *"Seu motor está online e o volume de dados está anexado."* A crise foi evitada — mas o dia está longe de terminar.</span>
 
 </div>
 
-<span id="assignment.64" lang="pt-BR" no>Clique em <span id="assignment.32.1" lang="nolang" no>**Check**</span> para continuar. 🌊
+<span id="assignment.64" lang="pt-br" no>Clique em <span id="assignment.32.1" lang="nolang" no>**Check**</span> para continuar. 🌊
 
 📚 Mais informações
 ===================</span>

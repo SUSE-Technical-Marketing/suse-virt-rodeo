@@ -2,8 +2,8 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: '<span id="assignment.158" lang="pt-BR" no>🌅 Capítulo 8: Um Novo Horizonte</span>'
-teaser: <span id="assignment.159" lang="pt-BR" hist="vertrex-bank">O banco funciona inteiramente em <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
+title: '<span id="assignment.158" lang="pt-br" no>🌅 Capítulo 8: Um Novo Horizonte</span>'
+teaser: <span id="assignment.159" lang="pt-br" hist="vertrex-bank">O banco funciona inteiramente em <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
   Dê uma volta da vitória, revise tudo o que você dominou e trace para onde suas novas habilidades
   podem levar o seu próprio datacenter.</span>
 tabs:
@@ -28,7 +28,7 @@ difficulty: basic
 timelimit: 1800
 enhanced_loading: null
 ---
-<span id="assignment.160" lang="pt-BR" no>🌅 Capítulo 8: Um Novo Horizonte
+<span id="assignment.160" lang="pt-br" no>🌅 Capítulo 8: Um Novo Horizonte
 ============================</span>
 <style type="text/css">
   * {
@@ -128,7 +128,7 @@ enhanced_loading: null
 
 <div id="901" class="story">
 
-<span id="assignment.161" lang="pt-BR" hist="vertrex-bank">A poeira finalmente assentou. O datacenter está silencioso, banhado pelo suave brilho verde dos nós <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> operando em perfeita harmonia.
+<span id="assignment.161" lang="pt-br" hist="vertrex-bank">A poeira finalmente assentou. O datacenter está silencioso, banhado pelo suave brilho verde dos nós <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> operando em perfeita harmonia.
 
 O Vertex Trust Bank não está mais preso ao passado. Agora ele opera totalmente sobre uma stack de virtualização cloud-native, enxuta e de alto desempenho.
 
@@ -138,7 +138,7 @@ Ela se vira para você e estende a mão. *"Obrigada. Você não apenas salvou no
 
 </div>
 
-<span id="assignment.162" lang="pt-BR" no>## 🏆 Seus Feitos
+<span id="assignment.162" lang="pt-br" no>## 🏆 Seus Feitos
 
 Você superou desafios incríveis durante sua passagem por aqui:
 
@@ -155,12 +155,12 @@ Você superou desafios incríveis durante sua passagem por aqui:
 
 <div id="902" class="story">
 
-<span id="assignment.163" lang="pt-BR" hist="vertrex-bank">Seu trabalho no Vertex Trust Bank está concluído — mas a fronteira digital é vasta e está em constante evolução. Sempre há novas arquiteturas para projetar e novos sistemas para modernizar.</span>
+<span id="assignment.163" lang="pt-br" hist="vertrex-bank">Seu trabalho no Vertex Trust Bank está concluído — mas a fronteira digital é vasta e está em constante evolução. Sempre há novas arquiteturas para projetar e novos sistemas para modernizar.</span>
 
 </div>
 
 
-<span id="assignment.164" lang="pt-BR" no>🔐 Credenciais de Login
+<span id="assignment.164" lang="pt-br" no>🔐 Credenciais de Login
 ====================
 
 A interface do <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> e a interface do **Rancher Prime** usam as mesmas credenciais.</span>
@@ -187,12 +187,12 @@ admin
 
 
 
-<span id="assignment.165" lang="pt-BR" no>🧭 Volta de vitória: o laboratório ainda é seu
+<span id="assignment.165" lang="pt-br" no>🧭 Volta de vitória: o laboratório ainda é seu
 =======================================
 
 O ambiente de laboratório continuará ativo até o seu tempo expirar. Sinta-se à vontade para explorar o painel e experimentar a infraestrutura que você construiu. Algumas ideias:
 
-- **Faça um inventário final do império que você construiu.** Percorra o</span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="pt-BR" no>a página <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>, as **Networks** que você definiu, o blueprint de **Templates** e o histórico de **Backup & Snapshot**: toda crise da semana deixou sua marca aqui.
+- **Faça um inventário final do império que você construiu.** Percorra o</span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="pt-br" no>a página <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>, as **Networks** que você definiu, o blueprint de **Templates** e o histórico de **Backup & Snapshot**: toda crise da semana deixou sua marca aqui.
 
 - **Crie sua própria crise.** Crie uma nova VM do zero: escolha a imagem, dimensione-a, faça o cloud-init, tire um snapshot, faça live-migrate. Desta vez sem instruções. Você conhece o caminho.
 
@@ -203,7 +203,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 ```</span>
 
 
-<span id="assignment.167" lang="pt-BR" no>🚀 O que vem a seguir na sua jornada?
+<span id="assignment.167" lang="pt-br" no>🚀 O que vem a seguir na sua jornada?
 ===============================
 
 - 📖 Mantenha suas habilidades afiadas se aprofundando na arquitetura técnica detalhada na [Documentação do SUSE Virtualization](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).
@@ -218,13 +218,13 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 
 <div id="903" class="story">
 
-<span id="assignment.168" lang="pt-BR" hist="vertrex-bank">Foi uma honra absoluta trabalhar ao seu lado!
+<span id="assignment.168" lang="pt-br" hist="vertrex-bank">Foi uma honra absoluta trabalhar ao seu lado!
 
 **Boa migração!** 🎉</span>
 
 </div>
 
-<span id="assignment.169" lang="pt-BR" no>📚 Mais informações
+<span id="assignment.169" lang="pt-br" no>📚 Mais informações
 ===================
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Visão geral](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)

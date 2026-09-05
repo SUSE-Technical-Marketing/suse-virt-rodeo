@@ -2,17 +2,17 @@
 slug: the-arrival-welcome
 id: ermykdy1tbse
 type: challenge
-title: "<span id="assignment.7" lang="pt-BR" hist="vertrex-bank">🏦 Capítulo 1: A Chegada</span>"
-teaser: <span id="assignment.8" lang="pt-BR" hist="vertrex-bank">O Vertex Trust Bank está afundando em custos legados <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>
+title: "<span id="assignment.7" lang="pt-br" hist="vertrex-bank">🏦 Capítulo 1: A Chegada</span>"
+teaser: <span id="assignment.8" lang="pt-br" hist="vertrex-bank">O Vertex Trust Bank está afundando em custos legados <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>
   Entre na sala de reuniões, assuma o controle do SUSE Virtualization
   e inspecione seu novo centro de comando.</span>
 notes:
 - type: text
   contents: |
-    <span id="assignment.1" lang="pt-BR" no># Bem-vindo ao <span id="assignment.1.1"  lang="nolang" no>SUSE Virtualization Rodeo!</span>
+    <span id="assignment.1" lang="pt-br" no># Bem-vindo ao <span id="assignment.1.1"  lang="nolang" no>SUSE Virtualization Rodeo!</span>
 
-    Aguarde enquanto preparamos seu ambiente de laboratório.</span><span lang="pt-BR" id="ch1.waiting1" hist="vertrex-bank">A chuva bate contra as janelas da sede do Vertex Trust Bank...
-    Sarah, a CTO, está esperando por você na sala de reuniões.</span>
+    Aguarde enquanto preparamos seu ambiente de laboratório.</span><span lang="pt-br" id="ch1.waiting1" hist="vertrex-bank">A chuva bate contra as janelas da sede do Vertex Trust Bank...
+Sarah, a CTO, está esperando por você na sala de reuniões.</span>
     <img class="logos" src="../assets/logos/suse_logo.svg"/>
 tabs:
 - id: 3veafppy6ial
@@ -37,7 +37,7 @@ timelimit: 2400
 enhanced_loading: null
 ---
 
-<span id="assignment.9" lang="pt-BR" hist="vertrex-bank">🏦 Capítulo 1: A Chegada</span>
+<span id="assignment.9" lang="pt-br" hist="vertrex-bank">🏦 Capítulo 1: A Chegada</span>
 ==========================
 
 <style type="text/css">
@@ -149,7 +149,7 @@ enhanced_loading: null
 
 
 <div id="101" class="story">
-<span lang="pt-BR" id="ch1.intro1" hist="vertrex-bank">A chuva batia contra as janelas do chão ao teto da sede do Vertex Trust Bank, distorcendo o horizonte da cidade em um borrão cinza e aquoso. Dentro da sala de reuniões executiva de paredes de vidro, a atmosfera estava igualmente turbulenta. Sarah, a Diretora de Tecnologia, andava de um lado a outro da sala, os olhos fixos em um enorme monitor suspenso projetando um mar de alertas vermelhos e avisos de desempenho.
+<span lang="pt-br" id="ch1.intro1" hist="vertrex-bank">A chuva batia contra as janelas do chão ao teto da sede do Vertex Trust Bank, distorcendo o horizonte da cidade em um borrão cinza e aquoso. Dentro da sala de reuniões executiva de paredes de vidro, a atmosfera estava igualmente turbulenta. Sarah, a Diretora de Tecnologia, andava de um lado a outro da sala, os olhos fixos em um enorme monitor suspenso projetando um mar de alertas vermelhos e avisos de desempenho.
 
 Ela se virou para você, a voz tensa de exaustão. *"Estamos perdendo milissegundos preciosos em cada única transação de mercado. Nossos <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>s legados estão cedendo sob o volume imenso do tráfego bancário digital moderno. A infraestrutura é frágil, os arrays de armazenamento estão constantemente saindo de sincronia, e nossos custos de licenciamento estão drenando completamente nosso orçamento de engenharia. Não podemos sobreviver mais um ano acorrentados a esses sistemas monolíticos e antiquados."*
 
@@ -159,30 +159,30 @@ Você se senta em silêncio na ponta da mesa de mogno, revisando os esquemas arq
 </div>
 
 
-<span id="assignment.2" lang=pt-BR no>Sua jornada começa agora mesmo. Antes de poder começar a desmontar o mundo antigo, você precisa estabelecer uma base sólida no novo mundo e mergulhar no ambiente.
+<span id="assignment.2" lang=pt-br no>Sua jornada começa agora mesmo. Antes de poder começar a desmontar o mundo antigo, você precisa estabelecer uma base sólida no novo mundo e mergulhar no ambiente.
 
 ## O que é <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>?
 
-<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> (também conhecido como **<span id="assignment.2.1" lang="nolang" no>Harvester</span>**) é uma plataforma moderna e de código aberto de infraestrutura hiperconvergente (HCI) construída sobre <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>. Ela roda diretamente em hardware bare metal e oferece ao banco **máquinas virtuais** de nível empresarial sobre uma base cloud-native, <span id="ch1.intro2"  lang="pt-BR" hist="vertrex-bank">exatamente a ponte que o Vertex Trust Bank precisa</span>:
+<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> (também conhecido como **<span id="assignment.2.1" lang="nolang" no>Harvester</span>**) é uma plataforma moderna e de código aberto de infraestrutura hiperconvergente (HCI) construída sobre <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>. Ela roda diretamente em hardware bare metal e oferece ao banco **máquinas virtuais** de nível empresarial sobre uma base cloud-native, <span id="ch1.intro2"  lang="pt-br" hist="vertrex-bank">exatamente a ponte que o Vertex Trust Bank precisa</span>:
 
-- **<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**: virtualização empresarial como cargas de trabalho nativas do <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>. Por baixo, está a mesma dupla **<span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**, testada em batalha, que impulsiona a virtualização <span id="assignment.2.6" lang="nolang" no>Linux</span> há décadas, motivo pelo qual a plataforma consegue rodar uma enorme variedade de sistemas operacionais convidados, <span id="ch1.intro3"  lang="pt-BR" hist="vertrex-bank">incluindo até as mais antigas, ainda em uso nos cantos mais empoeirados e legados do banco, aguardando pacientemente por sua migração</span>
-- **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)**: armazenamento em bloco distribuído e replicado em todos os nós, configurado e pronto para uso desde o início. <span id="ch1.intro4"  lang="pt-BR" hist="vertrex-bank">E se o banco algum dia preferir um armazenamento diferente</span>, **qualquer driver de armazenamento compatível com <span id="assignment.2.9" lang="nolang" no>CSI</span> se conecta imediatamente**, liberdade de escolha, nunca aprisionamento (lock-in)
+- **<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**: virtualização empresarial como cargas de trabalho nativas do <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>. Por baixo, está a mesma dupla **<span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**, testada em batalha, que impulsiona a virtualização <span id="assignment.2.6" lang="nolang" no>Linux</span> há décadas, motivo pelo qual a plataforma consegue rodar uma enorme variedade de sistemas operacionais convidados, <span id="ch1.intro3"  lang="pt-br" hist="vertrex-bank">incluindo até as mais antigas, ainda em uso nos cantos mais empoeirados e legados do banco, aguardando pacientemente por sua migração</span>
+- **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)**: armazenamento em bloco distribuído e replicado em todos os nós, configurado e pronto para uso desde o início. <span id="ch1.intro4"  lang="pt-br" hist="vertrex-bank">E se o banco algum dia preferir um armazenamento diferente</span>, **qualquer driver de armazenamento compatível com <span id="assignment.2.9" lang="nolang" no>CSI</span> se conecta imediatamente**, liberdade de escolha, nunca aprisionamento (lock-in)
 - **<span id="assignment.2.10" lang="nolang" no>Software-defined networking</span>**: VLANs e redes overlay isoladas sem tocar em um único cabo
 - **Uma única fatura de código aberto**: sem taxa de <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> por soquete
 - **<span id="assignment.2.11" lang="nolang" no>Support</span> que realmente escuta**: os clientes da SUSE avaliam consistentemente o **SUSE <span id="assignment.2.11" lang="nolang" no>Support</span>** entre os melhores do setor, e seu feedback molda diretamente os próximos passos dos produtos. Tente pedir a um fornecedor de código fechado um lugar nessa mesa
 
 Como a plataforma roda *sobre* <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>, cargas de trabalho em contêineres podem rodar exatamente no mesmo cluster. Deixe a divisão de responsabilidades clara desde o primeiro dia: a interface do <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> gerencia **máquinas virtuais**; gerenciar contêineres (e gerenciar frotas inteiras de clusters) é tarefa do <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span>, que você conhecerá em instantes.
 
-<span id="ch1.intro5"  lang="pt-BR" hist="vertrex-bank">Todo componente proprietário que consome o orçamento do banco tem um substituto moderno e de código aberto:</span>
+<span id="ch1.intro5"  lang="pt-br" hist="vertrex-bank">Todo componente proprietário que consome o orçamento do banco tem um substituto moderno e de código aberto:</span>
 
 | O mundo antigo (licenciamento por soquete) | <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
 |--------------------------------------|---------------------|
 | <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> proprietário da ISAware | <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span> |
-| Array de armazenamento proprietário |  Armazenamento SUSE, ou qualquer driver <span id="assignment.2.9" lang="nolang" no>CSI</span> <span id="ch1.intro6"  lang="pt-BR" hist="vertrex-bank">o banco escolhe</span> |
+| Array de armazenamento proprietário |  Armazenamento SUSE, ou qualquer driver <span id="assignment.2.9" lang="nolang" no>CSI</span> <span id="ch1.intro6"  lang="pt-br" hist="vertrex-bank">o banco escolhe</span> |
 | SDN de código fechado | <span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> + <span id="assignment.2.14" lang="nolang" no>Multus</span> |
 | Trono de Comando da ISAware | <span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span> |
 
-Sem aprisionamento a fornecedor. Sem taxa de virtualização. Sem kernel proprietário. **Uma única plataforma, uma única fatura**, <span id="ch1.intro7"  lang="pt-BR" hist="vertrex-bank">exatamente o que você prometeu à Sarah na sala de reuniões</span>.
+Sem aprisionamento a fornecedor. Sem taxa de virtualização. Sem kernel proprietário. **Uma única plataforma, uma única fatura**, <span id="ch1.intro7"  lang="pt-br" hist="vertrex-bank">exatamente o que você prometeu à Sarah na sala de reuniões</span>.
 
 ## 🎯 Objetivos da sua Missão
 
@@ -191,7 +191,7 @@ Sem aprisionamento a fornecedor. Sem taxa de virtualização. Sem kernel proprie
 3. Valide o tecido de armazenamento distribuído
 4. Teste seu acesso ao terminal administrativo
 
-<span id="ch1.intro8"  lang="pt-BR" hist="vertrex-bank">> [!NOTE]
+<span id="ch1.intro8"  lang="pt-br" hist="vertrex-bank">> [!NOTE]
 > Aviso: este laboratório tem finalidade educacional e não visa fornecer instruções sobre como configurar um ambiente de produção para um 'banco'. A maioria das decisões tomadas leva em conta as limitações e o propósito deste ambiente.</span>
 
 🔐 Suas Credenciais de Arquiteto
@@ -221,7 +221,7 @@ admin
 </div>
 
 
-<span id="assignment.3" lang=pt-BR> [!NOTE]
+<span id="assignment.3" lang=pt-br>> [!NOTE]
 > As interfaces usam certificados autoassinados. Aceite o aviso de segurança do navegador quando ele aparecer. Se uma página não carregar imediatamente, o ambiente do laboratório pode ainda estar inicializando. Aguarde um minuto e atualize a aba.
 
 > [!NOTE]
@@ -234,11 +234,11 @@ admin
 📊 Tarefa 1: Fazer login e inspecionar o painel unificado
 ===================================================
 
-Navegue até o</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=pt-BRAcesse a aba e faça login usando suas credenciais.
+Navegue até o</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=pt-br>Acesse a aba e faça login usando suas credenciais.
 
 ![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
-Reserve um momento para observar a principal</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=pt-BR: este é o seu centro de comando para toda a missão.
+Reserve um momento para observar a principal</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=pt-br>: este é o seu centro de comando para toda a missão.
 
 
 > [!NOTE]
@@ -293,7 +293,7 @@ Se ainda tiver tempo, familiarize-se com as seções antes de passar para a pró
 🐮 Tarefa 2: Conheça o Rancher Prime, o centro de comando
 =================================================
 
-A plataforma também pode ser conectada ao **Rancher Prime**, <span id="ch1.task2a"  lang="pt-BR" hist="vertrex-bank">e é importante entender quem faz o quê no novo mundo do banco:</span>
+A plataforma também pode ser conectada ao **Rancher Prime**, <span id="ch1.task2a"  lang="pt-br" hist="vertrex-bank">e é importante entender quem faz o quê no novo mundo do banco:</span>
 
 - <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> gerencia as **máquinas virtuais** neste cluster.
 - **Rancher Prime** gerencia **muitos clusters ao mesmo tempo** (todo cluster <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> em cada datacenter regional), além de **usuários, funções e controle de acesso centralizados (<span id="assignment.6.13" lang="nolang" no>RBAC</span>)**, e as **cargas de trabalho de contêiner** que o banco executará junto com suas VMs.
@@ -353,7 +353,7 @@ Com o Rancher você pode operar facilmente múltiplos clusters a partir de um ú
 ⌨️ Tarefa 3: Teste seu acesso administrativo ao terminal
 ===================================================
 
-Você passará a maior parte desta missão na interface, <span id="ch1.task3a"  lang="pt-BR" hist="vertrex-bank">mas um arquiteto sempre verifica seu acesso de emergência</span>. Clique na aba [button label="Cluster Terminal" variant="success"](tab-1) e execute um comando para verificar se sua conexão com o motor <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> subjacente está ativa:
+Você passará a maior parte desta missão na interface, <span id="ch1.task3a"  lang="pt-br" hist="vertrex-bank">mas um arquiteto sempre verifica seu acesso de emergência</span>. Clique na aba [button label="Cluster Terminal" variant="success"](tab-1) e execute um comando para verificar se sua conexão com o motor <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> subjacente está ativa:
 
 
 ```bash,wrap,run
@@ -367,7 +367,7 @@ Você deverá ver a lista de <span id="assignment.6.2" lang="nolang" no>Virtual 
 💾 Exercício Bônus: valide o tecido de armazenamento distribuído (opcional)
 ====================================================================
 
-<span id="ch1.bonus1a"  lang="pt-BR" hist="vertrex-bank">Um backend de armazenamento saudável é fundamental para operações bancárias</span>. <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> usa **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>** para replicar cada volume em todo o cluster.
+<span id="ch1.bonus1a"  lang="pt-br" hist="vertrex-bank">Um backend de armazenamento saudável é fundamental para operações bancárias</span>. <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> usa **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>** para replicar cada volume em todo o cluster.
 
 
   
@@ -436,7 +436,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get settings.harvesterhci.io se
 
 - **Um único centro de comando.** VMs, armazenamento e rede ficam visíveis em um único painel, sem mais precisar alternar entre três consoles de gerenciamento separados com três licenças separadas.
 - **Nativo do <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> desde o primeiro dia.** Tudo no painel é, por baixo dos panos, um recurso do <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>. As habilidades já existentes da equipe de contêineres se transferem diretamente, enquanto a equipe de VMs ganha uma interface amigável de apontar e clicar.
-- **Gerenciamento de frota e <span id="assignment.6.13" lang="nolang" no>RBAC</span> incluídos.** Rancher Prime é <span id="ch1.why1"  lang="pt-BR" hist="vertrex-bank">pronto para comandar todos os clusters que o banco algum dia venha a operar, com um único login e um único conjunto de regras de acesso.</span>
+- **Gerenciamento de frota e <span id="assignment.6.13" lang="nolang" no>RBAC</span> incluídos.** Rancher Prime é <span id="ch1.why1"  lang="pt-br" hist="vertrex-bank">pronto para comandar todos os clusters que o banco algum dia venha a operar, com um único login e um único conjunto de regras de acesso.</span>
 - **Armazenamento distribuído pronto para uso.** <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> replica dados entre os nós automaticamente.
 
 Assim que você confirmar que o plano de controle está respondendo, o armazenamento está saudável e seu acesso administrativo está protegido, você está pronto para prosseguir mais fundo nas instalações.
