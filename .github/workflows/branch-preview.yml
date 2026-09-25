@@ -9,7 +9,8 @@ name: Branch Preview Track
 # track.yml's `slug` and `title` already carry their own separator around a literal
 # `__BRANCH__` placeholder (`suse-virt-rodeo-__BRANCH__`, `SUSE Virtualization Rodeo
 # __BRANCH__`), so this workflow does a plain substitution: the branch name, lowercased
-# and slugified, or nothing at all on main. The substitution — and forcing
+# and slugified, or on main the placeholder is removed together with its separator
+# (see .github/scripts/fill-branch-placeholder.py). The substitution — and forcing
 # `maintenance: true` (track.yml carries no static maintenance field as of 2026-08-21, so
 # this workflow sets it explicitly rather than relying on it) — happens only on the CI
 # runner's checked-out working tree; nothing is committed back to git, so the placeholder
@@ -66,16 +67,14 @@ jobs:
           if [ "$BRANCH" = "main" ]; then
             REPL=""
           else
-            REPL=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g')
+            REPL=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's#[/_ ]+#-#g; s#[^a-z0-9-]##g; s#-+#-#g; s#^-+##; s#-+$##')
+            # A branch name with no usable characters must not fall through to the
+            # production slug.
+            [ -n "$REPL" ] || REPL=branch
           fi
-          python3 - "$REPL" <<'PYEOF'
-          import pathlib
-          import sys
-
-          repl = sys.argv[1]
-          path = pathlib.Path("track.yml")
-          path.write_text(path.read_text().replace("__BRANCH__", repl))
-          PYEOF
+          # On main this drops the placeholder together with its separator, so the slug
+          # never ends in "-" (Instruqt rejects that as an invalid slug).
+          python3 .github/scripts/fill-branch-placeholder.py "$REPL"
 
       - name: Force maintenance mode
         # track.yml carries no static `maintenance:` field as of 2026-08-21 — set (or
