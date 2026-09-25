@@ -60,6 +60,18 @@ jobs:
       - name: Setup Instruqt CLI
         uses: instruqt/cli/setup@v1
 
+      - name: Fill __BRANCH__ placeholder in track.yml
+        # track.yml keeps a literal `__BRANCH__` in slug/title (see branch-preview.yml).
+        # Left as is, `instruqt track validate` rejects the slug (uppercase and
+        # underscores), so fill it the same way branch-preview.yml does on main.
+        run: python3 .github/scripts/fill-branch-placeholder.py
+
+      - name: Strip rmstory tagging spans
+        # Same as branch-preview.yml: teasers are measured on what Instruqt actually
+        # receives. Counting the rmstory <span> tags too pushed three teasers over the
+        # 255-byte limit (265/270/271) although the pushed text is well under it.
+        run: python3 .github/scripts/strip-rmstory-spans.py
+
       - name: Check teaser lengths
         run: python3 .github/scripts/check-teaser-length.py
 
