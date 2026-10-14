@@ -1,11 +1,11 @@
 #!/bin/bash
-# Challenge 3 solve — auto-creates vertex-trader-01, reproducing tasks 1-5 of
+# Challenge 3 solve — auto-creates the-engine-01, reproducing tasks 1-5 of
 # the-flash-crash-first-vm via the Harvester/Kubernetes API instead of the UI.
 # Tasks 6-7 (console watch, manual SSH) are pure UI/manual validation with
 # nothing to auto-create.
 #
 # Field shapes below are live-confirmed 2026-07-20 from a real dump of an
-# vertex-trader-01 built by hand through the UI:
+# the-engine-01 built by hand through the UI:
 #   - The base OS image is the pre-baked SLES-16.0-Minimal-VM.x86_64-Cloud-GM
 #     image (official-images namespace), found by displayName - not something
 #     this script creates. storageClassName is read from its own
@@ -46,7 +46,7 @@
 #     prefix-based lookup, which was fixed to tolerate either).
 #
 # FIXED 2026-07-21: this image (staged here for chapter 4/6, not used by
-# vertex-trader-01 itself) defaults to 3 replicas when storageClassParameters
+# the-engine-01 itself) defaults to 3 replicas when storageClassParameters
 # is unset, which needlessly triples backing-image replication work for a
 # disposable story VM — unnecessary per chapter 2's own storage-tier lesson.
 # Pinned to 1 replica here.
@@ -57,7 +57,7 @@
 # minimum is ~31.5GiB, not a sparse/shrinkable image), which repeatedly
 # exceeded this lab's per-node Longhorn storage capacity. Switched to
 # SLES15-SP7-Minimal-VM, same small-cloud-image family as the pre-baked
-# SLES-16 image vertex-trader-01 already boots from.
+# SLES-16 image the-engine-01 already boots from.
 #
 # Node labels for prod-network scheduling (stage=prod on harvester1/2) live
 # in track_scripts/setup-kvm-host, since webserver-prod needs them from
@@ -71,13 +71,13 @@ export KUBECONFIG=/root/.rodeo/harvester-kubeconfig
 
 NS="prod"
 IMAGE_NS="official-images"
-VM_NAME="vertex-trader-01"
+VM_NAME="the-engine-01"
 VM_IP="192.168.122.50"
 
 log(){ echo ">>> [ch3-solve] $*"; }
 
 # --- Task 1: SLES15-SP7 Minimal VM image (needed by later chapters, not by
-#     vertex-trader-01 itself - see chapter 4/6 headers) --------------------
+#     the-engine-01 itself - see chapter 4/6 headers) --------------------
 IMG_URL="http://192.168.122.1:8889/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
 IMG_DISPLAY_NAME="SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
 
@@ -120,7 +120,7 @@ for _ in $(seq 1 60); do
 done
 [ "${STAGED_READY:-}" = "100" ] || log "warn: SLES15-SP7 image not Active yet (non-fatal, chapters 4/6 self-provision it if still missing)."
 
-# --- Tasks 2-5: vertex-trader-01 VM ------------------------------------------
+# --- Tasks 2-5: the-engine-01 VM ------------------------------------------
 if kubectl get vm -n "${NS}" "${VM_NAME}" &>/dev/null; then
   log "${VM_NAME} already exists, skipping."
   echo ">>> Challenge 3 solve complete."
