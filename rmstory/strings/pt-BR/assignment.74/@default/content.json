@@ -1,5 +1,5 @@
 {
-  "content": "2. Clique no  no lado direito da sua linha\n3. Selecione <span id=\"assignment.74.1\"/> e depois clique em <span id=\"assignment.74.2\"/> quando solicitado a confirmar.\n4. Aguarde até que o seu estado mude para <span id=\"assignment.74.3\"/>\n\nIsto paralisa os seus ciclos de CPU, dedicando o máximo de recursos de hardware à sua operação de emergência.\n\n> [!NOTE]\n> Isto não é realmente necessário, já configurámos uma rede dedicada para o tráfego de live migration, está aqui para fins educativos",
+  "content": "2. Clique no  no lado direito da sua linha\n3. Selecione <span id=\"assignment.74.1\"/> e depois clique em <span id=\"assignment.74.2\"/> quando solicitado a confirmar.\n4. Aguarde até que o seu estado mude para <span id=\"assignment.74.3\"/>\n\nIsto paralisa os seus ciclos de CPU, dedicando o máximo de recursos de hardware à sua operação de emergência.\n\n> [!NOTE]\n> Isto não é realmente necessário, já configuramos uma rede dedicada para o tráfego de live migration, está aqui para fins educativos",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,
