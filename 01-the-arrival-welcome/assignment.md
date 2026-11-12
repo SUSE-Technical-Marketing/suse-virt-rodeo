@@ -212,7 +212,7 @@ No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform,
 
 
 
-🔐 Your Architect Credentials
+🔐 Login Credentials
 =============================
 
 For your records, your Architect Credentials are as follows:
