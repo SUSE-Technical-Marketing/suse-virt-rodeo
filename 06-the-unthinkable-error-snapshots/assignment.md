@@ -2,7 +2,7 @@
 slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
-title: '<span id="assignment.116" lang="it" hist="vertrex-bank">⏪ Capitolo 6: L'errore impensabile</span>'
+title: '<span id="assignment.116" lang="it" hist="vertrex-bank">⏪ Capitolo 6: L''errore impensabile</span>'
 teaser: '<span id="assignment.117" lang="it" hist="vertrex-bank">Un movimento involontario del cursore ha appena eliminato il record di un accordo da 100 milioni di dollari. Torna indietro nel tempo con gli snapshot delle VM, verifica il ripristino in un clone di staging sicuro.</span>'
 tabs:
 - id: lygpkmkmyndn
