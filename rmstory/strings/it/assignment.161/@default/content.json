@@ -1,0 +1,8 @@
+{
+  "content": "La polvere si è finalmente posata. Il datacenter è silenzioso, immerso nel tenue bagliore verde dei <span id=\"ch1.intro1.2\"/> nodi che operano in perfetta armonia.\n\nVertex Trust Bank non è più incatenata al passato. Ora gira interamente su uno stack di virtualizzazione snello, ad alte prestazioni e cloud-native.\n\nSarah è accanto a te, con lo sguardo rivolto alla dashboard unificata sullo schermo principale. *\"Non pensavo fosse possibile\",* ammette, scuotendo la testa incredula. *\"Stiamo eseguendo microservizi containerizzati e registri monolitici esattamente sullo stesso fabric. Il nostro storage è distribuito, le nostre reti sono software-defined e i nostri costi di licenza sono appena crollati.\"*\n\nSi volta verso di te e ti tende la mano. *\"Grazie. Non hai solo salvato la nostra infrastruttura — hai salvato la banca.\"*",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T09:02:32.949608+00:00"
+}

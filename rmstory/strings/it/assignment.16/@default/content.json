@@ -1,0 +1,8 @@
+{
+  "content": ", vai al menu a sinistra e fai clic su **<span id=\"assignment.6.1\"/>**.\n\n1. Fai clic sul nome di **uno degli host** nell'elenco\n2. Esplora l'interfaccia utente e controlla le diverse opzioni per capire meglio come funzionano le cose. Osserva come i dispositivi a blocchi raw vengono provisionati per i dischi delle macchine virtuali. Ogni disco che vedi qui diventa parte del pool di storage distribuito <span id=\"assignment.2.8\"/> <span id=\"assignment.16.1\"/>.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:39:09.019112+00:00"
+}

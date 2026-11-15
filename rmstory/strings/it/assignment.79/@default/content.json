@@ -1,0 +1,8 @@
+{
+  "content": "1. Leggi la colonna <span id=\"assignment.79.1\"/> e **annota** su quale nodo è in esecuzione il gateway: ti servirà come prova che si è spostato\n2. Fai clic su  all'estrema destra della sua riga\n3. Seleziona <span id=\"assignment.79.2\"/> dal menu contestuale\n4. Scegli un nodo di destinazione diverso e sicuro dall'elenco a discesa\n5. Fai clic su <span id=\"assignment.74.2\"/>\n\nDietro le quinte, <span id=\"assignment.2.3\"/> copia le pagine di memoria attive della VM sul nodo di destinazione attraverso la rete, tracciando e ricopiando le pagine che il gateway, sotto carico, modifica durante il trasferimento, finché non riesce a congelare, commutare e riprendere l'esecuzione sul nuovo nodo in una frazione di secondo.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:44:35.414336+00:00"
+}

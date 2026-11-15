@@ -1,0 +1,8 @@
+{
+  "content": "e accedi via SSH a uno degli host <span id=\"ch1.intro1.2\"/>:\n```bash,run\nrodeo ssh harvester1\n```\n2. Controlla la cartella <span id=\"assignment.2.8\"/> sul nodo <span id=\"assignment.25.1\"/>: vedrai alcune cartelle e alcuni file:\n```bash,run\nls /var/lib/harvester/defaultdisk\n```\n3. All'interno della cartella replicas, troverai una cartella per ogni replica di volume ospitata da questo nodo:\n```bash,wrap,run\nls /var/lib/harvester/defaultdisk/replicas/\n```\n4. Esci dall'host digitando exit:\n```bash,run\nexit\n```\n\n> [!NOTE]\n> Tre repliche significano tre volte l'ingombro su disco. È il compromesso giusto quando si tratta di denaro di produzione. È uno spreco per la VM di test usa e getta di uno sviluppatore che verrà eliminata entro venerdì. Il numero di repliche è una **policy**, non una legge della fisica, e le policy possono essere regolate per ogni carico di lavoro.\n\n🧅 Task 4: Crea una storage class a livello di costo ridotto per il team di sviluppo\n=====================================================================\n\n\n\n  \n\n\n\nIl team di sviluppo non ha bisogno di una replica di livello produzione per le proprie sandbox: ha bisogno di iterazioni economiche e veloci. <span id=\"assignment.25.2\"/>\n\nNel",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:40:00.974202+00:00"
+}

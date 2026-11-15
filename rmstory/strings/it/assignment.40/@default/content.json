@@ -1,0 +1,8 @@
+{
+  "content": "2. Fare clic su <span id=\"assignment.19.3\"/>\n\nL'immagine appena creata viene visualizzata nell'elenco con lo stato <span id=\"assignment.40.1\"/>. È possibile seguirne l'avanzamento nella colonna relativa al progresso.\n\nPassare all'attività successiva; una volta completato il download, viene visualizzato un avviso nella **campanella delle notifiche** in alto a destra dello schermo.\n\n\n> [!NOTE]\n> Il download viene eseguito lato server, da un mirror locale sulla rete di questo laboratorio, quindi si completa in pochi secondi. L'immagine diventa **<span id=\"assignment.6.17\"/>** una volta che <span id=\"assignment.2.8\"/> l'ha replicata.\n\n\n🚀 Attività 2: Eseguire il provisioning del motore di calcolo\n===========================================\n\n\nPer questa attività creeremo la nostra prima VM.\n\n\n> [!NOTE]\n> Non fare clic su <span id=\"assignment.19.3\"/> finché non viene indicato.\n\n\n  \n\n\n\nPassare a <span id=\"assignment.40.2\"/> e fare clic sul pulsante <span id=\"assignment.19.3\"/>.\n\n<span id=\"assignment.40.3\"/>\n\n- <span id=\"assignment.19.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:41:21.882547+00:00"
+}

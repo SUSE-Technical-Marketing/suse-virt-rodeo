@@ -1,0 +1,8 @@
+{
+  "content": "Sarah ti conduce fuori dalle silenziose suite dirigenziali, in un ascensore di sicurezza, e giù nel datacenter sotterraneo della banca. La temperatura ambiente cala bruscamente mentre le pesanti porte biometriche in acciaio si chiudono alle vostre spalle. La sala vibra del rombo assordante e incessante dei sistemi di raffreddamento industriali.\n\nIndica il lato sinistro della sala, dove file di chassis server eleganti e densamente stipati lampeggiano con rapide luci blu. *\"Quelli eseguono le nostre API di mobile banking,\"* grida sopra il rumore delle ventole. *\"Puri microservizi. Completamente containerizzati e agili.\"*\n\nPoi indica il lato destro della sala, dominato da enormi e arcaici armadi server che irradiano una quantità di calore fastidiosa. *\"E quelle sono le macchine virtuali monolitiche legacy che contengono i registri delle transazioni principali. Due mondi completamente diversi. Due silos hardware diversi. Due team di ingegneri diversi che a malapena si parlano.\"*\n\nCammini tra le due file, percependo la netta differenza di temperatura. *\"Questa divisione finisce oggi,\"* le dici.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:38:47.644060+00:00"
+}

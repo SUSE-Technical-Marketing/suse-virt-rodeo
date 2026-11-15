@@ -1,0 +1,8 @@
+{
+  "content": "Per <span id=\"assignment.55.1\"/>, inserisci:\n\n```yaml\n#cloud-config\npackages:\n  - qemu-guest-agent\nruncmd:\n  - - systemctl\n    - enable\n    - --now\n    - qemu-guest-agent.service\nwrite_files:\n  - path: /etc/issue\n    content: |\n      \\e{red}Production\\e{reset}\n    append: true\nssh_authorized_keys:\n  - ssh-ed25519\n    AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa\n```\n\nSalva il template facendo clic su <span id=\"assignment.19.3\"/> (all'interno del riquadro del template)\n\n\nPoiché il template si trova nel namespace <span id=\"assignment.55.2\"/> ed è a sua volta denominato <span id=\"assignment.55.2\"/>, diventa prod/prod: lo standard di produzione, pronto all'uso per ogni VM.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:42:16.067896+00:00"
+}

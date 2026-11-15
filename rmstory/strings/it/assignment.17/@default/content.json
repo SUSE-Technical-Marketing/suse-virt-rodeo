@@ -1,0 +1,8 @@
+{
+  "content": "Le banche crescono, e con loro cresce anche questa infrastruttura. Rimanere a corto di spazio non è più un aggiornamento complesso. Si monta un nuovo nodo nel rack, si aggiungono i suoi dischi grezzi al pool e <span id=\"assignment.2.8\"/> ribilancia automaticamente le repliche sull'infrastruttura ampliata, senza tempi di inattività e senza weekend di migrazione dei dati. La capacità di storage scala allo stesso modo del calcolo: in modo incrementale, su richiesta.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:39:17.756384+00:00"
+}

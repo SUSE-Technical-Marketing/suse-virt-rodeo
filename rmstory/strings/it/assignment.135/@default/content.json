@@ -1,0 +1,8 @@
+{
+  "content": "4. Fai clic su <span id=\"assignment.19.3\"/>\n\nD'ora in poi la piattaforma esegue il backup della VM nel vault NFS ogni cinque ore, mantiene le cinque copie più recenti e sospende la pianificazione se due esecuzioni consecutive falliscono. Impostato una volta, protetto per sempre.\n\n\n\n🔍 Attività 5: Verificare i dati nella sandbox di staging\n=================================================\n\n\n  \n\n\nOra che core-services-staging-verify è attivo e funzionante, verifichiamo che il file sia presente.\n\nQuesta volta utilizzeremo la console grafica, poiché la VM non ha rete.\n\nNel",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:56:56.687518+00:00"
+}

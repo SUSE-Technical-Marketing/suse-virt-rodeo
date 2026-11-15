@@ -1,0 +1,8 @@
+{
+  "content": "> [!IMPORTANT]\n> Poiché questo laboratorio viene eseguito in una **configurazione nidificata**, le prestazioni di I/O sono un po' più lente del solito e il processo di provisioning richiederà alcuni minuti. Mentre la tua VM si avvia, abbiamo preparato un po' di intrattenimento per te! Vai alla sezione Bonus Drills per imparare come interagire con l'API di <span id=\"ch1.intro1.2\"/> tramite la CLI. Tutto in <span id=\"ch1.intro1.2\"/> è un oggetto <span id=\"assignment.2.2\"/>, il che significa che puoi gestirlo tramite l'API di <span id=\"assignment.2.2\"/> attraverso il cluster RKE2 sottostante.\n> Una volta terminato, torna al Task 3.\n\n🖥️ Task 3: Accedere alla Console Web\n====================================\n\nMonitora il",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:42:59.505881+00:00"
+}

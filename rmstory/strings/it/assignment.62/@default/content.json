@@ -1,0 +1,8 @@
+{
+  "content": ", guarda cosa ha effettivamente creato la piattaforma per te:\n\n- **Anche le golden image sono oggetti API:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineimages -A\n```\n\n- **La VM è una risorsa <span id=\"assignment.2.2\"/>:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachines -n prod\n```\n\n- **L'istanza in esecuzione, con il suo nodo e il suo IP** (lo stesso IP che hai usato per SSH):\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi -n prod -o wide\n```\n\n- **I dischi sono normali <span id=\"assignment.62.1\"/> supportati da <span id=\"assignment.2.8\"/>:**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get pvc -n prod\n```\n\nDovresti riconoscere `market-data-vol` nell'elenco: <span id=\"assignment.62.2\"/>.\n\n💼 Perché è importante?\n========================\n\n- **I giorni diventano minuti.** Un processo di provisioning basato su ticket e che coinvolgeva più team si è ridotto a un flusso di lavoro self-service di due minuti, <span id=\"assignment.62.3\"/>\n- **Coerenza per costruzione.** Golden image più cloud-init significano che ogni engine richiesto dai quant si avvia identico, configurato e pronto.\n- **Nessuno storage inutilizzato.** <span id=\"assignment.6.4\"/> vengono ricavati on demand dal pool <span id=\"assignment.2.8\"/> condiviso.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:43:14.459240+00:00"
+}

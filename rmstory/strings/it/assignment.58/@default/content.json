@@ -1,0 +1,8 @@
+{
+  "content": "Le regole di scheduling consentono di separare i sistemi critici dagli altri carichi di lavoro, ad esempio vincolando i motori di trading a nodi a bassa latenza mentre i job batch condividono il resto. Mantenere qui \"qualsiasi nodo disponibile\" è importante: è ciò che rende possibile l'evacuazione senza tempi di inattività descritta nel capitolo successivo.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:42:47.622398+00:00"
+}

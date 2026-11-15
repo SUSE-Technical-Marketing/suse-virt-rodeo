@@ -1,0 +1,8 @@
+{
+  "content": "Sono le due di notte. Il datacenter è silenzioso, fatta eccezione per il ronzio ritmico delle ventole di raffreddamento. Stai bevendo un caffè ormai freddo e stai esaminando i log di telemetria giornalieri quando lo schermo lampeggia di rosso. Un avviso critico ad alta priorità del Security Operations Center sovrascrive la tua dashboard.\n\nUna scansione automatica delle vulnerabilità ha rilevato un grave difetto architetturale: il **web server** di marketing pubblico della banca si trova esattamente sullo stesso livello di rete piatto della macchina virtuale altamente riservata insider-threat-db.\n\nSe un attore malevolo dovesse compromettere il sito web pubblico, avrebbe un percorso laterale diretto e senza ostacoli verso il database di sicurezza interno più sensibile della banca. In un'infrastruttura tradizionale, risolvere questo problema richiederebbe di svegliare il team senior di ingegneria di rete, ricablare fisicamente le porte degli switch al buio e rischiare loop di routing catastrofici.\n\nNon hai bisogno di cavi fisici. Hai a portata di mano la potenza del **software-defined networking**. Devi costruire una cassaforte digitale impenetrabile e rinchiudervi il database — prima che possa verificarsi un'intrusione.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:46:37.063080+00:00"
+}

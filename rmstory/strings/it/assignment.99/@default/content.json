@@ -1,0 +1,8 @@
+{
+  "content": "💼 Perché è importante?\n==============================================\n\n- **I guasti hardware smettono di essere interruzioni del servizio.** Perdite di refrigerante, aggiornamenti del firmware, riavvii degli host: i carichi di lavoro si spostano semplicemente sui nodi sani mentre i tuoi servizi continuano a funzionare.\n- **Manutenzione pianificata senza finestre notturne.** Un clic su **Maintenance Mode** svuota automaticamente un intero nodo. L'applicazione delle patch di routine avviene alle 14:00 invece che alle 2 di notte, e nessuno deve più tenere un foglio di calcolo per sapere su quale host risiede ogni VM.\n- **Una traccia di audit leggibile dagli enti regolatori.** Ogni migrazione è un oggetto API registrato: non serve più ricostruire l'accaduto dagli screenshot della console.\n\nFai clic su **Check** per continuare. 🕵️\n\n📚 Ulteriori informazioni\n===================",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:46:17.843564+00:00"
+}

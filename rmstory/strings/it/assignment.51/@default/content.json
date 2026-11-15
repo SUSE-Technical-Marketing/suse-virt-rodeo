@@ -1,0 +1,8 @@
+{
+  "content": "Trattandosi di un cluster con ambiente misto, assicuriamoci che la VM venga eseguita solo sui nodi di produzione.\n\nFai clic su <span id=\"assignment.51.1\"/>: <span id=\"ch1.intro1.2\"/> offre tre opzioni:\n\n- <span id=\"assignment.51.2\"/>: lo scheduler di <span id=\"assignment.2.2\"/> sceglie dove posizionare la VM e **la migrazione live resta abilitata**\n- <span id=\"assignment.51.3\"/>: vincola la VM a un solo nodo (nessuna migrazione possibile)\n- <span id=\"assignment.51.4\"/>: regole di affinità basate sulle etichette dei nodi (capacità GPU, topologia NUMA, zona di rete…)\n\nConfigura la regola di produzione:\n\n1. Seleziona <span id=\"assignment.51.5\"/>\n2. Fai clic su <span id=\"assignment.51.6\"/>, quindi su <span id=\"assignment.51.7\"/>:\n\n- <span id=\"assignment.51.8\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:42:00.227317+00:00"
+}

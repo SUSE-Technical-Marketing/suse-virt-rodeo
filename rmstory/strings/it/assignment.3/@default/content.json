@@ -1,0 +1,8 @@
+{
+  "content": "> [!NOTE]\n> Le interfacce utente utilizzano certificati autofirmati. Accetta l'avviso di sicurezza del browser quando viene visualizzato. Se una pagina non si carica subito, l'ambiente del laboratorio potrebbe essere ancora in fase di avvio. Attendi un minuto e aggiorna la scheda.\n\n> [!NOTE]\n> Se preferisci lavorare nel tuo browser invece che nelle schede incorporate, l'host del laboratorio è raggiungibile direttamente all'indirizzo:\n> https://kvm-host.[[ Instruqt-Var key=\"_SANDBOX_ID\" hostname=\"kvm-host\" ]].instruqt.io:8443\n\n\n\n\n📊 Attività 1: Accedi ed esamina la dashboard unificata\n=======================================================\n\nVai alla",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:37:25.616902+00:00"
+}
