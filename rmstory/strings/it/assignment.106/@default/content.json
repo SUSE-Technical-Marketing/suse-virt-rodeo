@@ -1,0 +1,8 @@
+{
+  "content": "🧱 Task 1: Collegare una rete fisica ad anello chiuso\n=================================================\n\nIl nostro team ha configurato i nodi <span id=\"ch1.intro1.2\"/> con una NIC dedicata aggiuntiva collegata in un anello fisicamente chiuso. Usiamola per il nostro traffico più prezioso e creiamo una rete di produzione isolata.\n\nNel",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:50:16.375834+00:00"
+}

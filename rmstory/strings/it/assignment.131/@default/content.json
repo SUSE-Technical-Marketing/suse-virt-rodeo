@@ -1,0 +1,8 @@
+{
+  "content": "3. Fai clic su <span id=\"assignment.114.7\"/>\n\nIl cluster è ora in grado di inviare backup completi di VM all'esterno del cluster, l'equivalente moderno del backup su nastro di mezzanotte, ma senza la mezzanotte. Un bucket **S3** funziona altrettanto bene come endpoint; in un ambiente di produzione, questo punterebbe a una struttura fisicamente separata.\n\n\n⏰ Attività 4: Pianifica i backup\n====================================",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:56:03.202424+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": "Il motore deve avviarsi con un **indirizzo prevedibile**, non con quello che il DHCP assegna a caso. Nel campo <span id=\"assignment.57.1\"/>, inserisci:\n\n```yaml\nversion: 2\nethernets:\n  enp1s0:\n    addresses:\n      - 192.168.122.50/24\n    gateway4: 192.168.122.1\n    nameservers:\n      addresses:\n        - 192.168.122.1\n```\n\nCloud-init applica entrambe le configurazioni al primo avvio: <span id=\"assignment.57.2\"/> sarà online all'indirizzo `192.168.122.50` senza alcuna configurazione manuale successiva al deployment.\n\n> [!NOTE]\n> Si tratta di **cloud-init**, lo stesso meccanismo standard di settore utilizzato da tutti i principali cloud pubblici.\n> In uno scenario reale ci sarebbero un'automazione più completa e template dedicati allo scopo di questo server.\n\n\nOra che abbiamo completato la configurazione, fai clic su <span id=\"assignment.19.3\"/> per avviare il deployment della Virtual Machine.\n\nNon attendere il completamento dell'avvio, procedi pure al task successivo.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:42:42.509145+00:00"
+}

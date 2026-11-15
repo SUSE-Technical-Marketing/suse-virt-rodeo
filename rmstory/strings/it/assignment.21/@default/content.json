@@ -1,0 +1,8 @@
+{
+  "content": "4. Fai clic su <span id=\"assignment.19.3\"/>\n\nLo spazio di lavoro degli sviluppatori è ora pronto; in futuro potremo assegnargli quote, policy e controlli di accesso.\n\n💾 Attività 3: Capire come <span id=\"assignment.2.8\"/> replica i tuoi dati\n========================================================\n\n\n\n  \n\n\nVediamo *come* il backend di storage rimane integro. Ogni disco che <span id=\"ch1.intro1.2\"/> assegna a una VM o a un pod è un **volume <span id=\"assignment.2.8\"/>**, e ogni volume <span id=\"assignment.2.8\"/> viene creato a partire da una <span id=\"assignment.21.1\"/>: una policy che decide, tra le altre cose, quante copie dei tuoi dati esistono in un dato momento.\n\nNel",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:39:42.193811+00:00"
+}

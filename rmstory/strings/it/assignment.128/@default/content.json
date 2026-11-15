@@ -1,0 +1,8 @@
+{
+  "content": "5. Fai clic su <span id=\"assignment.19.3\"/>\n\n\n> [!Note]\n> A causa dell'hardware utilizzato in questo lab, questo processo richiederà più tempo rispetto alle normali condizioni; continua pure con l'attività successiva.\n\n\n\n🏦 Attività 3: Connettere il vault di backup off-cluster\n======================================================\n\n\n  \n\n\nGli snapshot ci hanno salvato questa mattina, ma risiedono sullo **stesso cluster** del carico di lavoro. Proteggono dagli errori di battitura, ma non da danni fisici o attacchi informatici. Per un vero disaster recovery utilizziamo un **vault di backup** off-cluster: una condivisione NFS su un sistema di storage separato. È ora di collegarlo.\n\nNel",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:55:36.443336+00:00"
+}

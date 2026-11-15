@@ -1,0 +1,8 @@
+{
+  "content": "e simula il terribile errore dell'amministratore junior:\n\n```bash,run\nrm -f /home/sles/ledger.txt\n```\n\nCento milioni di dollari, spariti dal disco. Esci dalla console della VM:\n\n```bash,run\nexit\n```\n\n\n🧪 Task 2: Clona un ambiente di staging dallo snapshot\n========================================================\n\n\n  \n\n\nInvece di ripristinare immediatamente la produzione, creerai un **clone** per verificare prima i dati, il ripristino non distruttivo è sempre consigliato.\n\nNel",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:54:49.147885+00:00"
+}

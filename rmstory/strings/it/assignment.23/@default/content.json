@@ -1,0 +1,8 @@
+{
+  "content": "Esattamente ciò che serve per i registri delle transazioni: si perde un nodo, persino un disco nel bel mezzo di una scrittura, e i dati rimangono intatti.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:39:50.051503+00:00"
+}

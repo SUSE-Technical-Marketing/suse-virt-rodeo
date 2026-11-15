@@ -1,0 +1,8 @@
+{
+  "content": "Sei seduto in un ufficio improvvisato appena fuori dal datacenter, a metà della revisione della topologia di rete, quando le luci di emergenza sul soffitto iniziano improvvisamente a lampeggiare di un giallo intenso. La tua radio si accende con un crepitio. È il **Responsabile del Trading Quantitativo**, e sembra in preda al panico.\n\n*\"Abbiamo un'anomalia enorme nei mercati asiatici!\"* grida sopra il rumore di fondo caotico di una sala di trading in fermento. *\"I nostri attuali modelli algoritmici non riescono a elaborare il flusso di dati in ingresso abbastanza velocemente. Abbiamo bisogno di un nuovo motore di calcolo dedicato ad alte prestazioni, distribuito immediatamente, completo di un volume dati secondario ad alta velocità, oppure perderemo milioni nei prossimi dieci minuti!\"*\n\nIn passato, soddisfare questa richiesta di emergenza presso Vertex Trust Bank significava aprire un ticket prioritario, attendere che il team infrastrutturale ritagliasse le allocazioni di storage e installare manualmente un sistema operativo. Era un processo che richiedeva **giorni**.\n\nTu non hai giorni. **Hai minuti.**\n\n\n\nAggiri completamente il sistema di ticketing legacy e ti prepari a distribuire una macchina virtuale <span id=\"assignment.2.6\"/> completamente configurata (con credenziali di sicurezza iniettate e storage collegato) in pochi secondi.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:40:49.186445+00:00"
+}

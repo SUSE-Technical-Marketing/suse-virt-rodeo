@@ -1,0 +1,8 @@
+{
+  "content": ", vai su **<span id=\"assignment.6.3\"/>** nel pannello laterale sinistro e verifica che l'immagine di base del sistema operativo <span id=\"assignment.39.1\"/> sia presente e contrassegnata come **<span id=\"assignment.6.17\"/>**.\n\n> [!NOTE]\n> <span id=\"assignment.6.3\"/> in <span id=\"ch1.intro1.2\"/> sono golden master a livello di cluster. Ogni VM che avvii da questa immagine ottiene il proprio disco copy-on-write. L'immagine stessa non viene mai modificata.\n\n**Se l'immagine mancasse**, potresti aggiungerla tu stesso in pochi secondi, senza aspettare un amministratore dello storage.\n\nLe immagini possono essere create da un URL, caricate dalla tua workstation oppure esportate da un volume esistente tramite <span id=\"assignment.39.2\"/>:\n\n\n  \n\n\nAd esempio, aggiungiamo una nuova immagine:\n\n1. Vai su **<span id=\"assignment.6.3\"/>** nel pannello sinistro e fai clic su <span id=\"assignment.19.3\"/>, quindi compila i seguenti dettagli:\n   - <span id=\"assignment.39.3\"/>: official-images\n   - <span id=\"assignment.19.4\"/>: compilato automaticamente\n   - Basics:\n     - <span id=\"assignment.39.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:41:15.866573+00:00"
+}

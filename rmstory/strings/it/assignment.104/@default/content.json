@@ -1,0 +1,8 @@
+{
+  "content": "## Due livelli di software-defined networking\n\n<span id=\"ch1.intro1.2\"/> ti offre l'intero spettro, dalla classica segmentazione VLAN all'SDN enterprise, funzionalità per le quali la banca pagava una licenza SDN closed-source separata:\n\n| Livello | Tecnologia | Uso di stasera |\n|-------|-----------|-------------|\n| L2 / bridging VLAN | **<span id=\"assignment.2.14\"/>** | La VLAN del vault che isola il database |\n| SDN / zone overlay isolate | **<span id=\"assignment.2.13\"/>** | Subnet private senza percorsi esterni, anche con CIDR sovrapposti |\n\n\n\n## 🎯 Obiettivi della tua missione\n\n1. Connettere una rete fisica a circuito chiuso per la produzione\n2. Creare un'SDN altrettanto isolata per lo sviluppo\n3. Imparare a spostare le VM nelle nuove reti\n\n\n\n🔐 Credenziali di accesso\n=========================\n\nL'interfaccia utente di <span id=\"assignment.69.1\"/> e l'interfaccia utente di <span id=\"assignment.2.12\"/> utilizzano le stesse credenziali.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:50:03.000642+00:00"
+}

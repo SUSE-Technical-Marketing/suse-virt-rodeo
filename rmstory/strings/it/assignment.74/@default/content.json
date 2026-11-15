@@ -1,0 +1,8 @@
+{
+  "content": "2. Fai clic su  sul lato destro della sua riga\n3. Seleziona <span id=\"assignment.74.1\"/> quindi fai clic su <span id=\"assignment.74.2\"/> quando ti viene chiesto di confermare.\n4. Attendi che il suo stato cambi in <span id=\"assignment.74.3\"/>\n\nQuesto interrompe i suoi cicli CPU, dedicando il massimo delle risorse hardware alla tua operazione di emergenza.\n\n> [!NOTE]\n> Non è davvero necessario, abbiamo già configurato una rete dedicata per il traffico di live migration, è qui a scopo didattico",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:44:05.916131+00:00"
+}

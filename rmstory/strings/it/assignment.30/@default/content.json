@@ -1,0 +1,8 @@
+{
+  "content": "- **Visualizza le storage class dell'interfaccia utente come oggetti API**: lo spazio di lavoro ed entrambi i livelli di storage:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;\n```\n\n- **Etichetta il nuovo spazio di lavoro** in modo che le automazioni future possano individuarlo facilmente:\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev\n```\n\n💼 Perché è importante?\n==============================================\n\n- **I silos scompaiono.** VM e container condividono nodi, storage e un unico team operativo. Il \"divario di temperatura\" del datacenter non esiste più.\n- **Nessun salto di riqualificazione.** Le competenze <span id=\"assignment.2.2\"/> del team container ora gestiscono anche il parco VM; il team VM ottiene un'interfaccia point-and-click familiare, supportata dall'API <span id=\"assignment.2.2\"/>.\n- **I namespace portano governance.** I carichi di lavoro finanziari risiedono in `prod` con quote, policy e controlli di accesso dedicati. I revisori ne saranno entusiasti.\n- **Lo storage ora ha un listino prezzi.** La replica è una manopola, non un'impostazione predefinita. I dati di produzione ricevono tre copie perché è necessario; le sandbox usa e getta ne ricevono una perché non dovrebbero costare più del dovuto.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:40:20.572488+00:00"
+}

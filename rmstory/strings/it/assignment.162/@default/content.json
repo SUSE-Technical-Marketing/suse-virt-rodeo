@@ -1,0 +1,8 @@
+{
+  "content": "## 🏆 Le tue imprese\n\nHai superato avversità incredibili durante la tua permanenza qui:\n\n| Capitolo | Crisi | Abilità padroneggiata |\n|:---------|:------|:----------------------|\n| 🏦 L'arrivo | Un datacenter legacy che affonda | Ispezione della dashboard della piattaforma, dello storage <span id=\"assignment.2.8\"/> e di Rancher Prime |\n| 🛗 La spaccatura sotterranea | Due silos hardware in guerra tra loro | Unione di VM e container su un unico fabric <span id=\"assignment.2.2\"/> |\n| ⚡ Il Flash Crash | Un crollo del mercato | Distribuzione di VM in pochi minuti con immagini, volumi e cloud-init |\n| 🌊 La marea crescente | Un rack server allagato | Live migration senza tempi di inattività ed evacuazione del nodo con un clic |\n| 🕵️ L'intruso invisibile | Un percorso di attacco laterale | VLAN software-defined e subnet SDN isolate |\n| ⏪ L'errore impensabile | Un record da 100 milioni di dollari eliminato | Snapshot, cloni di staging, tier di storage e backup pianificati off-cluster |\n| 🤠 La stampida | Una carestia di risorse di calcolo | Template di VM golden, sfornando flotte identiche su richiesta |",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T09:02:54.936525+00:00"
+}

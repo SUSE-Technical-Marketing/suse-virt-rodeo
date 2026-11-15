@@ -1,0 +1,8 @@
+{
+  "content": ":\n\n1. Vai su <span id=\"assignment.40.2\"/>\n2. Fai clic sul menu a discesa <span id=\"assignment.61.1\"/> e seleziona <span id=\"assignment.136.1\"/>, apparirà una nuova finestra con il terminale, sentiti libero di ridimensionarla.\n3. Accedi utilizzando le seguenti credenziali:\n   - <span id=\"assignment.136.2\"/>: 'sles'\n   - <span id=\"assignment.136.3\"/>: '1234'\n\n4. Una volta dentro, esegui il seguente comando:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:57:07.215395+00:00"
+}

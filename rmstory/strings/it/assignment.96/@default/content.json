@@ -1,0 +1,8 @@
+{
+  "content": "2. Fai clic su  nella sua riga e seleziona <span id=\"assignment.96.1\"/>, poi <span id=\"assignment.96.2\"/>\n\nOra osserva la pagina **<span id=\"assignment.6.2\"/>**: ogni VM ancora presente sul nodo danneggiato viene migrata a caldo altrove **automaticamente**. La piattaforma sceglie nodi di destinazione sani, sposta i carichi di lavoro uno alla volta e lascia il nodo vuoto. Niente fogli di calcolo, niente scelta manuale della destinazione, nessuna VM dimenticata.\n\n> [!NOTE]\n> In questo ambiente di laboratorio l'operazione potrebbe richiedere un po' di tempo.\n\nQuando il nodo mostra <span id=\"assignment.96.3\"/> e il suo numero di VM arriva a zero, la squadra di manutenzione (virtuale) sostituisce la valvola del refrigerante (virtuale). Rimetti il nodo in servizio:\n\n3. Fai di nuovo clic su  nella sua riga e seleziona <span id=\"assignment.96.4\"/>, poi <span id=\"assignment.96.5\"/>\n\nIl nodo si riunisce al cluster, pronto ad accettare nuovamente carichi di lavoro.\n\n> [!NOTE]\n> La stessa intelligenza funziona anche nella direzione opposta: ogni volta che viene creata una nuova VM, lo scheduler la colloca sul nodo idoneo meno carico, mantenendo il cluster naturalmente bilanciato, senza bisogno di alcun Tetris manuale. Tra il posizionamento automatico in ingresso e l'evacuazione automatica in uscita, gli esseri umani decidono solo *cosa* deve essere eseguito; la piattaforma decide *dove*.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:46:00.563220+00:00"
+}

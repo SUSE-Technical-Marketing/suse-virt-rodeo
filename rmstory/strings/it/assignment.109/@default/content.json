@@ -1,0 +1,8 @@
+{
+  "content": "Nota la sezione <span id=\"assignment.27\"/>, qui possiamo specificare dove la rete sarà disponibile.\n\n2. Sotto <span id=\"assignment.109.1\"/>, imposta <span id=\"assignment.109.2\"/> su ens5\n\n3. Fai clic su <span id=\"assignment.19.3\"/>\n\n\n\n  \n\n\nOra definisci la rete rivolta alle VM su di essa. Seleziona <span id=\"assignment.109.3\"/> e fai clic su <span id=\"assignment.19.3\"/> per definire un nuovo perimetro sicuro:\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:50:48.894758+00:00"
+}

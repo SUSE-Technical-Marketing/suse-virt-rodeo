@@ -1,0 +1,8 @@
+{
+  "content": "La mattina seguente, il silenzio esausto del turno di notte viene bruscamente interrotto da un singhiozzo soffocato proveniente dalla scrivania dell'amministratore di database junior.\n\nTu e Sarah vi avvicinate immediatamente. L'amministratore junior sta fissando lo schermo con assoluto terrore, con le mani che tremano sulla tastiera. Nel tentativo di ripulire vecchi file temporanei sul server principale del registro delle transazioni, il cursore gli è scivolato. Ha accidentalmente eseguito un comando di eliminazione ricorsiva sulla directory sbagliata.\n\nIl record di regolamento di una transazione societaria da cento milioni di dollari, finalizzata solo pochi istanti prima, è stato completamente cancellato dal disco.\n\n*\"L'ho distrutto\",* sussurra l'amministratore, tremando. *\"Il backup su nastro non viene eseguito prima di mezzanotte. I dati sono semplicemente svaniti\".*\n\nSarah chiude gli occhi, massaggiandosi le tempie, preparandosi all'impatto devastante che questo avrà sulla reputazione e sul valore azionario della banca. Ma tu posi una mano ferma sulla spalla dell'amministratore.\n\n*\"I dati non sono svaniti\",* dici con calma. *\"La nostra nuova architettura di storage si basa su snapshot distribuiti a livello di blocco. Ho effettuato un'acquisizione dello stato di base subito prima dell'inizio del turno mattutino\".*\n\nTi avvicini al suo terminale. È ora di riportare indietro l'orologio. Ma devi fare attenzione: vuoi **verificare i dati ripristinati in una sandbox sicura prima di sovrascrivere l'ambiente di produzione**.",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-15T08:52:56.052604+00:00"
+}

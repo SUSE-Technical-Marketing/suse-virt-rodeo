@@ -1,0 +1,8 @@
+{
+  "content": "☁️ Che cos'è <span id=\"assignment.2.8\"/>?\n====================\n\n<span id=\"assignment.2.8\"/> è il sistema di storage distribuito integrato in <span id=\"ch1.intro1.2\"/> che puoi utilizzare. Raggruppa i dischi fisici presenti su ogni nodo e li trasforma in un unico fabric di storage condiviso.\n\nPer impostazione predefinita, ogni volume creato viene replicato su più nodi, quindi un guasto del disco o il riavvio di un nodo non ti farà mai perdere i dati. Nessuna SAN, nessun team di storage separato, un unico sistema sia per le VM che per i container.\n\nÈ pronto per l'uso, ma se vuoi utilizzare altri <span id=\"assignment.2.9\"/> sei libero di farlo, nessun vincolo con il fornitore.\n\n\n🖥️ Attività 1: Ispezionare la topologia fisica dei nodi\n=============================================\n\n\n\n  \n\n\n\nVai a",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:claude-code",
+  "date_updated": "2026-11-12T12:39:04.762989+00:00"
+}
