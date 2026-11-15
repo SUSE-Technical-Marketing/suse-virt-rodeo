@@ -2,10 +2,10 @@
 slug: the-rising-tide-live-migration
 id: xjv2r0tfyztq
 type: challenge
-title: "<span id="assignment.65" lang="en" hist="vertrex-bank">\U0001F30A Chapter 4: The Rising Tide</span>"
-teaser: <span id="assignment.66" lang="en" hist="vertrex-bank">A coolant leak is flooding the rack hosting the Payment Gateway. Execute a
-  zero-downtime live migration before the hardware shorts out, while transactions
-  keep flowing.</span>
+title: "<span id="assignment.65" lang="it" hist="vertrex-bank">🌊 Capitolo 4: La marea che sale</span>"
+teaser: <span id="assignment.66" lang="it" hist="vertrex-bank">Una perdita di liquido di raffreddamento sta allagando il rack che ospita il Payment Gateway. Esegui una
+  migrazione live senza interruzioni prima che l'hardware vada in cortocircuito, mentre le transazioni
+  continuano a fluire.</span>
 tabs:
 - id: fpgxlmifoynn
   title: SUSE Virtualization UI
@@ -28,10 +28,8 @@ difficulty: intermediate
 timelimit: 2400
 enhanced_loading: null
 ---
-<span id="assignment.67" lang="en" hist="vertrex-bank">
-🌊 Chapter 4: The Rising Tide
-==============================
-</span>
+<span id="assignment.67" lang="it" hist="vertrex-bank">🌊 Capitolo 4: La marea che sale
+==============================</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -140,39 +138,35 @@ enhanced_loading: null
 
 <div id="401" class="story">
 
-<span id="assignment.68" lang="en" hist="vertrex-bank">
-The adrenaline from the trading floor incident has barely faded from your system when a deep, metallic groan echoes through the datacenter walls. You and Sarah turn simultaneously toward **Rack 4**. A primary coolant valve has ruptured overhead, and a steady stream of chilled, chemically treated water is cascading directly onto the physical server chassis hosting the bank's primary **Payment Gateway**.
+<span id="assignment.68" lang="it" hist="vertrex-bank">L'adrenalina dell'incidente nella sala contrattazioni si è appena dissipata dal tuo organismo quando un profondo gemito metallico riecheggia attraverso le pareti del datacenter. Tu e Sarah vi voltate contemporaneamente verso il **Rack 4**. Una valvola primaria del liquido refrigerante si è rotta in alto, e un flusso costante di acqua refrigerata e trattata chimicamente sta cadendo a cascata direttamente sullo chassis del server fisico che ospita il **Payment Gateway** principale della banca.
 
-*"If that server shorts out, the gateway drops,"* Sarah says, genuine panic creeping into her voice as she watches the water pool. *"If the gateway drops, every single credit card transaction for <b class="bank">Vertex Trust Bank</b> fails. We will be facing <span class="danger">federal regulatory investigations</span> by morning."*
+*"Se quel server va in cortocircuito, il gateway cade,"* dice Sarah, con un panico autentico che si insinua nella sua voce mentre osserva l'acqua accumularsi. *"Se il gateway cade, ogni singola transazione con carta di credito di Vertex Trust Bank fallisce. Entro domattina ci ritroveremo ad affrontare indagini delle autorità di vigilanza federali."*
 
-*"We aren't going to let it drop,"* you reply, your fingers flying across your keyboard.
-</span>
+*"Non lasceremo che cada,"* rispondi, con le dita che volano sulla tastiera.</span>
 
 </div>
 
-<span id="assignment.69" lang="en" no>
-You cannot shut the machine down to move it; the transaction stream is too critical, processing thousands of requests a second. You must execute a **live migration**, moving a running VM, memory and all, to a different physical node with **zero downtime**.
+<span id="assignment.69" lang="it" no>Non puoi spegnere la macchina per spostarla; il flusso di transazioni è troppo critico, elabora migliaia di richieste al secondo. Devi eseguire una **migrazione live**, spostando una VM in esecuzione, memoria inclusa, su un nodo fisico diverso con **zero tempi di inattività**.
 
-But first, to ensure maximum bandwidth is available for the emergency migration, you decide to suspend a nearby non-critical batch processing server.
+Ma prima, per garantire la massima larghezza di banda disponibile per la migrazione di emergenza, decidi di sospendere un vicino server di elaborazione batch non critico.
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Suspend non-critical workloads to free resources
-2. Establish a service heartbeat
-3. Execute the Live Migration
-4. Monitor the seamless transfer
-5. Resume normal operations
-6. Hand the damaged rack to the repair crew
+## 🎯 Obiettivi della tua missione
 
-</div>
+1. Sospendere i carichi di lavoro non critici per liberare risorse
+2. Stabilire un heartbeat del servizio
+3. Eseguire la migrazione live
+4. Monitorare il trasferimento senza interruzioni
+5. Ripristinare le normali operazioni
+6. Consegnare il rack danneggiato alla squadra di riparazione
 
-🔐 Login Credentials
+
+
+🔐 Credenziali di accesso
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+L'interfaccia utente di <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> e l'interfaccia utente di **Rancher Prime** utilizzano le stesse credenziali.</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -196,19 +190,17 @@ admin
 
 
 
-<span id="assignment.72" lang="en" no>
-⏸️ Task 1: Suspend non-critical workloads to free resources
+<span id="assignment.72" lang="it" no>⏸️ Attività 1: Sospendere i carichi di lavoro non critici per liberare risorse
 ===========================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video1.gif"/>
-</div>
+
+  
 
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.73" lang="en" no>, go to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>:
 
-1. Locate the virtual machine named:
-</span>
+Nel</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.73" lang="it" no>, vai a <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>:
+
+1. Individua la macchina virtuale denominata:</span>
 
 <div class="cred">
 
@@ -218,30 +210,27 @@ daily-batch-processor
 
 </div>
 
-<span id="assignment.74" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the right side of its row
-3. Select <span id="assignment.74.1" lang="nolang" no>**Pause**</span> then click <span id="assignment.74.2" lang="nolang" no>**Apply**</span> after prompted to confirm.
-4. Wait for its state to change to <span id="assignment.74.3" lang="nolang" no>**Paused**</span>
+<span id="assignment.74" lang="it" no>2. Fai clic su  sul lato destro della sua riga
+3. Seleziona <span id="assignment.74.1" lang="nolang" no>**Pause**</span> quindi fai clic su <span id="assignment.74.2" lang="nolang" no>**Apply**</span> quando ti viene chiesto di confermare.
+4. Attendi che il suo stato cambi in <span id="assignment.74.3" lang="nolang" no>**Paused**</span>
 
-This halts its CPU cycles, dedicating maximum hardware resources to your emergency operation.
+Questo interrompe i suoi cicli CPU, dedicando il massimo delle risorse hardware alla tua operazione di emergenza.
 
 > [!NOTE]
-> This is not really necessary, we have setup already a dedicated network for live migration traffic, is here for educational purposes
-</span>
+> Non è davvero necessario, abbiamo già configurato una rete dedicata per il traffico di live migration, è qui a scopo didattico</span>
 
 
 
-<span id="assignment.75" lang="en" no>
-📡 Task 2: Establish a service heartbeat
-========================================
+<span id="assignment.75" lang="it" no>📡 Task 2: Stabilire un heartbeat del servizio
+============================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video2.gif"/>
-</div>
 
-Switch to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.76" lang="en" no>. You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.
+  
 
-Start the heartbeat monitor from <span id="assignment.76.1" lang="nolang" no><b class="highlightcopy">webserver-prod</b></span>:
+
+Passa al</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.76" lang="it" no>. Hai bisogno di un monitor heartbeat continuo per dimostrare che la connessione di rete rimane ininterrotta durante l'evacuazione.
+
+Avvia il monitor heartbeat da <span id="assignment.76.1" lang="nolang" no><b class="highlightcopy">webserver-prod</b></span>:
 
 ```bash,run
 ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] 'ping 192.168.122.1'
@@ -249,19 +238,16 @@ ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEW
 ```
 
 > [!IMPORTANT]
-> Leave the ping running continuously in the terminal. **Do not stop it.** This scrolling stream of replies is your proof of zero downtime. Switch your focus back to the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI.
-</span>
+> Lascia il ping in esecuzione continua nel terminale. **Non interromperlo.** Questo flusso scorrevole di risposte è la tua prova di zero downtime. Riporta la tua attenzione all'interfaccia utente di <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.</span>
 
-<span id="assignment.77" lang="en" no>
-🚚 Task 3: Execute the Live Migration
+<span id="assignment.77" lang="it" no>🚚 Attività 3: Eseguire la Live Migration
 =====================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video3.gif"/>
-</div>
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.78" lang="en" no>, go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** and locate the following instance:
-</span>
+  
+
+
+Nella</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.78" lang="it" no>, vai a **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** e individua la seguente istanza:</span>
 
 <div class="cred">
 
@@ -271,67 +257,56 @@ webserver-prod
 
 </div>
 
-<span id="assignment.79" lang="en" no>
-1. Read the <span id="assignment.79.1" lang="nolang" no>**Node**</span> column and **write down** which node the gateway is running on: you will want proof it moved
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the far right side of its row
-3. Select <span id="assignment.79.2" lang="nolang" no>**Migrate**</span> from the context menu
-4. Choose a different, safe target node from the dropdown list
-5. Click <span id="assignment.74.2" lang="nolang" no>**Apply**</span>
+<span id="assignment.79" lang="it" no>1. Leggi la colonna <span id="assignment.79.1" lang="nolang" no>**Node**</span> e **annota** su quale nodo è in esecuzione il gateway: ti servirà come prova che si è spostato
+2. Fai clic su  all'estrema destra della sua riga
+3. Seleziona <span id="assignment.79.2" lang="nolang" no>**Migrate**</span> dal menu contestuale
+4. Scegli un nodo di destinazione diverso e sicuro dall'elenco a discesa
+5. Fai clic su <span id="assignment.74.2" lang="nolang" no>**Apply**</span>
 
-Behind the scenes, <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> copies the VM's live memory pages to the target node over the network, tracking and re-copying any pages the busy gateway dirties mid-flight, until it can freeze, flip, and resume execution on the new node in a fraction of a second.
-</span>
+Dietro le quinte, <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> copia le pagine di memoria attive della VM sul nodo di destinazione attraverso la rete, tracciando e ricopiando le pagine che il gateway, sotto carico, modifica durante il trasferimento, finché non riesce a congelare, commutare e riprendere l'esecuzione sul nuovo nodo in una frazione di secondo.</span>
 
-<span id="assignment.80" lang="en" no>
-👀 Task 4: Monitor the seamless transfer
+<span id="assignment.80" lang="it" no>👀 Attività 4: Monitorare il trasferimento senza interruzioni
 ========================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video4.gif"/>
-</div>
 
-Immediately switch back to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.81" lang="en" no> tab and watch the ping sequence.
-</span>
+  
+
+
+Torna immediatamente al</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.81" lang="it" no>scheda e osserva la sequenza di ping.</span>
 
 <div id="402" class="story">
 
-<span id="assignment.82" lang="en" hist="vertrex-bank">
-You hold your breath as the <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> coordinates the massive memory transfer over the network. The pings continue scrolling down the screen, **completely uninterrupted**. The virtual machine seamlessly materializes on the new physical node just as sparks begin to fly from the water-damaged chassis in Rack 4.
-</span>
+<span id="assignment.82" lang="it" hist="vertrex-bank">Trattieni il respiro mentre <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> coordina l'imponente trasferimento di memoria sulla rete. I ping continuano a scorrere sullo schermo, **completamente ininterrotti**. La macchina virtuale si materializza senza soluzione di continuità sul nuovo nodo fisico proprio mentre iniziano a sprizzare scintille dallo chassis danneggiato dall'acqua nel Rack 4.</span>
 
 </div>
 
-<span id="assignment.83" lang="en" no>
-Press `Ctrl+C` to terminate the ping.
-</span>
+<span id="assignment.83" lang="it" no>Premi `Ctrl+C` per terminare il ping.</span>
 
 <div id="403" class="story">
-<span id="assignment.84" lang="en" hist="vertrex-bank">You exhale sharply. The transaction flow survived.</span>
+<span id="assignment.84" lang="it" hist="vertrex-bank">Espiri bruscamente. Il flusso delle transazioni è sopravvissuto.</span>
 </div>
 
 
-<span id="assignment.85" lang="en" no>
-Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node, a micro-interruption. On a properly sized infrastructure it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization *inside* virtualization, the most you might have spotted is slightly higher latency times in the pings.
+<span id="assignment.85" lang="it" no>A rigor di termini, un momento di passaggio *esiste*: una volta che la copia della memoria converge, la VM si blocca per un ultimo istante mentre l'esecuzione passa al nuovo nodo, una micro-interruzione. Su un'infrastruttura correttamente dimensionata passa del tutto inosservata; persino in questo laboratorio, che esegue virtualizzazione *dentro* virtualizzazione *dentro* virtualizzazione, al massimo potreste aver notato tempi di latenza leggermente più alti nei ping.
 
-Back in the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.86" lang="en" no>, the <span id="assignment.79.1" lang="nolang" no>**Node**</span> column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down. </span><span id="assignment.87" lang="en" hist="vertrex-bank">The gateway physically moved while its customers never noticed.</span>
+Tornando al</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.86" lang="it" no>, la colonna <span id="assignment.79.1" lang="nolang" no>**Node**</span> per webserver-prod ora mostra un **nodo diverso** da quello che avevi annotato.</span><span id="assignment.87" lang="it" hist="vertrex-bank">Il gateway si è spostato fisicamente senza che i suoi clienti se ne accorgessero.</span>
 
 <div id="404" class="story">
-<span id="assignment.88" lang="en" hist="vertrex-bank">Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running:</span>
+<span id="assignment.88" lang="it" hist="vertrex-bank">Ora genera la prova che Sarah inoltrerà alle autorità di regolamentazione: il contatore di uptime del guest non si è mai azzerato, il che significa che il sistema operativo non ha mai smesso di funzionare:</span>
 </div>
 
 ```bash,wrap,run
 ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] "hostname && uptime"
 ```
 
-<span id="assignment.89" lang="en" no>
-▶️ Task 5: Resume normal operations
-===================================
+<span id="assignment.89" lang="it" no>▶️ Attività 5: Ripristinare le operazioni normali
+=================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video5.gif"/>
-</div>
 
-Return to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.90" lang="en" no>. Locate the virtual machine you paused earlier:
-</span>
+  
+
+
+Torna al</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.90" lang="it" no>. Individua la macchina virtuale che hai messo in pausa in precedenza:</span>
 
 <div class="cred">
 
@@ -341,95 +316,80 @@ daily-batch-processor
 
 </div>
 
-<span id="assignment.91" lang="en" no>
-1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row
-2. Select <span id="assignment.91.1" lang="nolang" no>**Unpause**</span> to allow the non-critical jobs to resume
+<span id="assignment.91" lang="it" no>1. Fai clic sul  nella sua riga
+2. Seleziona <span id="assignment.91.1" lang="nolang" no>**Unpause**</span> per consentire la ripresa dei job non critici
 
-🛠️ Task 6: Hand the damaged rack to the repair crew
-====================================================
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video6.gif"/>
-</div>
-
-</span>
+🛠️ Attività 6: Consegna il rack danneggiato alla squadra di riparazione
+====================================================</span>
 
 
 <div id="405" class="story">
-<span id="assignment.92" lang="en" hist="vertrex-bank">The gateway is safe — but the water-damaged node is still dripping, and smaller workloads may still be running on it. You are not going to migrate them one by one while a puddle spreads across the floor. Let the platform manage it.</span>
+<span id="assignment.92" lang="it" hist="vertrex-bank">Il gateway è al sicuro, ma il nodo danneggiato dall'acqua continua a gocciolare, e potrebbero esserci ancora carichi di lavoro più piccoli in esecuzione su di esso. Non li migrerai uno alla volta mentre una pozzanghera si allarga sul pavimento. Lascia che sia la piattaforma a gestirlo.</span>
 </div>
 
 
-<span id="assignment.93" lang="en" no>
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.94" lang="en" no>, go to <span id="assignment.94.1" lang="nolang" no>**Hosts**</span>:
+<span id="assignment.93" lang="it" no>Nel
 
-1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down.
-</span>
+(Nota: il testo sorgente sembra troncato, contiene solo "In the". Se incolli il testo completo, lo traduco per intero.)</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.94" lang="it" no>, vai a <span id="assignment.94.1" lang="nolang" no>**Hosts**</span>:
 
-<i id="406" class="story"><span id="assignment.95" lang="en" hist="vertrex-bank">That is the water-damaged machine</span></i>
+1. Trova il nodo su cui webserver-prod era in esecuzione **prima** della migrazione, quello che hai annotato.</span>
 
-<span id="assignment.96" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.96.1" lang="nolang" no>**Enable Maintenance Mode**</span>, then <span id="assignment.96.2" lang="nolang" no>confirm</span>
+<i id="406" class="story"><span id="assignment.95" lang="it" hist="vertrex-bank">Questa è la macchina danneggiata dall'acqua</span></i>
 
-Now watch the **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty. No spreadsheets, no manual target-picking, no forgotten VM.
+<span id="assignment.96" lang="it" no>2. Fai clic su  nella sua riga e seleziona <span id="assignment.96.1" lang="nolang" no>**Enable Maintenance Mode**</span>, poi <span id="assignment.96.2" lang="nolang" no>confirm</span>
 
-> [!NOTE]
-> This may take some time in this lab environment.
-
-Once the node shows <span id="assignment.96.3" lang="nolang" no>**Maintenance**</span> and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
-
-3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row again and select <span id="assignment.96.4" lang="nolang" no>**Uncordon**</span> and then <span id="assignment.96.5" lang="nolang" no>**Disable Maintenance Mode**</span>
-
-The node rejoins the fabric, ready to accept workloads again.
+Ora osserva la pagina **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>**: ogni VM ancora presente sul nodo danneggiato viene migrata a caldo altrove **automaticamente**. La piattaforma sceglie nodi di destinazione sani, sposta i carichi di lavoro uno alla volta e lascia il nodo vuoto. Niente fogli di calcolo, niente scelta manuale della destinazione, nessuna VM dimenticata.
 
 > [!NOTE]
-> The same intelligence works in the other direction, too: every time a new VM is created, the scheduler places it on the least-loaded suitable node, keeping the cluster naturally balanced, no manual Tetris required. Between automatic placement on the way in and automatic evacuation on the way out, the humans only decide *what* should run; the platform decides *where*.
-</span>
+> In questo ambiente di laboratorio l'operazione potrebbe richiedere un po' di tempo.
 
-<span id="assignment.97" lang="en" no>
-🏋️ Bonus Drills: the migration paper trail (optional, for the command-line curious)
+Quando il nodo mostra <span id="assignment.96.3" lang="nolang" no>**Maintenance**</span> e il suo numero di VM arriva a zero, la squadra di manutenzione (virtuale) sostituisce la valvola del refrigerante (virtuale). Rimetti il nodo in servizio:
+
+3. Fai di nuovo clic su  nella sua riga e seleziona <span id="assignment.96.4" lang="nolang" no>**Uncordon**</span>, poi <span id="assignment.96.5" lang="nolang" no>**Disable Maintenance Mode**</span>
+
+Il nodo si riunisce al cluster, pronto ad accettare nuovamente carichi di lavoro.
+
+> [!NOTE]
+> La stessa intelligenza funziona anche nella direzione opposta: ogni volta che viene creata una nuova VM, lo scheduler la colloca sul nodo idoneo meno carico, mantenendo il cluster naturalmente bilanciato, senza bisogno di alcun Tetris manuale. Tra il posizionamento automatico in ingresso e l'evacuazione automatica in uscita, gli esseri umani decidono solo *cosa* deve essere eseguito; la piattaforma decide *dove*.</span>
+
+<span id="assignment.97" lang="it" no>🏋️ Esercizi Bonus: la traccia documentale della migrazione (facoltativo, per i curiosi della riga di comando)
 ======================================================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video7.gif"/>
-</div>
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise: every migration is itself a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> object, which means it is auditable. In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.98" lang="en" no>:
+  
 
-- **Review the migration record** (who moved, when, from where to where):
+
+Nuovo a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Salta pure avanti.** Altrimenti: ogni migrazione è essa stessa un oggetto <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>, il che significa che è verificabile. Nel</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.98" lang="it" no>- **Esaminare il record della migrazione** (chi si è spostato, quando, da dove a dove):
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A
 ```
 
-- **Inspect the details of the completed migration:**
+- **Ispezionare i dettagli della migrazione completata:**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
 ```
 
-- **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> can reschedule VMs from a failed host automatically:
+- **Pensare in anticipo:** cosa succede se un *nodo* si guasta senza preavviso, prima che qualcuno possa eseguire la migrazione? Controllare la strategia di esecuzione di ogni VM: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> può ripianificare automaticamente le VM da un host guasto:
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
 ```
 
 > [!NOTE]
-> **Beyond compute:** the same zero-downtime idea also applies to *disks*. <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> supports **in-place storage live migration** (moving a running VM's volumes between storage backends, for example from <span id="assignment.2.8" lang="nolang" no>Longhorn</span> to an external <span id="assignment.2.9" lang="nolang" no>CSI</span> array) without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
-</span>
+> **Oltre il calcolo:** la stessa idea di zero downtime si applica anche ai *dischi*. <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> supporta la **migrazione live dello storage in-place** (spostamento dei volumi di una VM in esecuzione tra backend di storage, ad esempio da <span id="assignment.2.8" lang="nolang" no>Longhorn</span> a un array <span id="assignment.2.9" lang="nolang" no>CSI</span> esterno) senza arrestare la VM. Il calcolo evacuato stanotte, lo storage evacuato il prossimo trimestre, e il gateway non si accorge di nessuno dei due.</span>
 
-<span id="assignment.99" lang="en" no>
-💼 Why does this matter?
+<span id="assignment.99" lang="it" no>💼 Perché è importante?
 ==============================================
 
-- **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots: workloads simply slide to healthy nodes while your services are working.
-- **Planned maintenance without midnight windows.** One click on **Maintenance Mode** drains an entire node automatically. Routine patching happens at 2 PM instead of 2 AM, and nobody keeps a spreadsheet of which VM lives where.
-- **An audit trail regulators can read.** Every migration is a recorded API object, no more reconstructing what happened from console screenshots.
+- **I guasti hardware smettono di essere interruzioni del servizio.** Perdite di refrigerante, aggiornamenti del firmware, riavvii degli host: i carichi di lavoro si spostano semplicemente sui nodi sani mentre i tuoi servizi continuano a funzionare.
+- **Manutenzione pianificata senza finestre notturne.** Un clic su **Maintenance Mode** svuota automaticamente un intero nodo. L'applicazione delle patch di routine avviene alle 14:00 invece che alle 2 di notte, e nessuno deve più tenere un foglio di calcolo per sapere su quale host risiede ogni VM.
+- **Una traccia di audit leggibile dagli enti regolatori.** Ogni migrazione è un oggetto API registrato: non serve più ricostruire l'accaduto dagli screenshot della console.
 
-Click **Check** to continue. 🕵️
+Fai clic su **Check** per continuare. 🕵️
 
-📚 More information
-===================
-</span>
+📚 Ulteriori informazioni
+===================</span>
 
 - [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)

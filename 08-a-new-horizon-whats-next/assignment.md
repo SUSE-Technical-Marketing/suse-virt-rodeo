@@ -2,10 +2,10 @@
 slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
-title: "<span id="assignment.158" lang="en" no>\U0001F305 Chapter 8: A New Horizon</span>"
-teaser: <span id="assignment.159" lang="en" hist="vertrex-bank">The bank runs entirely on <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
-  Take a victory lap, review everything you mastered, and chart where your new skills
-  can take your own datacenter.</span>
+title: "<span id="assignment.158" lang="it" no>🌅 Capitolo 8: Un nuovo orizzonte</span>"
+teaser: <span id="assignment.159" lang="it" hist="vertrex-bank">La banca funziona interamente su <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
+  Fai un giro d'onore, ripassa tutto ciò che hai padroneggiato e pianifica dove le tue nuove competenze
+  possono portare il tuo datacenter.</span>
 tabs:
 - id: jw4tji5y1jbv
   title: SUSE Virtualization UI
@@ -28,10 +28,8 @@ difficulty: basic
 timelimit: 1800
 enhanced_loading: null
 ---
-<span id="assignment.160" lang="en" no>
-🌅 Chapter 8: A New Horizon
-============================
-</span>
+<span id="assignment.160" lang="it" no>🌅 Capitolo 8: Un nuovo orizzonte
+============================</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -130,50 +128,42 @@ enhanced_loading: null
 
 <div id="901" class="story">
 
-<span id="assignment.161" lang="en" hist="vertrex-bank">
-The dust has finally settled. The datacenter is quiet, bathed in the soft green glow of the <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> nodes operating in perfect harmony.
+<span id="assignment.161" lang="it" hist="vertrex-bank">La polvere si è finalmente posata. Il datacenter è silenzioso, immerso nel tenue bagliore verde dei <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> nodi che operano in perfetta armonia.
 
-<b class="bank">Vertex Trust Bank</b> is no longer shackled to the past. It is now running entirely on a lean, high-performance, cloud-native virtualization stack.
+Vertex Trust Bank non è più incatenata al passato. Ora gira interamente su uno stack di virtualizzazione snello, ad alte prestazioni e cloud-native.
 
-Sarah stands beside you, looking at the unified dashboard on the main screen. *"I didn't think it was possible,"* she admits, shaking her head in disbelief. *"We are running containerized microservices and monolithic ledgers on the exact same fabric. Our storage is distributed, our networks are software-defined, and our licensing costs have just plummeted."*
+Sarah è accanto a te, con lo sguardo rivolto alla dashboard unificata sullo schermo principale. *"Non pensavo fosse possibile",* ammette, scuotendo la testa incredula. *"Stiamo eseguendo microservizi containerizzati e registri monolitici esattamente sullo stesso fabric. Il nostro storage è distribuito, le nostre reti sono software-defined e i nostri costi di licenza sono appena crollati."*
 
-She turns to you and extends her hand. *"Thank you. You didn't just save our infrastructure — you saved the bank."*
-</span>
+Si volta verso di te e ti tende la mano. *"Grazie. Non hai solo salvato la nostra infrastruttura — hai salvato la banca."*</span>
 
 </div>
 
-<span id="assignment.162" lang="en" no>
-## <b class="hovereffect">🏆 Your Deeds</b>
+<span id="assignment.162" lang="it" no>## 🏆 Le tue imprese
 
-You conquered incredible odds during your time here:
+Hai superato avversità incredibili durante la tua permanenza qui:
 
-| Chapter | Crisis | Skill you mastered |
-|:--------|:-------|:-------------------|
-| 🏦 The Arrival | A drowning legacy datacenter | Inspecting the platform dashboard, <span id="assignment.2.8" lang="nolang" no>Longhorn</span> storage, and Rancher Prime |
-| 🛗 The Subterranean Divide | Two warring hardware silos | Uniting VMs and containers on one <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> fabric |
-| ⚡ The Flash Crash | A market meltdown | Deploying VMs in minutes with images, volumes, and cloud-init |
-| 🌊 The Rising Tide | A flooded server rack | Zero-downtime live migration and one-click node evacuation |
-| 🕵️ The Invisible Intruder | A lateral attack path | Software-defined VLANs and isolated SDN subnets |
-| ⏪ The Unthinkable Error | A deleted $100M record | Snapshots, staging clones, storage tiers, and scheduled off-cluster backups |
-| 🤠 The Stampede | A compute famine | Golden VM templates, stamping out identical fleets on demand |
-</span>
+| Capitolo | Crisi | Abilità padroneggiata |
+|:---------|:------|:----------------------|
+| 🏦 L'arrivo | Un datacenter legacy che affonda | Ispezione della dashboard della piattaforma, dello storage <span id="assignment.2.8" lang="nolang" no>Longhorn</span> e di Rancher Prime |
+| 🛗 La spaccatura sotterranea | Due silos hardware in guerra tra loro | Unione di VM e container su un unico fabric <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> |
+| ⚡ Il Flash Crash | Un crollo del mercato | Distribuzione di VM in pochi minuti con immagini, volumi e cloud-init |
+| 🌊 La marea crescente | Un rack server allagato | Live migration senza tempi di inattività ed evacuazione del nodo con un clic |
+| 🕵️ L'intruso invisibile | Un percorso di attacco laterale | VLAN software-defined e subnet SDN isolate |
+| ⏪ L'errore impensabile | Un record da 100 milioni di dollari eliminato | Snapshot, cloni di staging, tier di storage e backup pianificati off-cluster |
+| 🤠 La stampida | Una carestia di risorse di calcolo | Template di VM golden, sfornando flotte identiche su richiesta |</span>
 
 
 <div id="902" class="story">
 
-<span id="assignment.163" lang="en" hist="vertrex-bank">
-Your work at <b class="bank">Vertex Trust Bank</b> is complete — but the digital frontier is vast and constantly evolving. There are always new architectures to design and new systems to modernize.
-</span>
+<span id="assignment.163" lang="it" hist="vertrex-bank">Il tuo lavoro presso Vertex Trust Bank è concluso — ma la frontiera digitale è vasta e in continua evoluzione. Ci sono sempre nuove architetture da progettare e nuovi sistemi da modernizzare.</span>
 
 </div>
 
 
-<span id="assignment.164" lang="en" no>
-🔐 Login Credentials
+<span id="assignment.164" lang="it" no>🔐 Credenziali di accesso
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+L'interfaccia utente di <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> e l'interfaccia utente di **Rancher Prime** utilizzano le stesse credenziali.</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -197,56 +187,48 @@ admin
 
 
 
-<span id="assignment.165" lang="en" no>
-🧭 Victory lap: the lab is still yours
+<span id="assignment.165" lang="it" no>🧭 Giro d'onore: il laboratorio è ancora tuo
 =======================================
 
-The lab environment will remain active until your timer expires. Feel free to dig into the dashboard and experiment with the infrastructure you have built. Some ideas:
+L'ambiente del laboratorio rimarrà attivo fino allo scadere del timer. Sentiti libero di esplorare la dashboard e sperimentare con l'infrastruttura che hai creato. Alcune idee:
 
-- **Take a final inventory of the empire you built.** Tour the </span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="en" no>: the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> page, the **Networks** you defined, the **Templates** blueprint, and the **Backup & Snapshot** history: every crisis of the week left its mark here.
+- **Fai un inventario finale dell'impero che hai costruito.** Esplora la</span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="it" no>: la pagina <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>, le **Networks** che hai definito, il blueprint dei **Templates** e la cronologia di **Backup & Snapshot**: ogni crisi della settimana ha lasciato il segno qui.
 
-- **Design your own crisis.** Create a new VM from scratch: pick the image, size it, cloud-init it, snapshot it, live-migrate it. No instructions this time. You know the way.
+- **Progetta la tua crisi.** Crea una nuova VM da zero: scegli l'immagine, definisci le dimensioni, configurala con cloud-init, crea uno snapshot, eseguine la live migration. Niente istruzioni questa volta. Sai come fare.
 
-- **For the command-line curious (optional):** the API is yours:
+- **Per i curiosi della riga di comando (opzionale):** l'API è tutta tua:
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A
-```
-</span>
+```</span>
 
 
-<span id="assignment.167" lang="en" no>
-🚀 What's next on your horizon?
+<span id="assignment.167" lang="it" no>🚀 Qual è il tuo prossimo orizzonte?
 ===============================
 
-- 📖 Keep your skills sharp by digging into the deep technical architecture in the [SUSE Virtualization Documentation](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).
+- 📖 Mantieni affilate le tue competenze esplorando nel dettaglio l'architettura tecnica nella [Documentazione di SUSE Virtualization](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html).
 
-- 🐮 Learn how to manage **fleets of these clusters at scale** (one Rancher Prime managing every <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> cluster in every branch datacenter) with [<span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
+- 🐮 Scopri come gestire **flotte di questi cluster su larga scala** (un unico Rancher Prime per gestire ogni cluster <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> in ogni data center di filiale) con [<span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html).
 
-- 🧪 Rebuild this at home: <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> is open source. Grab the ISO, install it on any spare x86 box, and run your own VMs.
+- 🧪 Ricrealo a casa: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> è open source. Scarica l'ISO, installala su qualsiasi macchina x86 disponibile ed esegui le tue VM.
 
-- 🤝 You are never alone on this trail: SUSE customers consistently rate <span id="assignment.167.1" lang="nolang" no>**SUSE Support**</span> among the best in the industry, and customer feedback directly shapes how the products evolve. Working with <b class="suse">SUSE</b> means a seat at the table, not a ticket in a queue. That is the open-source difference.
+- 🤝 Non sei mai solo lungo questo percorso: i clienti SUSE valutano costantemente <span id="assignment.167.1" lang="nolang" no>**SUSE Support**</span> tra i migliori del settore, e il feedback dei clienti plasma direttamente l'evoluzione dei prodotti. Lavorare con SUSE significa avere un posto al tavolo, non un ticket in coda. Questa è la differenza dell'open source.
 
-- 💬 Talk to your <b class="suse">SUSE</b> representative about what this story would look like with **your** legacy cluster in the darkest corner of the room.
-</span>
+- 💬 Parla con il tuo referente SUSE per scoprire come sarebbe questa storia con il **tuo** cluster legacy nell'angolo più buio della stanza.</span>
 
 <div id="903" class="story">
 
-<span id="assignment.168" lang="en" hist="vertrex-bank">
-It has been an absolute honor working alongside you!
+<span id="assignment.168" lang="it" hist="vertrex-bank">È stato un assoluto onore lavorare al tuo fianco!
 
-**Happy migrating!** 🎉
-</span>
+**Buona migrazione!** 🎉</span>
 
 </div>
 
-<span id="assignment.169" lang="en" no>
-📚 More information
-===================
+<span id="assignment.169" lang="it" no>📚 Ulteriori informazioni
+========================
 
-- [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
-- [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
-- [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
-- [Backup and Restore](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)
-- [Cluster Networking](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)
-</span>
+- [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Panoramica](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
+- [Creazione di <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
+- [Migrazione live](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
+- [Backup e ripristino](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)
+- [Rete del cluster](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)</span>

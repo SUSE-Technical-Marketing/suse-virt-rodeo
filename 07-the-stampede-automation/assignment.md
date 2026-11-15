@@ -2,10 +2,8 @@
 slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
-title: "<span id="assignment.138" lang="en" no>\U0001F920 Chapter 7: The Stampede</span>"
-teaser: <span id="assignment.139" lang="en" hist="vertrex-bank">The markets are in freefall and the quants need the calculation fleet scaled
-  from three nodes to five, now. Forge a golden VM template and stamp out identical
-  machines on demand.</span>
+title: "<span id="assignment.138" lang="it" no>\U0001F920 Capitolo 7: La fuga precipitosa</span>"
+teaser: <span id="assignment.139" lang="it" hist="vertrex-bank">I mercati sono in caduta libera e i quant hanno bisogno di scalare la flotta di calcolo da tre a cinque nodi, subito. Forgia un template VM golden e stampa macchine identiche su richiesta.</span>
 tabs:
 - id: xxc2ymjtxzih
   title: SUSE Virtualization UI
@@ -28,11 +26,8 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.140" lang="en" no>
-
-🤠 Chapter 7: The Stampede
-===========================
-</span>
+<span id="assignment.140" lang="it" no>🤠 Capitolo 7: La fuga precipitosa
+===========================</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -140,35 +135,32 @@ enhanced_loading: null
 
 <div id="701" class="story">
 
-<span id="assignment.141" lang="en" hist="vertrex-bank">
-A sudden, aggressive shift in global interest rates sends the financial markets into a chaotic frenzy. <b class="bank">Vertex Trust Bank</b>'s risk analysis algorithms are screaming for more compute capacity to process the incoming flood of volatile market data.
+<span id="assignment.141" lang="it" hist="vertrex-bank">Un improvviso e aggressivo mutamento dei tassi di interesse globali getta i mercati finanziari in una frenesia caotica. Gli algoritmi di analisi del rischio della Vertex Trust Bank chiedono a gran voce maggiore capacità di calcolo per elaborare l'ondata in arrivo di volatili dati di mercato.
 
-*"One calculation engine is not enough anymore!"* the **Head of Quant** shouts across the room, waving a printed report. *"I need a fleet of <span class="danger">five identical engines immediately</span>, or we fly blind into this market crash!"*
+*"Un solo motore di calcolo non basta più!"* grida l'**Head of Quant** dall'altra parte della stanza, sventolando un report stampato. *"Ho bisogno subito di una flotta di cinque motori identici, o voleremo alla cieca dentro questo crollo del mercato!"*
 
-Building five machines by hand, one screen at a time, invites exactly what you cannot afford right now: a mistyped memory size here, a forgotten network there. Configuration drift under pressure — and right now, human error costs millions of dollars **per second**.
+Configurare cinque macchine a mano, una schermata alla volta, espone proprio a ciò che non ci si può permettere adesso: una dimensione di memoria digitata male qui, una rete dimenticata lì. Disallineamento della configurazione sotto pressione — e in questo momento, l'errore umano costa milioni di dollari **al secondo**.
 
-You crack your knuckles. What the bank needs is a **golden blueprint**: define the perfect machine once, then stamp out identical copies on demand.
-</span>
+Ti scrocchi le nocche. Ciò di cui la banca ha bisogno è un **golden blueprint**: definire la macchina perfetta una volta sola, per poi sfornare copie identiche su richiesta.</span>
 
 </div>
 
-<span id="assignment.142" lang="en" no><b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> has exactly that: **VM Templates**. A template captures CPU, memory, disks, networks, and cloud-init in a single versioned object. Combined with **multi-instance creation**, one blueprint becomes an entire fleet in a single click.
+<span id="assignment.142" lang="it" no><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> ha esattamente questo: i **template di VM**. Un template racchiude CPU, memoria, dischi, reti e cloud-init in un unico oggetto con versione. Combinato con la **creazione multi-istanza**, un singolo blueprint diventa un'intera flotta con un solo clic.
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Forge the golden template
-2. Scale the fleet under pressure
-3. Stand the fleet down
+## 🎯 Obiettivi della tua missione
 
-</div>
+1. Forgia il golden template
+2. Scala la flotta sotto pressione
+3. Ritira la flotta
 
-🔐 Login Credentials
+
+
+🔐 Credenziali di accesso
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+L'interfaccia utente di <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> e l'interfaccia utente di **Rancher Prime** utilizzano le stesse credenziali.</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -192,19 +184,18 @@ admin
 
 
 
-<span id="assignment.143" lang="en" no>📜 Task 1: Forge the golden template
+<span id="assignment.143" lang="it" no>📜 Attività 1: Forgia il golden template
 ====================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-prod-vm-template.gif"/>
-</div>
 
-You need a template that speeds up the deployment of virtual machines and standardizes them.
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.144" lang="en" no> navigate to <span id="assignment.144.1" lang="nolang" no>**Advanced > Templates**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.144.2" lang="nolang" no>**Template Name**</span>:
-</span>
+
+Hai bisogno di un template che velocizzi la distribuzione delle macchine virtuali e le standardizzi.
+In</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.144" lang="it" no>vai a <span id="assignment.144.1" lang="nolang" no>**Advanced > Templates**</span> e fai clic su <span id="assignment.19.3" lang="nolang" no>**Create**</span>, quindi inserisci i seguenti dettagli:
+
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.144.2" lang="nolang" no>**Template Name**</span>:</span>
 
 <div class="cred">
 
@@ -214,34 +205,32 @@ prod-basic
 
 </div>
 
-<span id="assignment.145" lang="en" no>
-We need to minimize resource usage, and all the VMs should be reachable using the production SSH key, which is securely guarded.
+<span id="assignment.145" lang="it" no>Dobbiamo ridurre al minimo l'uso delle risorse e tutte le VM devono essere raggiungibili tramite la chiave SSH di produzione, che è custodita in modo sicuro.
 
-- Basics:
-  - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: <b class="highlightcopy">1</b>
-  - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: <b class="highlightcopy">1</b>
-  - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: <b class="highlightcopy">prod/default</b>
+- Informazioni di base:
+  - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: 1
+  - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: 1
+  - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
 
-Our default base OS is SLES 16.
+Il nostro sistema operativo di base predefinito è SLES 16.
 
 - <span id="assignment.6.4" lang="nolang" no>Volumes</span>:
-  - <span id="assignment.45.2" lang="nolang" no>**Image**</span>: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
-  - <span id="assignment.45.3" lang="nolang" no>**Size**</span>: <b class="highlightcopy">5</b>
+  - <span id="assignment.45.2" lang="nolang" no>**Image**</span>: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2
+  - <span id="assignment.45.3" lang="nolang" no>**Size**</span>: 5
 
-We want production servers to offer their services on the production service network.
+Vogliamo che i server di produzione offrano i loro servizi sulla rete di servizi di produzione.
 
 - <span id="assignment.49.1" lang="nolang" no>Networks</span>:
-  - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <b class="highlightcopy">prod/service</b>
+  - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: prod/service
 
-All production VMs should run only on production-ready hosts.
+Tutte le VM di produzione dovrebbero essere eseguite solo su host pronti per la produzione.
 
 - <span id="assignment.51.1" lang="nolang" no>Node Scheduling</span>:
-  1. Select <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
-  2. Click <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>, then <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
+  1. Seleziona <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
+  2. Fai clic su <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>, quindi su <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
 
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 
 <div class="cred">
 
@@ -251,9 +240,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="en" no>
-- **Value**:
-</span>
+<span id="assignment.52" lang="it" no>- **Valore**:</span>
 
 <div class="cred">
 
@@ -264,15 +251,13 @@ prod
 </div>
 
 
-<span id="assignment.146" lang="en" no>
-We want the VMs to be properly labeled:
+<span id="assignment.146" lang="it" no>Vogliamo che le VM siano etichettate correttamente:
 
 - <span id="assignment.53.1" lang="nolang" no>Labels</span>:
-  - Click <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
+  - Fare clic su <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
 
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -281,9 +266,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="en" no>
-- **Value**:
-</span>
+<span id="assignment.52" lang="it" no>- **Valore**:</span>
 <div class="cred">
 
 ```txt
@@ -293,36 +276,34 @@ prod
 </div>
 
 
-<span id="assignment.147" lang="en" no>
-Finally, we want all production machines standardized on a set of packages and settings:
+<span id="assignment.147" lang="it" no>Infine, vogliamo che tutte le macchine di produzione siano standardizzate su un insieme di pacchetti e impostazioni:
 
 - <span id="assignment.54.1" lang="nolang" no>Advanced Options</span>:
-  - <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>: <b class="highlightcopy">prod/prod</b>
+  - <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>: prod/prod
 
-To finalize, click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
+Per finalizzare, fai clic su <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
 
-Can you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency, and inconsistency makes further automation even more difficult.
+Riesci a immaginare di dover inserire tutti questi dettagli ogni volta? Le persone si arrenderebbero e l'ambiente si riempirebbe di incoerenze, e l'incoerenza rende un'ulteriore automazione ancora più difficile.
 
 
 > [!NOTE]
-> Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage: a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
+> I modelli sono **versionati**. Se in seguito modifichi il modello, viene creata una nuova versione, mentre le macchine create a partire dalle versioni precedenti mantengono la loro derivazione: una traccia di audit completa di ciò che è stato distribuito da ciascun blueprint, cosa che i tuoi organismi di regolamentazione apprezzeranno.
 
 
-📈 Task 2: Scale the fleet under pressure
+📈 Attività 2: Scalare la flotta sotto pressione
 =========================================
 
-Because the template already exists, deploying multiple servers takes just a few clicks.
+Poiché il modello esiste già, distribuire più server richiede solo pochi clic.
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-fleet-vms.gif"/>
-</div>
 
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.148" lang="en" no> go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-1. Select <span id="assignment.148.1" lang="nolang" no>**Multiple Instance**</span>
-2. Set the <span id="assignment.39.3" lang="nolang" no>**Namespace**</span> to <b class="highlightcopy">prod</b>
-3. Set the <span id="assignment.148.2" lang="nolang" no>**Name Prefix**</span> to:
-</span>
+
+In</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.148" lang="it" no>vai a **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** e fai clic su <span id="assignment.19.3" lang="nolang" no>**Create**</span>, quindi inserisci i seguenti dettagli:
+
+1. Seleziona <span id="assignment.148.1" lang="nolang" no>**Multiple Instance**</span>
+2. Imposta <span id="assignment.39.3" lang="nolang" no>**Namespace**</span> su prod
+3. Imposta <span id="assignment.148.2" lang="nolang" no>**Name Prefix**</span> su:</span>
 
 <div class="cred">
 
@@ -333,74 +314,62 @@ appcluster
 </div>
 
 
-<span id="assignment.149" lang="en" no>
-4. Set the <span id="assignment.149.1" lang="nolang" no>**Count**</span> to <b class="highlightcopy">2</b>
-5. Tick <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span> and set the <span id="assignment.149.3" lang="nolang" no>**Template**</span> to <b class="highlightcopy">prod/prod-basic</b>
-6. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-</span>
+<span id="assignment.149" lang="it" no>4. Imposta <span id="assignment.149.1" lang="nolang" no>**Count**</span> su 2
+5. Seleziona <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span> e imposta <span id="assignment.149.3" lang="nolang" no>**Template**</span> su prod/prod-basic
+6. Fai clic su <span id="assignment.19.3" lang="nolang" no>**Create**</span></span>
 
 
 
 
 <div id="702" class="story">
 
-<span id="assignment.150" lang="en" hist="vertrex-bank">
-The risk analysis team begins feeding data into the expanded fleet, stabilizing the bank's market position just in time.
-</span>
+<span id="assignment.150" lang="it" hist="vertrex-bank">Il team di analisi del rischio inizia a immettere dati nella flotta ampliata, stabilizzando la posizione di mercato della banca giusto in tempo.</span>
 
 </div>
 
 
-<span id="assignment.151" lang="en" no>🧹 Task 3: Stand the fleet down
-===============================
-</span>
+<span id="assignment.151" lang="it" no>🧹 Attività 3: Smobilitare la flotta
+===============================</span>
 
 <div id="703" class="story">
 
-<span id="assignment.152" lang="en" hist="vertrex-bank">
-The market surge subsides. The virtual machines sit idle, waiting for the next wave — but will it come today? Tomorrow? Next month? For these noble servers, waiting is more painful than doing all the number crunching.
-</span>
+<span id="assignment.152" lang="it" hist="vertrex-bank">L'impennata del mercato si placa. Le macchine virtuali restano inattive, in attesa della prossima ondata — ma arriverà oggi? Domani? Il mese prossimo? Per questi nobili server, l'attesa è più dolorosa del macinare tutti quei numeri.</span>
 
 </div>
 
-<span id="assignment.153" lang="en" no>
-You no longer need so many virtual machines, delete them all at once (don't worry if they are still starting).
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-fleet-vms-delete.gif"/>
-</div>
+<span id="assignment.153" lang="it" no>Non hai più bisogno di così tante macchine virtuali, eliminale tutte in una volta (non preoccuparti se si stanno ancora avviando).
 
 
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.154" lang="en" no> navigate to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> section:
 
-1. Tick the <span id="assignment.154.1" lang="nolang" no>**checkboxes**</span> next to all the new virtual machines you created
-2. Click <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, tick <span id="assignment.154.2" lang="nolang" no>**Delete All**</span>, and click <span id="assignment.154.3" lang="nolang" no>**Delete**
-</span>
-</span>
+
+
+In</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.154" lang="it" no>passare alla sezione <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>:
+
+1. Selezionare <span id="assignment.154.1" lang="nolang" no>**checkboxes**</span> accanto a tutte le nuove macchine virtuali create
+2. Fare clic su <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, selezionare <span id="assignment.154.2" lang="nolang" no>**Delete All**</span> e fare clic su <span id="assignment.154.3" lang="nolang" no>**Delete**
+</span></span>
 
 <div id="704" class="story">
 
-<span id="assignment.155" lang="en" hist="vertrex-bank">
-The suffering of these noble virtual machines has stopped. You see the flames, my child? Now they rest in Valhalla.
-</span>
+<span id="assignment.155" lang="it" hist="vertrex-bank">La sofferenza di queste nobili macchine virtuali è cessata. Vedi le fiamme, figlio mio? Ora riposano nel Valhalla.</span>
 
 </div>
 
 
 
 
-<span id="assignment.156" lang="en" no>🏋️ Bonus Drills: for the command-line curious (optional)
+<span id="assignment.156" lang="it" no>🏋️ Esercizi bonus: per i curiosi della riga di comando (opzionale)
 ==========================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise, prove in the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="en" no> that the UI, the fleet, and the API all agree:
+Nuovo su <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Salta pure avanti.** Altrimenti, dimostra nel</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="it" no>che la UI, la flotta e l'API siano tutte concordi:
 
-- **Inspect the template as an API object**: templates and their versions are resources too:
+- **Ispeziona il template come oggetto API**: anche i template e le loro versioni sono risorse:
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod
 ```
 
-- **Retrieve the template definition in yaml format**:
+- **Recupera la definizione del template in formato yaml**:
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic -o yaml > template_prod-basic.yaml
@@ -408,7 +377,7 @@ template_version_name=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virt
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get -n prod ${template_version_name} -o yaml >> template_prod-basic.yaml
 ```
 
-You can examine the file `template_prod-basic.yaml`:
+Puoi esaminare il file `template_prod-basic.yaml`:
 
 
 ```bash,wrap,run
@@ -416,22 +385,21 @@ less template_prod-basic.yaml
 ```
 
 
-It contains a definition similar to the one you used to create the template in Task 2.
+Contiene una definizione simile a quella utilizzata per creare il template nel Task 2.
 
 
 
-💼 Why does this matter?
+💼 Perché è importante?
 ==============================================
 
-- **Elasticity on owned hardware.** <span id="assignment.157.1" lang="en" hist="vertrex-bank">Cloud-style scale-out (and scale-in) on the bank's own datacenter: no data residency questions, no egress bills.</span>
-- **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle: configuration drift cannot happen at 2 AM.
-- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost, the exact opposite of the old <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> sprawl.
+- **Elasticità su hardware di proprietà.** <span id="assignment.157.1" lang="it" hist="vertrex-bank">Scale-out (e scale-in) in stile cloud nel data center di proprietà della banca: nessuna questione sulla residenza dei dati, nessuna fattura per il traffico in uscita.</span>
+- **L'errore umano viene eliminato alla radice.** Le macchine derivano da un golden blueprint con controllo di versione, non dalla memoria e dal lavoro manuale: il configuration drift non può verificarsi alle 2 di notte.
+- **Economia dell'intero ciclo di vita.** La dismissione richiede solo una casella di spunta e un clic, quindi la capacità temporanea non si trasforma mai in un costo permanente, l'esatto opposto del vecchio <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> sprawl.
 
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⚔️
+Fai clic su <span id="assignment.32.1" lang="nolang" no>**Check**</span> per continuare. ⚔️
 
-📚 More information
-===================
-</span>
+📚 Maggiori informazioni
+===================</span>
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
