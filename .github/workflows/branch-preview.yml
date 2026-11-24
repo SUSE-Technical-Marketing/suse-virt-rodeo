@@ -4,14 +4,15 @@ name: Branch Preview Track
 # pushing branch's name, forces it into maintenance mode, then pushes it — so branch
 # content can be reviewed on Instruqt without a separate manual publish step. On main,
 # the branch suffix is stripped back to nothing, so the track reads with its plain
-# production name.
+# production name, and maintenance is forced OFF instead, so a merge to main can never
+# lock learners out of the production track.
 #
 # track.yml's `slug` and `title` already carry their own separator around a literal
 # `__BRANCH__` placeholder (`suse-virt-rodeo-__BRANCH__`, `SUSE Virtualization Rodeo
 # __BRANCH__`), so this workflow does a plain substitution: the branch name, lowercased
 # and slugified, or on main the placeholder is removed together with its separator
-# (see .github/scripts/fill-branch-placeholder.py). The substitution — and forcing
-# `maintenance: true` (track.yml carries no static maintenance field as of 2026-08-21, so
+# (see .github/scripts/fill-branch-placeholder.py). The substitution — and setting
+# `maintenance` (true on branches, false on main; track.yml carries no static maintenance field as of 2026-08-21, so
 # this workflow sets it explicitly rather than relying on it) — happens only on the CI
 # runner's checked-out working tree; nothing is committed back to git, so the placeholder
 # stays in the repo for the next run.
@@ -76,22 +77,28 @@ jobs:
           # never ends in "-" (Instruqt rejects that as an invalid slug).
           python3 .github/scripts/fill-branch-placeholder.py "$REPL"
 
-      - name: Force maintenance mode
+      - name: Set maintenance mode
         # track.yml carries no static `maintenance:` field as of 2026-08-21 — set (or
-        # overwrite) it explicitly rather than trusting the committed file, so a preview
-        # push can never leave the track learner-visible/bookable.
+        # overwrite) it explicitly rather than trusting the committed file. Preview
+        # branches get `true`, so a preview push can never leave the track
+        # learner-visible/bookable. main is production and gets `false`: forcing `true`
+        # there would lock the live rodeo on every merge to main.
+        env:
+          MAINTENANCE: ${{ github.ref_name == 'main' && 'false' || 'true' }}
         run: |
           set -e
           python3 - <<'PYEOF'
+          import os
           import pathlib
           import re
 
+          line = f"maintenance: {os.environ['MAINTENANCE']}"
           path = pathlib.Path("track.yml")
           text = path.read_text()
           if re.search(r"^maintenance:.*$", text, re.M):
-              text = re.sub(r"^maintenance:.*$", "maintenance: true", text, flags=re.M)
+              text = re.sub(r"^maintenance:.*$", line, text, flags=re.M)
           else:
-              text += "maintenance: true\n"
+              text += line + "\n"
           path.write_text(text)
           PYEOF
 
