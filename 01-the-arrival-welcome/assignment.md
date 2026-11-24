@@ -2,20 +2,17 @@
 slug: the-arrival-welcome
 id: ermykdy1tbse
 type: challenge
-title: "<span id="assignment.7" lang="en" hist="vertrex-bank">\U0001F3E6 Chapter 1: The Arrival</span>"
-teaser: <span id="assignment.8" lang="en" hist="vertrex-bank">Vertex Trust Bank is drowning in legacy <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>
-  costs. Step into the boardroom, take command of SUSE Virtualization,
-  and inspect your new command center.</span>
+title: "<span id="assignment.7" lang="zh-TW" hist="vertrex-bank">🏦 第一章：抵達</span>"
+teaser: <span id="assignment.8" lang="zh-TW" hist="vertrex-bank">Vertex Trust Bank 正深陷舊有 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>
+  成本的泥淖之中。步入董事會議室，掌控 SUSE Virtualization，
+  並檢視您的全新指揮中心。</span>
 notes:
 - type: text
   contents: |
-    <span id="assignment.1" lang="en" no>
-    # Welcome to the <span id="assignment.1.1"  lang="nolang" no>SUSE Virtualization Rodeo!</span>
+    <span id="assignment.1" lang="zh-TW" no># 歡迎來到 <span id="assignment.1.1"  lang="nolang" no>SUSE Virtualization Rodeo!</span>
 
-    Please wait while we prepare your lab environment.
-
-    </span><span lang="en" id="ch1.waiting1" hist="vertrex-bank">The rain is lashing against the windows of Vertex Trust Bank headquarters...
-    Sarah, the CTO, is waiting for you in the boardroom.</span>
+    請稍候，我們正在準備您的實驗室環境。</span><span lang="zh-TW" id="ch1.waiting1" hist="vertrex-bank">雨水猛烈拍打著頂點信託銀行總部的窗戶……
+    技術長莎拉正在董事會議室裡等你。</span>
     <img class="logos" src="../assets/logos/suse_logo.svg"/>
 tabs:
 - id: 3veafppy6ial
@@ -40,7 +37,7 @@ timelimit: 2400
 enhanced_loading: null
 ---
 
-<span id="assignment.9" lang="en" hist="vertrex-bank">🏦 Chapter 1: The Arrival</span>
+<span id="assignment.9" lang="zh-TW" hist="vertrex-bank">🏦 第一章：抵達</span>
 ==========================
 
 <style type="text/css">
@@ -152,71 +149,65 @@ enhanced_loading: null
 
 
 <div id="101" class="story">
-<span lang="en" id="ch1.intro1" hist="vertrex-bank">
-The rain lashed against the floor-to-ceiling windows of <b class="bank">Vertex Trust Bank</b> headquarters, distorting the city skyline into a gray, watery blur. Inside the glass-walled executive boardroom, the atmosphere was equally turbulent. Sarah, the Chief Technology Officer, paced the length of the room, her eyes fixed on a massive overhead monitor projecting a sea of <b class="danger">red alerts</b> and performance warnings.
+<span lang="zh-TW" id="ch1.intro1" hist="vertrex-bank">大雨猛烈敲打著頂點信託銀行（Vertex Trust Bank）總部的落地窗，將城市天際線扭曲成一片灰濛濛的水漬殘影。在玻璃帷幕的高階主管會議室內，氣氛同樣波濤洶湧。技術長莎拉在會議室內來回踱步，雙眼緊盯著上方懸掛的巨大螢幕，上面正投射出滿滿一片紅色警報與效能警告。
 
-She turned to you, her voice tight with exhaustion. *"We are losing precious milliseconds on every single market transaction. Our legacy <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>s are buckling under the sheer volume of modern digital banking traffic. The infrastructure is brittle, the storage arrays are constantly falling out of synchronization, and our licensing costs are bleeding our engineering budget completely dry. We cannot survive another year chained to these monolithic, antiquated systems."*
+她轉向你，疲憊的聲音中帶著緊繃：*「我們在每一筆市場交易中都正在損失寶貴的毫秒。我們的舊型 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span>s 在現代數位銀行龐大的流量重壓下已不堪重負。基礎架構脆弱不堪，儲存陣列頻繁失去同步，而授權費用更正將我們的工程預算榨乾殆盡。我們無法再被這些龐大臃腫、過時陳舊的系統束縛著苟延殘喘一年了。」*
 
-You sit quietly at the end of the mahogany table, reviewing the architectural schematics she provided. As an elite **Infrastructure Architect**, you have been brought in for one specific purpose: to save <b class="bank">Vertex Trust Bank</b> from total operational gridlock. They need a bridge to the cloud-native world without rebuilding their entire application stack from scratch.
+你安靜地坐在紅木會議桌的末端，審視著她提供的架構圖。身為頂尖的**基礎架構架構師**，你被延攬至此只有一個明確目的：拯救頂點信託銀行免於陷入徹底的營運癱瘓。他們需要一座通往雲端原生世界的橋樑，同時又不必從零開始重建整個應用程式堆疊。
 
-*"We have a plan, Sarah,"* you finally say, closing your laptop with a reassuring click. *"We are going to transition the entire datacenter to <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b>. We will bring your legacy systems into the modern era, and we will do it without missing a beat."*
-</span>
+*「我們已經有計畫了，莎拉，」*你終於開口，伴隨著一聲令人安心的「喀嗒」聲闔上筆記型電腦。*「我們將把整個資料中心轉移至 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>。我們會帶領你們的舊系統邁入現代化時代，而且一切都會無縫接軌、順暢無阻。」*</span>
 </div>
 
 
-<span id="assignment.2" lang=en no>
-Your journey begins right now. Before you can begin dismantling the old world, you need to establish a foothold in the new one and dig into the environment.
+<span id="assignment.2" lang=zh-TW no>您的旅程現在正式展開。在開始瓦解舊世界之前，您需要在新世界中站穩腳跟，並深入探索該環境。
 
 
 
-## <b class="hovereffect">What is <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>?</b>
+## 什麼是 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>？
 
-<b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> (also known as **<span id="assignment.2.1" lang="nolang" no>Harvester</span>**) is a modern, open-source hyperconverged infrastructure (HCI) platform built on <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>. It runs directly on bare metal and gives the bank enterprise-grade **virtual machines** on a cloud-native foundation, <span id="ch1.intro2"  lang="en" hist="vertrex-bank">exactly the bridge <b class="bank">Vertex Trust Bank</b> needs</span>:
+<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>（亦稱為 **<span id="assignment.2.1" lang="nolang" no>Harvester</span>**）是建置於 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 之上的現代化開源超融合基礎架構（HCI）平台。它直接在裸機上運作，並在雲原生基礎上為銀行提供企業級的**虛擬機器**，<span id="ch1.intro2"  lang="zh-TW" hist="vertrex-bank">正是 Vertex 信託銀行所需要的橋樑</span>：
 
-- **<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**: enterprise virtualization as native <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> workloads. Underneath sits the same battle-hardened **<span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>** pair that has powered <span id="assignment.2.6" lang="nolang" no>Linux</span> virtualization for decades, which is why the platform can run a huge variety of guest operating systems, <span id="ch1.intro3"  lang="en" hist="vertrex-bank">including the very old ones still serving in the bank's dustiest legacy corners, patiently waiting for their migration</span>
-- **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)**: distributed, replicated block storage across every node, set up and ready out of the box. <span id="ch1.intro4"  lang="en" hist="vertrex-bank">And if the bank ever prefers different storage</span>, **any <span id="assignment.2.9" lang="nolang" no>CSI</span>-compatible storage driver plugs right in**, freedom of choice, never lock-in
-- **<span id="assignment.2.10" lang="nolang" no>Software-defined networking</span>**: VLANs and isolated overlay networks without touching a cable
-- **One open-source bill**: no per-socket <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> tax
-- **<span id="assignment.2.11" lang="nolang" no>Support</span> that actually listens**: SUSE customers consistently rate **SUSE <span id="assignment.2.11" lang="nolang" no>Support</span>** among the best in the industry, and their feedback directly shapes where the products go next. Try asking a closed-source vendor for a seat at that table
+- **<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>**：作為原生 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 工作負載的企業級虛擬化。底層採用了數十年來為 <span id="assignment.2.6" lang="nolang" no>Linux</span> 虛擬化提供支援、久經沙場的相同 **<span id="assignment.2.4" lang="nolang" no>KVM</span>/<span id="assignment.2.5" lang="nolang" no>QEMU</span>** 組合，這也是該平台能夠執行種類極為廣泛的客體作業系統的原因，<span id="ch1.intro3"  lang="zh-TW" hist="vertrex-bank">包括那些仍在銀行最布滿灰塵的舊系統角落中服役、耐心等待遷移的極老舊系統</span>
+- **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>)**：跨每個節點的分散式、具複本區塊儲存，開箱即用。<span id="ch1.intro4"  lang="zh-TW" hist="vertrex-bank">而如果銀行日後偏好不同的儲存方式</span>，**任何與 <span id="assignment.2.9" lang="nolang" no>CSI</span> 相容的儲存驅動程式皆可隨插即用**，自由選擇，絕不受限
+- **<span id="assignment.2.10" lang="nolang" no>Software-defined networking</span>**：無需觸碰實體線路即可實現 VLAN 與隔離的覆蓋網路
+- **單一開源帳單**：沒有按插槽計算的 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> 稅
+- **真正傾聽意見的 <span id="assignment.2.11" lang="nolang" no>Support</span>**：SUSE 客戶一貫將 **SUSE <span id="assignment.2.11" lang="nolang" no>Support</span>** 評為業界最佳之一，而且他們的意見回饋直接形塑了產品未來的發展方向。試著向閉源廠商爭取在決策桌上的席位看看
 
-Because the platform runs *on* <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>, containerized workloads can run on the very same cluster. Keep the division of labor straight from day one: the <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> UI manages **virtual machines**; managing containers (and managing whole fleets of clusters) is the job of <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span>, which you will meet in a moment.
+因為該平台運作*在* <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 之上，容器化工作負載可以在完全相同的叢集上執行。從第一天起就明確劃分職責：<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 使用者介面負責管理**虛擬機器**；而管理容器（以及管理整個叢集機隊）則是 <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> 的工作，您稍後就會見到它。
 
-<span id="ch1.intro5"  lang="en" hist="vertrex-bank">Every proprietary component bleeding the bank's budget dry has a modern, open-source replacement:</span>
+<span id="ch1.intro5"  lang="zh-TW" hist="vertrex-bank">每個榨乾銀行預算的專有元件，都有現代化的開源替代方案：</span>
 
-| The old world (per-socket licensing) | <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
+| 舊世界（按插槽授權） | <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
 |--------------------------------------|---------------------|
-| ISAware proprietary <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> | <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span> |
-| Proprietary storage array |  SUSE storage, or any <span id="assignment.2.9" lang="nolang" no>CSI</span> driver <span id="ch1.intro6"  lang="en" hist="vertrex-bank">the bank chooses</span> |
-| Closed-source SDN | <span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> + <span id="assignment.2.14" lang="nolang" no>Multus</span> |
+| ISAware 專有 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> | <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> + <span id="assignment.2.4" lang="nolang" no>KVM</span> |
+| 專有儲存陣列 |  SUSE 儲存，或任何 <span id="assignment.2.9" lang="nolang" no>CSI</span> 驅動程式 <span id="ch1.intro6"  lang="zh-TW" hist="vertrex-bank">銀行選擇</span> |
+| 閉源 SDN | <span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> + <span id="assignment.2.14" lang="nolang" no>Multus</span> |
 | ISAware Command Throne | <span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span> |
 
-No vendor lock-in. No virtualization tax. No proprietary kernel. **One platform, one bill**, <span id="ch1.intro7"  lang="en" hist="vertrex-bank">exactly what you promised Sarah in the boardroom</span>.
-
-<div class="missionbox">
-
-## 🎯 Your Quest Objectives
-
-1. Log in and inspect the unified dashboard
-2. Meet Rancher Prime, the command center!
-3. Validate the distributed storage fabric
-4. Test your administrative terminal access
-
-</div>
+無廠商綁定。無虛擬化稅。無專有核心。**單一平台，單一帳單**，<span id="ch1.intro7"  lang="zh-TW" hist="vertrex-bank">正是你在會議室答應莎拉的事</span>。
 
 
-<span id="ch1.intro8"  lang="en" hist="vertrex-bank">
-> [!NOTE]
-> Disclaimer: This lab is meant to be educational and not to provide instructions on how to configure a production environment for a 'bank', most decisions made are with the limitations and purpose of this environment.
-</span>
+
+## 🎯 您的任務目標
+
+1. 登入並檢視統一儀表板
+2. 認識指揮中心 Rancher Prime！
+3. 驗證分散式儲存架構
+4. 測試您的管理終端機存取權限
 
 
 
 
-🔐 Login Credentials
+<span id="ch1.intro8"  lang="zh-TW" hist="vertrex-bank">> [!NOTE]
+> 免責聲明：本實驗僅供教育用途，並非提供如何為「銀行」設定正式環境的指引，所做出的大多數決策皆是基於本環境的限制與目的。</span>
+
+
+
+
+🔐 登入認證資訊
 =============================
 
-For your records, your Architect Credentials are as follows:
-</span>
+供您記錄留存，您的架構師認證資訊如下：</span>
 
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
@@ -240,233 +231,230 @@ admin
 </div>
 
 
-<span id="assignment.3" lang=en>
+<span id="assignment.3" lang=zh-TW> [!NOTE]
+> 使用者介面使用的是自我簽署憑證。當瀏覽器出現安全性警告時，請選擇接受。如果頁面沒有立即載入，實驗室環境可能仍在開機中。請稍等一分鐘並重新整理分頁。
 
 > [!NOTE]
-> The UIs use self-signed certificates. Accept the browser security warning when it appears. If a page does not load right away, the lab environment may still be booting. Wait a minute and refresh the tab.
-
-> [!NOTE]
-> If you prefer to work in your own browser instead of the embedded tabs, the lab host is reachable directly at:
-> <a href="https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443">https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443</a>
+> 如果您偏好在自己的瀏覽器中操作，而非使用嵌入式分頁，可以直接透過以下網址連線至實驗室主機：
+> https://kvm-host.[[ Instruqt-Var key="_SANDBOX_ID" hostname="kvm-host" ]].instruqt.io:8443
 
 
 
 
-📊 Task 1: Log in and inspect the unified dashboard
+📊 任務 1：登入並檢查統一儀表板
 ===================================================
 
-Navigate to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=en> tab and log in using your credentials.
+導覽至</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=zh-TW分頁並使用您的憑證登入。
 
 ![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
-Take a moment to look at the main </span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=en>: this is your command center for the entire mission.
+花點時間看一下主要</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=zh-TW：這是您進行整個任務的指揮中心。
 
 
 > [!NOTE]
-> Don't make any changes yet. We are just getting familiar with the environment.
+> 請先不要進行任何變更。我們目前只是先熟悉環境。
 
 
-- The first section contains the overall numbers:
-  - **<span id="assignment.6.1" lang="nolang" no>Hosts</span>** the cluster is made of
-  - **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** (running and stopped)
-  - **<span id="assignment.6.3" lang="nolang" no>Images</span>** available to deploy new VMs
-  - **<span id="assignment.6.4" lang="nolang" no>Volumes</span>** in use
-  - **<span id="assignment.6.5" lang="nolang" no>Disks</span>** available
+- 第一個區塊包含整體數據：
+  - 組成叢集的 **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**
+  - **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>**（執行中與已停止）
+  - 可用於部署新虛擬機器的 **<span id="assignment.6.3" lang="nolang" no>Images</span>**
+  - 使用中的 **<span id="assignment.6.4" lang="nolang" no>Volumes</span>**
+  - 可用的 **<span id="assignment.6.5" lang="nolang" no>Disks</span>**
 
-Clicking on each of them takes you to a dedicated section with further information. Click on **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**:
+點擊其中每一項都可以前往包含進一步資訊的專屬區塊。點擊 **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**：
 
-You see a detailed view of each host's reserved and used resources, as well as the host's IP addresses and other details.
+您會看到每個主機已保留與已使用資源的詳細檢視，以及主機的 IP 位址和其他詳細資料。
 
-Notice the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> at the end of each row: clicking them opens a menu with different actions for that host.
+請注意每列末端的圖示：點擊它們會開啟包含該主機不同操作的選單。
 
-Go back to the **<span id="assignment.6.6" lang="nolang" no>Dashboard</span>** and look at what else is there:
+返回 **<span id="assignment.6.6" lang="nolang" no>Dashboard</span>**，看看那裡還有什麼：
 
-- The second section, **<span id="assignment.6.7" lang="nolang" no>Capacity</span>**, lists the resources currently reserved and available in the cluster.
+- 第二個區塊 **<span id="assignment.6.7" lang="nolang" no>Capacity</span>** 列出了叢集中目前已保留及可用的資源。
 
-- Below it sits a section with two tabs:
+- 其下方是一個包含兩個分頁的區塊：
 
-  - **<span id="assignment.6.8" lang="nolang" no>Cluster Metrics</span>**: real-time metrics about the cluster; these come in handy when troubleshooting performance issues.
+  - **<span id="assignment.6.8" lang="nolang" no>Cluster Metrics</span>**：關於叢集的即時指標；這些在疑難排解效能問題時非常有用。
 
-  - **<span id="assignment.6.9" lang="nolang" no>Virtual Machine Metrics</span>**: real-time metrics for virtual machines; note that if no VM is running there is no data to show.
+  - **<span id="assignment.6.9" lang="nolang" no>Virtual Machine Metrics</span>**：虛擬機器的即時指標；請注意，如果沒有任何虛擬機器在執行，則不會顯示任何資料。
 
-- At the bottom, the last section, **<span id="assignment.6.10" lang="nolang" no>Events</span>**, shows the latest events happening in the cluster.
+- 位於底部的最後一個區塊 **<span id="assignment.6.10" lang="nolang" no>Events</span>**，顯示了叢集中發生的最新事件。
 
-Now look further around the UI. At the top right there is a drop-down menu with **All Namespaces** selected. It lets you focus on specific namespaces. Namespaces here are <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> namespaces: a way to organize resources and assign dedicated permissions to everything inside them, a concept similar to a "group". At the bottom of this chapter you will find links with more information; many of the concepts you find in <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> apply directly to <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>.
+現在進一步檢視 UI 的其他部分。右上角有一個已選取 **All Namespaces** 的下拉式選單。它讓您可以聚焦於特定的命名空間。這裡的命名空間是指 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 命名空間：一種用來組織資源並為其內部所有物件指派專屬權限的方法，概念類似於「群組」。在本章底部，您會找到提供更多資訊的連結；許多您在 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 中學到的概念都可以直接套用至 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>。
 
-The **bell** holds notifications and alerts, and further right the **user icon** leads you to user settings and keys for automated access.
+**鈴鐺圖示**包含通知和警示，再往右的**使用者圖示**則會引導您前往使用者設定以及自動化存取所需的金鑰。
 
-On the left side there is a column with different sections. We are not going through all of them now. You will look at many in the coming chapters. Note that these sections change depending on which plugins are enabled or disabled.
+左側是一欄包含不同區塊的導覽列。我們現在不會逐一介紹所有區塊。您將在後續章節中探索其中的許多部分。請注意，這些區塊會根據啟用或停用哪些外掛程式而有所改變。
 
-Finally, in the bottom-left corner, click on **<span id="assignment.2.11" lang="nolang" no>Support</span>**.
-It takes you to a page with links to documentation and other support resources, plus two important sections:
+最後，點擊左下角的 **<span id="assignment.2.11" lang="nolang" no>Support</span>**。
+它會將您導向包含文件連結和其他支援資源的頁面，外加兩個重要的區塊：
 
-- **<span id="assignment.6.11" lang="nolang" no>Generate a <span id="assignment.2.11" lang="nolang" no>Support</span> Bundle</span>**: produces a file that helps SUSE <span id="assignment.2.11" lang="nolang" no>Support</span> troubleshoot your environment without having to access it directly.
-- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**: gives you the kubeconfig file you can use to manage this cluster with kubectl and other tools from a console.
+- **<span id="assignment.6.11" lang="nolang" no>Generate a <span id="assignment.2.11" lang="nolang" no>Support</span> Bundle</span>**：產生一個檔案，協助 SUSE <span id="assignment.2.11" lang="nolang" no>Support</span> 疑難排解您的環境，而無需直接存取它。
+- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**：提供 kubeconfig 檔案，讓您可以透過主控台使用 kubectl 和其他工具來管理此叢集。
 
-If you still have time, familiarize yourself with the sections before moving on to the next task.
+如果您還有時間，請在繼續進行下一項任務之前熟悉這些區塊。
 
 
 > [!NOTE]
-> Everything you see in this dashboard (VMs, volumes, networks) is a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> resource under the hood. The UI is your primary tool for this mission; a terminal stands ready for the optional bonus drills, if you are curious about the machinery.
+> 您在此儀表板中看到的所有內容（VM、磁碟區、網路），底層都是 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 資源。UI 是您進行此任務的主要工具；如果您對其內部運作感到好奇，終端機也已就緒，可供進行選用的加分演練。
 
 
 
-🐮 Task 2: Meet Rancher Prime, the command center
+🐮 任務 2：認識指揮中心 Rancher Prime
 =================================================
 
-The platform can also be connected to **Rancher Prime**, <span id="ch1.task2a"  lang="en" hist="vertrex-bank">and it is important to understand who does what in the bank's new world:</span>
+該平台也可以連線至 **Rancher Prime**，<span id="ch1.task2a"  lang="zh-TW" hist="vertrex-bank">而且，了解在銀行的新世界中誰負責什麼至關重要：</span>
 
-- <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> manages the **virtual machines** on this cluster.
-- **Rancher Prime** manages **many clusters at once** (every <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> cluster in every branch datacenter), plus centralized **users, roles, and access control (<span id="assignment.6.13" lang="nolang" no>RBAC</span>)**, and the **container workloads** the bank will run alongside its VMs.
+- <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 管理此叢集上的**虛擬機器**。
+- **Rancher Prime** 則**同時管理多個叢集**（每個分行資料中心中的每個 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 叢集），加上集中式的**使用者、角色和存取控制 (<span id="assignment.6.13" lang="nolang" no>RBAC</span>)**，以及銀行將與其虛擬機器並行運行的**容器工作負載**。
 
-Let's see what is inside Rancher.
+讓我們看看 Rancher 裡面有什麼。
 
-Open the [button label="Rancher Prime UI" variant="success"](tab-2), log in with the same credentials, and select **Virtualization Management** from the left menu.
+開啟 [button label="Rancher Prime UI" variant="success"](tab-2)，使用相同的認證登入，然後從左側選單中選取 **Virtualization Management**。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter1-import_harvester.gif"/>
-</div>
 
-From here you can manage multiple <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> clusters. Import the existing one:
+  
 
-1. Click **Import Existing**
-2. Set the **Cluster Name** to
-<div class="cred">
+
+您可以從這裡管理多個 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 叢集。匯入現有的叢集：
+
+1. 點擊 **Import Existing**
+2. 將 **Cluster Name** 設定為
+
 
 ```txt
 mysusevirt1
 ```
 
-</div>
-
-3. Click **Create**
-4. A new screen appears. On it a url shows up, copy that url for the next steps.
-5. Below it you can see the registration instructions. Follow them, and remember to select **<span id="assignment.6.14" lang="nolang" no>Insecure Skip TLS Verify</span>** when editing the <b class="highlightcopy">cluster-registration-url</b> setting. This should be done in [button label="SUSE Virtualization UI" variant="success"](tab-0).
-
-6. Switch back to [button label="Rancher Prime UI" variant="success"](tab-2) and click on "<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters" on the top left of the UI.
-
-Notice the state next to the cluster name: **<span id="assignment.6.15" lang="nolang" no>Pending</span>**. It is waiting for the cluster to finish the registration process.
-
-Remain in the Rancher UI and watch the state change from **<span id="assignment.6.15" lang="nolang" no>Pending</span>** to **<span id="assignment.6.16" lang="nolang" no>Waiting</span>**, then finally to **<span id="assignment.6.17" lang="nolang" no>Active</span>**.
-
-Now go back to **<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters**: the cluster appears in the list.
-
-Let's see what else you can do here. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> at the end of the cluster's row; a menu drops down with some options:
-
-- **<span id="assignment.6.18" lang="nolang" no>Kubectl Shell</span>**: opens a shell connected to the cluster, where you can run kubectl commands against it.
-- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**: same as what you already saw in the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI.
-- **<span id="assignment.6.19" lang="nolang" no>Download YAML</span>**: downloads the cluster definition in YAML format; you can use it as a template to import new clusters in an automated fashion (it also needs one extra step in the cluster UI).
-
-Finally, click on the cluster name itself
-- it takes you to the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI embedded within the Rancher UI
-- Notice on the left column a '<span id="assignment.6.13" lang="nolang" no>RBAC</span>' entry appears on the menu, we can control who can do what on our clusters.
 
 
-With Rancher you can easily operate multiple clusters from one place.
+3. 點擊 **Create**
+4. 出現新畫面。上面會顯示一個 URL，複製該 URL 以供後續步驟使用。
+5. 在其下方您可以看到註冊指示。依照指示操作，並記得在編輯 cluster-registration-url 設定時選取 **<span id="assignment.6.14" lang="nolang" no>Insecure Skip TLS Verify</span>**。這應該在 [button label="SUSE Virtualization UI" variant="success"](tab-0) 中完成。
+
+6. 切換回 [button label="Rancher Prime UI" variant="success"](tab-2)，然後點擊 UI 左上角的「<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters」。
+
+請注意叢集名稱旁邊的狀態：**<span id="assignment.6.15" lang="nolang" no>Pending</span>**。它正在等待叢集完成註冊程序。
+
+留在 Rancher UI 中，觀察狀態從 **<span id="assignment.6.15" lang="nolang" no>Pending</span>** 變更為 **<span id="assignment.6.16" lang="nolang" no>Waiting</span>**，最後變成 **<span id="assignment.6.17" lang="nolang" no>Active</span>**。
+
+現在返回 **<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters**：叢集會出現在清單中。
+
+讓我們看看您還可以在這裡做些什麼。點擊該叢集該列末端的圖示；會下拉出一個包含數個選項的選單：
+
+- **<span id="assignment.6.18" lang="nolang" no>Kubectl Shell</span>**：開啟連線至叢集的 shell，您可以在其中對其執行 kubectl 命令。
+- **<span id="assignment.6.12" lang="nolang" no>Download KubeConfig</span>**：與您在 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI 中看到的內容相同。
+- **<span id="assignment.6.19" lang="nolang" no>Download YAML</span>**：下載 YAML 格式的叢集定義；您可以將其作為範本，以自動化方式匯入新叢集（這在叢集 UI 中還需要一個額外步驟）。
+
+最後，點擊叢集名稱本身
+- 它會將您帶入內嵌於 Rancher UI 中的 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI
+- 請注意左側欄的選單中出現了一個「<span id="assignment.6.13" lang="nolang" no>RBAC</span>」項目，我們可以控制誰可以在我們的叢集上執行哪些操作。
+
+
+透過 Rancher，您可以輕鬆地從單一位置操作多個叢集。
 
 
 
 > [!NOTE]
-> There is a dedicated rodeo for SUSE Rancher Prime, feel free to join!
+> SUSE Rancher Prime 有專屬的 rodeo 活動，歡迎隨時參加！
 
 
 
-⌨️ Task 3: Test your administrative terminal access
+⌨️ 任務 3：測試您的管理終端機存取權限
 ===================================================
 
-You will spend most of this mission in the UI, <span id="ch1.task3a"  lang="en" hist="vertrex-bank">but an architect always verifies their emergency access</span>. Click on the [button label="Cluster Terminal" variant="success"](tab-1) tab and run one command to check that your connection to the underlying <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> engine is active:
+您將在此任務的大部分時間中使用 UI，<span id="ch1.task3a"  lang="zh-TW" hist="vertrex-bank">但架構師總是會驗證其緊急存取權限</span>。點擊 [button label="Cluster Terminal" variant="success"](tab-1) 分頁並執行一個命令，以檢查您與底層 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 引擎的連線是否處於作用中狀態：
 
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachine -A
 ```
 
-You should see the list of <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span> present in every namespace.
+您應該會看到存在於每個命名空間中的 <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span> 清單。
 
 
 
-💾 Bonus Drill: validate the distributed storage fabric (optional)
+💾 加分演練：驗證分散式儲存網狀架構（選用）
 ====================================================================
 
-<span id="ch1.bonus1a"  lang="en" hist="vertrex-bank">A healthy storage backend is key for banking operations</span>. <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> uses **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>** to replicate every volume across the cluster.
+<span id="ch1.bonus1a"  lang="zh-TW" hist="vertrex-bank">健全的儲存後端是銀行營運的關鍵。</span>。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 使用 **<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span>** 在整個叢集中複寫每個磁碟區。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter1-longhorn-ui.gif"/>
-</div>
 
-The [button label="SUSE Virtualization UI" variant="success"](tab-0) already shows information about the storage health, but it is also possible to access the <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>) dashboard by enabling the **Extension developer features**:
+  
 
-1. Click on your **user icon** in the top-right corner
-2. Select **Preferences**
-3. Tick **Enable Extension developer features**
 
-Go back to **Home**, and in the bottom-left corner click on **<span id="assignment.2.11" lang="nolang" no>Support</span>**.
+[button label="SUSE Virtualization UI" variant="success"](tab-0) 已經顯示了儲存健全狀況的相關資訊，但也可以透過啟用 **Extension developer features** 來存取 <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>) 儀表板：
 
-You will now see two new sections:
+1. 點擊右上角您的**使用者圖示**
+2. 選取 **Preferences**
+3. 勾選 **Enable Extension developer features**
+
+返回 **Home**，然後在左下角點擊 **<span id="assignment.2.11" lang="nolang" no>Support</span>**。
+
+您現在將看到兩個新區塊：
 
 - **<span id="assignment.6.20" lang="nolang" no>Access Embedded</span> Rancher UI**
 - **<span id="assignment.6.20" lang="nolang" no>Access Embedded</span> <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> (<span id="assignment.2.8" lang="nolang" no>Longhorn</span>) UI**
 
-Click on the **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> UI** section.
+點擊 **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> UI** 區塊。
 
-It will take you to the <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> <span id="assignment.6.6" lang="nolang" no>Dashboard</span>, all should be green.
-If a node were unschedulable or a volume degraded, <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> would already be rebuilding replicas elsewhere, but you always confirm your ground truth.
+它將引導您前往 <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> <span id="assignment.6.6" lang="nolang" no>Dashboard</span>，所有項目都應該顯示綠燈。
+如果有節點無法排程或磁碟區處於降級狀態，<span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> 就已經會在其他地方重建複本，但您仍應隨時確認基準真相。
 
 
-🏋️ Bonus Drills: for the command-line curious (optional)
+🏋️ 加分演練：適合對命令列感到好奇的使用者（選用）
 ==========================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely**: everything that matters is in the UI. If you want to peek at the machinery, run these extra checks in the [button label="Cluster Terminal" variant="success"](tab-1):
+剛接觸 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 嗎？**請隨意跳過**：所有重要的內容都在 UI 中。如果您想一窺其內部架構，請在 [button label="Cluster Terminal" variant="success"](tab-1) 中執行以下額外檢查：
 
-- **See the <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> control plane and CoreDNS endpoints:**
+- **查看 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 控制平面和 CoreDNS 端點：**
 
 ```bash,wrap,run
 kubectl cluster-info --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
-- **Check cluster component health**: query the control plane's health endpoint; every check (etcd, informers, shutdown hooks) should report `ok`:
+- **檢查叢集元件的健全狀況**：查詢控制平面的健全狀況端點；每一項檢查（etcd、informers、shutdown hooks）都應回報 `ok`：
 
 ```bash,wrap,run
 kubectl get --raw='/readyz?verbose' --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
-- **Confirm every node in the fabric is ready:**
+- **確認網狀架構中的每個節點皆處於就緒狀態：**
 
 ```bash,wrap,run
 kubectl get nodes --kubeconfig .rodeo/harvester-kubeconfig
 ```
 
-  All nodes should show `Ready`.
+  所有節點均應顯示為 `Ready`。
 
-- **Verify the core virtualization services are running:**
+- **驗證核心虛擬化服務是否正在執行：**
 
 ```bash,wrap,run
 kubectl get pods -n harvester-system --kubeconfig .rodeo/harvester-kubeconfig | grep -v Completed
 ```
 
-  All pods should be `Running`.
+  所有 Pod 均應處於 `Running` 狀態。
 
-- **Confirm the exact platform version the bank is running:**
+- **確認銀行目前執行的確切平台版本：**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get settings.harvesterhci.io server-version
 ```
 
-💼 Why does this matter?
+💼 為什麼這很重要？
 ==============================================
 
-- **One command center.** VMs, storage, and networking are visible from a single dashboard, no more juggling three separate management consoles with three separate licenses.
-- **<span id="assignment.2.2" lang="nolang" no>Kubernetes</span>-native from day one.** Everything in the dashboard is a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> resource under the hood. The container team's existing skills transfer directly, while the VM team gets a friendly point-and-click UI.
-- **Fleet management and <span id="assignment.6.13" lang="nolang" no>RBAC</span> included.** Rancher Prime is <span id="ch1.why1"  lang="en" hist="vertrex-bank">ready to command every cluster the bank will ever run, with one login and one set of access rules.</span>
-- **Distributed storage out of the box.** <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> replicates data across nodes automatically.
+- **單一指揮中心。** VM、儲存和網路均可從單一儀表板一覽無遺，不再需要在三個擁有三種不同授權的獨立管理主控台之間疲於奔命。
+- **自始即原生支援 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>。** 儀表板中的所有內容在底層都是 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 資源。容器團隊現有的技能可以直接轉移，同時 VM 團隊也能獲得易於操作的點選式 UI。
+- **隨附機隊管理與 <span id="assignment.6.13" lang="nolang" no>RBAC</span>。** Rancher Prime 是 <span id="ch1.why1"  lang="zh-TW" hist="vertrex-bank">準備好掌控銀行未來運行的每一個叢集，僅需單一登入與一組存取規則。</span>
+- **開箱即用的分散式儲存。** <span id="assignment.2.7" lang="nolang" no>SUSE Storage</span> 會自動在節點間複寫資料。
 
-Once you confirm the control plane is responding, the storage is healthy, and your administrative access is secured, you are ready to proceed deeper into the facility.
+一旦您確認控制平面有回應、儲存狀態正常，且管理存取權限已獲得保障，就準備好可以進一步深入設施內部了。
 
-Click **Check** to descend into the datacenter. 🛗
+點擊 **Check** 深入前往資料中心。🛗
 
-📚 More information
-===================
-</span>
+📚 更多資訊
+===================</span>
 
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)

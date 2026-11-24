@@ -2,10 +2,8 @@
 slug: the-subterranean-divide-cluster-prep
 id: tmmoesxdhg4b
 type: challenge
-title: "<span id="assignment.12" lang="en" hist="vertrex-bank">\U0001F6D7 Chapter 2: The Subterranean Divide</span>"
-teaser: <span lang="en" hist="vertrex-bank" id="ts2">Two hardware silos, two teams that barely speak. Descend into the datacenter,
-  map the node topology, and give every disk in the fabric a price tag the bank can
-  live with.</span>
+title: "<span id="assignment.12" lang="zh-TW" hist="vertrex-bank">🛗 第二章：地底鴻溝</span>"
+teaser: "<span lang="zh-TW" hist="vertrex-bank" id="ts2">兩個硬體孤島，兩個幾乎不相往來的團隊。深入資料中心，繪製節點拓撲，並為架構中的每顆硬碟標上銀行能接受的價格。</span>"
 tabs:
 - id: gix6w5fqkxd6
   title: SUSE Virtualization UI
@@ -28,12 +26,7 @@ difficulty: basic
 timelimit: 2400
 enhanced_loading: null
 ---
-<span lang="en" hist="vertrex-bank" id="ts2">
-
-🛗 Chapter 2: The Subterranean Divide
-======================================
-
-</span>
+<span lang="zh-TW" hist="vertrex-bank" id="ts2">兩個硬體孤島，兩個幾乎不相往來的團隊。深入資料中心，繪製節點拓撲，並為架構中的每顆硬碟標上銀行能接受的價格。</span>
 
 <style type="text/css">
   * {
@@ -163,47 +156,43 @@ document.querySelectorAll('.cred .my-3 > div:first-child button').forEach(functi
 
 <div id="201" class="story">
 
-<span id="assignment.13" lang="en" hist="vertrex-bank">
-Sarah leads you out of the quiet executive suites, into a secure elevator, and down into the bank's subterranean datacenter. The ambient temperature drops sharply as the heavy steel biometric doors lock behind you. The room hums with the deafening, relentless roar of industrial cooling systems.
+<span id="assignment.13" lang="zh-TW" hist="vertrex-bank">莎拉帶領你離開安靜的高階主管辦公區，走進一部安全電梯，一路下行來到銀行的地下資料中心。當身後沉重的鋼製生物辨識門上鎖時，室溫驟降。整座機房迴盪著工業冷卻系統震耳欲聾且持續不斷的轟鳴聲。
 
-She gestures to the left side of the room, where rows of sleek, densely packed server chassis blink with rapid blue lights. *"Those run our mobile banking APIs,"* she shouts over the fan noise. *"Pure microservices. Fully containerized and agile."*
+她指向機房左側，那裡一排排流線型、密集排列的伺服器機箱正閃爍著快速跳動的藍光。「那些運作著我們的行動銀行 API，」她在風扇的噪音中大聲喊道。「純微服務架構，完全容器化且敏捷。」
 
-She then points to the right side of the room, dominated by hulking, archaic server cabinets radiating an uncomfortable amount of heat. *"And those are the legacy monolithic virtual machines holding the core transaction ledgers. Two completely different worlds. Two different hardware silos. Two different engineering teams that barely even speak to each other."*
+接著，她指向機房右側，那裡被龐大而陳舊的伺服器機櫃所占據，散發著令人不適的熱氣。「而那些則是存放核心交易帳本的傳統單體式虛擬機。兩個完全不同的世界、兩種不同的硬體孤島、兩支甚至幾乎互不說話的工程團隊。」
 
-You walk between the two rows, feeling the distinct temperature differential. *"That divide ends today,"* you tell her.
-</span>
+你走在兩排機櫃之間，感受著截然不同的溫差。「這樣的隔閡今天就此結束，」你對她說。</span>
 
 </div>
 
-<span id="assignment.14" lang="en" no>
-## <b class="hovereffect">One fabric for two worlds</b>
+<span id="assignment.14" lang="zh-TW" no>## 兩個世界，單一架構
 
-You explain the elegant architecture of <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b>: by using advanced open-source technologies on a **<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> foundation**, the platform does not just *tolerate* virtual machines: it treats them as **native citizens of the container ecosystem**. The heavy virtual machines will run side-by-side with the nimble containers, managed by the exact same orchestration engine:
+您將說明 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 的優雅架構：透過在 **<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 基礎**上運用先進的開源技術，該平台不僅僅是*包容*虛擬機器，更將它們視為**容器生態系統的原生公民**。重量級的虛擬機器將與輕巧靈活的容器並肩運行，並由完全相同的編排引擎進行管理：
 
-| Virtualization world | <span id="assignment.14.1" lang="nolang" no>Container</span> World | Unified on <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
+| 虛擬化世界 | <span id="assignment.14.1" lang="nolang" no>Container</span> 世界 | 統一於 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> |
 |---------------------|----------------|-------------------------------|
-| Hypervisor hosts | <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> nodes | **One set of nodes runs both** |
-| Hypervisor management console | Container tooling | **One platform underneath**. <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> runs the VMs, Rancher Prime commands the clusters and the containers |
-| SAN storage arrays | <span id="assignment.2.9" lang="nolang" no>CSI</span> volumes | **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> serves VMs and pods alike** |
+| Hypervisor 主機 | <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 節點 | **由同一組節點同時運行兩者** |
+| Hypervisor 管理控制台 | 容器工具 | **底層為單一平台**。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 運行虛擬機器，Rancher Prime 統管叢集與容器 |
+| SAN 儲存陣列 | <span id="assignment.2.9" lang="nolang" no>CSI</span> 磁碟區 | **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> 同時為虛擬機器與 Pod 提供服務** |
 
-That last row is where you start. Every VM disk, every container's persistent volume, all of it rides on the same distributed storage fabric, and not every workload deserves the same price tag.
+最後一行正是您的起點。每個虛擬機器磁碟、每個容器的永續性磁碟區（Persistent Volume），全都建構在相同的分散式儲存架構之上，而且並非所有工作負載都需要相同的成本定價。
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Inspect the physical node topology
-2. Prepare a dedicated workspace
-3. Understand how <span id="assignment.2.8" lang="nolang" no>Longhorn</span> replicates your data
-4. Build a cost-tier storage class for the development team
+## 🎯 您的任務目標
 
-</div>
+1. 檢查實體節點拓撲
+2. 準備專用工作空間
+3. 了解 <span id="assignment.2.8" lang="nolang" no>Longhorn</span> 如何複寫您的資料
+4. 為開發團隊建立具成本效益分級的儲存類別（Storage Class）
 
-🔐 Login Credentials
+
+
+🔐 登入憑證
 ====================
 
-The **<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UI and <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.
-</span>
+**<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>** UI 與 <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI 使用相同的登入憑證。</span>
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
 
@@ -226,58 +215,52 @@ admin
 </div>
 
 
-<span id="assignment.15" lang="en" no>
-☁️ What is <span id="assignment.2.8" lang="nolang" no>Longhorn</span>?
+<span id="assignment.15" lang="zh-TW" no>☁️ 什麼是 <span id="assignment.2.8" lang="nolang" no>Longhorn</span>？
 ====================
 
-<b class="highlightcopy"><span id="assignment.2.8" lang="nolang" no>Longhorn</span></b> is the distributed storage system built into <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> that you can use. It pools the raw disks sitting on every node and turns them into one shared storage fabric.
+<span id="assignment.2.8" lang="nolang" no>Longhorn</span> 是內建於 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 中可供您使用的分散式儲存系統。它會集結位於每個節點上的原始磁碟，並將其轉化為單一共享儲存網狀架構。
 
-By default every volume it creates is replicated across multiple nodes, so a disk failure or a node reboot never makes you lose the data. No SAN, no separate storage team, one system for VMs and containers alike.
+預設情況下，其建立的每個磁碟區都會複寫到多個節點，因此磁碟故障或節點重新開機絕不會讓您遺失資料。無需 SAN、無需獨立的儲存團隊，一套系統即可同時適用於虛擬機器與容器。
 
-It is ready for you to use but if you want to use other <span id="assignment.2.9" lang="nolang" no>CSI</span> you are free to use it, no vendor lock-in.
+它隨時可供您使用，但如果您想使用其他 <span id="assignment.2.9" lang="nolang" no>CSI</span>，也可以自由選用，絕無廠商鎖定。
 
 
-🖥️ Task 1: Inspect the physical node topology
+🖥️ 任務 1：檢查實體節點拓撲
 =============================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video1.gif"/>
-</div>
+
+  
 
 
-Go to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.16" lang="en" no>, navigate to the left-hand menu, and click on **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**.
 
-1. Click on the name of **one of the hosts** in the list
-2. Navigate around the UI and check the different options to understand better how things work. Observe how raw block devices are provisioned for virtual machine disks. Each disk you see here becomes part of the <span id="assignment.2.8" lang="nolang" no>Longhorn</span> distributed storage pool <span id="assignment.16.1" lang="en" hist="vertrex-bank">that will hold the bank's ledgers</span>.
-</span>
+前往</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.16" lang="zh-TW" no>，前往左側選單，並點選 **<span id="assignment.6.1" lang="nolang" no>Hosts</span>**。
+
+1. 點選清單中**其中一台主機**的名稱
+2. 瀏覽使用者介面並查看不同的選項，以更深入了解其運作方式。觀察原始區塊裝置是如何佈建給虛擬機器磁碟的。您在此處看到的每個磁碟都會成為 <span id="assignment.2.8" lang="nolang" no>Longhorn</span> 分散式儲存集區 <span id="assignment.16.1" lang="zh-TW" hist="vertrex-bank">將存放銀行的帳冊</span> 的一部分。</span>
 
 
 <div id="203" class="story">
-<span id="assignment.17" lang="en" hist="vertrex-bank">
-Banks grow, and so does this fabric. Running low on space is not a complex upgrade anymore. Rack a new node, add its raw disks to the pool, and <span id="assignment.2.8" lang="nolang" no>Longhorn</span> rebalances replicas across the expanded fabric automatically with no downtime, no data migration weekend. Storage capacity scales the same way compute does: incrementally, on demand.
-</span>
+<span id="assignment.17" lang="zh-TW" hist="vertrex-bank">銀行在成長，這套架構亦然。空間不足不再是複雜的升級問題。只需將新節點上架，將其原始磁碟加入集區，<span id="assignment.2.8" lang="nolang" no>Longhorn</span> 便會自動在擴展後的架構中重新平衡複本，完全無需停機，也不必在週末進行資料遷移。儲存容量的擴充方式就如同運算資源：循序漸進、隨需擴展。</span>
 </div>
 
 
-<span id="assignment.18" lang="en" no>
-🏗️ Task 2: Prepare a dedicated workspace
+<span id="assignment.18" lang="zh-TW" no>🏗️ 任務 2：準備專用工作區
 ========================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video2.gif"/>
-</div>
 
-The platform isolates workloads in **namespaces**, separate, governable workspaces on the same cluster.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.19" lang="en" no>, select <span id="assignment.19.1" lang="nolang" no>**Namespaces**</span> from the left-hand menu. You will notice <b class="highlightcopy">prod</b> already sitting in the list. <span id="assignment.19.2" lang="en" hist="vertrex-bank">The platform team provisioned it before you arrived, and it is where the bank's production workloads will live.</span>
 
-Now create its counterpart for development:
 
-1. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+此平台將工作負載隔離在**命名空間**中，這是同一個叢集上獨立且可控管的工作區。
+
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.19" lang="zh-TW" no>，從左側選單中選取 <span id="assignment.19.1" lang="nolang" no>**Namespaces**</span>。您會注意到 prod 已經列在清單中。<span id="assignment.19.2" lang="zh-TW" hist="vertrex-bank">平台團隊在你抵達之前就已將其佈建完成，而這裡將是該銀行正式環境工作負載運行的地方。</span>
+
+現在建立其用於開發的對應項目：
+
+1. 按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+2. 將 <span id="assignment.19.4" lang="nolang" no>**Name**</span> 設定為：</span>
 
 <div class="cred">
 
@@ -287,9 +270,7 @@ dev
 
 </div>
 
-<span id="assignment.20" lang="en" no>
-3. Set the <span id="assignment.20.1" lang="nolang" no>**Description**</span> to:
-</span>
+<span id="assignment.20" lang="zh-TW" no>3. 將 <span id="assignment.20.1" lang="nolang" no>**Description**</span> 設定為：</span>
 
 <div class="cred">
 
@@ -300,71 +281,65 @@ VMs from dev
 </div>
 
 
-<span id="assignment.21" lang="en" no>
-4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+<span id="assignment.21" lang="zh-TW" no>4. 按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
-The developers workspace now stand ready, in the future we can assign to it quotas, policies, and access controls.
+開發人員工作區現已準備就緒，未來我們可以為其指派配額、原則與存取控制。
 
-💾 Task 3: Understand how <span id="assignment.2.8" lang="nolang" no>Longhorn</span> replicates your data
+💾 任務 3：了解 <span id="assignment.2.8" lang="nolang" no>Longhorn</span> 如何複寫您的資料
 ========================================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video3.gif"/>
-</div>
 
-Let's look at *how* the storage backend stays healthy. Every disk <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> hands to a VM or a pod is a **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> volume**, and every <span id="assignment.2.8" lang="nolang" no>Longhorn</span> volume is created from a <span id="assignment.21.1" lang="nolang" no>**StorageClass**</span>: a policy that decides, among other things, how many copies of your data exist at any given time.
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.22" lang="en" no>, go to <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span> and click on <b class="highlightcopy">harvester-longhorn</b>.
 
-Note the <span id="assignment.22.2" lang="nolang" no>**Number Of Replicas**</span> field: it is set to **3**. Every volume created from this class gets three full copies, spread across three different nodes.
-</span>
+
+讓我們來看看儲存後端是*如何*維持狀況良好的。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 提供給 VM 或 pod 的每個磁碟都是 **<span id="assignment.2.8" lang="nolang" no>Longhorn</span> 磁碟區**，而每個 <span id="assignment.2.8" lang="nolang" no>Longhorn</span> 磁碟區都是由 <span id="assignment.21.1" lang="nolang" no>**StorageClass**</span> 建立的：這是一項決定了（除了其他項目外）在任何指定時間您的資料會存在多少份複本的原則。
+
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.22" lang="zh-TW" no>, 前往 <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span> 並點選 harvester-longhorn。
+
+請注意 <span id="assignment.22.2" lang="nolang" no>**Number Of Replicas**</span> 欄位：其設定為 **3**。從此類別建立的每個磁碟區都會獲得三個完整複本，並分散在三個不同的節點上。</span>
 
 <div id="204" class="story">
-<span id="assignment.23" lang="en" hist="vertrex-bank">
-That is exactly right for the transaction ledgers — lose a node, even lose a disk mid-write, and the data survives untouched.
-</span>
+<span id="assignment.23" lang="zh-TW" hist="vertrex-bank">這對交易帳本來說確實如此——即便失去一個節點，甚至在寫入中途損壞磁碟，資料依然完好無損。</span>
 </div>
 
-<span id="assignment.24" lang="en" no>
-Let's look under the hood and see how <span id="assignment.2.8" lang="nolang" no>Longhorn</span> stores the data:
+<span id="assignment.24" lang="zh-TW" no>讓我們深入底層，看看 <span id="assignment.2.8" lang="nolang" no>Longhorn</span> 是如何儲存資料的：
 
-1. Go to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.25" lang="en" no> and SSH into one of the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> hosts:
+1. 前往</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.25" lang="zh-TW" no>並透過 SSH 連線至其中一台 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 主機：
 ```bash,run
 rodeo ssh harvester1
 ```
-2. Check the <span id="assignment.2.8" lang="nolang" no>Longhorn</span> folder on the <span id="assignment.25.1" lang="nolang" no>harvester1</span> node: you will see some folders and files:
+2. 檢查 <span id="assignment.25.1" lang="nolang" no>harvester1</span> 節點上的 <span id="assignment.2.8" lang="nolang" no>Longhorn</span> 資料夾：您會看到一些資料夾和檔案：
 ```bash,run
 ls /var/lib/harvester/defaultdisk
 ```
-3. Inside the replicas folder, find one folder per volume replica this node holds:
+3. 在 replicas 資料夾內，此節點持有的每個磁碟區複本都會有一個對應的資料夾：
 ```bash,wrap,run
 ls /var/lib/harvester/defaultdisk/replicas/
 ```
-4. Leave the host by typing exit:
+4. 輸入 exit 離開主機：
 ```bash,run
 exit
 ```
 
 > [!NOTE]
-> Three replicas means three times the disk footprint. That is the correct trade for production money. It is wasteful for a developer's disposable test VM that gets deleted by Friday. Replica count is a **policy**, not a law of physics, and policies can be tuned per workload.
+> 三個複本意味著三倍的磁碟空間佔用。對於正式環境的花費來說，這是合理的取捨。但對於開發人員在週五前就會刪除的拋棄式測試虛擬機器而言，這十分浪費。複本數量是一項**策略**，而非物理法則，且策略可以針對個別工作負載進行調整。
 
-🧅 Task 4: Build a cost-tier storage class for the development team
+🧅 任務 4：為開發團隊建立成本分層的儲存類別
 =====================================================================
 
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter2_video4.gif"/>
-</div>
+
+  
 
 
-The development team does not need production-grade replication for their sandboxes, they need cheap, fast iteration. <span id="assignment.25.2" lang="en" hist="vertrex-bank">You will give them their own storage tier, priced for what it actually is: disposable.</span>
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.26" lang="en" no>, under <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span>:
+開發團隊的沙箱環境並不需要正式環境等級的複寫，他們需要的是低成本且快速的迭代。<span id="assignment.25.2" lang="zh-TW" hist="vertrex-bank">你會提供給他們專屬的儲存層級，定價反映其真實本質：用完即丟。</span>
 
-1. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.26" lang="zh-TW" no>，在 <span id="assignment.22.1" lang="nolang" no>**Advanced > Storage Classes**</span> 下：
+
+1. 按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+2. 將 <span id="assignment.19.4" lang="nolang" no>**Name**</span> 設定為：</span>
 
 <div class="cred">
 
@@ -391,7 +366,7 @@ harvester-longhorn-1rep
 
 5. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
-Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas, production) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). <span id="assignment.29" lang="en" hist="vertrex-bank">The dev team will reach for this tier every time they spin up a disposable VM in the chapters ahead.</span>
+Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replicas, production) and <b class="highlightcopy">harvester-longhorn-1rep</b> (1 replica for dev sandboxes, at a third of the disk cost). <span id="assignment.29" lang="zh-TW" hist="vertrex-bank">在接下來的章節中，開發團隊每次啟動拋棄式虛擬機時，都會選用這個層級。</span>
 
 > [!NOTE]
 > One replica means **zero redundancy**, lose that single node and the volume is gone. That is an acceptable risk for a sandbox nobody depends on overnight, and a very deliberate trade-off you are making on the record, not an accident. Storage classes can also encode disk tags to steer workloads to specific hardware, production on fast NVMe, development on cheaper spindles.
@@ -404,45 +379,37 @@ Two StorageClasses sit side by side in the list: `harvester-longhorn` (3 replica
 </div>
 
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** If you are curious, everything you just did in the UI is also visible through the <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API, open the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.30" lang="en" no>:
-
-
-- **See your UI storage classes as API objects**: the workspace and both storage tiers:
+New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** If you are curious, everything you just did in the UI is also visible through the <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API, open the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.30" lang="zh-TW" no>- **以 API 物件形式檢視您的 UI 儲存類別**：工作區以及這兩個儲存層：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get namespace dev -o wide; kubectl --kubeconfig .rodeo/harvester-kubeconfig get storageclasses;
 ```
 
-- **Label the new workspace** so future automation can target it easily:
+- **為新的工作區加上標籤**，以便未來的自動化流程能輕鬆鎖定它：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig label namespace dev stage=dev
 ```
 
-💼 Why does this matter?
+💼 為什麼這很重要？
 ==============================================
 
-- **The silos disappear.** VMs and containers share nodes, storage, and one operations team. The datacenter's "temperature divide" is gone.
-- **No retraining cliff.** The container team's <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> skills now manage the VM estate too; the VM team gets a familiar point-and-click UI backed by <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API.
-- **Namespaces bring governance.** Financial workloads live in `prod` with their own quotas, policies, and access controls. Auditors will love it.
-- **Storage has a price list now.** Replication is a dial, not a default. Production data gets three copies because it must; disposable sandboxes get one because they should not cost more than they need to.
-</span>
+- **孤島不復存在。** VM 與容器共享節點、儲存以及同一個維運團隊。資料中心的「冷熱隔閡」已然消失。
+- **沒有重新培訓的斷崖。** 容器團隊的 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 技能現在也能用來管理 VM 資產；VM 團隊則能使用由 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> API 支援的熟悉點選式 UI。
+- **命名空間帶來治理能力。** 金融工作負載運行於 `prod` 中，擁有專屬的配額、政策與存取控制。稽核人員一定會對此讚不絕口。
+- **儲存現在有了價目表。** 複寫就像可微調的旋鈕，而非固定的預設值。生產環境資料保留三份複本，因為這是必須的；拋棄式沙盒只保留一份，因為其成本不應超出必要範圍。</span>
 
 <div id="202" class="story">
 
-<span id="assignment.31" lang="en" hist="vertrex-bank">
-Sarah watches over your shoulder as the new workspace and the two storage tiers appear on the dashboard, one after another. A faint smile breaks across her face. *"The foundation is solid. Let's get to work."*
-</span>
+<span id="assignment.31" lang="zh-TW" hist="vertrex-bank">莎拉從你肩頭看著，新的工作區與兩個儲存層接連出現在儀表板上。她的臉上浮現出一抹淺淺的微笑。*「基礎很穩固。我們開始工作吧。」*</span>
 
 </div>
 
-<span id="assignment.32" lang="en" no>
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⚡
+<span id="assignment.32" lang="zh-TW" no>點選 <span id="assignment.32.1" lang="nolang" no>**Check**</span> 以繼續。⚡
 
 
-📚 More information
-===================
-</span>
+📚 更多資訊
+===================</span>
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Storage: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/storage/overview.html)

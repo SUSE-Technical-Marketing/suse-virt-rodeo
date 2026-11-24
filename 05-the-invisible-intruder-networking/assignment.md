@@ -2,10 +2,8 @@
 slug: the-invisible-intruder-networking
 id: 6y9uhwn9zyll
 type: challenge
-title: "<span id="assignment.100" lang="en" hist="vertrex-bank">\U0001F575️ Chapter 5: The Invisible Intruder</span>"
-teaser: <span id="assignment.101" lang="en" hist="vertrex-bank">A 2 AM security alert. The public web server shares a flat network with the
-  bank's most sensitive database. Build a software-defined vault and lock the database
-  inside.</span>
+title: "<span id="assignment.100" lang="zh-TW" hist="vertrex-bank">🕵️ 第五章：隱形入侵者</span>"
+teaser: <span id="assignment.101" lang="zh-TW" hist="vertrex-bank">凌晨 2 點的資安警報。對外公開的網站伺服器與銀行最機密的資料庫共用扁平化網路。打造一座軟體定義金庫，將資料庫鎖入其中。</span>
 tabs:
 - id: 69jpoti7gjds
   title: SUSE Virtualization UI
@@ -28,12 +26,8 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.102" lang="en" hist="vertrex-bank">
-
-🕵️ Chapter 5: The Invisible Intruder
-=====================================
-
-</span>
+<span id="assignment.102" lang="zh-TW" hist="vertrex-bank">🕵️ 第五章：隱形入侵者
+=====================================</span>
 
 <style type="text/css">
   * {
@@ -158,43 +152,39 @@ enhanced_loading: null
 
 <div id="501" class="story">
 
-<span id="assignment.103" lang="en" hist="vertrex-bank">
-It is now two in the morning. The datacenter is quiet, save for the rhythmic humming of the cooling fans. You are drinking stale coffee and reviewing the daily telemetry logs when your screen flashes <span class="danger">red</span>. A critical, high-priority alert from the Security Operations Center overrides your dashboard.
+<span id="assignment.103" lang="zh-TW" hist="vertrex-bank">現在是凌晨兩點。資料中心一片寂靜，只聽得見散熱風扇規律的運轉低鳴。你一邊喝著走味的咖啡，一邊審視每日遙測日誌，此時螢幕突然閃起紅光。一則來自資安監控中心（SOC）的高優先順序重大警報覆蓋了你的儀表板。
 
-An automated vulnerability scan has detected a severe architectural flaw: the bank's public-facing marketing **web server** is sitting on the exact same flat network layer as the highly classified <b class="highlightcopy">insider-threat-db</b> virtual machine.
+自動化弱點掃描偵測到一個嚴重的架構缺陷：銀行對外的行銷**網站伺服器**，竟然與高度機密的 insider-threat-db 虛擬機器處於完全相同的扁平化網路層。
 
-If a threat actor were to compromise the public website, they would have a direct, unimpeded lateral path straight into the bank's most sensitive internal security database. In a traditional infrastructure, fixing this would require waking up the senior network engineering team, physically re-cabling switch ports in the dark, and risking catastrophic routing loops.
+一旦有威脅行為者攻破公開網站，他們就能暢行無阻地透過橫向路徑，直搗銀行最敏感的內部安全資料庫。在傳統基礎架構中，要修復這個問題得叫醒資深網路工程團隊、摸黑手動重新插拔交換器連接埠的實體線路，並承擔引發災難性路由迴圈的風險。
 
-You don't need physical cables. You have the power of **software-defined networking** at your fingertips. You must construct an impenetrable digital vault and lock the database inside it — before an intrusion can occur.
-</span>
+但你不需要實體線路。**軟體定義網路**的強大力量就在你的指尖。你必須在入侵發生之前，建造一座堅不可摧的數位金庫，將該資料庫鎖在其中。</span>
 
 </div>
 
-<span id="assignment.104" lang="en" no>
-## <b class="hovereffect">Two layers of software-defined networking</b>
+<span id="assignment.104" lang="zh-TW" no>## 軟體定義網路的兩大層級
 
-<b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> gives you the full spectrum, from classic VLAN segmentation to enterprise SDN, capabilities the bank used to pay a separate closed-source SDN license for:
+<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 為您提供完整的全方位支援，從傳統的 VLAN 區隔到企業級 SDN，這些功能過去銀行都必須額外購買專屬的閉源 SDN 授權：
 
-| Layer | Technology | Use tonight |
+| 層級 | 技術 | 今晚用途 |
 |-------|-----------|-------------|
-| L2 / VLAN bridging | **<span id="assignment.2.14" lang="nolang" no>Multus</span>** | The vault VLAN isolating the database |
-| SDN / isolated overlay zones | **<span id="assignment.2.13" lang="nolang" no>Kube-OVN</span>** | Private subnets with no external path, even overlapping CIDRs |
+| L2 / VLAN 橋接 | **<span id="assignment.2.14" lang="nolang" no>Multus</span>** | 用於隔離資料庫的金庫 VLAN |
+| SDN / 隔離的 Overlay 區域 | **<span id="assignment.2.13" lang="nolang" no>Kube-OVN</span>** | 無外部路徑的私有子網路，甚至支援重疊的 CIDR |
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Connect a closed-loop physical network for production
-2. Build an equally isolated SDN for development
-3. Learn how to move VMs into the new networks
+## 🎯 您的任務目標
 
-</div>
+1. 為正式環境連線閉迴路實體網路
+2. 為開發環境建置具備同等隔離程度的 SDN
+3. 學習如何將虛擬機（VM）移至新網路中
 
-🔐 Login Credentials
+
+
+🔐 登入憑證
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI use the same credentials.
-  </span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI 與 <span id="assignment.2.12" lang="nolang" no>**Rancher Prime**</span> UI 使用相同的登入憑證。</span>
 
 <span id="assignment.10" lang="nolang" no>Username</span>:
 
@@ -218,33 +208,15 @@ admin
 
 
 
-<span id="assignment.106" lang="en" no>
-🧱 Task 1: Connect a closed loop physical network
+<span id="assignment.106" lang="zh-TW" no>🧱 任務 1：連接封閉迴路實體網路
 =================================================
 
-Our team has set up the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> nodes with an extra dedicated NIC that is connected in a physically closed loop. Let's use it for our most precious traffic and create an isolated production network.
+我們的團隊已為 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 節點配置了一張額外的專用 NIC，並以實體封閉迴路相連。讓我們將它用於傳輸最寶貴的流量，並建立一個隔離的生產網路。
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.107" lang="en" no>, navigate to <span id="assignment.107.1" lang="nolang" no>**Networks**</span> in the left menu, then select <span id="assignment.107.2" lang="nolang" no>**Cluster Network Configuration**</span>:
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.107" lang="zh-TW" no>，前往左側選單中的 <span id="assignment.107.1" lang="nolang" no>**Networks**</span>，然後選取 <span id="assignment.107.2" lang="nolang" no>**Cluster Network Configuration**</span>：
 
-1. Click <span id="assignment.107.3" lang="nolang" no>**Create a Cluster Network**</span>
-2. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
-
-<div class="cred">
-
-```txt
-closed-loop
-```
-
-</div>
-
-<span id="assignment.108" lang="en" no>
-3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-
-The new cluster network appears in the list. Now assign it a physical interface: click <span id="assignment.108.1" lang="nolang" no>**Create Network Configuration**</span> on the same row as the <b class="highlightcopy">closed-loop</b> cluster network, then fill in the following details:
-
-1. Set the <span id="assignment.19.4" lang="nolang" no>**Name**</span> to:
-</span>
+1. 按一下 <span id="assignment.107.3" lang="nolang" no>**Create a Cluster Network**</span>
+2. 將 <span id="assignment.19.4" lang="nolang" no>**Name**</span> 設定為：</span>
 
 <div class="cred">
 
@@ -254,23 +226,35 @@ closed-loop
 
 </div>
 
-<span id="assignment.109" lang="en" no>
-Notice the <span id="assignment.27" lang="nolang" no>**Node Selector**</span> section, in here we can specify where the network will be available.
+<span id="assignment.108" lang="zh-TW" no>3. 按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
-2. Under <span id="assignment.109.1" lang="nolang" no>**Uplink**</span>, set <span id="assignment.109.2" lang="nolang" no>**NICs**</span> to <b class="highlightcopy">ens5</b>
+新的叢集網路會出現在清單中。現在為其指派實體介面：在閉環叢集網路所在的同一列按一下 <span id="assignment.108.1" lang="nolang" no>**Create Network Configuration**</span>，然後填寫以下詳細資料：
 
-3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+1. 將 <span id="assignment.19.4" lang="nolang" no>**Name**</span> 設定為：</span>
 
+<div class="cred">
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-closed-loop.gif"/>
+```txt
+closed-loop
+```
+
 </div>
 
-Now define the VM-facing network on top of it. Select <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span> to define a new secure perimeter:
+<span id="assignment.109" lang="zh-TW" no>請注意 <span id="assignment.27" lang="nolang" no>**Node Selector**</span> 區段，我們可以在此指定網路的可用位置。
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+2. 在 <span id="assignment.109.1" lang="nolang" no>**Uplink**</span> 下，將 <span id="assignment.109.2" lang="nolang" no>**NICs**</span> 設定為 ens5
+
+3. 按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+
+
+
+  
+
+
+現在於其基礎上定義面向 VM 的網路。選取 <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> 並按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span> 來定義新的安全周界：
+
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -280,35 +264,33 @@ secure-loop-prod
 
 </div>
 
-<span id="assignment.110" lang="en" no>
-- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
-  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <b class="highlightcopy">UntaggedNetwork</b>
-  - <span id="assignment.110.3" lang="nolang" no>**Cluster Network**</span>: <b class="highlightcopy">closed-loop</b>
+<span id="assignment.110" lang="zh-TW" no>- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
+  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: UntaggedNetwork
+  - <span id="assignment.110.3" lang="nolang" no>**Cluster Network**</span>: closed-loop
 
-Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-prod.gif"/>
-</div>
-
-Back in the <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> list, <b class="highlightcopy">secure-loop-prod</b> appears with <span id="assignment.110.4" lang="nolang" no>**Active**</span> status.
+按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>。
 
 
+  
 
-🔒 Task 2: Create a closed loop SDN
+
+回到 <span id="assignment.109.3" lang="nolang" no>**Virtual Machine Networks**</span> 清單，secure-loop-prod 會顯示為 <span id="assignment.110.4" lang="nolang" no>**Active**</span> 狀態。
+
+
+
+🔒 任務 2：建立閉迴路 SDN
 ===================================
 
-Now create the same type of isolation for the development environment. <span id="assignment.110.5" lang="en" hist="vertrex-bank">Adding new NICs and cabling is expensive, a development environment does not need that many dedicated resources, so this time you will use a **software-defined network**.</span>
+現在請為開發環境建立相同類型的隔離。<span id="assignment.110.5" lang="zh-TW" hist="vertrex-bank">新增網路卡與佈線相當昂貴，開發環境不需要那麼多專用資源，因此這次你將使用**軟體定義網路**。</span>
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-loop-dev.gif"/>
-</div>
 
-Go to <span id="assignment.110.6" lang="nolang" no>**Networks > Virtual Machine Networks**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+
+前往 <span id="assignment.110.6" lang="nolang" no>**Networks > Virtual Machine Networks**</span> 並按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>，然後填入以下詳細資料：
+
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -318,20 +300,18 @@ secure-loop-dev
 
 </div>
 
-<span id="assignment.111" lang="en" no>
-- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
-  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: <b class="highlightcopy">OverlayNetwork</b>
+<span id="assignment.111" lang="zh-TW" no>- <span id="assignment.110.1" lang="nolang" no>Basics</span>:
+  - <span id="assignment.110.2" lang="nolang" no>**Type**</span>: OverlayNetwork
 
-Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
+按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-secure-vpc-dev.gif"/>
-</div>
 
-Now create the SDN subnet. Go to <span id="assignment.111.1" lang="nolang" no>**Virtual Private Cloud**</span>, and on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.111.2" lang="nolang" no>**Create Subnet**</span>, then fill in the following details:
+  
 
-- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:
-</span>
+
+現在建立 SDN 子網路。前往 <span id="assignment.111.1" lang="nolang" no>**Virtual Private Cloud**</span>，並在 ovn-cluster 虛擬私有雲的分頁上按一下 <span id="assignment.111.2" lang="nolang" no>**Create Subnet**</span>，然後填寫以下詳細資料：
+
+- <span id="assignment.19.4" lang="nolang" no>**Name**</span>:</span>
 
 <div class="cred">
 
@@ -341,10 +321,8 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.112" lang="en" no>
-- <span id="assignment.112.1" lang="nolang" no>Basic</span>:
-  - <span id="assignment.112.2" lang="nolang" no>**CIDR**</span>:
-</span>
+<span id="assignment.112" lang="zh-TW" no>- <span id="assignment.112.1" lang="nolang" no>Basic</span>:
+  - <span id="assignment.112.2" lang="nolang" no>**CIDR**</span>:</span>
 
 <div class="cred">
 
@@ -354,10 +332,8 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.113" lang="en" no>
-  - <span id="assignment.113.1" lang="nolang" no>**Provider**</span>: <b class="highlightcopy">prod/secure-loop-dev</b>
-  - <span id="assignment.113.2" lang="nolang" no>**Gateway IP**</span>:
-</span>
+<span id="assignment.113" lang="zh-TW" no>- <span id="assignment.113.1" lang="nolang" no>**Provider**</span>: prod/secure-loop-dev
+  - <span id="assignment.113.2" lang="nolang" no>**Gateway IP**</span>:</span>
 
 <div class="cred">
 
@@ -367,53 +343,52 @@ secure-vpc-dev
 
 </div>
 
-<span id="assignment.114" lang="en" no>
-  - <span id="assignment.114.1" lang="nolang" no>**Dynamic Host Configuration Protocol (DHCP)**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
-  - <span id="assignment.114.3" lang="nolang" no>**Private Subnet**</span>: <span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
+<span id="assignment.114" lang="zh-TW" no>- <span id="assignment.114.1" lang="nolang" no>**Dynamic Host Configuration Protocol (DHCP)**</span>：<span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
+  - <span id="assignment.114.3" lang="nolang" no>**Private Subnet**</span>：<span id="assignment.114.2" lang="nolang" no><b class="highlightcopy">Enabled</b></span>
 
-Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
+按一下<span id="assignment.19.3" lang="nolang" no>**Create**</span>。
 
-Now you can assign the network <b class="highlightcopy">prod/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
-
-
-If you are curious to see the topology on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.114.4" lang="nolang" no>**Topology**</span>, this is specially useful when having multiple subnets,
+現在您可以將 prod/secure-loop-dev 網路指派給任何虛擬機器，且它只能與相同網路上的虛擬機器進行通訊。
 
 
-🎯 Task 3: Configure VMs with the new networks
+如果您想在 ovn-cluster 虛擬私人雲端的分頁上檢視拓撲，請按一下<span id="assignment.114.4" lang="nolang" no>**Topology**</span>，這在擁有多個子網路時特別有用，
+
+
+🎯 任務 3：使用新網路設定虛擬機器
 =====================================================
 
 
-You have two new isolated networks. Now it is time to show your peers how to attach them to a VM.
+您現在擁有兩個新的隔離網路。現在該向您的同仁展示如何將它們連接到虛擬機器了。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter5-webserver-secure-network.gif"/>
-</div>
 
-<span id="assignment.114.5" lang="en" hist="vertrex-bank">You are not making the change yourself, just walking through how it is done, for that we will choose the production server:</span>
+  
 
-Return to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> dashboard and locate the target virtual machine ( **webserver-prod** ):
 
-1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.114.6" lang="nolang" no>**Edit Config**</span>
-2. Go to the <span id="assignment.107.1" lang="nolang" no>**Networks**</span> tab
-3. Select the network <b class="highlightcopy">prod/secure-loop-prod</b> for production systems, or <b class="highlightcopy">prod/secure-loop-dev</b> for development systems
-4. Click <span id="assignment.114.7" lang="nolang" no>**Save**</span>
-5. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> again and select <span id="assignment.114.8" lang="nolang" no>**Restart**</span>
+<span id="assignment.114.5" lang="zh-TW" hist="vertrex-bank">您並不是要親自進行變更，只是逐步了解其操作方式，為此我們將選擇正式伺服器：</span>
 
-The VM boots connected to the new network. Don't wait for it to finish.
+返回 <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> 儀表板並找到目標虛擬機器（**webserver-prod**）：
+
+1. 按一下該列上的 ，然後選取<span id="assignment.114.6" lang="nolang" no>**Edit Config**</span>
+2. 前往<span id="assignment.107.1" lang="nolang" no>**Networks**</span>分頁
+3. 生產系統請選取網路 prod/secure-loop-prod，開發系統請選取 prod/secure-loop-dev
+4. 按一下<span id="assignment.114.7" lang="nolang" no>**Save**</span>
+5. 再次按一下 ，然後選取<span id="assignment.114.8" lang="nolang" no>**Restart**</span>
+
+虛擬機器開機並連線至新網路。無需等待其完成。
 
 
 
 > [!IMPORTANT]
-> For most cases if a VM is currently running, you must **stop it first** to activate the hardware modification.
+> 在大多數情況下，如果虛擬機器目前正在執行，您必須**先將其停止**才能使硬體修改生效。
 
 
 
-🏋️ Bonus Drills: for the command-line curious (optional)
+🏋️ 加碼演練：適合對命令列感興趣的人（可選）
 ==========================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely**: we have the isolated networks already created. These optional drills add an extra isolated network with pure <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> tooling.
+剛接觸 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 嗎？**歡迎直接跳過**：我們已經建立了隔離網路。這些可選的演練將純粹使用 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 工具來新增一個額外的隔離網路。
 
-**An extra isolated network is needed for QA: <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> network policies.** We need to be able to replicate this setup in QA to make sure there are no surprises when moving into production, apply a strict policy that drops unauthorized traffic at the pod level, underneath the VLAN isolation. In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.115" lang="en" no>, apply a default deny-all ingress policy to the secure namespace:
+**QA 需要額外的隔離網路：<span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 網路原則。**我們需要在 QA 中複製此設定，以確保進入生產環境時不會出現意外狀況，並套用嚴格的原則，在 VLAN 隔離之下的 Pod 層級丟棄未經授權的流量。在</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.115" lang="zh-TW" no>，套用預設拒絕所有傳入流量的原則至安全命名空間：
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -429,14 +404,14 @@ spec:
 EOF
 ```
 
-Confirm the policy is enforced:
+確認原則已生效：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get networkpolicy -n prod
 ```
 
 
-Create a completely independent zone for the forensics team:
+為鑑識團隊建立一個完全獨立的區域：
 
 ```bash,run
 cat << EOF | kubectl --kubeconfig .rodeo/harvester-kubeconfig apply -f -
@@ -473,27 +448,26 @@ EOF
 ```
 
 > [!NOTE]
-> Each zone gets its own dedicated network (and therefore its own isolated logical switch), which is what makes the isolation real. <span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> still enforces one rule per VPC: no two subnets in the same VPC (`ovn-cluster`) may share a CIDR, even on different networks, which is why `forensics-zone` uses a different block. True overlapping address space between zones is possible too, it just requires a second custom VPC, out of scope for this drill.
+> 每個區域都會獲得專屬的獨立網路（因此也有專屬的隔離邏輯交換器），這正是實現真正隔離的關鍵。<span id="assignment.2.13" lang="nolang" no>Kube-OVN</span> 仍會對每個 VPC 強制執行一項規則：同一個 VPC（`ovn-cluster`）內的任兩個子網路不得共用 CIDR，即使在不同的網路中亦同，這就是為什麼 `forensics-zone` 使用不同的網段。在區域之間使用完全重疊的位址空間也是可行的，只是需要第二個自訂 VPC，這超出了本次演練的範圍。
 
-Verify both zones exist with `natOutgoing: false`: no path out, no path in:
+確認兩個區域皆存在且設定為 `natOutgoing: false`：無傳出路徑，無傳入路徑：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get subnets.kubeovn.io -o custom-columns=NAME:.metadata.name,CIDR:.spec.cidrBlock,PRIVATE:.spec.private,NAT:.spec.natOutgoing
 ```
 
-Two vaults, two independent private networks, zero shared packets. A VM attached to either zone can talk to its neighbors in the same subnet and to **nothing else**: micro-segmentation without a proprietary SDN license, built and torn down entirely in software.
+兩個保管庫、兩個獨立的私有網路、零共享封包。連接到任一區域的虛擬機器只能與相同子網路中的鄰近節點通訊，且**無法與其他任何目標通訊**：完全透過軟體建立與銷毀的微切分，無須專有的 SDN 授權。
 
-💼 Why does this matter?
+💼 為什麼這很重要？
 ==============================================
 
-- **Segmentation at 2 AM, in software.** What used to be a re-cabling project with change-control meetings became three minutes of configuration, while the threat window was still closed.
-- **Defense-in-depth by default.** VLAN isolation at layer 2, network policies at the pod layer, and private SDN subnets: three independent walls from one platform.
-- **Compliance evidence built in.** Every network, policy, and subnet is a versionable YAML object: the security auditors get proof, not promises.
+- **凌晨兩點透過軟體進行切分。** 過去需要重新拉線並召開變更控制會議的工作，如今只需三分鐘的設定即可完成，同時將威脅窗口維持在關閉狀態。
+- **預設深度防禦。** 第 2 層的 VLAN 隔離、Pod 層的網路原則，以及私有 SDN 子網路：由單一平台提供的三道獨立防護牆。
+- **內建合規證據。** 每個網路、原則與子網路都是可進行版本控制的 YAML 物件：資安稽核員獲得的是實質證明，而非口頭承諾。
 
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⏪
+按一下 <span id="assignment.32.1" lang="nolang" no>**Check**</span> 繼續。⏪
 
-📚 More information
-===================
-</span>
+📚 更多資訊
+===================</span>
 
 - [Cluster Networking](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)

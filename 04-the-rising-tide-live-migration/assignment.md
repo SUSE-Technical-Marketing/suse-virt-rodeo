@@ -2,10 +2,8 @@
 slug: the-rising-tide-live-migration
 id: xjv2r0tfyztq
 type: challenge
-title: "<span id="assignment.65" lang="en" hist="vertrex-bank">\U0001F30A Chapter 4: The Rising Tide</span>"
-teaser: <span id="assignment.66" lang="en" hist="vertrex-bank">A coolant leak is flooding the rack hosting the Payment Gateway. Execute a
-  zero-downtime live migration before the hardware shorts out, while transactions
-  keep flowing.</span>
+title: "<span id="assignment.65" lang="zh-TW" hist="vertrex-bank">🌊 第四章：漲潮</span>"
+teaser: <span id="assignment.66" lang="zh-TW" hist="vertrex-bank">冷卻液外洩正在淹沒託管支付閘道的機櫃。在硬體短路前執行零停機即時遷移，同時確保交易持續進行。</span>
 tabs:
 - id: fpgxlmifoynn
   title: SUSE Virtualization UI
@@ -28,10 +26,8 @@ difficulty: intermediate
 timelimit: 2400
 enhanced_loading: null
 ---
-<span id="assignment.67" lang="en" hist="vertrex-bank">
-🌊 Chapter 4: The Rising Tide
-==============================
-</span>
+<span id="assignment.67" lang="zh-TW" hist="vertrex-bank">🌊 第四章：漲潮
+==============================</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -140,39 +136,35 @@ enhanced_loading: null
 
 <div id="401" class="story">
 
-<span id="assignment.68" lang="en" hist="vertrex-bank">
-The adrenaline from the trading floor incident has barely faded from your system when a deep, metallic groan echoes through the datacenter walls. You and Sarah turn simultaneously toward **Rack 4**. A primary coolant valve has ruptured overhead, and a steady stream of chilled, chemically treated water is cascading directly onto the physical server chassis hosting the bank's primary **Payment Gateway**.
+<span id="assignment.68" lang="zh-TW" hist="vertrex-bank">交易大廳事件所帶來的腎上腺素尚未完全自體內退去，一聲低沉的金屬悲鳴便已在資料中心的牆體間迴盪。你和莎拉同時轉向 **4 號機櫃**。頭頂上方的主冷卻液閥門破裂，一股經過化學處理的冰冷水流正源源不絕地直接傾瀉在承載著銀行主要**支付閘道**的實體伺服器機箱上。
 
-*"If that server shorts out, the gateway drops,"* Sarah says, genuine panic creeping into her voice as she watches the water pool. *"If the gateway drops, every single credit card transaction for <b class="bank">Vertex Trust Bank</b> fails. We will be facing <span class="danger">federal regulatory investigations</span> by morning."*
+*「如果那台伺服器短路，閘道就會中斷，」* 莎拉看著逐漸積聚的水灘，聲音中透出難以掩飾的恐慌。*「如果閘道中斷，Vertex 信託銀行的每一筆信用卡交易都會失敗。到了早上，我們就得面臨聯邦監管機構的調查。」*
 
-*"We aren't going to let it drop,"* you reply, your fingers flying across your keyboard.
-</span>
+*「我們不會讓它中斷的，」* 你回答，雙手飛快地在鍵盤上敲擊。</span>
 
 </div>
 
-<span id="assignment.69" lang="en" no>
-You cannot shut the machine down to move it; the transaction stream is too critical, processing thousands of requests a second. You must execute a **live migration**, moving a running VM, memory and all, to a different physical node with **zero downtime**.
+<span id="assignment.69" lang="zh-TW" no>你無法透過關機來搬遷這台機器；交易串流極為關鍵，每秒都在處理數千個請求。你必須在**零停機**的情況下執行**即時移轉**，將運行中的虛擬機器（包含記憶體與所有狀態）移至不同的實體節點。
 
-But first, to ensure maximum bandwidth is available for the emergency migration, you decide to suspend a nearby non-critical batch processing server.
+但首先，為確保緊急移轉能獲得最大頻寬，你決定先暫停附近一台非關鍵的批次處理伺服器。
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Suspend non-critical workloads to free resources
-2. Establish a service heartbeat
-3. Execute the Live Migration
-4. Monitor the seamless transfer
-5. Resume normal operations
-6. Hand the damaged rack to the repair crew
+## 🎯 你的任務目標
 
-</div>
+1. 暫停非關鍵工作負載以釋出資源
+2. 建立服務活動訊號
+3. 執行即時移轉
+4. 監控無縫移轉過程
+5. 恢復正常運作
+6. 將受損的機架移交給維修小組
 
-🔐 Login Credentials
+
+
+🔐 登入憑證
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI 與 **Rancher Prime** UI 使用相同的憑證。</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -196,19 +188,17 @@ admin
 
 
 
-<span id="assignment.72" lang="en" no>
-⏸️ Task 1: Suspend non-critical workloads to free resources
+<span id="assignment.72" lang="zh-TW" no>⏸️ 任務 1：暫停非關鍵工作負載以釋放資源
 ===========================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video1.gif"/>
-</div>
+
+  
 
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.73" lang="en" no>, go to <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>:
 
-1. Locate the virtual machine named:
-</span>
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.73" lang="zh-TW" no>，前往 <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>：
+
+1. 找出名為下列名稱的虛擬機器：</span>
 
 <div class="cred">
 
@@ -218,30 +208,27 @@ daily-batch-processor
 
 </div>
 
-<span id="assignment.74" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the right side of its row
-3. Select <span id="assignment.74.1" lang="nolang" no>**Pause**</span> then click <span id="assignment.74.2" lang="nolang" no>**Apply**</span> after prompted to confirm.
-4. Wait for its state to change to <span id="assignment.74.3" lang="nolang" no>**Paused**</span>
+<span id="assignment.74" lang="zh-TW" no>2. 點選其資料列右側的 
+3. 選取 <span id="assignment.74.1" lang="nolang" no>**Pause**</span>，並在出現確認提示後點選 <span id="assignment.74.2" lang="nolang" no>**Apply**</span>。
+4. 等候其狀態變更為 <span id="assignment.74.3" lang="nolang" no>**Paused**</span>
 
-This halts its CPU cycles, dedicating maximum hardware resources to your emergency operation.
+這會暫停其 CPU 週期，將最大的硬體資源專用於您的緊急作業。
 
 > [!NOTE]
-> This is not really necessary, we have setup already a dedicated network for live migration traffic, is here for educational purposes
-</span>
+> 這其實並非必要，我們已經為即時移轉流量設定了專用網路，此處僅供教學目的</span>
 
 
 
-<span id="assignment.75" lang="en" no>
-📡 Task 2: Establish a service heartbeat
+<span id="assignment.75" lang="zh-TW" no>📡 任務 2：建立服務心跳
 ========================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video2.gif"/>
-</div>
 
-Switch to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.76" lang="en" no>. You need a continuous heartbeat monitor to prove the network connection remains unbroken during the evacuation.
+  
 
-Start the heartbeat monitor from <span id="assignment.76.1" lang="nolang" no><b class="highlightcopy">webserver-prod</b></span>:
+
+切換至</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.76" lang="zh-TW" no>. 您需要一個持續的心跳監控器，以證明在撤離過程中網路連線保持不中斷。
+
+從 <span id="assignment.76.1" lang="nolang" no><b class="highlightcopy">webserver-prod</b></span> 啟動心跳監控器：
 
 ```bash,run
 ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] 'ping 192.168.122.1'
@@ -249,19 +236,16 @@ ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEW
 ```
 
 > [!IMPORTANT]
-> Leave the ping running continuously in the terminal. **Do not stop it.** This scrolling stream of replies is your proof of zero downtime. Switch your focus back to the <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI.
-</span>
+> 讓 ping 在終端機中持續執行。**請勿停止。**這串不斷捲動的回應就是零停機時間的證明。將焦點切換回 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> UI。</span>
 
-<span id="assignment.77" lang="en" no>
-🚚 Task 3: Execute the Live Migration
+<span id="assignment.77" lang="zh-TW" no>🚚 任務 3：執行即時移轉
 =====================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video3.gif"/>
-</div>
 
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.78" lang="en" no>, go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** and locate the following instance:
-</span>
+  
+
+
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.78" lang="zh-TW" no>，前往 **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** 並找出下列執行個體：</span>
 
 <div class="cred">
 
@@ -271,67 +255,56 @@ webserver-prod
 
 </div>
 
-<span id="assignment.79" lang="en" no>
-1. Read the <span id="assignment.79.1" lang="nolang" no>**Node**</span> column and **write down** which node the gateway is running on: you will want proof it moved
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on the far right side of its row
-3. Select <span id="assignment.79.2" lang="nolang" no>**Migrate**</span> from the context menu
-4. Choose a different, safe target node from the dropdown list
-5. Click <span id="assignment.74.2" lang="nolang" no>**Apply**</span>
+<span id="assignment.79" lang="zh-TW" no>1. 查看 <span id="assignment.79.1" lang="nolang" no>**Node**</span> 欄位並**記下**閘道正在哪個節點上執行：你會需要它已移動的證明
+2. 點擊該列最右側的 
+3. 從快顯功能表中選取 <span id="assignment.79.2" lang="nolang" no>**Migrate**</span>
+4. 從下拉式清單中選擇另一個安全的目標節點
+5. 點擊 <span id="assignment.74.2" lang="nolang" no>**Apply**</span>
 
-Behind the scenes, <span id="assignment.2.3" lang="nolang" no>KubeVirt</span> copies the VM's live memory pages to the target node over the network, tracking and re-copying any pages the busy gateway dirties mid-flight, until it can freeze, flip, and resume execution on the new node in a fraction of a second.
-</span>
+在幕後，<span id="assignment.2.3" lang="nolang" no>KubeVirt</span> 會透過網路將 VM 的即時記憶體分頁複製到目標節點，持續追蹤並重新複製忙碌的閘道在傳輸過程中所修改的任何分頁，直到它能在幾分之一秒內凍結、切換並在新節點上恢復執行。</span>
 
-<span id="assignment.80" lang="en" no>
-👀 Task 4: Monitor the seamless transfer
+<span id="assignment.80" lang="zh-TW" no>👀 任務 4：監控無縫轉移
 ========================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video4.gif"/>
-</div>
 
-Immediately switch back to the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.81" lang="en" no> tab and watch the ping sequence.
-</span>
+  
+
+
+立即切換回</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.81" lang="zh-TW" no>分頁並觀察 ping 序列。</span>
 
 <div id="402" class="story">
 
-<span id="assignment.82" lang="en" hist="vertrex-bank">
-You hold your breath as the <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> coordinates the massive memory transfer over the network. The pings continue scrolling down the screen, **completely uninterrupted**. The virtual machine seamlessly materializes on the new physical node just as sparks begin to fly from the water-damaged chassis in Rack 4.
-</span>
+<span id="assignment.82" lang="zh-TW" hist="vertrex-bank">當 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> 協調龐大的記憶體透過網路傳輸時，你屏住了呼吸。Ping 訊息持續在螢幕上向下捲動，**完全未曾中斷**。就在第 4 號機架中因進水受損的機箱開始迸出火花之際，虛擬機器已無縫出現在新的實體節點上。</span>
 
 </div>
 
-<span id="assignment.83" lang="en" no>
-Press `Ctrl+C` to terminate the ping.
-</span>
+<span id="assignment.83" lang="zh-TW" no>按下 `Ctrl+C` 即可終止 ping。</span>
 
 <div id="403" class="story">
-<span id="assignment.84" lang="en" hist="vertrex-bank">You exhale sharply. The transaction flow survived.</span>
+<span id="assignment.84" lang="zh-TW" hist="vertrex-bank">你重重地吐了一口氣。交易流程撐過來了。</span>
 </div>
 
 
-<span id="assignment.85" lang="en" no>
-Strictly speaking, there *is* a hand-over moment: once the memory copy converges, the VM freezes for one final instant while execution flips to the new node, a micro-interruption. On a properly sized infrastructure it passes completely unnoticed; even in this lab, which runs virtualization *inside* virtualization *inside* virtualization, the most you might have spotted is slightly higher latency times in the pings.
+<span id="assignment.85" lang="zh-TW" no>嚴格來說，*確實*存在交接的時刻：一旦記憶體複製收斂，VM 就會在最後一瞬間凍結，同時將執行切換至新節點，這是一種微中斷。在規格配置妥當的基礎設施上，這完全不會被察覺；即使在這個運行著虛擬化*之中*的虛擬化*之中*的虛擬化的實驗室裡，你最多也只會發現 ping 的延遲時間略微增加。
 
-Back in the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.86" lang="en" no>, the <span id="assignment.79.1" lang="nolang" no>**Node**</span> column for <b class="highlightcopy">webserver-prod</b> now shows a **different node** than the one you wrote down. </span><span id="assignment.87" lang="en" hist="vertrex-bank">The gateway physically moved while its customers never noticed.</span>
+回到</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.86" lang="zh-TW" no>, webserver-prod 的 <span id="assignment.79.1" lang="nolang" no>**Node**</span> 欄位現在顯示了與您寫下的**不同的節點**。</span><span id="assignment.87" lang="zh-TW" hist="vertrex-bank">該閘道器在實體上搬移了，而其客戶卻從未察覺。</span>
 
 <div id="404" class="story">
-<span id="assignment.88" lang="en" hist="vertrex-bank">Now produce the evidence Sarah will forward to the regulators — the guest's uptime counter never reset, meaning the operating system never stopped running:</span>
+<span id="assignment.88" lang="zh-TW" hist="vertrex-bank">現在提供莎拉將轉交給監管機構的證據——客體系統的運作時間計數器從未重設，這意味著作業系統從未停止運作：</span>
 </div>
 
 ```bash,wrap,run
 ssh -o StrictHostKeyChecking=accept-new  sles@[[ Instruqt-Var key="PAYMENT_GATEWAY_IP" hostname="kvm-host" ]] "hostname && uptime"
 ```
 
-<span id="assignment.89" lang="en" no>
-▶️ Task 5: Resume normal operations
+<span id="assignment.89" lang="zh-TW" no>▶️ 任務 5：恢復正常運作
 ===================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video5.gif"/>
-</div>
 
-Return to the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.90" lang="en" no>. Locate the virtual machine you paused earlier:
-</span>
+  
+
+
+返回至</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.90" lang="zh-TW" no>. 找出您稍早暫停的虛擬機器：</span>
 
 <div class="cred">
 
@@ -341,95 +314,78 @@ daily-batch-processor
 
 </div>
 
-<span id="assignment.91" lang="en" no>
-1. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row
-2. Select <span id="assignment.91.1" lang="nolang" no>**Unpause**</span> to allow the non-critical jobs to resume
+<span id="assignment.91" lang="zh-TW" no>1. 按一下其資料列上的 
+2. 選取 <span id="assignment.91.1" lang="nolang" no>**Unpause**</span> 以允許非關鍵工作恢復執行
 
-🛠️ Task 6: Hand the damaged rack to the repair crew
-====================================================
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video6.gif"/>
-</div>
-
-</span>
+🛠️ 任務 6：將損壞的機架交給維修小組
+====================================================</span>
 
 
 <div id="405" class="story">
-<span id="assignment.92" lang="en" hist="vertrex-bank">The gateway is safe — but the water-damaged node is still dripping, and smaller workloads may still be running on it. You are not going to migrate them one by one while a puddle spreads across the floor. Let the platform manage it.</span>
+<span id="assignment.92" lang="zh-TW" hist="vertrex-bank">閘道安全無虞——但進水受損的節點仍在滴水，上面可能還有較小的工作負載在運行。在地面積水不斷蔓延之際，你總不可能一個個去遷移它們。讓平台來處理吧。</span>
 </div>
 
 
-<span id="assignment.93" lang="en" no>
-In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.94" lang="en" no>, go to <span id="assignment.94.1" lang="nolang" no>**Hosts**</span>:
+<span id="assignment.93" lang="zh-TW" no>在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.94" lang="zh-TW" no>，前往 <span id="assignment.94.1" lang="nolang" no>**Hosts**</span>：
 
-1. Find the node that <b class="highlightcopy">webserver-prod</b> was running on **before** the migration, the one you wrote down.
-</span>
+1. 找出在遷移**前**執行 webserver-prod 的節點，也就是您寫下的那個。</span>
 
-<i id="406" class="story"><span id="assignment.95" lang="en" hist="vertrex-bank">That is the water-damaged machine</span></i>
+<i id="406" class="story"><span id="assignment.95" lang="zh-TW" hist="vertrex-bank">那是那台泡水機。</span></i>
 
-<span id="assignment.96" lang="en" no>
-2. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row and select <span id="assignment.96.1" lang="nolang" no>**Enable Maintenance Mode**</span>, then <span id="assignment.96.2" lang="nolang" no>confirm</span>
+<span id="assignment.96" lang="zh-TW" no>2. 按一下該列上的 ，並選取 <span id="assignment.96.1" lang="nolang" no>**Enable Maintenance Mode**</span>，然後選取 <span id="assignment.96.2" lang="nolang" no>confirm</span>
 
-Now watch the **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** page: every VM still living on the damaged node live-migrates off it **automatically**. The platform picks healthy target nodes, moves the workloads one by one, and leaves the node empty. No spreadsheets, no manual target-picking, no forgotten VM.
+現在查看 **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** 頁面：仍留在受損節點上的每部 VM 都會**自動**即時移轉離開該節點。平台會挑選狀況良好的目標節點，逐一搬移工作負載，並清空該節點。不需要試算表，不需要手動挑選目標，也不會有被遺漏的 VM。
 
 > [!NOTE]
-> This may take some time in this lab environment.
+> 在此實驗室環境中，這可能需要一些時間。
 
-Once the node shows <span id="assignment.96.3" lang="nolang" no>**Maintenance**</span> and its VM count reaches zero, the (virtual) repair crew swaps the (virtual) coolant valve. Bring the node back into service:
+當節點顯示 <span id="assignment.96.3" lang="nolang" no>**Maintenance**</span> 且其 VM 數量歸零時，（虛擬）維修人員便會更換（虛擬）冷卻閥。讓節點重新上線提供服務：
 
-3. Click the <img class="embedded_img" desc="three vertical dots" src="../assets/three_vertical_dots.png"/> on its row again and select <span id="assignment.96.4" lang="nolang" no>**Uncordon**</span> and then <span id="assignment.96.5" lang="nolang" no>**Disable Maintenance Mode**</span>
+3. 再次按一下該列上的 ，並選取 <span id="assignment.96.4" lang="nolang" no>**Uncordon**</span>，然後選取 <span id="assignment.96.5" lang="nolang" no>**Disable Maintenance Mode**</span>
 
-The node rejoins the fabric, ready to accept workloads again.
+該節點重新加入架構網狀網路，準備好再次接收工作負載。
 
 > [!NOTE]
-> The same intelligence works in the other direction, too: every time a new VM is created, the scheduler places it on the least-loaded suitable node, keeping the cluster naturally balanced, no manual Tetris required. Between automatic placement on the way in and automatic evacuation on the way out, the humans only decide *what* should run; the platform decides *where*.
-</span>
+> 同樣的智慧機制在另一個方向也同樣有效：每次建立新的 VM 時，排程器都會將其放置在負載最輕的合適節點上，使叢集自然保持平衡，不需要人工大玩俄羅斯方塊。在建立時的自動配置與撤離時的自動疏散之間，人類只需決定要執行*什麼*；平台則會決定要在*哪裡*執行。</span>
 
-<span id="assignment.97" lang="en" no>
-🏋️ Bonus Drills: the migration paper trail (optional, for the command-line curious)
+<span id="assignment.97" lang="zh-TW" no>🏋️ 加碼練習：遷移追蹤紀錄（選修，給對命令列好奇的人）
 ======================================================================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter4_video7.gif"/>
-</div>
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise: every migration is itself a <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> object, which means it is auditable. In the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.98" lang="en" no>:
+  
 
-- **Review the migration record** (who moved, when, from where to where):
+
+剛接觸 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 嗎？**請隨意跳過。**否則：每個遷移本身都是一個 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 物件，這代表它是可被稽核的。在</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.98" lang="zh-TW" no>- **查看遷移記錄**（移動的對象、時間、來源與目的地）：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A
 ```
 
-- **Inspect the details of the completed migration:**
+- **檢查已完成遷移的詳細資訊：**
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 "Status"
 ```
 
-- **Think ahead:** what happens if a *node* fails without warning, before anyone can migrate? Check each VM's run strategy: <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> can reschedule VMs from a failed host automatically:
+- **預先思考：**如果*節點*在任何人來得及遷移之前毫無預警地故障，會發生什麼事？檢查每個 VM 的執行策略：<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 可以自動從故障的主機重新排程 VM：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy
 ```
 
 > [!NOTE]
-> **Beyond compute:** the same zero-downtime idea also applies to *disks*. <b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> supports **in-place storage live migration** (moving a running VM's volumes between storage backends, for example from <span id="assignment.2.8" lang="nolang" no>Longhorn</span> to an external <span id="assignment.2.9" lang="nolang" no>CSI</span> array) without stopping the VM. Compute evacuated tonight, storage evacuated next quarter, and the gateway never notices either one.
-</span>
+> **不只是運算資源：**相同的零停機概念也適用於*磁碟*。<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 支援**就地儲存即時遷移**（在不停止 VM 的情況下，於儲存後端之間移動運行中 VM 的磁碟區，例如從 <span id="assignment.2.8" lang="nolang" no>Longhorn</span> 移動至外部 <span id="assignment.2.9" lang="nolang" no>CSI</span> 陣列）。今晚撤離運算資源，下季撤離儲存資源，而閘道器對這兩者皆毫無所覺。</span>
 
-<span id="assignment.99" lang="en" no>
-💼 Why does this matter?
+<span id="assignment.99" lang="zh-TW" no>💼 為什麼這很重要？
 ==============================================
 
-- **Hardware failures stop being outages.** Coolant leaks, firmware updates, host reboots: workloads simply slide to healthy nodes while your services are working.
-- **Planned maintenance without midnight windows.** One click on **Maintenance Mode** drains an entire node automatically. Routine patching happens at 2 PM instead of 2 AM, and nobody keeps a spreadsheet of which VM lives where.
-- **An audit trail regulators can read.** Every migration is a recorded API object, no more reconstructing what happened from console screenshots.
+- **硬體故障不再等於服務中斷。**無論是冷卻液外洩、韌體更新還是主機重新開機，在服務持續運作的同時，工作負載能直接平順移轉至狀況良好的節點。
+- **告別深夜維護時段的計畫性維護。**只要按一下**維護模式**，即可自動排空整個節點。例行修補可以在下午 2 點進行，而不必等到凌晨 2 點，也再也不需要用試算表記錄哪台 VM 位於何處。
+- **監管機構看得懂的稽核軌跡。**每一次移轉都是記錄在案的 API 物件，不再需要透過主控台螢幕截圖來拼湊還原事發經過。
 
-Click **Check** to continue. 🕵️
+按一下**檢查**以繼續。 🕵️
 
-📚 More information
-===================
-</span>
+📚 更多資訊
+===================</span>
 
 - [Live Migration](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)

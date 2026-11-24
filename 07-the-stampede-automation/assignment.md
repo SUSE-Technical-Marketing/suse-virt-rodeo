@@ -2,10 +2,8 @@
 slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
-title: "<span id="assignment.138" lang="en" no>\U0001F920 Chapter 7: The Stampede</span>"
-teaser: <span id="assignment.139" lang="en" hist="vertrex-bank">The markets are in freefall and the quants need the calculation fleet scaled
-  from three nodes to five, now. Forge a golden VM template and stamp out identical
-  machines on demand.</span>
+title: "<span id="assignment.138" lang="zh-TW" no>🤠 第七章：狂奔</span>"
+teaser: <span id="assignment.139" lang="zh-TW" hist="vertrex-bank">市場全面暴跌，量化團隊需要立刻將運算叢集從三個節點擴充至五個。打造黃金 VM 範本，並依需求快速複製出完全相同的機器。</span>
 tabs:
 - id: xxc2ymjtxzih
   title: SUSE Virtualization UI
@@ -28,11 +26,8 @@ difficulty: intermediate
 timelimit: 3000
 enhanced_loading: null
 ---
-<span id="assignment.140" lang="en" no>
-
-🤠 Chapter 7: The Stampede
-===========================
-</span>
+<span id="assignment.140" lang="zh-TW" no>🤠 第七章：狂奔
+===========================</span>
 <style type="text/css">
   * {
     font-family: suse;
@@ -140,35 +135,32 @@ enhanced_loading: null
 
 <div id="701" class="story">
 
-<span id="assignment.141" lang="en" hist="vertrex-bank">
-A sudden, aggressive shift in global interest rates sends the financial markets into a chaotic frenzy. <b class="bank">Vertex Trust Bank</b>'s risk analysis algorithms are screaming for more compute capacity to process the incoming flood of volatile market data.
+<span id="assignment.141" lang="zh-TW" hist="vertrex-bank">全球利率驟然劇變，讓金融市場陷入一片混亂的狂潮之中。Vertex Trust 銀行的風險分析演算法頻頻告急，急需更多運算能力來處理排山倒海而來的劇烈市場波動數據。
 
-*"One calculation engine is not enough anymore!"* the **Head of Quant** shouts across the room, waving a printed report. *"I need a fleet of <span class="danger">five identical engines immediately</span>, or we fly blind into this market crash!"*
+*「光靠一台運算引擎已經不夠用了！」* **量化主管**揮舞著列印出來的報告，隔著辦公室大喊。*「我需要立刻部署五台一模一樣的引擎，否則我們就等於閉著眼睛衝進這場市場崩盤之中！」*
 
-Building five machines by hand, one screen at a time, invites exactly what you cannot afford right now: a mistyped memory size here, a forgotten network there. Configuration drift under pressure — and right now, human error costs millions of dollars **per second**.
+手動一台接著一台、一個畫面接著一個畫面地建立五台機器，只會招致你現在絕對承受不起的後果：這裡打錯了記憶體大小，那裡遺漏了網路設定。在高壓之下產生的設定漂移——而在這個當下，人為失誤**每秒**都會造成數百萬美元的代價。
 
-You crack your knuckles. What the bank needs is a **golden blueprint**: define the perfect machine once, then stamp out identical copies on demand.
-</span>
+你活動了一下指關節。銀行現在需要的，是一份**黃金藍圖**：只需定義一次完美的機器規格，就能依需求快速複製出完全相同的副本。</span>
 
 </div>
 
-<span id="assignment.142" lang="en" no><b class="virt"><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span></b> has exactly that: **VM Templates**. A template captures CPU, memory, disks, networks, and cloud-init in a single versioned object. Combined with **multi-instance creation**, one blueprint becomes an entire fleet in a single click.
+<span id="assignment.142" lang="zh-TW" no><span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 正好具備這項功能：**VM 範本**。範本將 CPU、記憶體、磁碟、網路與 cloud-init 整合至單一具備版本控制的物件中。結合**多執行個體建立**功能，只需按一下，一張藍圖就能化為整支機群。
 
-<div class="missionbox">
 
-## 🎯 Your Quest Objectives
 
-1. Forge the golden template
-2. Scale the fleet under pressure
-3. Stand the fleet down
+## 🎯 您的任務目標
 
-</div>
+1. 打造黃金範本
+2. 在壓力下擴展機群
+3. 撤除機群
 
-🔐 Login Credentials
+
+
+🔐 登入憑證
 ====================
 
-The <span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI and **Rancher Prime** UI use the same credentials.
-</span>
+<span id="assignment.69.1" lang="nolang" no>**SUSE Virtualization**</span> UI 與 **Rancher Prime** UI 使用相同的登入憑證。</span>
 
 <span id="assignment.70" lang="nolang" no>Username:</span>
 
@@ -192,19 +184,18 @@ admin
 
 
 
-<span id="assignment.143" lang="en" no>📜 Task 1: Forge the golden template
+<span id="assignment.143" lang="zh-TW" no>📜 任務 1：打造黃金範本
 ====================================
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-prod-vm-template.gif"/>
-</div>
 
-You need a template that speeds up the deployment of virtual machines and standardizes them.
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.144" lang="en" no> navigate to <span id="assignment.144.1" lang="nolang" no>**Advanced > Templates**</span> and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: <b class="highlightcopy">prod</b>
-- <span id="assignment.144.2" lang="nolang" no>**Template Name**</span>:
-</span>
+
+您需要一個能加速虛擬機器部署並將其標準化的範本。
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.144" lang="zh-TW" no>前往 <span id="assignment.144.1" lang="nolang" no>**Advanced > Templates**</span> 並點選 <span id="assignment.19.3" lang="nolang" no>**Create**</span>，然後填寫以下詳細資訊：
+
+- <span id="assignment.39.3" lang="nolang" no>**Namespace**</span>: prod
+- <span id="assignment.144.2" lang="nolang" no>**Template Name**</span>:</span>
 
 <div class="cred">
 
@@ -214,34 +205,32 @@ prod-basic
 
 </div>
 
-<span id="assignment.145" lang="en" no>
-We need to minimize resource usage, and all the VMs should be reachable using the production SSH key, which is securely guarded.
+<span id="assignment.145" lang="zh-TW" no>我們需要盡可能減少資源使用量，且所有虛擬機器都應可使用受到安全保護的生產環境 SSH 金鑰連線。
 
-- Basics:
-  - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: <b class="highlightcopy">1</b>
-  - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: <b class="highlightcopy">1</b>
-  - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: <b class="highlightcopy">prod/default</b>
+- 基本設定：
+  - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: 1
+  - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: 1
+  - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
 
-Our default base OS is SLES 16.
+我們預設的基礎作業系統是 SLES 16。
 
 - <span id="assignment.6.4" lang="nolang" no>Volumes</span>:
-  - <span id="assignment.45.2" lang="nolang" no>**Image**</span>: <b class="highlightcopy">official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2</b>
-  - <span id="assignment.45.3" lang="nolang" no>**Size**</span>: <b class="highlightcopy">5</b>
+  - <span id="assignment.45.2" lang="nolang" no>**Image**</span>: official-images/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2
+  - <span id="assignment.45.3" lang="nolang" no>**Size**</span>: 5
 
-We want production servers to offer their services on the production service network.
+我們希望生產伺服器在生產服務網路上提供其服務。
 
 - <span id="assignment.49.1" lang="nolang" no>Networks</span>:
-  - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: <b class="highlightcopy">prod/service</b>
+  - <span id="assignment.49.2" lang="nolang" no>**Network**</span>: prod/service
 
-All production VMs should run only on production-ready hosts.
+所有生產虛擬機器應僅在生產就緒的主機上執行。
 
 - <span id="assignment.51.1" lang="nolang" no>Node Scheduling</span>:
-  1. Select <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
-  2. Click <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>, then <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>:
+  1. 選取 <span id="assignment.51.5" lang="nolang" no>**Run virtual machine on node(s) matching scheduling rules**</span>
+  2. 按一下 <span id="assignment.51.6" lang="nolang" no>**Add Node Selector**</span>，然後按一下 <span id="assignment.51.7" lang="nolang" no>**Add Rule**</span>：
 
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 
 <div class="cred">
 
@@ -251,9 +240,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="en" no>
-- **Value**:
-</span>
+<span id="assignment.52" lang="zh-TW" no>- **值**：</span>
 
 <div class="cred">
 
@@ -264,15 +251,13 @@ prod
 </div>
 
 
-<span id="assignment.146" lang="en" no>
-We want the VMs to be properly labeled:
+<span id="assignment.146" lang="zh-TW" no>我們希望虛擬機器能夠被正確標記：
 
 - <span id="assignment.53.1" lang="nolang" no>Labels</span>:
-  - Click <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
+  - 點選 <span id="assignment.53.3" lang="nolang" no>**Add Label**</span>:
 
 
-- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:
-</span>
+- <span id="assignment.51.8" lang="nolang" no>**Key**</span>:</span>
 <div class="cred">
 
 ```txt
@@ -281,9 +266,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="en" no>
-- **Value**:
-</span>
+<span id="assignment.52" lang="zh-TW" no>- **值**：</span>
 <div class="cred">
 
 ```txt
@@ -293,36 +276,34 @@ prod
 </div>
 
 
-<span id="assignment.147" lang="en" no>
-Finally, we want all production machines standardized on a set of packages and settings:
+<span id="assignment.147" lang="zh-TW" no>最後，我們希望所有正式環境機器都能以一組套件與設定進行標準化：
 
 - <span id="assignment.54.1" lang="nolang" no>Advanced Options</span>:
-  - <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>: <b class="highlightcopy">prod/prod</b>
+  - <span id="assignment.54.4" lang="nolang" no>**User Data Template**</span>: prod/prod
 
-To finalize, click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
+若要完成，請按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>。
 
-Can you imagine filling in all these details every time? People would give up, and the environment would fill up with inconsistency, and inconsistency makes further automation even more difficult.
+你能想像每次都要填寫所有這些詳細資訊嗎？大家一定會受不了而放棄，環境中也會充斥著各種不一致，而不一致更會讓後續的自動化難上加難。
 
 
 > [!NOTE]
-> Templates are **versioned**. If you later edit the template, a new version is created while machines built from older versions keep their lineage: a full audit trail of what was deployed from which blueprint, which your regulators will appreciate.
+> 範本具備**版本控制**功能。如果您日後編輯範本，系統會建立新版本，而根據舊版本建置的機器仍會保留其歷程關聯：完整記錄從何種藍圖部署了哪些內容的稽核軌跡，這正是法規監管機構所樂見的。
 
 
-📈 Task 2: Scale the fleet under pressure
+📈 任務 2：在高壓下擴展機群規模
 =========================================
 
-Because the template already exists, deploying multiple servers takes just a few clicks.
+因為範本已經建立，只需點擊幾下即可部署多部伺服器。
 
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-fleet-vms.gif"/>
-</div>
 
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.148" lang="en" no> go to **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** and click <span id="assignment.19.3" lang="nolang" no>**Create**</span>, then fill in the following details:
+  
 
-1. Select <span id="assignment.148.1" lang="nolang" no>**Multiple Instance**</span>
-2. Set the <span id="assignment.39.3" lang="nolang" no>**Namespace**</span> to <b class="highlightcopy">prod</b>
-3. Set the <span id="assignment.148.2" lang="nolang" no>**Name Prefix**</span> to:
-</span>
+
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.148" lang="zh-TW" no>前往 **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>** 並點選 <span id="assignment.19.3" lang="nolang" no>**Create**</span>，然後填寫以下詳細資料：
+
+1. 選取 <span id="assignment.148.1" lang="nolang" no>**Multiple Instance**</span>
+2. 將 <span id="assignment.39.3" lang="nolang" no>**Namespace**</span> 設定為 prod
+3. 將 <span id="assignment.148.2" lang="nolang" no>**Name Prefix**</span> 設定為：</span>
 
 <div class="cred">
 
@@ -333,74 +314,63 @@ appcluster
 </div>
 
 
-<span id="assignment.149" lang="en" no>
-4. Set the <span id="assignment.149.1" lang="nolang" no>**Count**</span> to <b class="highlightcopy">2</b>
-5. Tick <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span> and set the <span id="assignment.149.3" lang="nolang" no>**Template**</span> to <b class="highlightcopy">prod/prod-basic</b>
-6. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
-</span>
+<span id="assignment.149" lang="zh-TW" no>4. 將 <span id="assignment.149.1" lang="nolang" no>**Count**</span> 設定為 2
+5. 勾選 <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span> 並將 <span id="assignment.149.3" lang="nolang" no>**Template**</span> 設定為 prod/prod-basic
+6. 點擊 <span id="assignment.19.3" lang="nolang" no>**Create**</span></span>
 
 
 
 
 <div id="702" class="story">
 
-<span id="assignment.150" lang="en" hist="vertrex-bank">
-The risk analysis team begins feeding data into the expanded fleet, stabilizing the bank's market position just in time.
-</span>
+<span id="assignment.150" lang="zh-TW" hist="vertrex-bank">風險分析團隊開始將資料輸入擴充後的機群，及時穩定了該銀行的市場地位。</span>
 
 </div>
 
 
-<span id="assignment.151" lang="en" no>🧹 Task 3: Stand the fleet down
-===============================
-</span>
+<span id="assignment.151" lang="zh-TW" no>🧹 任務 3：解除艦隊戰備
+===============================</span>
 
 <div id="703" class="story">
 
-<span id="assignment.152" lang="en" hist="vertrex-bank">
-The market surge subsides. The virtual machines sit idle, waiting for the next wave — but will it come today? Tomorrow? Next month? For these noble servers, waiting is more painful than doing all the number crunching.
-</span>
+<span id="assignment.152" lang="zh-TW" hist="vertrex-bank">市場的狂潮逐漸平息。虛擬機器閒置著，等待著下一波浪潮——但它會在今天到來嗎？明天？還是下個月？對這些高貴的伺服器而言，等待比處理繁重的數據運算還要痛苦。</span>
 
 </div>
 
-<span id="assignment.153" lang="en" no>
-You no longer need so many virtual machines, delete them all at once (don't worry if they are still starting).
-
-<div style='align: middle; margin: 15px;'>
-  <img class="animatedgif" src="../assets/chapter7-fleet-vms-delete.gif"/>
-</div>
+<span id="assignment.153" lang="zh-TW" no>您不再需要這麼多虛擬機器，一次將它們全部刪除（就算它們仍在啟動中也別擔心）。
 
 
-In </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.154" lang="en" no> navigate to the <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> section:
+  
 
-1. Tick the <span id="assignment.154.1" lang="nolang" no>**checkboxes**</span> next to all the new virtual machines you created
-2. Click <span id="assignment.137.2" lang="nolang" no>**Delete**</span>, tick <span id="assignment.154.2" lang="nolang" no>**Delete All**</span>, and click <span id="assignment.154.3" lang="nolang" no>**Delete**
-</span>
-</span>
+
+
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.154" lang="zh-TW" no>前往 <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> 區段：
+
+1. 勾選您所建立的所有新虛擬機器旁的 <span id="assignment.154.1" lang="nolang" no>**checkboxes**</span>
+2. 按一下 <span id="assignment.137.2" lang="nolang" no>**Delete**</span>，勾選 <span id="assignment.154.2" lang="nolang" no>**Delete All**</span>，然後按一下 <span id="assignment.154.3" lang="nolang" no>**Delete**
+</span></span>
 
 <div id="704" class="story">
 
-<span id="assignment.155" lang="en" hist="vertrex-bank">
-The suffering of these noble virtual machines has stopped. You see the flames, my child? Now they rest in Valhalla.
-</span>
+<span id="assignment.155" lang="zh-TW" hist="vertrex-bank">這些高貴虛擬機器的苦難已經結束了。你看見那火焰了嗎，我的孩子？現在它們在英靈殿安息了。</span>
 
 </div>
 
 
 
 
-<span id="assignment.156" lang="en" no>🏋️ Bonus Drills: for the command-line curious (optional)
+<span id="assignment.156" lang="zh-TW" no>🏋️ 加分練習：獻給對命令列好奇的人（可選）
 ==========================================================
 
-New to <span id="assignment.2.2" lang="nolang" no>Kubernetes</span>? **Skip ahead freely.** Otherwise, prove in the </span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="en" no> that the UI, the fleet, and the API all agree:
+剛接觸 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 嗎？**請隨意跳過。**否則，請在</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="zh-TW" no>UI、機群與 API 皆保持一致：
 
-- **Inspect the template as an API object**: templates and their versions are resources too:
+- **將範本視為 API 物件進行檢查**：範本及其版本也都是資源：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates,virtualmachinetemplateversions -n prod
 ```
 
-- **Retrieve the template definition in yaml format**:
+- **以 YAML 格式擷取範本定義**：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachinetemplates -n prod prod-basic -o yaml > template_prod-basic.yaml
@@ -408,7 +378,7 @@ template_version_name=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get virt
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get -n prod ${template_version_name} -o yaml >> template_prod-basic.yaml
 ```
 
-You can examine the file `template_prod-basic.yaml`:
+您可以檢視 `template_prod-basic.yaml` 檔案：
 
 
 ```bash,wrap,run
@@ -416,22 +386,21 @@ less template_prod-basic.yaml
 ```
 
 
-It contains a definition similar to the one you used to create the template in Task 2.
+它包含的定義與您在任務 2 中用來建立範本的定義相似。
 
 
 
-💼 Why does this matter?
+💼 為什麼這很重要？
 ==============================================
 
-- **Elasticity on owned hardware.** <span id="assignment.157.1" lang="en" hist="vertrex-bank">Cloud-style scale-out (and scale-in) on the bank's own datacenter: no data residency questions, no egress bills.</span>
-- **Human error is engineered out.** Machines come from a versioned golden blueprint, not from memory and muscle: configuration drift cannot happen at 2 AM.
-- **Full lifecycle economics.** Decommissioning is a checkbox and a click, so temporary capacity never becomes permanent cost, the exact opposite of the old <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> sprawl.
+- **自有硬體上的彈性。** <span id="assignment.157.1" lang="zh-TW" hist="vertrex-bank">在銀行自有的資料中心實現雲端式的水平擴充（與縮減）：無資料落地疑慮，亦無傳出流量帳單。</span>
+- **透過工程設計消除人為錯誤。** 機器皆源自具備版本控制的黃金藍圖，而非憑記憶與手動操作：凌晨兩點絕不會發生組態漂移。
+- **全生命週期經濟效益。** 除役只需勾選並點擊一下，因此暫時性的容量絕不會變成永久的成本，這與舊有的 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> 蔓延現象截然相反。
 
-Click <span id="assignment.32.1" lang="nolang" no>**Check**</span> to continue. ⚔️
+點擊 <span id="assignment.32.1" lang="nolang" no>**Check**</span> 繼續。⚔️
 
-📚 More information
-===================
-</span>
+📚 更多資訊
+===================</span>
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>: Overview](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [Creating <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
