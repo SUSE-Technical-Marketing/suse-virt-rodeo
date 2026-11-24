@@ -1,0 +1,8 @@
+{
+  "content": "游標手滑，剛刪除了一筆 1 億美元的結算紀錄。透過 VM 快照倒轉時光，在安全的預備環境複本中驗證復原，再透過排程叢集外備份實現永久防護。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:39:11.078589+00:00"
+}

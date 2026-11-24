@@ -1,0 +1,8 @@
+{
+  "content": "## 兩個世界，單一架構\n\n您將說明 <span id=\"ch1.intro1.2\"/> 的優雅架構：透過在 **<span id=\"assignment.2.2\"/> 基礎**上運用先進的開源技術，該平台不僅僅是*包容*虛擬機器，更將它們視為**容器生態系統的原生公民**。重量級的虛擬機器將與輕巧靈活的容器並肩運行，並由完全相同的編排引擎進行管理：\n\n| 虛擬化世界 | <span id=\"assignment.14.1\"/> 世界 | 統一於 <span id=\"ch1.intro1.2\"/> |\n|---------------------|----------------|-------------------------------|\n| Hypervisor 主機 | <span id=\"assignment.2.2\"/> 節點 | **由同一組節點同時運行兩者** |\n| Hypervisor 管理控制台 | 容器工具 | **底層為單一平台**。<span id=\"ch1.intro1.2\"/> 運行虛擬機器，Rancher Prime 統管叢集與容器 |\n| SAN 儲存陣列 | <span id=\"assignment.2.9\"/> 磁碟區 | **<span id=\"assignment.2.8\"/> 同時為虛擬機器與 Pod 提供服務** |\n\n最後一行正是您的起點。每個虛擬機器磁碟、每個容器的永續性磁碟區（Persistent Volume），全都建構在相同的分散式儲存架構之上，而且並非所有工作負載都需要相同的成本定價。\n\n\n\n## 🎯 您的任務目標\n\n1. 檢查實體節點拓撲\n2. 準備專用工作空間\n3. 了解 <span id=\"assignment.2.8\"/> 如何複寫您的資料\n4. 為開發團隊建立具成本效益分級的儲存類別（Storage Class）\n\n\n\n🔐 登入憑證\n====================\n\n**<span id=\"ch1.intro1.2\"/>** UI 與 <span id=\"assignment.2.12\"/> UI 使用相同的登入憑證。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:19:56.389377+00:00"
+}

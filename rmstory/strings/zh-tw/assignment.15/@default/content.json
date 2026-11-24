@@ -1,0 +1,8 @@
+{
+  "content": "☁️ 什麼是 <span id=\"assignment.2.8\"/>？\n====================\n\n<span id=\"assignment.2.8\"/> 是內建於 <span id=\"ch1.intro1.2\"/> 中可供您使用的分散式儲存系統。它會集結位於每個節點上的原始磁碟，並將其轉化為單一共享儲存網狀架構。\n\n預設情況下，其建立的每個磁碟區都會複寫到多個節點，因此磁碟故障或節點重新開機絕不會讓您遺失資料。無需 SAN、無需獨立的儲存團隊，一套系統即可同時適用於虛擬機器與容器。\n\n它隨時可供您使用，但如果您想使用其他 <span id=\"assignment.2.9\"/>，也可以自由選用，絕無廠商鎖定。\n\n\n🖥️ 任務 1：檢查實體節點拓撲\n=============================================\n\n\n\n  \n\n\n\n前往",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:20:09.508563+00:00"
+}

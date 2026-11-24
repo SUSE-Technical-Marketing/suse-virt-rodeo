@@ -1,0 +1,8 @@
+{
+  "content": "- <span id=\"assignment.114.1\"/>：<span id=\"assignment.114.2\"/>\n  - <span id=\"assignment.114.3\"/>：<span id=\"assignment.114.2\"/>\n\n按一下<span id=\"assignment.19.3\"/>。\n\n現在您可以將 prod/secure-loop-dev 網路指派給任何虛擬機器，且它只能與相同網路上的虛擬機器進行通訊。\n\n\n如果您想在 ovn-cluster 虛擬私人雲端的分頁上檢視拓撲，請按一下<span id=\"assignment.114.4\"/>，這在擁有多個子網路時特別有用，\n\n\n🎯 任務 3：使用新網路設定虛擬機器\n=====================================================\n\n\n您現在擁有兩個新的隔離網路。現在該向您的同仁展示如何將它們連接到虛擬機器了。\n\n\n  \n\n\n<span id=\"assignment.114.5\"/>\n\n返回 <span id=\"assignment.40.2\"/> 儀表板並找到目標虛擬機器（**webserver-prod**）：\n\n1. 按一下該列上的 ，然後選取<span id=\"assignment.114.6\"/>\n2. 前往<span id=\"assignment.107.1\"/>分頁\n3. 生產系統請選取網路 prod/secure-loop-prod，開發系統請選取 prod/secure-loop-dev\n4. 按一下<span id=\"assignment.114.7\"/>\n5. 再次按一下 ，然後選取<span id=\"assignment.114.8\"/>\n\n虛擬機器開機並連線至新網路。無需等待其完成。\n\n\n\n> [!IMPORTANT]\n> 在大多數情況下，如果虛擬機器目前正在執行，您必須**先將其停止**才能使硬體修改生效。\n\n\n\n🏋️ 加碼演練：適合對命令列感興趣的人（可選）\n==========================================================\n\n剛接觸 <span id=\"assignment.2.2\"/> 嗎？**歡迎直接跳過**：我們已經建立了隔離網路。這些可選的演練將純粹使用 <span id=\"assignment.2.2\"/> 工具來新增一個額外的隔離網路。\n\n**QA 需要額外的隔離網路：<span id=\"assignment.2.2\"/> 網路原則。**我們需要在 QA 中複製此設定，以確保進入生產環境時不會出現意外狀況，並套用嚴格的原則，在 VLAN 隔離之下的 Pod 層級丟棄未經授權的流量。在",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:38:25.368470+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": "由於這是一個混合環境叢集，讓我們確保虛擬機器只在生產節點上執行。\n\n按一下 <span id=\"assignment.51.1\"/>：<span id=\"ch1.intro1.2\"/> 提供三個選項：\n\n- <span id=\"assignment.51.2\"/>：由 <span id=\"assignment.2.2\"/> 排程器選擇放置虛擬機器的位置，且**即時移轉保持啟用**\n- <span id=\"assignment.51.3\"/>：將虛擬機器釘選至單一節點（無法進行移轉）\n- <span id=\"assignment.51.4\"/>：以節點標籤為基礎的親和性規則（GPU 功能、NUMA 拓撲、網路區域…）\n\n設定生產規則：\n\n1. 選取 <span id=\"assignment.51.5\"/>\n2. 按一下 <span id=\"assignment.51.6\"/>，然後按一下 <span id=\"assignment.51.7\"/>：\n\n- <span id=\"assignment.51.8\"/>：",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:26:38.775300+00:00"
+}

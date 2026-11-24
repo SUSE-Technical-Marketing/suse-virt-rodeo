@@ -1,0 +1,8 @@
+{
+  "content": "3. 按一下 <span id=\"assignment.114.7\"/>\n\n該叢集現在可以將完整的 VM 備份傳送至叢集外部，這相當於現代版的午夜磁帶備份作業，只是不需要等到半夜。**S3** 儲存貯體同樣適合作為端點；在正式環境部署中，這將會指向實體隔離的設施。\n\n\n⏰ 任務 4：設定備份排程\n====================================",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:41:35.487009+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": "🧱 任務 1：連接封閉迴路實體網路\n=================================================\n\n我們的團隊已為 <span id=\"ch1.intro1.2\"/> 節點配置了一張額外的專用 NIC，並以實體封閉迴路相連。讓我們將它用於傳輸最寶貴的流量，並建立一個隔離的生產網路。\n\n在",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:36:49.278045+00:00"
+}

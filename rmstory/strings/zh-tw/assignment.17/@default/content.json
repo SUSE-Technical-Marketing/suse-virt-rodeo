@@ -1,0 +1,8 @@
+{
+  "content": "銀行在成長，這套架構亦然。空間不足不再是複雜的升級問題。只需將新節點上架，將其原始磁碟加入集區，<span id=\"assignment.2.8\"/> 便會自動在擴展後的架構中重新平衡複本，完全無需停機，也不必在週末進行資料遷移。儲存容量的擴充方式就如同運算資源：循序漸進、隨需擴展。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:20:53.258965+00:00"
+}

@@ -1,0 +1,8 @@
+{
+  "content": "嚴格來說，*確實*存在交接的時刻：一旦記憶體複製收斂，VM 就會在最後一瞬間凍結，同時將執行切換至新節點，這是一種微中斷。在規格配置妥當的基礎設施上，這完全不會被察覺；即使在這個運行著虛擬化*之中*的虛擬化*之中*的虛擬化的實驗室裡，你最多也只會發現 ping 的延遲時間略微增加。\n\n回到",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:33:11.587773+00:00"
+}

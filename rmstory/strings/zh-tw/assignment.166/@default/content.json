@@ -1,0 +1,8 @@
+{
+  "content": "：<span id=\"assignment.40.2\"/> 頁面、您所定義的 **Networks**、**Templates** 藍圖，以及 **Backup & Snapshot** 歷史紀錄：本週的每場危機都在這裡留下了印記。\n\n- **設計您自己的危機。**從頭開始建立一台新的 VM：挑選映像檔、設定規格大小、進行 cloud-init 配置、建立快照、執行即時遷移。這次沒有操作指示。您已經知道該怎麼做了。\n\n- **給對命令列好奇的人（選填）：**API 任您探索：\n\n```bash,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A\n```",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:49:30.101962+00:00"
+}

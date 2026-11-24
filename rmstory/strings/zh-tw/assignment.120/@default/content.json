@@ -1,0 +1,8 @@
+{
+  "content": "## 🎯 您的任務目標\n\n1. 模擬記錄的建立與銷毀\n2. 從快照複製預備環境\n3. 驗證預備沙盒中的資料\n4. 還原生產系統\n5. 連接 <span id=\"assignment.120.1\"/>\n6. 設定備份排程\n\n\n\n🔐 登入憑證\n====================\n\n<span id=\"assignment.69.1\"/> UI 與 **Rancher Prime** UI 使用相同的憑證。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:39:45.364561+00:00"
+}

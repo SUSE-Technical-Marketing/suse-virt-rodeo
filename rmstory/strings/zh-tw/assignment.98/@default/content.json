@@ -1,0 +1,8 @@
+{
+  "content": "- **查看遷移記錄**（移動的對象、時間、來源與目的地）：\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get virtualmachineinstancemigrations -A\n```\n\n- **檢查已完成遷移的詳細資訊：**\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig describe virtualmachineinstancemigrations -A | grep -A 10 \"Status\"\n```\n\n- **預先思考：**如果*節點*在任何人來得及遷移之前毫無預警地故障，會發生什麼事？檢查每個 VM 的執行策略：<span id=\"ch1.intro1.2\"/> 可以自動從故障的主機重新排程 VM：\n\n```bash,wrap,run\nkubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A -o custom-columns=NAME:.metadata.name,RUNSTRATEGY:.spec.runStrategy\n```\n\n> [!NOTE]\n> **不只是運算資源：**相同的零停機概念也適用於*磁碟*。<span id=\"ch1.intro1.2\"/> 支援**就地儲存即時遷移**（在不停止 VM 的情況下，於儲存後端之間移動運行中 VM 的磁碟區，例如從 <span id=\"assignment.2.8\"/> 移動至外部 <span id=\"assignment.2.9\"/> 陣列）。今晚撤離運算資源，下季撤離儲存資源，而閘道器對這兩者皆毫無所覺。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:35:30.914067+00:00"
+}

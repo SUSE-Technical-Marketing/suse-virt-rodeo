@@ -1,0 +1,8 @@
+{
+  "content": "並模擬初級管理員所犯下的可怕錯誤：\n\n```bash,run\nrm -f /home/sles/ledger.txt\n```\n\n一億美元，就這樣從磁碟中消失了。離開 VM 主控台：\n\n```bash,run\nexit\n```\n\n\n🧪 任務 2：從快照複製出預備環境\n========================================================\n\n\n  \n\n\n與其立即還原生產環境，您將建立一個**複本**（clone）來先行驗證資料，非破壞性復原向來是最佳做法。\n\n在",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:40:43.939707+00:00"
+}

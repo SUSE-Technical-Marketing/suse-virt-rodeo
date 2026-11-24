@@ -1,0 +1,8 @@
+{
+  "content": "在 <span id=\"assignment.55.1\"/> 輸入：\n\n```yaml\n#cloud-config\npackages:\n  - qemu-guest-agent\nruncmd:\n  - - systemctl\n    - enable\n    - --now\n    - qemu-guest-agent.service\nwrite_files:\n  - path: /etc/issue\n    content: |\n      \\e{red}Production\\e{reset}\n    append: true\nssh_authorized_keys:\n  - ssh-ed25519\n    AAAAC3NzaC1lZDI1NTE5AAAAIFdt8wX4G0WGg/l4uDq/LntBO7WiNyqh0+pNUzF/NfMa\n```\n\n點選 <span id=\"assignment.19.3\"/>（範本方塊內）以儲存範本\n\n由於該範本位於 <span id=\"assignment.55.2\"/> 命名空間中，且本身命名為 <span id=\"assignment.55.2\"/>，因此它會變成 prod/prod：即生產環境標準，可隨時供每台虛擬機器使用。",
+  "original_language": null,
+  "status": "draft",
+  "source_checksum": null,
+  "updated_by": "rmstory.engines:gemini",
+  "date_updated": "2026-11-24T13:27:16.668783+00:00"
+}
