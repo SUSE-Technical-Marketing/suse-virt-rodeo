@@ -1,5 +1,5 @@
 {
-  "content": ", 前往 <span id=\"assignment.22.1\"/> 並點選 harvester-longhorn。\n\n請注意 <span id=\"assignment.22.2\"/> 欄位：其設定為 **3**。從此類別建立的每個磁碟區都會獲得三個完整複本，並分散在三個不同的節點上。",
+  "content": "，前往 <span id=\"assignment.22.1\"/> 並點選 harvester-longhorn。\n\n請注意 <span id=\"assignment.22.2\"/> 欄位：其設定為 **3**。從此類別建立的每個磁碟區都會獲得三個完整複本，並分散在三個不同的節點上。",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

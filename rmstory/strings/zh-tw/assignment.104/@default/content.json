@@ -1,5 +1,5 @@
 {
-  "content": "## 軟體定義網路的兩大層級\n\n<span id=\"ch1.intro1.2\"/> 為您提供完整的全方位支援，從傳統的 VLAN 區隔到企業級 SDN，這些功能過去銀行都必須額外購買專屬的閉源 SDN 授權：\n\n| 層級 | 技術 | 今晚用途 |\n|-------|-----------|-------------|\n| L2 / VLAN 橋接 | **<span id=\"assignment.2.14\"/>** | 用於隔離資料庫的金庫 VLAN |\n| SDN / 隔離的 Overlay 區域 | **<span id=\"assignment.2.13\"/>** | 無外部路徑的私有子網路，甚至支援重疊的 CIDR |\n\n\n\n## 🎯 您的任務目標\n\n1. 為正式環境連線閉迴路實體網路\n2. 為開發環境建置具備同等隔離程度的 SDN\n3. 學習如何將虛擬機（VM）移至新網路中\n\n\n\n🔐 登入憑證\n====================\n\n<span id=\"assignment.69.1\"/> UI 與 <span id=\"assignment.2.12\"/> UI 使用相同的登入憑證。",
+  "content": "## 軟體定義網路的兩大層級\n\n<span id=\"ch1.intro1.2\"/> 為您提供從傳統 VLAN 區隔到企業級 SDN 的完整功能，這些功能過去銀行還得另外付費購買獨立的閉源 SDN 授權：\n\n| 層級 | 技術 | 今晚用途 |\n|-------|-----------|-------------|\n| L2 / VLAN 橋接 | **<span id=\"assignment.2.14\"/>** | 用於隔離資料庫的金庫 VLAN |\n| SDN / 隔離的 Overlay 區域 | **<span id=\"assignment.2.13\"/>** | 無外部路徑的私有子網路，甚至支援重疊的 CIDR |\n\n\n\n## 🎯 您的任務目標\n\n1. 為正式環境連接封閉迴路實體網路\n2. 為開發環境建置具備同等隔離程度的 SDN\n3. 學習如何將虛擬機器（VM）移至新網路中\n\n\n\n🔐 登入憑證\n====================\n\n<span id=\"assignment.69.1\"/> UI 與 <span id=\"assignment.2.12\"/> UI 使用相同的登入憑證。",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

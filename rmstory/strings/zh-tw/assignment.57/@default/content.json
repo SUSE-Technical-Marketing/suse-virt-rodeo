@@ -1,5 +1,5 @@
 {
-  "content": "引擎必須在**可預測的位址**上啟動，而不是使用 DHCP 分配的任何位址。請在 <span id=\"assignment.57.1\"/> 欄位中輸入：\n\n```yaml\nversion: 2\nethernets:\n  enp1s0:\n    addresses:\n      - 192.168.122.50/24\n    gateway4: 192.168.122.1\n    nameservers:\n      addresses:\n        - 192.168.122.1\n```\n\nCloud-init 會在首次開機時套用兩者：<span id=\"assignment.57.2\"/> 將在 `192.168.122.50` 上線，完全無需在部署後進行手動設定。\n\n> [!NOTE]\n> 這是 **cloud-init**，與各大主流公有雲所使用的業界標準機制相同。\n> 在實際情況下，會針對此伺服器的用途提供更完整的自動化程序和專屬範本。\n\n\n現在我們已完成設定，請點擊 <span id=\"assignment.19.3\"/> 來初始化虛擬機器的部署。\n\n無需等待開機完成，請直接進行下一個任務。",
+  "content": "引擎必須在**可預測的位址**上啟動，而不是使用 DHCP 分配的任何位址。請在 <span id=\"assignment.57.1\"/> 欄位中輸入：\n\n```yaml\nversion: 2\nethernets:\n  enp1s0:\n    addresses:\n      - 192.168.122.50/24\n    gateway4: 192.168.122.1\n    nameservers:\n      addresses:\n        - 192.168.122.1\n```\n\nCloud-init 會在首次開機時套用兩者：<span id=\"assignment.57.2\"/> 將在 `192.168.122.50` 上線，完全無需在部署後進行手動設定。\n\n> [!NOTE]\n> 這是 **cloud-init**，與各大主流公有雲所使用的業界標準機制相同。\n> 在實際情況下，會針對此伺服器的用途提供更完整的自動化流程和專屬範本。\n\n\n現在我們已完成設定，請按一下 <span id=\"assignment.19.3\"/>，開始部署虛擬機器。\n\n無需等待開機完成，請直接進行下一個任務。",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

@@ -1,5 +1,5 @@
 {
-  "content": "> [!IMPORTANT]\n> 由於此實驗環境運行於**巢狀配置**上，I/O 效能會比平常稍慢一些，且佈建程序需要幾分鐘的時間。在您的虛擬機器啟動期間，我們為您準備了一些精彩內容！請前往加分演練（Bonus Drills），了解如何使用 CLI 與 <span id=\"ch1.intro1.2\"/> API 進行互動。<span id=\"ch1.intro1.2\"/> 中的一切都是 <span id=\"assignment.2.2\"/> 物件，這意味著您可以透過底層的 RKE2 叢集經由 <span id=\"assignment.2.2\"/> API 進行管理。\n> 完成後，請返回任務 3。\n\n🖥️ 任務 3：存取 Web 主控台\n=================================\n\n監控",
+  "content": "> [!IMPORTANT]\n> 由於此實驗環境執行於**巢狀組態**上，I/O 效能會比平常稍慢一些，且佈建過程需要幾分鐘的時間。在您的虛擬機器啟動期間，我們為您準備了一些精彩內容！請前往加碼練習（Bonus Drills），了解如何使用 CLI 與 <span id=\"ch1.intro1.2\"/> API 進行互動。<span id=\"ch1.intro1.2\"/> 中的一切都是 <span id=\"assignment.2.2\"/> 物件，這意味著您可以透過底層的 RKE2 叢集經由 <span id=\"assignment.2.2\"/> API 進行管理。\n> 完成後，請回到任務 3。\n\n🖥️ 任務 3：存取 Web 主控台\n=================================\n\n監控",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

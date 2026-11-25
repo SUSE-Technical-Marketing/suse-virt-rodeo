@@ -1,5 +1,5 @@
 {
-  "content": "- <span id=\"assignment.110.1\"/>:\n  - <span id=\"assignment.110.2\"/>: UntaggedNetwork\n  - <span id=\"assignment.110.3\"/>: closed-loop\n\n按一下 <span id=\"assignment.19.3\"/>。\n\n\n  \n\n\n回到 <span id=\"assignment.109.3\"/> 清單，secure-loop-prod 會顯示為 <span id=\"assignment.110.4\"/> 狀態。\n\n\n\n🔒 任務 2：建立閉迴路 SDN\n===================================\n\n現在請為開發環境建立相同類型的隔離。<span id=\"assignment.110.5\"/>\n\n\n  \n\n\n前往 <span id=\"assignment.110.6\"/> 並按一下 <span id=\"assignment.19.3\"/>，然後填入以下詳細資料：\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
+  "content": "- <span id=\"assignment.110.1\"/>:\n  - <span id=\"assignment.110.2\"/>: UntaggedNetwork\n  - <span id=\"assignment.110.3\"/>: closed-loop\n\n按一下 <span id=\"assignment.19.3\"/>。\n\n\n  \n\n\n回到 <span id=\"assignment.109.3\"/> 清單，secure-loop-prod 會顯示為 <span id=\"assignment.110.4\"/> 狀態。\n\n\n\n🔒 任務 2：建立封閉迴路 SDN\n===================================\n\n現在請為開發環境建立相同類型的隔離。<span id=\"assignment.110.5\"/>\n\n\n  \n\n\n前往 <span id=\"assignment.110.6\"/> 並按一下 <span id=\"assignment.19.3\"/>，然後填入以下詳細資料：\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

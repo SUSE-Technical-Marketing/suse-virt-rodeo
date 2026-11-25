@@ -1,5 +1,5 @@
 {
-  "content": "2. 點選其資料列右側的 \n3. 選取 <span id=\"assignment.74.1\"/>，並在出現確認提示後點選 <span id=\"assignment.74.2\"/>。\n4. 等候其狀態變更為 <span id=\"assignment.74.3\"/>\n\n這會暫停其 CPU 週期，將最大的硬體資源專用於您的緊急作業。\n\n> [!NOTE]\n> 這其實並非必要，我們已經為即時移轉流量設定了專用網路，此處僅供教學目的",
+  "content": "2. 點選其資料列右側的 ⋮ 圖示\n3. 選取 <span id=\"assignment.74.1\"/>，並在出現確認提示後點選 <span id=\"assignment.74.2\"/>。\n4. 等候其狀態變更為 <span id=\"assignment.74.3\"/>\n\n這會停止它的 CPU 運算，把最多的硬體資源留給您的緊急作業。\n\n> [!NOTE]\n> 這一步其實並非必要，我們已經為即時遷移流量設定了專用網路，此處僅供教學目的",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,
