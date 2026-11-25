@@ -3,8 +3,8 @@ slug: a-new-horizon-whats-next
 id: qzmycpm7jtwa
 type: challenge
 title: "<span id="assignment.158" lang="zh-TW" no>🌅 第八章：嶄新的地平線</span>"
-teaser: <span id="assignment.159" lang="zh-TW" hist="vertrex-bank">這家銀行完全在 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 上運行。
-  繞場慶祝一番，回顧你所掌握的一切，並規劃你的新技能可以帶領你自己的資料中心走向何方。</span>
+teaser: <span id="assignment.159" lang="zh-TW" hist="vertrex-bank">這家銀行完全在 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 上執行。
+  繞場慶祝一番，回顧您所掌握的一切，並規劃您的新技能可以帶領您自己的資料中心走向何方。</span>
 tabs:
 - id: jw4tji5y1jbv
   title: SUSE Virtualization UI
@@ -129,11 +129,11 @@ enhanced_loading: null
 
 <span id="assignment.161" lang="zh-TW" hist="vertrex-bank">塵埃終於落定。資料中心一片寧靜，沐浴在完美協同運作的 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 節點所散發的柔和綠光之中。
 
-Vertex 信託銀行不再受過去的枷鎖束縛。如今，它完全運作在精簡、高效能的雲端原生虛擬化技術堆疊之上。
+Vertex Trust Bank 不再受過去的枷鎖束縛。如今，它完全運作在精簡、高效能的雲端原生虛擬化技術堆疊之上。
 
-莎拉站在你身旁，看著主螢幕上的整合儀表板。*「我原本以為這不可能辦到，」*她難以置信地搖了搖頭承認道。*「我們居然在完全相同的底層架構上，同時運行容器化微服務與單體式帳本。我們的儲存是分散式的，網路是軟體定義的，而我們的授權成本更是剛剛直線暴跌。」*
+Sarah 站在您身旁，看著主螢幕上的整合儀表板。*「我原本以為這不可能辦到，」*她難以置信地搖了搖頭承認道。*「我們居然在完全相同的底層架構上，同時執行容器化微服務與單體式帳本。我們的儲存是分散式的，網路是軟體定義的，而我們的授權成本更是剛剛直線暴跌。」*
 
-她轉向你並伸出手。*「謝謝你。你拯救的不僅僅是我們的基礎架構——你拯救了整間銀行。」*</span>
+她轉向您並伸出手。*「謝謝您。您拯救的不僅僅是我們的基礎架構——您拯救了整間銀行。」*</span>
 
 </div>
 
@@ -144,11 +144,11 @@ Vertex 信託銀行不再受過去的枷鎖束縛。如今，它完全運作在�
 | 章節 | 危機 | 您所掌握的技能 |
 |:--------|:-------|:-------------------|
 | 🏦 抵達現場 | 瀕臨滅頂的傳統資料中心 | 檢視平台儀表板、<span id="assignment.2.8" lang="nolang" no>Longhorn</span> 儲存空間與 Rancher Prime |
-| 🛗 地底隔閡 | 兩個各自為政的硬體孤島 | 在單一 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 架構上整合虛擬機與容器 |
-| ⚡ 閃電崩盤 | 市場崩盤危機 | 透過映像檔、磁碟區與 cloud-init 在數分鐘內部署虛擬機 |
-| 🌊 浪潮來襲 | 淹水的伺服器機架 | 零停機即時移轉與一鍵節點撤離 |
+| 🛗 地底隔閡 | 兩個各自為政的硬體孤島 | 在單一 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 架構上整合虛擬機器與容器 |
+| ⚡ 閃電崩盤 | 市場崩盤危機 | 透過映像檔、磁碟區與 cloud-init 在數分鐘內部署虛擬機器 |
+| 🌊 浪潮來襲 | 淹水的伺服器機架 | 零停機即時遷移與一鍵節點撤離 |
 | 🕵️ 隱形入侵者 | 橫向攻擊路徑 | 軟體定義 VLAN 與隔離的 SDN 子網路 |
-| ⏪ 難以挽回的失誤 | 一筆價值一億美元的資料遭誤刪 | 快照、暫存複本、儲存分層與排程叢集外備份 |
+| ⏪ 難以挽回的失誤 | 一筆價值一億美元的資料遭誤刪 | 快照、預備環境（staging）複製、儲存分層與排程叢集外備份 |
 | 🤠 狂奔之災 | 運算資源匱乏 | 黃金 VM 範本，依需求迅速批量建立完全相同的機群 |</span>
 
 
@@ -189,13 +189,13 @@ admin
 <span id="assignment.165" lang="zh-TW" no>🧭 勝利巡禮：實驗室仍屬於您
 =======================================
 
-實驗室環境將維持啟用狀態，直到您的計時結束為止。歡迎隨意深入探索儀表板，並對您所建置的基礎架構進行實驗。以下是一些想法：
+實驗室環境將維持啟用狀態，直到您的計時結束為止。歡迎隨意深入探索儀表板，並拿您所建置的基礎架構做實驗。以下是一些想法：
 
 - **為您打造的帝國做最後的盤點。** 瀏覽</span>[button label="SUSE Virtualization UI" variant="success"](tab-0)<span id="assignment.166" lang="zh-TW" no>：<span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span> 頁面、您所定義的 **Networks**、**Templates** 藍圖，以及 **Backup & Snapshot** 歷史紀錄：本週的每場危機都在這裡留下了印記。
 
-- **設計您自己的危機。**從頭開始建立一台新的 VM：挑選映像檔、設定規格大小、進行 cloud-init 配置、建立快照、執行即時遷移。這次沒有操作指示。您已經知道該怎麼做了。
+- **設計您自己的危機**。從頭開始建立一台新的 VM：挑選映像檔、設定規格大小、用 cloud-init 完成初始設定、建立快照、執行即時遷移。這次沒有操作指示。您已經知道該怎麼做了。
 
-- **給對命令列好奇的人（選填）：**API 任您探索：
+- **給對命令列好奇的人（選做）**：API 任您探索：
 
 ```bash,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubeconfig .rodeo/harvester-kubeconfig get network-attachment-definitions -A && kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A
@@ -205,15 +205,15 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 <span id="assignment.167" lang="zh-TW" no>🚀 接下來有何展望？
 ===============================
 
-- 📖 研讀 [SUSE 虛擬化說明文件](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html) 中的深度技術架構，持續精進您的專業技能。
+- 📖 研讀 [SUSE Virtualization 說明文件](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html) 中的深度技術架構，持續精進您的專業技能。
 
-- 🐮 透過 [<span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html) 學習如何**大規模管理這些叢集艦隊**（透過單一 Rancher Prime 管理每個分支資料中心的所有 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 叢集）。
+- 🐮 透過 [<span id="assignment.2.15" lang="nolang" no>SUSE Rancher Prime</span>](https://documentation.suse.com/cloudnative/rancher-manager/latest/en/rancher-manager.html) 學習如何**大規模管理這些叢集機群**（透過單一 Rancher Prime 管理每個分行資料中心的所有 <span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 叢集）。
 
 - 🧪 在家中自行重現：<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span> 為開源軟體。取得 ISO 檔，安裝在任何閒置的 x86 主機上，即可執行您專屬的虛擬機器。
 
-- 🤝 在這條路上您絕不孤單：SUSE 客戶始終將 <span id="assignment.167.1" lang="nolang" no>**SUSE Support**</span> 評為業界頂尖，且客戶回饋會直接形塑產品的演進方向。與 SUSE 合作，意味著您擁有一席參與決策的席位，而不僅僅是佇列中的一張支援工單。這就是開源的與眾不同之處。
+- 🤝 在這條路上您絕不孤單：SUSE 客戶始終將 <span id="assignment.167.1" lang="nolang" no>**SUSE Support**</span> 評為業界頂尖之列，且客戶回饋會直接形塑產品的演進方向。與 SUSE 合作，意味著您在決策桌上有一席之地，而不只是佇列中的一張支援工單。這就是開源的與眾不同之處。
 
-- 💬 請洽詢您的 SUSE 代表，了解若將這個轉型歷程套用至您機房最幽暗角落裡的**老舊叢集**，將會呈現出怎樣的嶄新樣貌。</span>
+- 💬 請洽詢您的 SUSE 代表，聊聊如果故事的主角換成**您**那座藏在機房最幽暗角落裡的老舊叢集，會是什麼樣貌。</span>
 
 <div id="903" class="story">
 
@@ -228,6 +228,6 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get vm -A && kubectl  --kubecon
 
 - [<span id="ch1.intro1.2" lang="nolang" no>SUSE Virtualization</span>：概觀](https://documentation.suse.com/cloudnative/virtualization/latest/en/introduction/overview.html)
 - [建立 <span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/create-vm.html)
-- [即時移轉](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
+- [即時遷移](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/live-migration.html)
 - [備份與還原](https://documentation.suse.com/cloudnative/virtualization/latest/en/virtual-machines/backup-restore.html)
 - [叢集網路](https://documentation.suse.com/cloudnative/virtualization/latest/en/networking/cluster-network.html)</span>
