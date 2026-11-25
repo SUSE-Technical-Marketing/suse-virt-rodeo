@@ -3,7 +3,7 @@ slug: the-stampede-automation
 id: euwnv5ojhvfl
 type: challenge
 title: "<span id="assignment.138" lang="zh-TW" no>🤠 第七章：狂奔</span>"
-teaser: <span id="assignment.139" lang="zh-TW" hist="vertrex-bank">市場全面暴跌，量化團隊需要立刻將運算叢集從三個節點擴充至五個。打造黃金 VM 範本，並依需求快速複製出完全相同的機器。</span>
+teaser: <span id="assignment.139" lang="zh-TW" hist="vertrex-bank">市場全面暴跌，量化團隊需要立刻將運算機群從三個節點擴充至五個。打造黃金 VM 範本，並依需求快速複製出完全相同的機器。</span>
 tabs:
 - id: xxc2ymjtxzih
   title: SUSE Virtualization UI
@@ -135,13 +135,13 @@ enhanced_loading: null
 
 <div id="701" class="story">
 
-<span id="assignment.141" lang="zh-TW" hist="vertrex-bank">全球利率驟然劇變，讓金融市場陷入一片混亂的狂潮之中。Vertex Trust 銀行的風險分析演算法頻頻告急，急需更多運算能力來處理排山倒海而來的劇烈市場波動數據。
+<span id="assignment.141" lang="zh-TW" hist="vertrex-bank">全球利率驟然劇變，讓金融市場陷入一片混亂的狂潮之中。Vertex Trust Bank 的風險分析演算法頻頻告急，急需更多運算能力來處理排山倒海而來的劇烈市場波動資料。
 
 *「光靠一台運算引擎已經不夠用了！」* **量化主管**揮舞著列印出來的報告，隔著辦公室大喊。*「我需要立刻部署五台一模一樣的引擎，否則我們就等於閉著眼睛衝進這場市場崩盤之中！」*
 
-手動一台接著一台、一個畫面接著一個畫面地建立五台機器，只會招致你現在絕對承受不起的後果：這裡打錯了記憶體大小，那裡遺漏了網路設定。在高壓之下產生的設定漂移——而在這個當下，人為失誤**每秒**都會造成數百萬美元的代價。
+手動一台接著一台、一個畫面接著一個畫面地建立五台機器，只會招致您現在絕對承受不起的後果：這裡打錯了記憶體大小，那裡遺漏了網路設定。這就是高壓之下的設定漂移——而在這個當下，人為失誤**每秒**都會造成數百萬美元的損失。
 
-你活動了一下指關節。銀行現在需要的，是一份**黃金藍圖**：只需定義一次完美的機器規格，就能依需求快速複製出完全相同的副本。</span>
+您活動了一下指關節。銀行現在需要的，是一份**黃金藍圖**：只需定義一次完美的機器規格，就能依需求快速複製出完全相同的副本。</span>
 
 </div>
 
@@ -205,9 +205,9 @@ prod-basic
 
 </div>
 
-<span id="assignment.145" lang="zh-TW" no>我們需要盡可能減少資源使用量，且所有虛擬機器都應可使用受到安全保護的生產環境 SSH 金鑰連線。
+<span id="assignment.145" lang="zh-TW" no>我們需要盡可能減少資源使用量，且所有虛擬機器都應可使用受到安全保護的正式環境 SSH 金鑰連線。
 
-- 基本設定：
+- Basics:
   - <span id="assignment.42.1" lang="nolang" no>**CPU**</span>: 1
   - <span id="assignment.145.1" lang="nolang" no>**Memory**</span>: 1
   - <span id="assignment.45.1" lang="nolang" no>**SSHKey**</span>: prod/default
@@ -240,7 +240,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="zh-TW" no>- **值**：</span>
+<span id="assignment.52" lang="zh-TW" no>- **Value**:</span>
 
 <div class="cred">
 
@@ -266,7 +266,7 @@ stage
 
 </div>
 
-<span id="assignment.52" lang="zh-TW" no>- **值**：</span>
+<span id="assignment.52" lang="zh-TW" no>- **Value**:</span>
 <div class="cred">
 
 ```txt
@@ -283,17 +283,17 @@ prod
 
 若要完成，請按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>。
 
-你能想像每次都要填寫所有這些詳細資訊嗎？大家一定會受不了而放棄，環境中也會充斥著各種不一致，而不一致更會讓後續的自動化難上加難。
+您能想像每次都要填寫所有這些詳細資訊嗎？大家一定會受不了而放棄，環境中也會充斥著各種不一致，而不一致更會讓後續的自動化難上加難。
 
 
 > [!NOTE]
 > 範本具備**版本控制**功能。如果您日後編輯範本，系統會建立新版本，而根據舊版本建置的機器仍會保留其歷程關聯：完整記錄從何種藍圖部署了哪些內容的稽核軌跡，這正是法規監管機構所樂見的。
 
 
-📈 任務 2：在高壓下擴展機群規模
+📈 任務 2：在壓力下擴展機群
 =========================================
 
-因為範本已經建立，只需點擊幾下即可部署多部伺服器。
+因為範本已經建立，只需按幾下即可部署多部伺服器。
 
 
   
@@ -316,7 +316,7 @@ appcluster
 
 <span id="assignment.149" lang="zh-TW" no>4. 將 <span id="assignment.149.1" lang="nolang" no>**Count**</span> 設定為 2
 5. 勾選 <span id="assignment.149.2" lang="nolang" no>**Use VM Template**</span> 並將 <span id="assignment.149.3" lang="nolang" no>**Template**</span> 設定為 prod/prod-basic
-6. 點擊 <span id="assignment.19.3" lang="nolang" no>**Create**</span></span>
+6. 按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span></span>
 
 
 
@@ -328,12 +328,12 @@ appcluster
 </div>
 
 
-<span id="assignment.151" lang="zh-TW" no>🧹 任務 3：解除艦隊戰備
+<span id="assignment.151" lang="zh-TW" no>🧹 任務 3：撤除機群
 ===============================</span>
 
 <div id="703" class="story">
 
-<span id="assignment.152" lang="zh-TW" hist="vertrex-bank">市場的狂潮逐漸平息。虛擬機器閒置著，等待著下一波浪潮——但它會在今天到來嗎？明天？還是下個月？對這些高貴的伺服器而言，等待比處理繁重的數據運算還要痛苦。</span>
+<span id="assignment.152" lang="zh-TW" hist="vertrex-bank">市場的狂潮逐漸平息。虛擬機器閒置著，等待著下一波浪潮——但它會在今天到來嗎？明天？還是下個月？對這些高貴的伺服器而言，等待比埋頭處理繁重的數字運算還要痛苦。</span>
 
 </div>
 
@@ -359,10 +359,10 @@ appcluster
 
 
 
-<span id="assignment.156" lang="zh-TW" no>🏋️ 加分練習：獻給對命令列好奇的人（可選）
+<span id="assignment.156" lang="zh-TW" no>🏋️ 加碼練習：給對命令列好奇的您（選做）
 ==========================================================
 
-剛接觸 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 嗎？**請隨意跳過。**否則，請在</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="zh-TW" no>UI、機群與 API 皆保持一致：
+剛接觸 <span id="assignment.2.2" lang="nolang" no>Kubernetes</span> 嗎？**歡迎直接跳過**。否則，請在</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.157" lang="zh-TW" no>中證明 UI、機群與 API 三者完全一致：
 
 - **將範本視為 API 物件進行檢查**：範本及其版本也都是資源：
 
@@ -393,11 +393,11 @@ less template_prod-basic.yaml
 💼 為什麼這很重要？
 ==============================================
 
-- **自有硬體上的彈性。** <span id="assignment.157.1" lang="zh-TW" hist="vertrex-bank">在銀行自有的資料中心實現雲端式的水平擴充（與縮減）：無資料落地疑慮，亦無傳出流量帳單。</span>
+- **自有硬體上的彈性。** <span id="assignment.157.1" lang="zh-TW" hist="vertrex-bank">在銀行自有的資料中心做到雲端般的水平擴充（與縮減）：沒有資料存放地點的法規疑慮，也沒有對外傳輸流量的帳單。</span>
 - **透過工程設計消除人為錯誤。** 機器皆源自具備版本控制的黃金藍圖，而非憑記憶與手動操作：凌晨兩點絕不會發生組態漂移。
-- **全生命週期經濟效益。** 除役只需勾選並點擊一下，因此暫時性的容量絕不會變成永久的成本，這與舊有的 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> 蔓延現象截然相反。
+- **全生命週期經濟效益。** 除役只需勾選再按一下，因此暫時性的容量絕不會變成永久的成本，這與舊有的 <span id="ch1.intro1.1" lang="nolang" no>hypervisor</span> 蔓延現象截然相反。
 
-點擊 <span id="assignment.32.1" lang="nolang" no>**Check**</span> 繼續。⚔️
+按一下 <span id="assignment.32.1" lang="nolang" no>**Check**</span> 繼續。⚔️
 
 📚 更多資訊
 ===================</span>
