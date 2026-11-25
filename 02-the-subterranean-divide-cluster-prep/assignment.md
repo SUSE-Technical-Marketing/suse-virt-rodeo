@@ -234,7 +234,7 @@ admin
 
 By default every volume it creates is replicated across multiple nodes, so a disk failure or a node reboot never makes you lose the data. No SAN, no separate storage team, one system for VMs and containers alike.
 
-It is ready for you to use but if you want to use other <span id="assignment.2.9" lang="nolang" no>CSI</span> you are free to use it, no vendor lock-in.
+It is ready for you to use, but you are free to use any other <span id="assignment.2.9" lang="nolang" no>CSI</span> driver instead: no vendor lock-in.
 
 
 🖥️ Task 1: Inspect the physical node topology
@@ -303,7 +303,7 @@ VMs from dev
 <span id="assignment.21" lang="en" no>
 4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
-The developers workspace now stand ready, in the future we can assign to it quotas, policies, and access controls.
+The developers' workspace now stands ready; in the future we can assign quotas, policies, and access controls to it.
 
 💾 Task 3: Understand how <span id="assignment.2.8" lang="nolang" no>Longhorn</span> replicates your data
 ========================================================

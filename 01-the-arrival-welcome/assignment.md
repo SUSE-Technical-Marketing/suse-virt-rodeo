@@ -340,7 +340,7 @@ mysusevirt1
 </div>
 
 3. Click **Create**
-4. A new screen appears. On it a url shows up, copy that url for the next steps.
+4. A new screen appears. A URL is shown on it; copy that URL for the next steps.
 5. Below it you can see the registration instructions. Follow them, and remember to select **<span id="assignment.6.14" lang="nolang" no>Insecure Skip TLS Verify</span>** when editing the <b class="highlightcopy">cluster-registration-url</b> setting. This should be done in [button label="SUSE Virtualization UI" variant="success"](tab-0).
 
 6. Switch back to [button label="Rancher Prime UI" variant="success"](tab-2) and click on "<span id="assignment.2.1" lang="nolang" no>Harvester</span> Clusters" on the top left of the UI.

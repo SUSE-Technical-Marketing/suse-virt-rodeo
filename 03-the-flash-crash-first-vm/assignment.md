@@ -569,7 +569,7 @@ Monitor the </span> [button label="SUSE Virtualization UI" variant="success"](ta
 
 
 1. Click the <span id="assignment.61.1" lang="nolang" no>**Console**</span> button on the virtual machine row to open the VNC web console
-2. Observe we can access the system without a connection by using this method, **don't wait for the installation to finish just move on to the next**.
+2. Observe that this method gives you access to the system even without a network connection. **Don't wait for the installation to finish, just move on to the next task**.
 3. Close the console window
 
 
