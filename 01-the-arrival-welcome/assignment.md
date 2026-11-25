@@ -231,7 +231,7 @@ admin
 </div>
 
 
-<span id="assignment.3" lang=zh-TW> [!NOTE]
+<span id="assignment.3" lang=zh-TW>> [!NOTE]
 > 使用者介面使用的是自我簽署憑證。當瀏覽器出現安全性警告時，請選擇接受。如果頁面沒有立即載入，實驗室環境可能仍在開機中。請稍等一分鐘並重新整理分頁。
 
 > [!NOTE]
