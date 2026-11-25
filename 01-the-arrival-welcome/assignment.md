@@ -244,11 +244,11 @@ admin
 📊 任務 1：登入並檢視統一儀表板
 ===================================================
 
-導覽至</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=zh-TW分頁並使用您的憑證登入。
+導覽至</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.4" lang=zh-TW>分頁並使用您的憑證登入。
 
 ![01-connect_to_cluster.gif](../assets/chapter1-connect_to_cluster.gif)
 
-花點時間看一下主要</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=zh-TW：這是您進行整個任務的指揮中心。
+花點時間看一下主要</span>  <span id="assignment.5" lang="nolang" no>**Dashboard**</span><span id="assignment.6" lang=zh-TW>：這是您進行整個任務的指揮中心。
 
 
 > [!NOTE]
