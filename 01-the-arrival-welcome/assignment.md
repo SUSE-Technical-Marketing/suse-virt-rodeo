@@ -243,7 +243,7 @@ admin
 <span id="assignment.3" lang=en>
 
 > [!NOTE]
-> The UIs use self-signed certificates. Accept the browser security warning when it appears. If a page does not load right away, the lab environment may still be booting. Wait a minute and refresh the tab.
+> If the browser shows a certificate warning, accept it to continue. If a page does not load right away, the lab environment may still be booting. Wait a minute and refresh the tab.
 
 > [!NOTE]
 > If you prefer to work in your own browser instead of the embedded tabs, the lab host is reachable directly at:
