@@ -1,5 +1,5 @@
 {
-  "content": "並模擬初級管理員所犯下的可怕錯誤：\n\n```bash,run\nrm -f /home/sles/ledger.txt\n```\n\n一億美元，就這樣從磁碟中消失了。離開 VM 主控台：\n\n```bash,run\nexit\n```\n\n\n🧪 任務 2：從快照複製出預備環境\n========================================================\n\n\n  \n\n\n與其立即還原生產環境，您將建立一個**複本**（clone）來先行驗證資料，非破壞性復原向來是最佳做法。\n\n在",
+  "content": "並模擬初階管理員所犯下的可怕錯誤：\n\n```bash,run\nrm -f /home/sles/ledger.txt\n```\n\n一億美元，就這樣從磁碟中消失了。離開 VM 主控台：\n\n```bash,run\nexit\n```\n\n\n🧪 任務 2：從快照複製出預備環境\n========================================================\n\n\n  \n\n\n您不會立即還原正式環境，而是先建立一個**複本**（clone）來驗證資料；我們一律建議採用非破壞性的復原方式。\n\n在",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

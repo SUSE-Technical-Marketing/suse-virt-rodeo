@@ -1,5 +1,5 @@
 {
-  "content": "，登入虛擬機器（虛擬機器啟動可能需要幾分鐘）：\n\n```bash,wrap,run\nwhile [[ \"${IPA}\" ==  \"\" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'|grep -v ':'`; sleep 5; echo -n '.'; done ; while [[ \"$?\" != \"0\" ]] ; do ssh -T -o StrictHostKeyChecking=accept-new sles@${IPA} 2>/dev/null ; sleep 5; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}\n\n```\n\n請完全依照以下內容輸入，將高度敏感的交易紀錄產生至磁碟：\n\n```bash,wrap,run\necho \"CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED\" > /home/sles/ledger.txt\n```\n\n**現在擷取基準。**切換至",
+  "content": "，登入虛擬機器（虛擬機器啟動可能需要幾分鐘）：\n\n```bash,wrap,run\nwhile [[ \"${IPA}\" ==  \"\" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubeconfig get vmi core-services -n prod -o jsonpath='{.status.interfaces[0].ipAddress}'|grep -v ':'`; sleep 5; echo -n '.'; done ; while [[ \"$?\" != \"0\" ]] ; do ssh -T -o StrictHostKeyChecking=accept-new sles@${IPA} 2>/dev/null ; sleep 5; done ; ssh -o StrictHostKeyChecking=accept-new sles@${IPA}\n\n```\n\n請完全依照以下內容輸入，將高度敏感的交易紀錄產生至磁碟：\n\n```bash,wrap,run\necho \"CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED\" > /home/sles/ledger.txt\n```\n\n**現在擷取基準**。切換至",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

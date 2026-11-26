@@ -1,5 +1,5 @@
 {
-  "content": "，從左側選單中選取 <span id=\"assignment.19.1\"/>。您會注意到 prod 已經列在清單中。<span id=\"assignment.19.2\"/>\n\n現在建立其用於開發的對應項目：\n\n1. 按一下 <span id=\"assignment.19.3\"/>\n2. 將 <span id=\"assignment.19.4\"/> 設定為：",
+  "content": "，從左側選單中選取 <span id=\"assignment.19.1\"/>。您會注意到 prod 已經列在清單中。<span id=\"assignment.19.2\"/>\n\n現在為開發環境建立對應的 namespace：\n\n1. 按一下 <span id=\"assignment.19.3\"/>\n2. 將 <span id=\"assignment.19.4\"/> 設定為：",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

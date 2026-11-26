@@ -1,5 +1,5 @@
 {
-  "content": "請注意 <span id=\"assignment.27\"/> 區段，我們可以在此指定網路的可用位置。\n\n2. 在 <span id=\"assignment.109.1\"/> 下，將 <span id=\"assignment.109.2\"/> 設定為 ens5\n\n3. 按一下 <span id=\"assignment.19.3\"/>\n\n\n\n  \n\n\n現在於其基礎上定義面向 VM 的網路。選取 <span id=\"assignment.109.3\"/> 並按一下 <span id=\"assignment.19.3\"/> 來定義新的安全周界：\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
+  "content": "請注意 <span id=\"assignment.27\"/> 區段，我們可以在此指定這個網路要在哪些節點上提供。\n\n2. 在 <span id=\"assignment.109.1\"/> 下，將 <span id=\"assignment.109.2\"/> 設定為 ens5\n\n3. 按一下 <span id=\"assignment.19.3\"/>\n\n\n\n  \n\n\n現在在它之上定義供 VM 使用的網路。選取 <span id=\"assignment.109.3\"/> 並按一下 <span id=\"assignment.19.3\"/> 來定義新的安全周界：\n\n- <span id=\"assignment.39.3\"/>: prod\n- <span id=\"assignment.19.4\"/>:",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

@@ -1,5 +1,5 @@
 {
-  "content": ":\n\n1. 前往 <span id=\"assignment.40.2\"/>\n2. 點擊 <span id=\"assignment.61.1\"/> 下拉式選單並選取 <span id=\"assignment.136.1\"/>，隨後會出現終端機的新視窗，您可以隨意調整視窗大小。\n3. 使用下列憑證登入：\n   - <span id=\"assignment.136.2\"/>: 'sles'\n   - <span id=\"assignment.136.3\"/>: '1234'\n\n4. 進入後，執行下列指令：",
+  "content": "：\n\n1. 前往 <span id=\"assignment.40.2\"/>\n2. 按一下 <span id=\"assignment.61.1\"/> 下拉式選單並選取 <span id=\"assignment.136.1\"/>，隨後會出現終端機的新視窗，您可以隨意調整視窗大小。\n3. 使用下列憑證登入：\n   - <span id=\"assignment.136.2\"/>: 'sles'\n   - <span id=\"assignment.136.3\"/>: '1234'\n\n4. 進入後，執行下列指令：",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

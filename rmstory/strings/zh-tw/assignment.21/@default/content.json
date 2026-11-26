@@ -1,5 +1,5 @@
 {
-  "content": "4. 按一下 <span id=\"assignment.19.3\"/>\n\n開發人員工作區現已準備就緒，未來我們可以為其指派配額、原則與存取控制。\n\n💾 任務 3：了解 <span id=\"assignment.2.8\"/> 如何複寫您的資料\n========================================================\n\n\n\n\n\n\n讓我們來看看儲存後端是*如何*維持狀況良好的。<span id=\"ch1.intro1.2\"/> 提供給 VM 或 pod 的每個磁碟都是 **<span id=\"assignment.2.8\"/> 磁碟區**，而每個 <span id=\"assignment.2.8\"/> 磁碟區都是由 <span id=\"assignment.21.1\"/> 建立的：這是一項決定了（除了其他項目外）在任何指定時間您的資料會存在多少份複本的原則。\n\n在",
+  "content": "4. 按一下 <span id=\"assignment.19.3\"/>\n\n開發人員的工作區現已準備就緒，未來我們可以為其指派配額、原則與存取控制。\n\n💾 任務 3：了解 <span id=\"assignment.2.8\"/> 如何複寫您的資料\n========================================================\n\n\n\n\n\n\n讓我們來看看儲存後端是*如何*維持狀況良好的。<span id=\"ch1.intro1.2\"/> 提供給 VM 或 pod 的每個磁碟都是 **<span id=\"assignment.2.8\"/> 磁碟區**，而每個 <span id=\"assignment.2.8\"/> 磁碟區都是由 <span id=\"assignment.21.1\"/> 建立的：這是一項原則，決定的事項之一，就是您的資料在任何時候會有多少份複本。\n\n在",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,

@@ -1,5 +1,5 @@
 {
-  "content": "2. 按一下 <span id=\"assignment.19.3\"/>\n\n您剛建立的映像檔會出現在清單中，狀態為 <span id=\"assignment.40.1\"/>。您可以在進度欄中追蹤其進度。\n\n請前往下一項工作；下載完成後，畫面右上角的**通知鈴鐺**會顯示提醒。\n\n\n> [!NOTE]\n> 下載是在伺服器端執行，來自此實驗室自身網路上的本機鏡像，因此只需數秒即可完成。一旦 <span id=\"assignment.2.8\"/> 完成複寫，映像檔狀態即會變更為 **<span id=\"assignment.6.17\"/>**。\n\n\n🚀 工作 2：佈建計算引擎\n===========================================\n\n\n在此工作中，我們將建立第一部 VM。\n\n\n> [!NOTE]\n> 在收到指示之前，請勿按一下 <span id=\"assignment.19.3\"/>。\n\n\n  \n\n\n\n導覽至 <span id=\"assignment.40.2\"/> 並按一下 <span id=\"assignment.19.3\"/> 按鈕。\n\n<span id=\"assignment.40.3\"/>\n\n- <span id=\"assignment.19.4\"/>:",
+  "content": "2. 按一下 <span id=\"assignment.19.3\"/>\n\n您剛建立的映像檔會出現在清單中，狀態為 <span id=\"assignment.40.1\"/>。您可以在進度欄中追蹤其進度。\n\n請前往下一項任務；下載完成後，畫面右上角的**通知鈴鐺**會顯示提醒。\n\n\n> [!NOTE]\n> 下載是在伺服器端執行，來自此實驗室自身網路上的本機鏡像站，因此只需數秒即可完成。一旦 <span id=\"assignment.2.8\"/> 完成複寫，映像檔狀態即會變更為 **<span id=\"assignment.6.17\"/>**。\n\n\n🚀 任務 2：佈建運算引擎\n===========================================\n\n\n在此任務中，我們將建立第一部 VM。\n\n\n> [!NOTE]\n> 在收到指示之前，請勿按一下 <span id=\"assignment.19.3\"/>。\n\n\n  \n\n\n\n導覽至 <span id=\"assignment.40.2\"/> 並按一下 <span id=\"assignment.19.3\"/> 按鈕。\n\n<span id=\"assignment.40.3\"/>\n\n- <span id=\"assignment.19.4\"/>:",
   "original_language": null,
   "status": "draft",
   "source_checksum": null,
