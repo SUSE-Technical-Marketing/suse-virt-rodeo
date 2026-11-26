@@ -206,7 +206,7 @@ admin
 
 </div>
 
-<span id="assignment.105" lang="nolang" no>*Password</span>:
+<span id="assignment.105" lang="nolang" no>Password</span>:
 
 <div class="cred">
 
@@ -376,7 +376,7 @@ Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>.
 Now you can assign the network <b class="highlightcopy">prod/secure-loop-dev</b> to any VM, and it will only be able to communicate with the VMs on the same network.
 
 
-If you are curious to see the topology on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.114.4" lang="nolang" no>**Topology**</span>, this is specially useful when having multiple subnets,
+If you are curious to see the topology on the tab of the <b class="highlightcopy">ovn-cluster</b> Virtual Private Cloud click <span id="assignment.114.4" lang="nolang" no>**Topology**</span>, this is especially useful when you have multiple subnets.
 
 
 🎯 Task 3: Configure VMs with the new networks

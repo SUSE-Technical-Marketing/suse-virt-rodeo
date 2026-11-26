@@ -144,7 +144,7 @@ enhanced_loading: null
 <div id="601" class="story">
 
 <span id="assignment.119" lang="en" hist="vertrex-bank">
-The next morning, the exhausted silence of the night shift is abruptly broken by a muffled job coming from the junior database administrator's desk.
+The next morning, the exhausted silence of the night shift is abruptly broken by a muffled sob coming from the junior database administrator's desk.
 
 You and Sarah walk over immediately. The junior admin is staring at his screen in abject horror, his hands shaking over his keyboard. While attempting to clear out stale temporary files on the primary <b class="highlightcopy">transaction-ledger</b> server, his cursor slipped. He accidentally executed a recursive delete command on the wrong directory.
 
@@ -361,7 +361,7 @@ The cluster can now ship complete VM backups off the cluster, the modern equival
 
 <div id="602" class="story">
 <span id="assignment.132" lang="en" hist="vertrex-bank">
-Ad-hoc snapshots can the day once; policy keeps the bank safe every day after.
+Ad-hoc snapshots can save the day once; policy keeps the bank safe every day after.
 </span>
 </div>
 
@@ -392,7 +392,7 @@ In the </span> [button label="SUSE Virtualization UI" variant="success"](tab-0) 
 
 
 <span id="assignment.135" lang="en" no>
-4. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
+3. Click <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
 From now on the platform backs the VM up to the NFS vault every five hours, keeps the five most recent copies, and pauses the schedule if two consecutive runs fail. Set once, protected forever.
 
@@ -479,7 +479,7 @@ kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; ku
 ```
 
 > [!NOTE]
-> Make sure you logout of the VM before running this commands.
+> Make sure you log out of the VM before running these commands.
 
 
 💼 Why does this matter?

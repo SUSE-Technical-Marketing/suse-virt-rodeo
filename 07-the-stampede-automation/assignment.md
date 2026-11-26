@@ -416,7 +416,7 @@ less template_prod-basic.yaml
 ```
 
 
-It contains a definition similar to the one you used to create the template in Task 2.
+It contains a definition similar to the one you used to create the template in Task 1.
 
 
 

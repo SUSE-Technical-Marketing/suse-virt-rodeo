@@ -226,7 +226,7 @@ daily-batch-processor
 This halts its CPU cycles, dedicating maximum hardware resources to your emergency operation.
 
 > [!NOTE]
-> This is not really necessary, we have setup already a dedicated network for live migration traffic, is here for educational purposes
+> This is not strictly necessary: we have already set up a dedicated network for live migration traffic. It is included here for educational purposes.
 </span>
 
 
