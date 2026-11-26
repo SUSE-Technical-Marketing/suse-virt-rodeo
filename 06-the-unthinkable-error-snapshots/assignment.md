@@ -3,7 +3,7 @@ slug: the-unthinkable-error-snapshots
 id: nkrkc4vyyywt
 type: challenge
 title: '<span id="assignment.116" lang="zh-TW" hist="vertrex-bank">⏪ 第六章：難以想像的錯誤</span>'
-teaser: <span id="assignment.117" lang="zh-TW" hist="vertrex-bank">游標手滑，剛刪除了一筆 1 億美元的結算紀錄。透過 VM 快照倒轉時光，在安全的預備環境複本中驗證復原，再透過排程叢集外備份實現永久防護。</span>
+teaser: <span id="assignment.117" lang="zh-TW" hist="vertrex-bank">游標手滑，剛刪除了一筆 1 億美元的結算紀錄。透過 VM 快照倒轉時光，在安全的預備環境複本中驗證復原，再透過排程的叢集外備份讓防護永久生效。</span>
 tabs:
 - id: lygpkmkmyndn
   title: SUSE Virtualization UI
@@ -139,26 +139,26 @@ enhanced_loading: null
 
 <span id="assignment.119" lang="zh-TW" hist="vertrex-bank">隔天清晨，大夜班那疲憊的寂靜，被初階資料庫管理員座位上傳來的一陣壓抑抽泣聲驟然打破。
 
-你和莎拉立刻走了過去。這位初階管理員驚恐萬分地盯著螢幕，雙手在鍵盤上方顫抖著。他剛才試圖清除主交易帳本伺服器上的過期暫存檔時游標滑了一下，不小心在錯誤的目錄下執行了遞迴刪除指令。
+您和 Sarah 立刻走了過去。這位初階管理員驚恐萬分地盯著螢幕，雙手在鍵盤上方顫抖著。他剛才試圖清除主要交易帳本伺服器 transaction-ledger 上的過期暫存檔時游標滑了一下，不小心在錯誤的目錄下執行了遞迴刪除指令。
 
 一筆幾分鐘前才剛完成結算、金額高達一億美元的企業交易紀錄，就這樣從磁碟中被徹底抹除。
 
 「我把它毀了，」管理員渾身發抖地低語著，「磁帶備份要到午夜才會執行。資料就這樣全沒了。」
 
-莎拉閉上雙眼，揉著太陽穴，準備迎接這件事對銀行股價與聲譽帶來的毀滅性打擊。但你伸手穩穩地按在管理員的肩膀上。
+Sarah 閉上雙眼，揉著太陽穴，準備迎接這件事對銀行股價與聲譽帶來的毀滅性打擊。但您伸手穩穩地按在管理員的肩膀上。
 
-「資料沒有消失，」你平靜地說道，「我們新的儲存架構採用分散式區塊層級快照。在早班開始之前，我才剛擷取了基準狀態。」
+「資料沒有消失，」您平靜地說道，「我們新的儲存架構採用分散式區塊層級快照。在早班開始之前，我才剛擷取了基準狀態。」
 
-你走向他的終端機。該是讓時鐘倒轉的時候了。但你必須謹慎行事：**在覆寫正式環境之前，必須先在安全的沙盒中驗證復原的資料**。</span>
+您走向他的終端機。該是讓時鐘倒轉的時候了。但您必須謹慎行事：**在覆寫正式環境之前，必須先在安全的沙箱中驗證復原的資料**。</span>
 
 </div>
 
 <span id="assignment.120" lang="zh-TW" no>## 🎯 您的任務目標
 
-1. 模擬記錄的建立與銷毀
-2. 從快照複製預備環境
-3. 驗證預備沙盒中的資料
-4. 還原生產系統
+1. 模擬紀錄的建立與銷毀
+2. 從快照複製出預備環境
+3. 驗證預備沙箱中的資料
+4. 還原正式系統
 5. 連接 <span id="assignment.120.1" lang="nolang" hist="vertrex-bank">bank's off-cluster backup vault</span>
 6. 設定備份排程
 
@@ -191,7 +191,7 @@ admin
 
 
 
-<span id="assignment.121" lang="zh-TW" no>💥 任務 1：模擬記錄的建立與銷毀
+<span id="assignment.121" lang="zh-TW" no>💥 任務 1：模擬紀錄的建立與銷毀
 ==============================================================
 
 
@@ -213,9 +213,9 @@ while [[ "${IPA}" ==  "" ]]; do IPA=`kubectl --kubeconfig .rodeo/harvester-kubec
 echo "CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED" > /home/sles/ledger.txt
 ```
 
-**現在擷取基準。**切換至</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.123" lang="zh-TW" no>:
+**現在擷取基準**。切換至</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.123" lang="zh-TW" no>：
 
-1. 前往 <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>，然後找到下列 VM，並按一下其旁邊的  按鈕：</span>
+1. 前往 <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>，然後找到下列 VM，並按一下其旁邊的 ⋮ 按鈕：</span>
 
 <div class="cred">
 
@@ -224,7 +224,8 @@ core-services
 ```
 
 </div>
-<span id="assignment.124" lang="zh-TW" no>2. 按一下 <span id="assignment.124.1" lang="nolang" no>**Take Virtual Machine Snapshot**</span>
+<span id="assignment.124" lang="zh-TW" no>
+2. 按一下 <span id="assignment.124.1" lang="nolang" no>**Take Virtual Machine Snapshot**</span>
 3. 為其命名：</span>
 
 <div class="cred">
@@ -240,7 +241,7 @@ pre-disaster-backup
 5. 前往 <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>，然後按一下 <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>，並等待我們剛建立的項目狀態變為 <span id="assignment.125.3" lang="nolang" no>**Ready**</span>：還原點已設定
 
 
-返回</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.126" lang="zh-TW" no>並模擬初級管理員所犯下的可怕錯誤：
+回到</span> [button label="Cluster Terminal" variant="success"](tab-1) <span id="assignment.126" lang="zh-TW" no>並模擬初階管理員所犯下的可怕錯誤：
 
 ```bash,run
 rm -f /home/sles/ledger.txt
@@ -260,15 +261,15 @@ exit
   
 
 
-與其立即還原生產環境，您將建立一個**複本**（clone）來先行驗證資料，非破壞性復原向來是最佳做法。
+您不會立即還原正式環境，而是先建立一個**複本**（clone）來驗證資料；我們一律建議採用非破壞性的復原方式。
 
-在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.127" lang="zh-TW" no>.
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.127" lang="zh-TW" no>：
 
 1. 前往 <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>，然後按一下 <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>
 
 2. 按一下 <span id="assignment.127.1" lang="nolang" no>**pre-disaster-backup**</span> 快照：
 
-3. 按一下其旁邊的  並選取 <span id="assignment.127.2" lang="nolang" no>**Restore New**</span>
+3. 按一下其旁邊的 ⋮ 圖示，並選取 <span id="assignment.127.2" lang="nolang" no>**Restore New**</span>
 
 4. 為新的虛擬機器命名：</span>
 
@@ -286,7 +287,7 @@ core-services-staging-verify
 
 
 > [!Note]
-> 由於本實驗所使用的硬體設備，此程序所需的時間會比一般情況更長，請繼續進行下一項任務。
+> 由於本實驗所使用的硬體設備，此作業所需的時間會比一般情況更長，請繼續進行下一項任務。
 
 
 
@@ -297,9 +298,9 @@ core-services-staging-verify
   
 
 
-快照在今天早上拯救了我們，但快照與工作負載位於**同一個叢集**上。它們能防範人為操作失誤，但無法抵禦實體損壞或網路攻擊。為了實現真正的災難復原，我們運作了一個叢集外的**備份保存庫**：位於獨立儲存系統上的 NFS 共用。是時候將它接上了。
+快照在今天早上拯救了我們，但快照與工作負載位於**同一個叢集**上。它們能防範人為操作失誤，但無法抵禦實體損壞或網路攻擊。為了做到真正的災難復原，我們維運一座叢集外的**備份保存庫**：位於另一套獨立儲存系統上的 NFS 共用資料夾。是時候將它接上了。
 
-在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.129" lang="zh-TW" no>:
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.129" lang="zh-TW" no>：
 
 1. 前往 <span id="assignment.129.1" lang="nolang" no>**Advanced > Settings**</span> 並找到：</span>
 
@@ -310,7 +311,8 @@ backup-target
 ```
 
 </div>
-<span id="assignment.130" lang="zh-TW" no>2. 點擊該列上的  並選取 <span id="assignment.130.1" lang="nolang" no>**Edit Setting**</span>，新增下列內容：
+<span id="assignment.130" lang="zh-TW" no>
+2. 按一下該列上的 ⋮ 圖示，並選取 <span id="assignment.130.1" lang="nolang" no>**Edit Setting**</span>，新增下列內容：
 
 - <span id="assignment.110.2" lang="nolang" no>**Type**</span>：<span id="assignment.130.2" lang="nolang" no><b class="highlightcopy">NFS</b></span>
 - <span id="assignment.130.3" lang="nolang" no>**Endpoint**</span>：</span>
@@ -338,7 +340,7 @@ backup-target
 <span id="assignment.133" lang="zh-TW" no>將 core-services 本身納入自動備份排程，這樣就再也沒有人需要記得手動執行這項操作了。
 
 
-在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.134" lang="zh-TW" no>:
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.134" lang="zh-TW" no>：
 
 1. 前往 <span id="assignment.134.1" lang="nolang" no>**Backup & Snapshot > Virtual Machine Schedules**</span> 並按一下 <span id="assignment.134.2" lang="nolang" no>**Create schedule**</span>
 2. 設定下列詳細資訊：
@@ -348,7 +350,7 @@ backup-target
   - <span id="assignment.134.5" lang="nolang" no>**Basics**</span>:
     - <span id="assignment.134.6" lang="nolang" no>**Retain:**</span> 5
     - <span id="assignment.134.7" lang="nolang" no>**Max Failure:**</span> 2
-    - <span id="assignment.134.8" lang="nolang" no>**Cron Schedule:**</span> (在第 00 分鐘，每 5 小時)</span>
+    - <span id="assignment.134.8" lang="nolang" no>**Cron Schedule:**</span>（每 5 小時一次，於第 00 分執行）</span>
 
 <div class="cred">
 
@@ -365,7 +367,7 @@ backup-target
 
 
 
-🔍 任務 5：驗證暫存沙盒中的資料
+🔍 任務 5：驗證預備沙箱中的資料
 =================================================
 
 
@@ -376,10 +378,10 @@ backup-target
 
 由於此虛擬機器沒有網路，這次我們將使用圖形主控台。
 
-在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.136" lang="zh-TW" no>:
+在</span> [button label="SUSE Virtualization UI" variant="success"](tab-0) <span id="assignment.136" lang="zh-TW" no>：
 
 1. 前往 <span id="assignment.40.2" lang="nolang" no>**Virtual Machines**</span>
-2. 點擊 <span id="assignment.61.1" lang="nolang" no>**Console**</span> 下拉式選單並選取 <span id="assignment.136.1" lang="nolang" no>**Open in WebVNC**</span>，隨後會出現終端機的新視窗，您可以隨意調整視窗大小。
+2. 按一下 <span id="assignment.61.1" lang="nolang" no>**Console**</span> 下拉式選單並選取 <span id="assignment.136.1" lang="nolang" no>**Open in WebVNC**</span>，隨後會出現終端機的新視窗，您可以隨意調整視窗大小。
 3. 使用下列憑證登入：
    - <span id="assignment.136.2" lang="nolang" no>**username**</span>: 'sles'
    - <span id="assignment.136.3" lang="nolang" no>**password**</span>: '1234'
@@ -395,64 +397,64 @@ cat /home/sles/ledger.txt
 
 </div>
 
-<span id="assignment.137" lang="zh-TW" no>5. 它應該傳回：
+<span id="assignment.137" lang="zh-TW" no>5. 應該會顯示：
 
 **CLIENT: BRUCE WAYNE | AMOUNT: 100,000,000 | STATUS: CLEARED**
 
 
-文字完美列印出來。<span id="assignment.137.1" lang="zh-TW" hist="vertrex-bank">**資料很安全。**</span>
+文字完整無誤地顯示出來。<span id="assignment.137.1" lang="zh-TW" hist="vertrex-bank">**資料很安全。**</span>
 
 
-現在讓我們刪除不再需要的複製本。
+現在讓我們刪除不再需要的複本。
 
-1. 關閉包含控制台的視窗。
-2. 按一下 **core-services-staging-verify** 列上的 ，然後選取 <span id="assignment.137.2" lang="nolang" no>**Delete**</span>，並再次選取 <span id="assignment.137.2" lang="nolang" no>**Delete**</span>。
+1. 關閉主控台視窗。
+2. 按一下 **core-services-staging-verify** 列上的 ⋮ 圖示，然後選取 <span id="assignment.137.2" lang="nolang" no>**Delete**</span>，並再次選取 <span id="assignment.137.2" lang="nolang" no>**Delete**</span>。
 
 
 
-♻️ 任務 6：還原生產系統
+♻️ 任務 6：還原正式系統
 =========================================
 
 
   
 
 
-既然您已驗證快照的完整性，請繼續還原生產系統：
+既然您已驗證快照的完整性，請接著還原正式系統：
 
 1. 前往 **<span id="assignment.6.2" lang="nolang" no>Virtual Machines</span>**
-2. 按一下 **core-services** 列上的 ，然後選取 <span id="assignment.137.3" lang="nolang" no>**Stop**</span>，並再次選取 <span id="assignment.74.2" lang="nolang" no>**Apply**</span>。
-3. 完全停止後，瀏覽至 <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>，然後按一下 <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>
+2. 按一下 **core-services** 列上的 ⋮ 圖示，然後選取 <span id="assignment.137.3" lang="nolang" no>**Stop**</span>，並再次選取 <span id="assignment.74.2" lang="nolang" no>**Apply**</span>。
+3. 完全停止後，前往 <span id="assignment.125.1" lang="nolang" no>**Backup and Snapshots**</span>，然後按一下 <span id="assignment.125.2" lang="nolang" no>**Virtual Machine Snapshots**</span>
 
 4. 按一下 **pre-disaster-backup** 快照：
 
-5. 按一下其旁的 ，然後選取 <span id="assignment.137.4" lang="nolang" no>**Replace Existing**</span>
+5. 按一下其旁的 ⋮ 圖示，然後選取 <span id="assignment.137.4" lang="nolang" no>**Replace Existing**</span>
 
 6. 按一下 <span id="assignment.19.3" lang="nolang" no>**Create**</span>
 
-虛擬機器將會自行重新啟動，因為這就是其執行策略所定義的行為。
+虛擬機器會自行重新開機，因為它的執行策略（run strategy）就是這樣定義的。
 
 （選用）再次透過 SSH 連線並最後一次 `cat` 該檔案，然後登出虛擬機器。<span id="assignment.137.5" lang="zh-TW" hist="vertrex-bank">這項紀錄回到了屬於它的地方。</span>
 
 
-🏋️ 加碼演練：了解安全防護網背後的運作機制（選用）
+🏋️ 加碼練習：了解安全防護網背後的運作機制（選做）
 ======================================================================
 
-- **適合對命令列感到好奇的使用者：** 每個虛擬機器快照都是由磁碟區層級的快照建置而成，且每一個快照都是一個 API 物件，您的新備份排程亦是如此：
+- **適合對命令列感到好奇的使用者：** 每個虛擬機器快照都是由磁碟區層級的快照組成，而這些快照每一個都是 API 物件，您剛建立的備份排程也一樣：
 
 ```bash,wrap,run
 kubectl --kubeconfig .rodeo/harvester-kubeconfig get VirtualMachineBackup -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get volumesnapshots -A; kubectl --kubeconfig .rodeo/harvester-kubeconfig get schedulevmbackups -A
 ```
 
 > [!NOTE]
-> 在執行這些指令之前，請確保您已登出虛擬機器。
+> 在執行這些指令之前，請確認您已登出虛擬機器。
 
 
 💼 為什麼這很重要？
 ==============================================
 
-- **人為疏失不再是災難性的後果。** 復原工作從「苦等午夜磁帶並祈禱」轉變為只需五分鐘的自助式復原。
-- **覆寫前先驗證。** 還原至複製本意味著您永遠不必將生產環境押在未經驗證的備份上，這種模式能讓您的稽核員和初階管理員都能高枕無憂。
-- **保護現已成為原則，而非依賴個人英勇行為。** 叢集外的 NFS 備份儲存庫和每五小時一次的備份排程，意味著從現在開始安全防護網將會自動運作。
+- **人為疏失不再釀成災難。** 復原工作從「苦等午夜磁帶並祈禱」變成只需五分鐘、自己就能完成的還原。
+- **覆寫前先驗證。** 先還原到複本，代表您永遠不必拿正式環境去賭一份未經驗證的備份，這種做法能讓您的稽核人員和初階管理員都睡得更安穩。
+- **保護從此靠制度，不再靠英雄救援。** 有了叢集外的 NFS 備份保存庫和每五小時一次的備份排程，從現在開始安全防護網會自動運作。
 
 按一下 <span id="assignment.32.1" lang="nolang" no>**Check**</span> 以繼續。🤠
 
